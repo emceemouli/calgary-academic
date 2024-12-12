@@ -10,7 +10,8 @@ import {
   Phone,
   MapPin,
   ArrowRight,
-  CheckCircle
+  CheckCircle,
+  X
 } from 'lucide-react';
 
 // Calgary-inspired color scheme
@@ -20,6 +21,8 @@ const colors = {
   accent: '#E9C46A',     // Prairie gold
   dark: '#264653',       // Mountain shadow
   light: '#F8F9FA',      // Snow white
+  text: '#2D3748',       // Dark gray for better readability
+  textLight: '#718096',  // Medium gray for secondary text
 };
 
 const TutoringWebsite = () => {
@@ -137,62 +140,60 @@ const TutoringWebsite = () => {
 
     return (
       <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-          <div className="p-6">
+        <div className="bg-white rounded-lg w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+          <div className="p-4 sm:p-6">
             <div className="flex justify-between items-start mb-4">
-              <h2 className="text-2xl font-bold" style={{ color: colors.primary }}>{service.title}</h2>
+              <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+                {service.title}
+              </h2>
               <button 
                 onClick={onClose}
-                className="text-gray-500 hover:text-gray-700"
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                aria-label="Close modal"
               >
-                ×
+                <X className="h-6 w-6 text-gray-500" />
               </button>
             </div>
+            
             <img 
               src={service.image}
               alt={service.title}
-              className="w-full h-64 object-cover rounded-lg mb-6"
+              className="w-full h-48 sm:h-64 object-cover rounded-lg mb-6"
             />
+
             <div className="space-y-6">
-              {service.details.subjects && (
-                <div>
-                  <h3 className="font-bold text-lg mb-2" style={{ color: colors.secondary }}>
-                    What We Cover:
-                  </h3>
-                  <ul className="list-disc pl-5 space-y-1">
-                    {service.details.subjects.map((subject, idx) => (
-                      <li key={idx}>{subject}</li>
-                    ))}
-                  </ul>
-                </div>
-              )}
+              <div>
+                <h3 className="text-lg font-bold mb-2 text-gray-900">
+                  What We Cover:
+                </h3>
+                <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                  {service.details.subjects.map((subject, idx) => (
+                    <li key={idx}>{subject}</li>
+                  ))}
+                </ul>
+              </div>
               
               <div>
-                <h3 className="font-bold text-lg mb-2" style={{ color: colors.secondary }}>
+                <h3 className="text-lg font-bold mb-2 text-gray-900">
                   Our Approach:
                 </h3>
-                <ul className="list-disc pl-5 space-y-1">
+                <ul className="list-disc pl-5 space-y-2 text-gray-700">
                   {service.details.approach.map((item, idx) => (
                     <li key={idx}>{item}</li>
                   ))}
                 </ul>
               </div>
 
-              <div style={{ 
-                backgroundColor: colors.light, 
-                padding: '1rem',
-                borderRadius: '0.5rem',
-                borderLeft: `4px solid ${colors.accent}`
-              }}>
-                <p><strong>Schedule:</strong> {service.details.schedule}</p>
-                <p><strong>Location:</strong> {service.details.location}</p>
+              <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
+                <p className="mb-2"><strong>Schedule:</strong> {service.details.schedule}</p>
+                <p className="mb-2"><strong>Location:</strong> {service.details.location}</p>
                 <p><strong>Price:</strong> Starting at ${service.price}/month</p>
               </div>
 
-              <div className="flex justify-end space-x-4">
+              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
                 <Button 
                   onClick={onClose}
-                  style={{ backgroundColor: colors.dark }}
+                  className="w-full sm:w-auto py-3 px-6 bg-gray-600 hover:bg-gray-700 text-white"
                 >
                   Close
                 </Button>
@@ -201,7 +202,7 @@ const TutoringWebsite = () => {
                     onClose();
                     handleConsultationRequest(service);
                   }}
-                  style={{ backgroundColor: colors.primary }}
+                  className="w-full sm:w-auto py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white"
                 >
                   Book Consultation
                 </Button>
@@ -214,50 +215,49 @@ const TutoringWebsite = () => {
   };
 
   const ServiceCard = ({ service }) => (
-    <Card 
-      className="hover:shadow-xl transition-all duration-300"
-      style={{ borderTop: `4px solid ${colors.secondary}` }}
-    >
+    <Card className="hover:shadow-xl transition-all duration-300 h-full flex flex-col">
       <div className="h-48 overflow-hidden">
         <img 
           src={service.image}
           alt={service.title}
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
         />
       </div>
       <CardHeader>
-        <CardTitle style={{ color: colors.primary }}>{service.title}</CardTitle>
+        <CardTitle className="text-xl font-bold text-gray-900">
+          {service.title}
+        </CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="mb-4">{service.description}</p>
-        <ul className="space-y-2">
+      <CardContent className="flex-grow">
+        <p className="mb-4 text-gray-700 text-base">
+          {service.description}
+        </p>
+        <ul className="space-y-3">
           {service.features.map((feature, index) => (
-            <li key={index} className="flex items-center">
-              <CheckCircle className="h-4 w-4 mr-2" style={{ color: colors.secondary }} />
-              {feature}
+            <li key={index} className="flex items-start text-gray-700">
+              <CheckCircle className="h-5 w-5 mr-2 mt-0.5 text-green-500 flex-shrink-0" />
+              <span>{feature}</span>
             </li>
           ))}
         </ul>
-        <p className="mt-4 font-semibold" style={{ color: colors.secondary }}>
+        <p className="mt-4 text-lg font-semibold text-blue-600">
           Starting at ${service.price}/month
         </p>
       </CardContent>
-      <CardFooter className="flex space-x-4">
+      <CardFooter className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
         <Button 
           variant="outline" 
-          className="flex-1"
+          className="w-full sm:w-auto py-3"
           onClick={() => {
             setSelectedService(service);
             setIsModalOpen(true);
           }}
-          style={{ borderColor: colors.primary, color: colors.primary }}
         >
           Learn More
         </Button>
         <Button 
-          className="flex-1"
+          className="w-full sm:w-auto py-3 bg-blue-600 hover:bg-blue-700 text-white"
           onClick={() => handleConsultationRequest(service)}
-          style={{ backgroundColor: colors.primary }}
         >
           Book Consultation
         </Button>
@@ -268,29 +268,31 @@ const TutoringWebsite = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div 
-  style={{ 
-    backgroundColor: '#1B4B7C',
-    backgroundImage: 'linear-gradient(to right, #1B4B7C, #264653)'
-  }}
-  className="py-16"
->
-  <div className="container mx-auto px-4">
-    <h1 className="text-white text-4xl font-bold mb-4">Calgary Academic Excellence</h1>
-    <p className="text-white text-xl mb-6">Expert tutoring for Grade 4-10, Digital SAT prep, and university admissions</p>
-    <button  // Changed from Button component to regular button
-      className="px-6 py-2 bg-white text-blue-600 rounded-md hover:bg-gray-100 font-medium"
-      onClick={() => document.getElementById('contact').scrollIntoView()}
-    >
-      Contact Us
-    </button>
-  </div>
-</div>
-<Advertisement slot="hero-ad-slot" />
+      <div className="relative bg-gradient-to-r from-blue-800 to-blue-900 text-white py-16 sm:py-24">
+        <div className="container mx-auto px-4">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+            Calgary Academic Excellence
+          </h1>
+          <p className="text-lg sm:text-xl mb-8 text-blue-100 max-w-2xl">
+            Expert tutoring for Grade 4-10, Digital SAT prep, and university admissions
+          </p>
+          <button
+            className="px-8 py-4 bg-white text-blue-800 rounded-lg hover:bg-blue-50 
+                     font-semibold text-lg shadow-lg transform transition-transform 
+                     hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white 
+                     focus:ring-offset-2 focus:ring-offset-blue-800"
+            onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
+          >
+            Contact Us
+          </button>
+        </div>
+      </div>
+
+      <Advertisement slot="hero-ad-slot" />
+
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
-        {/* Services Section */}
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
             <ServiceCard key={service.id} service={service} />
           ))}
@@ -298,29 +300,29 @@ const TutoringWebsite = () => {
 
         {/* Contact Section */}
         <div id="contact" className="mt-16 max-w-2xl mx-auto">
-          <Card style={{ borderTop: `4px solid ${colors.accent}` }}>
+          <Card className="border-t-4 border-blue-500">
             <CardHeader>
-              <CardTitle style={{ color: colors.primary }}>Contact Us</CardTitle>
+              <CardTitle className="text-2xl font-bold text-gray-900">
+                Contact Us
+              </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center space-x-2">
-                  <Mail className="h-5 w-5" style={{ color: colors.secondary }} />
-                  <a 
-                    href="mailto:calgaryacademicexcellence@gmail.com"
-                    style={{ color: colors.primary }}
-                    className="hover:underline"
-                  >
-                    calgaryacademicexcellence@gmail.com
-                  </a>
+              <div className="space-y-6">
+                <a 
+                  href="mailto:calgaryacademicexcellence@gmail.com"
+                  className="flex items-center space-x-3 text-blue-600 hover:text-blue-800 
+                           p-3 rounded-lg hover:bg-blue-50 transition-colors"
+                >
+                  <Mail className="h-6 w-6 flex-shrink-0" />
+                  <span className="text-lg">calgaryacademicexcellence@gmail.com</span>
+                </a>
+                <div className="flex items-center space-x-3 p-3">
+                  <Phone className="h-6 w-6 text-green-500 flex-shrink-0" />
+                  <span className="text-lg text-gray-700">(587) 718-2903</span>
                 </div>
-                <div className="flex items-center space-x-2">
-                  <Phone className="h-5 w-5" style={{ color: colors.secondary }} />
-                  <span>(587) 718-2903</span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <MapPin className="h-5 w-5" style={{ color: colors.secondary }} />
-                  <span>Calgary, Alberta</span>
+                <div className="flex items-center space-x-3 p-3">
+                  <MapPin className="h-6 w-6 text-red-500 flex-shrink-0" />
+                  <span className="text-lg text-gray-700">Calgary, Alberta</span>
                 </div>
               </div>
             </CardContent>
@@ -328,28 +330,29 @@ const TutoringWebsite = () => {
         </div>
       </div>
 
-      {/* Service Modal */}
       <ServiceModal 
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         service={selectedService}
       />
-<Advertisement slot="footer-ad-slot" />
+
+      <Advertisement slot="footer-ad-slot" />
+
       {/* Footer */}
-      <footer style={{ backgroundColor: colors.dark }} className="text-white py-8 mt-12">
+      <footer className="bg-gray-900 text-white py-12 mt-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-lg font-bold mb-4">Hours</h3>
-              <div className="space-y-2">
+              <h3 className="text-xl font-bold mb-4">Hours</h3>
+              <div className="space-y-2 text-gray-300">
                 <p>Monday - Friday: 9AM - 8PM</p>
                 <p>Saturday: 10AM - 6PM</p>
                 <p>Sunday: Closed</p>
               </div>
             </div>
             <div>
-              <h3 className="text-lg font-bold mb-4">Contact</h3>
-              <div className="space-y-2">
+              <h3 className="text-xl font-bold mb-4">Contact</h3>
+              <div className="space-y-2 text-gray-300">
                 <p>Email: calgaryacademicexcellence@gmail.com</p>
                 <p>Phone: (587) 718-2903</p>
                 <p>Location: Calgary, Alberta</p>
