@@ -32,7 +32,7 @@ const TutoringWebsite = () => {
       title: "Grade 4-10 Alberta Curriculum",
       image: "/images/teacher-tutor-student-librarian-1137620335.jpg",
       description: "Comprehensive tutoring aligned with Alberta curriculum standards",
-      price: "500",
+      price: "200",
       features: [
         "One-on-one personalized sessions",
         "Homework help and review",
@@ -60,7 +60,7 @@ const TutoringWebsite = () => {
       title: "Digital SAT Preparation",
       image: "/images/2017_11_30_Mines Tutoring at College View Middle School_JDN_5191.jpg",
       description: "Expert Digital SAT prep with practice tests and personalized strategies",
-      price: "500",
+      price: "200",
       features: [
         "Full-length practice tests",
         "Personalized study plans",
@@ -90,7 +90,7 @@ const TutoringWebsite = () => {
       title: "University Counselling",
       image: "/images/admission-counseling-banner.png",
       description: "Comprehensive US and Canadian university application guidance",
-      price: "500",
+      price: "200",
       features: [
         "Application strategy",
         "Essay review & feedback",
