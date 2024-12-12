@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from './components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './components/ui/card';
+import Advertisement from './components/Advertisement';
 import {
   BookOpen,
   GraduationCap,
@@ -28,7 +29,7 @@ const TutoringWebsite = () => {
   const services = [
     {
       id: 1,
-      title: "Grade 6-10 Alberta Curriculum",
+      title: "Grade 4-10 Alberta Curriculum",
       image: "/images/teacher-tutor-student-librarian-1137620335.jpg",
       description: "Comprehensive tutoring aligned with Alberta curriculum standards",
       price: "500",
@@ -41,7 +42,6 @@ const TutoringWebsite = () => {
         subjects: [
           "Mathematics",
           "Science",
-          "English Language Arts",
           "Social Studies"
         ],
         approach: [
@@ -60,7 +60,7 @@ const TutoringWebsite = () => {
       title: "SAT Preparation",
       image: "/images/2017_11_30_Mines Tutoring at College View Middle School_JDN_5191.jpg",
       description: "Expert SAT prep with practice tests and personalized strategies",
-      price: "600",
+      price: "500",
       features: [
         "Full-length practice tests",
         "Personalized study plans",
@@ -90,7 +90,7 @@ const TutoringWebsite = () => {
       title: "University Counselling",
       image: "/images/admission-counseling-banner.png",
       description: "Comprehensive US and Canadian university application guidance",
-      price: "800",
+      price: "500",
       features: [
         "Application strategy",
         "Essay review & feedback",
@@ -129,7 +129,7 @@ const TutoringWebsite = () => {
       `Best regards`
     );
     
-    window.location.href = `mailto:mchandramouli@gmail.com?subject=${subject}&body=${body}`;
+    window.location.href = `mailto:calgaryacademicexcellence@gmail.com?subject=${subject}&body=${body}`;
   };
 
   const ServiceModal = ({ isOpen, onClose, service }) => {
@@ -286,6 +286,7 @@ const TutoringWebsite = () => {
     </button>
   </div>
 </div>
+<Advertisement slot="hero-ad-slot" />
       {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         {/* Services Section */}
@@ -306,11 +307,11 @@ const TutoringWebsite = () => {
                 <div className="flex items-center space-x-2">
                   <Mail className="h-5 w-5" style={{ color: colors.secondary }} />
                   <a 
-                    href="mailto:mchandramouli@gmail.com"
+                    href="mailto:calgaryacademicexcellence@gmail.com"
                     style={{ color: colors.primary }}
                     className="hover:underline"
                   >
-                    mchandramouli@gmail.com
+                    calgaryacademicexcellence@gmail.com
                   </a>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -333,7 +334,7 @@ const TutoringWebsite = () => {
         onClose={() => setIsModalOpen(false)}
         service={selectedService}
       />
-
+<Advertisement slot="footer-ad-slot" />
       {/* Footer */}
       <footer style={{ backgroundColor: colors.dark }} className="text-white py-8 mt-12">
         <div className="container mx-auto px-4">
@@ -349,7 +350,7 @@ const TutoringWebsite = () => {
             <div>
               <h3 className="text-lg font-bold mb-4">Contact</h3>
               <div className="space-y-2">
-                <p>Email: mchandramouli@gmail.com</p>
+                <p>Email: calgaryacademicexcellence@gmail.com</p>
                 <p>Phone: (587) 718-2903</p>
                 <p>Location: Calgary, Alberta</p>
               </div>
