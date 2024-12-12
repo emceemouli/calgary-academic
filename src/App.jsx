@@ -57,9 +57,9 @@ const TutoringWebsite = () => {
     },
     {
       id: 2,
-      title: "SAT Preparation",
+      title: "Digital SAT Preparation",
       image: "/images/2017_11_30_Mines Tutoring at College View Middle School_JDN_5191.jpg",
-      description: "Expert SAT prep with practice tests and personalized strategies",
+      description: "Expert Digital SAT prep with practice tests and personalized strategies",
       price: "500",
       features: [
         "Full-length practice tests",
@@ -277,7 +277,7 @@ const TutoringWebsite = () => {
 >
   <div className="container mx-auto px-4">
     <h1 className="text-white text-4xl font-bold mb-4">Calgary Academic Excellence</h1>
-    <p className="text-white text-xl mb-6">Expert tutoring for Grade 4-10, SAT prep, and university admissions</p>
+    <p className="text-white text-xl mb-6">Expert tutoring for Grade 4-10, Digital SAT prep, and university admissions</p>
     <button  // Changed from Button component to regular button
       className="px-6 py-2 bg-white text-blue-600 rounded-md hover:bg-gray-100 font-medium"
       onClick={() => document.getElementById('contact').scrollIntoView()}
