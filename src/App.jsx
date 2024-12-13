@@ -159,7 +159,6 @@ const TutoringWebsite = () => {
             />
 
             <div className="space-y-6">
-              {/* Updated pricing and schedule box for better visibility */}
               <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 shadow-md">
                 <p className="text-2xl font-bold text-blue-900 mb-4">
                   ${service.price}/month
@@ -244,7 +243,6 @@ const TutoringWebsite = () => {
             </li>
           ))}
         </ul>
-        {/* Updated pricing section for better visibility */}
         <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500 shadow-md">
           <p className="text-2xl font-bold text-blue-900 mb-2">
             ${service.price}/month
@@ -280,27 +278,32 @@ const TutoringWebsite = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div 
-        className="relative py-16 sm:py-24"
-        style={{ 
-          backgroundColor: colors.primary,
-          backgroundImage: `linear-gradient(to right, ${colors.primary}, ${colors.dark})` 
-        }}
-      >
-        <div className="container mx-auto px-4">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
+      {/* Hero Section with Background Image */}
+      <div className="relative h-[500px] overflow-hidden">
+        <img 
+          src="/images/Teen-Area-12-23-Hero.jpg"
+          alt="Calgary Academic Excellence"
+          className="absolute inset-0 w-full h-full object-cover"
+        />
+        <div 
+          className="absolute inset-0 bg-gradient-to-r from-blue-900/90 to-blue-800/80"
+          style={{ mixBlendMode: 'multiply' }}
+        ></div>
+        <div className="relative container mx-auto px-4 h-full flex flex-col justify-center z-10">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 drop-shadow-lg">
             Calgary Academic Excellence
           </h1>
-          <p className="text-xl text-white mb-6">
+          <p className="text-xl md:text-2xl text-white mb-8 drop-shadow-lg max-w-2xl">
             Expert tutoring for Grade 4-10, Digital SAT prep, and university admissions
           </p>
           <button
-            className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold 
-                     hover:bg-blue-50 transition-colors text-lg shadow-lg"
+            className="w-full sm:w-auto px-8 py-4 bg-white text-blue-600 rounded-lg 
+                     font-semibold hover:bg-blue-50 transition-colors text-lg shadow-lg
+                     inline-flex items-center justify-center space-x-2"
             onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
           >
             Contact Us
+            <ArrowRight className="h-5 w-5 ml-2" />
           </button>
         </div>
       </div>
