@@ -21,8 +21,6 @@ const colors = {
   accent: '#E9C46A',     // Prairie gold
   dark: '#264653',       // Mountain shadow
   light: '#F8F9FA',      // Snow white
-  text: '#2D3748',       // Dark gray for better readability
-  textLight: '#718096',  // Medium gray for secondary text
 };
 
 const TutoringWebsite = () => {
@@ -148,8 +146,7 @@ const TutoringWebsite = () => {
               </h2>
               <button 
                 onClick={onClose}
-                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-                aria-label="Close modal"
+                className="p-2 hover:bg-gray-100 rounded-full"
               >
                 <X className="h-6 w-6 text-gray-500" />
               </button>
@@ -162,38 +159,45 @@ const TutoringWebsite = () => {
             />
 
             <div className="space-y-6">
+              {/* Updated pricing and schedule box for better visibility */}
+              <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 shadow-md">
+                <p className="text-2xl font-bold text-blue-900 mb-4">
+                  ${service.price}/month
+                </p>
+                <p className="text-gray-900 text-lg mb-2">
+                  <strong>Schedule:</strong> {service.details.schedule}
+                </p>
+                <p className="text-gray-900 text-lg">
+                  <strong>Location:</strong> {service.details.location}
+                </p>
+              </div>
+
               <div>
-                <h3 className="text-lg font-bold mb-2 text-gray-900">
+                <h3 className="text-xl font-bold mb-3 text-gray-900">
                   What We Cover:
                 </h3>
-                <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                <ul className="list-disc pl-5 space-y-2">
                   {service.details.subjects.map((subject, idx) => (
-                    <li key={idx}>{subject}</li>
+                    <li key={idx} className="text-gray-800 text-lg">{subject}</li>
                   ))}
                 </ul>
               </div>
               
               <div>
-                <h3 className="text-lg font-bold mb-2 text-gray-900">
+                <h3 className="text-xl font-bold mb-3 text-gray-900">
                   Our Approach:
                 </h3>
-                <ul className="list-disc pl-5 space-y-2 text-gray-700">
+                <ul className="list-disc pl-5 space-y-2">
                   {service.details.approach.map((item, idx) => (
-                    <li key={idx}>{item}</li>
+                    <li key={idx} className="text-gray-800 text-lg">{item}</li>
                   ))}
                 </ul>
               </div>
 
-              <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
-                <p className="mb-2"><strong>Schedule:</strong> {service.details.schedule}</p>
-                <p className="mb-2"><strong>Location:</strong> {service.details.location}</p>
-                <p><strong>Price:</strong> Starting at ${service.price}/month</p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row justify-end space-y-2 sm:space-y-0 sm:space-x-4">
+              <div className="flex flex-col sm:flex-row justify-end space-y-3 sm:space-y-0 sm:space-x-4 mt-6">
                 <Button 
                   onClick={onClose}
-                  className="w-full sm:w-auto py-3 px-6 bg-gray-600 hover:bg-gray-700 text-white"
+                  className="w-full sm:w-auto py-3 bg-gray-600 hover:bg-gray-700 text-white text-lg"
                 >
                   Close
                 </Button>
@@ -202,7 +206,7 @@ const TutoringWebsite = () => {
                     onClose();
                     handleConsultationRequest(service);
                   }}
-                  className="w-full sm:w-auto py-3 px-6 bg-blue-600 hover:bg-blue-700 text-white"
+                  className="w-full sm:w-auto py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg"
                 >
                   Book Consultation
                 </Button>
@@ -220,7 +224,7 @@ const TutoringWebsite = () => {
         <img 
           src={service.image}
           alt={service.title}
-          className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover"
         />
       </div>
       <CardHeader>
@@ -229,25 +233,34 @@ const TutoringWebsite = () => {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-grow">
-        <p className="mb-4 text-gray-700 text-base">
+        <p className="mb-4 text-gray-800 text-lg">
           {service.description}
         </p>
-        <ul className="space-y-3">
+        <ul className="space-y-3 mb-6">
           {service.features.map((feature, index) => (
-            <li key={index} className="flex items-start text-gray-700">
-              <CheckCircle className="h-5 w-5 mr-2 mt-0.5 text-green-500 flex-shrink-0" />
-              <span>{feature}</span>
+            <li key={index} className="flex items-start">
+              <CheckCircle className="h-5 w-5 mr-2 mt-1 text-green-500 flex-shrink-0" />
+              <span className="text-gray-800 text-lg">{feature}</span>
             </li>
           ))}
         </ul>
-        <p className="mt-4 text-lg font-semibold text-blue-600">
-          Starting at ${service.price}/month
-        </p>
+        {/* Updated pricing section for better visibility */}
+        <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500 shadow-md">
+          <p className="text-2xl font-bold text-blue-900 mb-2">
+            ${service.price}/month
+          </p>
+          <p className="text-gray-900 text-lg mb-1">
+            <strong>Schedule:</strong> {service.details.schedule}
+          </p>
+          <p className="text-gray-900 text-lg">
+            <strong>Location:</strong> {service.details.location}
+          </p>
+        </div>
       </CardContent>
-      <CardFooter className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-4">
+      <CardFooter className="flex flex-col sm:flex-row gap-3">
         <Button 
           variant="outline" 
-          className="w-full sm:w-auto py-3"
+          className="w-full sm:w-auto py-3 text-lg"
           onClick={() => {
             setSelectedService(service);
             setIsModalOpen(true);
@@ -256,7 +269,7 @@ const TutoringWebsite = () => {
           Learn More
         </Button>
         <Button 
-          className="w-full sm:w-auto py-3 bg-blue-600 hover:bg-blue-700 text-white"
+          className="w-full sm:w-auto py-3 bg-blue-600 hover:bg-blue-700 text-white text-lg"
           onClick={() => handleConsultationRequest(service)}
         >
           Book Consultation
@@ -268,19 +281,23 @@ const TutoringWebsite = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-r from-blue-800 to-blue-900 text-white py-16 sm:py-24">
+      <div 
+        className="relative py-16 sm:py-24"
+        style={{ 
+          backgroundColor: colors.primary,
+          backgroundImage: `linear-gradient(to right, ${colors.primary}, ${colors.dark})` 
+        }}
+      >
         <div className="container mx-auto px-4">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-4 leading-tight">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4">
             Calgary Academic Excellence
           </h1>
-          <p className="text-lg sm:text-xl mb-8 text-blue-100 max-w-2xl">
+          <p className="text-xl text-white mb-6">
             Expert tutoring for Grade 4-10, Digital SAT prep, and university admissions
           </p>
           <button
-            className="px-8 py-4 bg-white text-blue-800 rounded-lg hover:bg-blue-50 
-                     font-semibold text-lg shadow-lg transform transition-transform 
-                     hover:scale-105 focus:outline-none focus:ring-2 focus:ring-white 
-                     focus:ring-offset-2 focus:ring-offset-blue-800"
+            className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold 
+                     hover:bg-blue-50 transition-colors text-lg shadow-lg"
             onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
           >
             Contact Us
@@ -290,7 +307,6 @@ const TutoringWebsite = () => {
 
       <Advertisement slot="hero-ad-slot" />
 
-      {/* Main Content */}
       <div className="container mx-auto px-4 py-12">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
@@ -298,7 +314,6 @@ const TutoringWebsite = () => {
           ))}
         </div>
 
-        {/* Contact Section */}
         <div id="contact" className="mt-16 max-w-2xl mx-auto">
           <Card className="border-t-4 border-blue-500">
             <CardHeader>
@@ -338,7 +353,6 @@ const TutoringWebsite = () => {
 
       <Advertisement slot="footer-ad-slot" />
 
-      {/* Footer */}
       <footer className="bg-gray-900 text-white py-12 mt-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8">
