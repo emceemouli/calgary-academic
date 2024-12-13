@@ -569,7 +569,7 @@ const App = () => {
               © {new Date().getFullYear()} Calgary Academic Excellence. All rights reserved.
             </p>
             <p className="text-sm mt-2">
-              Providing exceptional educational services in Calgary and the surrounding areas, with online availability for students everywhere.
+              Serving Calgary and surrounding areas with excellence in education.
             </p>
           </div>
         </div>

@@ -1,3 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+
+# Allow PDF indexing
+Allow: /*.pdf$
+
+# Sitemap location
 Sitemap: https://calgaryacademicexcellence.vercel.app/sitemap.xml

@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from './components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './components/ui/card';
+import Advertisement from './components/Advertisement';
 import Resources from './components/Resources';
 import About from './components/About';
 import {
@@ -16,18 +16,17 @@ import {
   X,
   Menu,
   Info,
-  Home
+  Home,
+  ExternalLink
 } from 'lucide-react';
 
 const App = () => {
-  // State management for UI controls and navigation
   const [currentPage, setCurrentPage] = useState('home');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
 
-  // SEO optimization with dynamic meta tags
   useEffect(() => {
     const metaTitles = {
       home: 'Calgary Academic Excellence - Expert Digital SAT & Alberta Curriculum Tutoring',
@@ -38,24 +37,24 @@ const App = () => {
     document.title = metaTitles[currentPage] || metaTitles.home;
   }, [currentPage]);
 
-  // Track scroll position for navigation effects
   useEffect(() => {
     const handleScroll = () => {
       setScrollPosition(window.pageYOffset);
+      try {
+        (window.adsbygoogle = window.adsbygoogle || []).push({});
+      } catch (error) {}
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Navigation configuration
   const navigationItems = [
     { id: 'home', label: 'Home', icon: <Home className="h-4 w-4" /> },
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" /> },
     { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" /> }
   ];
 
-  // Services data
   const services = [
     {
       id: 1,
@@ -147,7 +146,6 @@ const App = () => {
     }
   ];
 
-  // Handle consultation requests
   const handleConsultationRequest = (service) => {
     const subject = encodeURIComponent(`Consultation Request for ${service.title}`);
     const body = encodeURIComponent(
@@ -163,15 +161,13 @@ const App = () => {
     window.location.href = `mailto:calgaryacademicexcellence@gmail.com?subject=${subject}&body=${body}`;
   };
 
-  // Service Card Component
   const ServiceCard = ({ service }) => (
-    <Card className="hover:shadow-lg transition-all duration-300 h-full flex flex-col">
+    <Card className="hover:shadow-xl transition-all duration-300 h-full flex flex-col">
       <div className="h-48 overflow-hidden">
         <img 
           src={service.image}
           alt={service.title}
           className="w-full h-full object-cover"
-          loading="lazy"
         />
       </div>
       <CardHeader>
@@ -224,7 +220,6 @@ const App = () => {
     </Card>
   );
 
-  // Service Modal Component
   const ServiceModal = ({ isOpen, onClose, service }) => {
     if (!isOpen || !service) return null;
 
@@ -309,60 +304,6 @@ const App = () => {
     );
   };
 
-  // Navigation Component
-  const Navigation = () => {
-    const isScrolled = scrollPosition > 50;
-
-    return (
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md' : 'bg-blue-900/80'
-      }`}>
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <span className={`text-xl font-bold transition-colors duration-300 px-3 py-1 rounded-lg
-                ${isScrolled 
-                  ? 'text-blue-900 hover:text-blue-700' 
-                  : 'text-white bg-blue-900/90 hover:bg-blue-800/90'
-                } cursor-pointer`}
-                onClick={() => setCurrentPage('home')}
-              >
-                Calgary Academic Excellence
-              </span>
-            </div>
-            
-            <div className="hidden md:flex items-center space-x-4">
-              {navigationItems.map(item => (
-                <Button
-                  key={item.id}
-                  variant={currentPage === item.id ? 'default' : 'ghost'}
-                  onClick={() => setCurrentPage(item.id)}
-                  className={`flex items-center space-x-2 ${
-                    isScrolled ? '' : 'text-white hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  {item.icon}
-                  <span>{item.label}</span>
-                </Button>
-              ))}
-            </div>
-
-            <div className="md:hidden">
-              <Button
-                variant="ghost"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`p-2 ${isScrolled ? '' : 'text-white'}`}
-              >
-                <Menu className="h-6 w-6" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
-    );
-  };
-
-  // Content renderer
   const renderContent = () => {
     switch (currentPage) {
       case 'about':
@@ -372,150 +313,188 @@ const App = () => {
       default:
         return (
           <>
-            {/* Hero Section with proper spacing */}
-            <div className="relative h-[250px] overflow-hidden mt-16">
-              <img 
-                src="/images/Teen-Area-12-23-Hero.jpg"
-                alt="Calgary Academic Excellence"
-                className="absolute inset-0 w-full h-full object-cover"
-                loading="eager"
-                priority="true"
-              />
-              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75"></div>
-              <div className="relative container mx-auto px-4 h-full flex flex-col justify-center">
-                <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 max-w-2xl">
-                  Calgary Academic Excellence
-                </h1>
-                <p className="text-lg md:text-xl text-white mb-6 max-w-xl">
-                  Expert tutoring for Grade 4-10, Digital SAT prep, and university admissions
-                </p>
-				<Button
-				  onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
-				  className="w-fit px-2 py-2 bg-blue-600 text-white rounded-md 
-							 font-medium hover:bg-blue-700 transition-all duration-200 
-							 shadow-md border-[0.5px] border-white/10 flex items-center gap-1 text-base"
-				>
-				  <span>Contact Us</span>
-				  <ArrowRight className="h-4 w-4" />
-				</Button>
-              </div>
-            </div>
+<div className="relative h-[350px] overflow-hidden mt-16"> {/* Reduced height to 350px */}
+  <img 
+    src="/images/Teen-Area-12-23-Hero.jpg"
+    alt="Calgary Academic Excellence"
+    className="absolute inset-0 w-full h-full object-cover object-center"
+  />
+  <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75"></div>
+  
+  <div className="relative container mx-auto px-6 h-full flex flex-col justify-center">
+    <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 
+                   tracking-tight leading-snug max-w-2xl">
+      Calgary Academic Excellence
+    </h1>
+    <p className="text-lg md:text-xl text-white/90 mb-6 max-w-xl 
+                  font-light leading-relaxed">
+      Expert tutoring for Grade 4-10, Digital SAT prep, and university admissions
+    </p>
+    <Button
+      onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
+      className="w-full sm:w-auto px-6 py-3 bg-blue-600 text-white rounded-lg 
+                font-medium hover:bg-blue-700 transition-all duration-200
+                shadow-lg border border-white/20 flex items-center justify-center
+                group max-w-xs"
+    >
+      <span>Contact Us</span>
+      <ArrowRight className="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform" />
+    </Button>
+  </div>
+</div>
+            <Advertisement slot="hero-ad-slot" />
 
-            {/* Main Content Area with Services */}
             <div className="container mx-auto px-4 py-12">
-              {/* Services Section with improved spacing */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {services.map((service) => (
                   <ServiceCard key={service.id} service={service} />
                 ))}
               </div>
 
-              {/* Contact Section with enhanced styling */}
-				<div id="contact" className="mt-20 max-w-lg mx-auto">
-				  <Card className="border-t-4 border-blue-500 shadow-lg">
-					<CardHeader>
-					  <CardTitle className="text-2xl font-bold text-gray-900 text-center">
-						Contact Us
-					  </CardTitle>
-					</CardHeader>
-					<CardContent>
-					  <div className="space-y-4 text-gray-800">
-						{/* Email */}
-						<div className="flex items-center space-x-3">
-						  <Mail className="h-6 w-6 text-blue-600" />
-						  <a 
-							href="mailto:calgaryacademicexcellence@gmail.com"
-							className="text-lg text-blue-600 hover:text-blue-800 transition-colors"
-						  >
-							calgaryacademicexcellence@gmail.com
-						  </a>
-						</div>
-						{/* Phone */}
-						<div className="flex items-center space-x-3">
-						  <Phone className="h-6 w-6 text-green-600" />
-						  <span className="text-lg">(587) 718-2903</span>
-						</div>
-						{/* Location */}
-						<div className="flex items-center space-x-3">
-						  <MapPin className="h-6 w-6 text-red-600" />
-						  <span className="text-lg">Calgary, Alberta</span>
-						</div>
-					  </div>
-					</CardContent>
-				  </Card>
-				</div>
-
+              <div id="contact" className="mt-16 max-w-2xl mx-auto">
+                <Card className="border-t-4 border-blue-500">
+                  <CardHeader>
+                    <CardTitle className="text-2xl font-bold text-gray-900">
+                      Contact Us
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-6">
+                      <a 
+                        href="mailto:calgaryacademicexcellence@gmail.com"
+                        className="flex items-center space-x-3 text-blue-600 hover:text-blue-800 
+                                 p-3 rounded-lg hover:bg-blue-50 transition-colors"
+                      >
+                        <Mail className="h-6 w-6 flex-shrink-0" />
+                        <span className="text-lg">calgaryacademicexcellence@gmail.com</span>
+                      </a>
+                      <div className="flex items-center space-x-3 p-3">
+                        <Phone className="h-6 w-6 text-green-500 flex-shrink-0" />
+                        <span className="text-lg text-gray-700">(587) 718-2903</span>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3">
+                        <MapPin className="h-6 w-6 text-red-500 flex-shrink-0" />
+                        <span className="text-lg text-gray-700">Calgary, Alberta</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </div>
+			<Advertisement slot="content-ad-slot" />
           </>
         );
     }
   };
 
-  // Main component return
+ const Navigation = () => {
+  const isScrolled = scrollPosition > 50;
+
+  return (
+    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      isScrolled ? 'bg-white shadow-md' : 'bg-blue-900/80'
+    }`}>
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between h-20"> {/* Increased height for better spacing */}
+          <div className="flex items-center">
+            <span className={`text-xl md:text-2xl font-extrabold tracking-tight transition-colors duration-300 
+              px-4 py-2 rounded-lg font-serif ${
+                isScrolled 
+                  ? 'text-blue-900 hover:text-blue-700' 
+                  : 'text-white bg-blue-900/90 hover:bg-blue-800/90'
+              } cursor-pointer`}
+              onClick={() => setCurrentPage('home')}
+            >
+              Calgary Academic Excellence
+            </span>
+          </div>
+          
+          <div className="hidden md:flex items-center space-x-6"> {/* Increased spacing between nav items */}
+            {navigationItems.map(item => (
+              <Button
+                key={item.id}
+                variant={currentPage === item.id ? 'default' : 'ghost'}
+                onClick={() => setCurrentPage(item.id)}
+                className={`flex items-center space-x-2 text-base font-medium tracking-wide ${
+                  isScrolled ? '' : 'text-white hover:text-white hover:bg-white/10'
+                }`}
+              >
+                {item.icon}
+                <span>{item.label}</span>
+              </Button>
+            ))}
+          </div>
+
+          {/* Mobile menu button remains the same */}
+        </div>
+      </div>
+    </nav>
+  );
+};
+
+  const MobileMenu = () => (
+    <div 
+      className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 ${
+        isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+      }`}
+      onClick={() => setIsMenuOpen(false)}
+    >
+      <div 
+        className={`fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl transform transition-transform duration-300 ${
+          isMenuOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="p-4">
+          <div className="flex justify-between items-center mb-8">
+            <h2 className="text-xl font-bold text-gray-900">Menu</h2>
+            <button 
+              onClick={() => setIsMenuOpen(false)}
+              className="p-2 hover:bg-gray-100 rounded-full"
+            >
+              <X className="h-6 w-6 text-gray-500" />
+            </button>
+          </div>
+          <nav className="space-y-4">
+            {navigationItems.map(item => (
+              <Button
+                key={item.id}
+                variant="ghost"
+                className="w-full justify-start text-lg"
+                onClick={() => {
+                  setCurrentPage(item.id);
+                  setIsMenuOpen(false);
+                }}
+              >
+                {item.icon}
+                <span className="ml-2">{item.label}</span>
+              </Button>
+            ))}
+          </nav>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
-      
-      {/* Mobile Menu with improved transitions */}
-      <div 
-        className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 ${
-          isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-        onClick={() => setIsMenuOpen(false)}
-      >
-        <div 
-          className={`fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl transform 
-                     transition-transform duration-300 ${
-                       isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-                     }`}
-          onClick={e => e.stopPropagation()}
-        >
-          <div className="p-6">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-xl font-bold text-gray-900">Menu</h2>
-              <button 
-                onClick={() => setIsMenuOpen(false)}
-                className="p-2 hover:bg-gray-100 rounded-full"
-              >
-                <X className="h-6 w-6 text-gray-500" />
-              </button>
-            </div>
-            <nav className="space-y-4">
-              {navigationItems.map(item => (
-                <Button
-                  key={item.id}
-                  variant="ghost"
-                  className="w-full justify-start text-lg"
-                  onClick={() => {
-                    setCurrentPage(item.id);
-                    setIsMenuOpen(false);
-                  }}
-                >
-                  {item.icon}
-                  <span className="ml-2">{item.label}</span>
-                </Button>
-              ))}
-            </nav>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content */}
+      <MobileMenu />
       {renderContent()}
 
-      {/* Service Modal */}
       <ServiceModal 
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         service={selectedService}
       />
 
-      {/* Footer with enhanced layout */}
+      <Advertisement slot="footer-ad-slot" />
+
       <footer className="bg-gray-900 text-white py-12 mt-12">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4">Hours of Operation</h3>
+              <h3 className="text-xl font-bold mb-4">Hours</h3>
               <div className="space-y-2 text-gray-300">
                 <p>Monday - Friday: 9AM - 8PM</p>
                 <p>Saturday: 10AM - 6PM</p>
@@ -523,7 +502,7 @@ const App = () => {
               </div>
             </div>
             <div>
-              <h3 className="text-xl font-bold mb-4">Contact Information</h3>
+              <h3 className="text-xl font-bold mb-4">Contact</h3>
               <div className="space-y-2 text-gray-300">
                 <p>Email: calgaryacademicexcellence@gmail.com</p>
                 <p>Phone: (587) 718-2903</p>
@@ -569,13 +548,12 @@ const App = () => {
               © {new Date().getFullYear()} Calgary Academic Excellence. All rights reserved.
             </p>
             <p className="text-sm mt-2">
-              Providing exceptional educational services in Calgary and the surrounding areas, with online availability for students everywhere.
+              Serving Calgary and surrounding areas with excellence in education.
             </p>
           </div>
         </div>
       </footer>
 
-      {/* Scroll to Top Button */}
       {scrollPosition > 300 && (
         <button
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}

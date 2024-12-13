@@ -5,7 +5,16 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        serif: ['Playfair Display', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+      },
+      transitionProperty: {
+        'height': 'height',
+        'spacing': 'margin, padding',
+      }
+    },
   },
   plugins: [],
 }
