@@ -373,27 +373,22 @@ const App = () => {
         return (
           <>
             {/* Hero Section with proper spacing */}
-						<div className="relative h-[270px] overflow-hidden mt-16">
-			  <img 
-				src="/images/Teen-Area-12-23-Hero.jpg"
-				alt="Calgary Academic Excellence"
-				className="absolute inset-0 w-full h-full object-cover"
-				loading="eager"
-				priority="true"
-			  />
-			  <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75"></div>
-			  <div className="relative container mx-auto px-4 h-full flex flex-col justify-center items-center">
-				<img 
-				  src="/images/Logo2.png" 
-				  alt="Calgary Academic Excellence Logo" 
-				  className="h-16 w-auto mb-4"
-				/>
-				<h1 className="text-3xl md:text-4xl font-bold text-white mb-4 max-w-2xl text-center">
-				  Calgary Academic Excellence
-				</h1>
-				<p className="text-lg md:text-xl text-white mb-6 max-w-xl text-center">
-				  Expert tutoring for Grade 4-10, Digital SAT prep, and university admissions
-				</p>
+            <div className="relative h-[200px] overflow-hidden mt-16">
+              <img 
+                src="/images/Teen-Area-12-23-Hero.jpg"
+                alt="Calgary Academic Excellence"
+                className="absolute inset-0 w-full h-full object-cover"
+                loading="eager"
+                priority="true"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75"></div>
+              <div className="relative container mx-auto px-4 h-full flex flex-col justify-center">
+                <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 max-w-2xl">
+                  Calgary Academic Excellence
+                </h1>
+                <p className="text-lg md:text-xl text-white mb-6 max-w-xl">
+                  Expert tutoring for Grade 4-10, Digital SAT prep, and university admissions
+                </p>
 				<Button
 				  onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
 				  className="w-fit px-2 py-2 bg-blue-600 text-white rounded-md 
@@ -403,9 +398,8 @@ const App = () => {
 				  <span>Contact Us</span>
 				  <ArrowRight className="h-4 w-4" />
 				</Button>
-			  </div>
-			</div>
-
+              </div>
+            </div>
 
             {/* Main Content Area with Services */}
             <div className="container mx-auto px-4 py-12">
