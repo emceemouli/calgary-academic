@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
-import { GraduationCap, Award, Users, BookOpen, CheckCircle, Target, Quote } from 'lucide-react';
+import { GraduationCap, Award, Users, BookOpen, CheckCircle, Target } from 'lucide-react';
 
 const About = () => {
   useEffect(() => {
     document.title = 'About Us - Calgary Academic Excellence | Professional Tutoring Services';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Learn about Calgary Academic Excellence\'s proven track record of student success. Our students consistently improve grades and SAT scores through personalized tutoring in Calgary.');
+      metaDescription.setAttribute('content', 'Learn about Calgary Academic Excellence\'s mission to provide exceptional tutoring services. Our experienced educators help students achieve their academic goals through personalized learning.');
     }
   }, []);
 
@@ -17,23 +17,6 @@ const About = () => {
     "Successful university admissions to top institutions across North America",
     "Recognized by Alberta Education as a trusted supplementary education provider",
     "Experienced team of educators with proven track records"
-  ];
-
-  const testimonials = [
-    {
-      name: "Sarah L.",
-      grade: "Grade 8",
-      content: "My math and science grades improved from C's to A's in just three months. The personalized attention helped me understand concepts I struggled with for years.",
-      location: "Calgary",
-      improvement: "Grade improvement: C to A"
-    },
-    {
-      name: "Michael T.",
-      type: "SAT Student",
-      content: "With Calgary Academic Excellence's help, I increased my SAT score by 210 points. Their strategies and practice tests made all the difference.",
-      location: "Calgary",
-      improvement: "SAT improvement: +210 points"
-    }
   ];
 
   return (
@@ -75,32 +58,6 @@ const About = () => {
             </CardContent>
           </Card>
         </div>
-
-        {/* Testimonials Section */}
-        <Card className="mb-12 bg-gradient-to-r from-blue-50 to-white">
-          <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-blue-900">
-              <Quote className="h-6 w-6 mr-2 text-blue-600" />Student Success Stories
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-8">
-              {testimonials.map((testimonial, index) => (
-                <div key={index} className="bg-white p-6 rounded-lg shadow-md">
-                  <Quote className="h-8 w-8 text-blue-400/20 mb-4" />
-                  <p className="text-gray-700 text-lg mb-4 italic">
-                    "{testimonial.content}"
-                  </p>
-                  <div className="border-t pt-4">
-                    <p className="text-blue-900 font-semibold">{testimonial.name}</p>
-                    <p className="text-gray-600">{testimonial.grade || testimonial.type}</p>
-                    <p className="text-green-600 font-medium mt-2">{testimonial.improvement}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
 
         <Card className="mb-12 bg-gradient-to-r from-blue-50 to-white">
           <CardHeader>
