@@ -7,6 +7,8 @@ import { Helmet } from 'react-helmet';
 const POSTS_PER_PAGE = 6;
 // Replace this with your public blog URL (e.g., 'https://calgaryacademicexcellence.blogspot.com')
 const BLOG_URL = 'https://calgaryacademicexcellence.blogspot.com';
+// Replace this with your default thumbnail image path
+const DEFAULT_THUMBNAIL = '/images/default-blog-thumbnail.jpg';
 
 const Blog = () => {
   const [posts, setPosts] = useState([]);
@@ -41,6 +43,19 @@ const Blog = () => {
           const alternateLink = entry.link?.find(l => l.rel === 'alternate')?.href || '#';
           const content = entry.content?.$t || entry.summary?.$t || '';
           
+          // Extract the first image from the content
+          let thumbnail = DEFAULT_THUMBNAIL;
+          const imgRegex = /<img[^>]+src="([^">]+)"/;
+          const imgMatch = content.match(imgRegex);
+          if (imgMatch && imgMatch[1]) {
+            // Ensure HTTPS for image URLs
+            thumbnail = imgMatch[1].replace(/^http:/, 'https:');
+            // Handle relative URLs
+            if (thumbnail.startsWith('//')) {
+              thumbnail = 'https:' + thumbnail;
+            }
+          }
+          
           // Create a temporary div to strip HTML tags for summary
           const tempDiv = document.createElement('div');
           tempDiv.innerHTML = content;
@@ -55,7 +70,8 @@ const Blog = () => {
               month: 'long',
               day: 'numeric'
             }),
-            summary: summary
+            summary: summary,
+            thumbnail: thumbnail
           };
         });
 
@@ -236,15 +252,26 @@ const Blog = () => {
               <>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {currentPosts.map((post, index) => (
-                    <Card key={index} className="hover:shadow-lg transition-shadow bg-white">
+                    <Card key={index} className="hover:shadow-lg transition-shadow bg-white flex flex-col">
+                      <div className="relative h-48 w-full overflow-hidden rounded-t-lg">
+                        <img
+                          src={post.thumbnail}
+                          alt={post.title}
+                          className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                          onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = DEFAULT_THUMBNAIL;
+                          }}
+                        />
+                      </div>
                       <CardHeader>
                         <div className="text-sm text-gray-600 mb-2">{post.published}</div>
-                        <CardTitle className="text-xl text-gray-900">{post.title}</CardTitle>
+                        <CardTitle className="text-xl text-gray-900 line-clamp-2">{post.title}</CardTitle>
                       </CardHeader>
-                      <CardContent>
+                      <CardContent className="flex-grow">
                         <p className="text-gray-700 mb-4 line-clamp-3">{post.summary}</p>
-                        <div onClick={() => handleReadMore(post.link)}>
-                          <Button className="flex items-center bg-blue-600 text-white hover:bg-blue-700">
+                        <div onClick={() => handleReadMore(post.link)} className="mt-auto">
+                          <Button className="flex items-center bg-blue-600 text-white hover:bg-blue-700 w-full justify-center">
                             Read More <ArrowRight className="ml-2 h-4 w-4" />
                           </Button>
                         </div>
