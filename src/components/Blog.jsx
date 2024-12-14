@@ -16,18 +16,31 @@ const Blog = () => {
     const fetchBlogPosts = async () => {
       try {
         const response = await fetch(
-          'https://www.blogger.com/feeds/7698008433679424378/posts/default?alt=json'
+          `https://api.allorigins.win/get?url=${encodeURIComponent(
+            'https://www.blogger.com/feeds/7698008433679424378/posts/default?alt=json'
+          )}`
         );
-        const data = await response.json();
 
-        const blogPosts = data.feed.entry.map((entry) => ({
-          title: entry.title.$t,
-          link: entry.link.find((l) => l.rel === 'alternate').href,
-          published: new Date(entry.published.$t).toDateString(),
-          summary: entry.summary?.$t || 'Click to read the full content.',
-        }));
+        const result = await response.json();
+        const data = JSON.parse(result.contents);
+
+        const blogPosts = data.feed.entry.map((entry) => {
+          // Extract the alternate link safely
+          const alternateLink =
+            entry.link && entry.link.length
+              ? entry.link.filter((l) => l.rel === 'alternate')[0]?.href || '#'
+              : '#';
+
+          return {
+            title: entry.title.$t,
+            link: alternateLink,
+            published: new Date(entry.published.$t).toDateString(),
+            summary: entry.summary?.$t || 'Click to read the full content.',
+          };
+        });
 
         setPosts(blogPosts);
+        console.log('Fetched Blog Posts:', blogPosts); // Debugging
       } catch (error) {
         console.error('Error fetching blog posts:', error);
       } finally {
@@ -39,17 +52,18 @@ const Blog = () => {
     const fetchNewsUpdates = async () => {
       try {
         const response = await fetch(
-          'https://docs.google.com/spreadsheets/d/e/2PACX-1vRD83yCtLxltpsjkqZFjwk_4z1zJ9NSj8N9fAGMPPtgKopCS0lqsSEAdokPTsLbxq00B3yLRX1uKr5C/pub?output=csv'
+          'https://docs.google.com/spreadsheets/d/e/2PACX-1vRD83yCtLxltpsjkqZFjwk_4z1zJ9NSj8N9fAGMPPtgKopCS0lqsSEAdokPTsLbxq00B3yLRX1uKr5C/pub?gid=0&single=true&output=csv'
         );
         const data = await response.text();
 
-        const rows = data.split('\n').slice(1); // Remove header row
+        const rows = data.split('\n').slice(1); // Skip header row
         const news = rows.map((row) => {
           const [date, title, link] = row.split(',');
-          return { date, title, link: link.replace('\r', '') };
+          return { date, title, link: link?.trim() || '#' };
         });
 
         setNewsUpdates(news);
+        console.log('Fetched News Updates:', news); // Debugging
       } catch (error) {
         console.error('Error fetching news updates:', error);
       } finally {
