@@ -40,7 +40,11 @@ const Resources = () => {
         previewContent: [
           "Sample Problem: Linear Equations",
           "A company's profit P (in dollars) is given by P = 200x - 1500, where x is the number of units sold.",
-          "Question: How many units must be sold to break even (P = 0)?"
+          "Question: How many units must be sold to break even (P = 0)?",
+		  "Solution:",
+          "1. Set P = 0",
+          "2. Solve: 0 = 200x - 1500",
+          "3. Result: x = 7.5, therefore 8 units needed"
         ],
         downloadLink: "/resources/pdfs/SATSuiteQuestionBankAlgebra-Results.pdf"
       }
