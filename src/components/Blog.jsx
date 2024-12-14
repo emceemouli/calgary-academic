@@ -12,7 +12,6 @@ const Blog = () => {
   useEffect(() => {
     document.title = 'Education Blog & Updates | Calgary Academic Excellence';
 
-    // Fetch Blogger blog posts
     const fetchBlogPosts = async () => {
       try {
         const response = await fetch(
@@ -25,7 +24,6 @@ const Blog = () => {
         const data = JSON.parse(result.contents);
 
         const blogPosts = data.feed.entry.map((entry) => {
-          // Extract the alternate link safely
           const alternateLink =
             entry.link && entry.link.length
               ? entry.link.filter((l) => l.rel === 'alternate')[0]?.href || '#'
@@ -40,7 +38,7 @@ const Blog = () => {
         });
 
         setPosts(blogPosts);
-        console.log('Fetched Blog Posts:', blogPosts); // Debugging
+        console.log('Fetched Blog Posts:', blogPosts);
       } catch (error) {
         console.error('Error fetching blog posts:', error);
       } finally {
@@ -48,7 +46,6 @@ const Blog = () => {
       }
     };
 
-    // Fetch news updates from Google Sheets CSV
     const fetchNewsUpdates = async () => {
       try {
         const response = await fetch(
@@ -56,14 +53,14 @@ const Blog = () => {
         );
         const data = await response.text();
 
-        const rows = data.split('\n').slice(1); // Skip header row
+        const rows = data.split('\n').slice(1);
         const news = rows.map((row) => {
           const [date, title, link] = row.split(',');
           return { date, title, link: link?.trim() || '#' };
         });
 
         setNewsUpdates(news);
-        console.log('Fetched News Updates:', news); // Debugging
+        console.log('Fetched News Updates:', news);
       } catch (error) {
         console.error('Error fetching news updates:', error);
       } finally {
@@ -75,9 +72,12 @@ const Blog = () => {
     fetchNewsUpdates();
   }, []);
 
+  const handleReadMore = (link) => {
+    window.open(link, '_blank', 'noopener,noreferrer');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
       <div className="relative h-[250px] w-full overflow-hidden mt-16">
         <img
           src="/images/Teen-Area-12-23-Hero.jpg"
@@ -95,7 +95,6 @@ const Blog = () => {
         </div>
       </div>
 
-      {/* Blog Posts */}
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl md:text-3xl font-bold text-blue-900 mb-6">Latest Blog Posts</h2>
         {loadingBlogs ? (
@@ -113,15 +112,11 @@ const Blog = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-700 mb-4 line-clamp-3">{post.summary}</p>
-                  <Button
-                    as="a"
-                    href={post.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center text-blue-600 hover:text-blue-800"
-                  >
-                    Read More <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
+                  <div onClick={() => handleReadMore(post.link)}>
+                    <Button className="flex items-center bg-blue-600 text-white hover:bg-blue-700">
+                      Read More <ArrowRight className="ml-2 h-4 w-4" />
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -129,7 +124,6 @@ const Blog = () => {
         )}
       </div>
 
-      {/* News Updates */}
       <div className="container mx-auto px-4 py-8">
         <h2 className="text-2xl md:text-3xl font-bold text-blue-900 mb-6">News Updates</h2>
         {loadingNews ? (
@@ -145,14 +139,12 @@ const Blog = () => {
                 className="border-l-4 border-blue-500 bg-blue-50 p-4 shadow rounded-lg"
               >
                 <span className="block text-gray-700 font-semibold">{update.date}</span>
-                <a
-                  href={update.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:text-blue-800 underline"
+                <div 
+                  onClick={() => handleReadMore(update.link)}
+                  className="text-blue-600 hover:text-blue-800 underline cursor-pointer"
                 >
                   {update.title}
-                </a>
+                </div>
               </li>
             ))}
           </ul>
