@@ -4,6 +4,7 @@ import { Button } from './components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './components/ui/card';
 import Resources from './components/Resources';
 import About from './components/About';
+import Blog from './components/Blog';
 import {
   BookOpen,
   GraduationCap,
@@ -52,7 +53,8 @@ const App = () => {
   const navigationItems = [
     { id: 'home', label: 'Home', icon: <Home className="h-4 w-4" /> },
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" /> },
-    { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" /> }
+    { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" /> },
+	{ id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" /> }
   ];
 
   // Services data
@@ -369,6 +371,8 @@ const App = () => {
         return <About />;
       case 'resources':
         return <Resources />;
+	  case 'blog':
+        return <Blog />;
       default:
         return (
           <>
