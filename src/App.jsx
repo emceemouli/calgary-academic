@@ -62,7 +62,7 @@ const App = () => {
       title: "Grade 4-10 Alberta Curriculum",
       image: "/images/teacher-tutor-student-librarian-1137620335.jpg",
       description: "Comprehensive tutoring aligned with Alberta curriculum standards",
-      price: "200",
+      price: "Please Contact for Price",
       features: [
         "One-on-one personalized sessions",
         "Homework help and review",
@@ -90,7 +90,7 @@ const App = () => {
       title: "Digital SAT Preparation",
       image: "/images/2017_11_30_Mines Tutoring at College View Middle School_JDN_5191.jpg",
       description: "Expert Digital SAT prep with practice tests and personalized strategies",
-      price: "200",
+      price: "Please contact for price",
       features: [
         "Full-length practice tests",
         "Personalized study plans",
@@ -111,7 +111,7 @@ const App = () => {
           "Time management skills",
           "Score prediction and tracking"
         ],
-        schedule: "12-week preparation program",
+        schedule: "Flexible scheduling available",
         location: "In-person or online sessions"
       }
     },
@@ -120,7 +120,7 @@ const App = () => {
       title: "University Counselling",
       image: "/images/admission-counseling-banner.png",
       description: "Comprehensive US and Canadian university application guidance",
-      price: "200",
+      price: "Please Contact for Price",
       features: [
         "Application strategy",
         "Essay review & feedback",
@@ -141,7 +141,7 @@ const App = () => {
           "Scholarship search and applications",
           "Visa and documentation support"
         ],
-        schedule: "6-month guidance program",
+        schedule: "Customized guidance program",
         location: "In-person or virtual meetings"
       }
     }
@@ -192,8 +192,8 @@ const App = () => {
           ))}
         </ul>
         <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-500 shadow-md">
-          <p className="text-2xl font-bold text-blue-900 mb-2">
-            ${service.price}/month
+          <p className="text-sm font-bold text-blue-900 mb-2">
+            {service.price}
           </p>
           <p className="text-gray-900 text-lg mb-1">
             <strong>Schedule:</strong> {service.details.schedule}
@@ -252,8 +252,8 @@ const App = () => {
 
             <div className="space-y-6">
               <div className="bg-blue-50 p-6 rounded-lg border-l-4 border-blue-500 shadow-md">
-                <p className="text-2xl font-bold text-blue-900 mb-4">
-                  ${service.price}/month
+                <p className="text-sm font-bold text-blue-900 mb-4">
+                  {service.price}
                 </p>
                 <p className="text-gray-900 text-lg mb-2">
                   <strong>Schedule:</strong> {service.details.schedule}
