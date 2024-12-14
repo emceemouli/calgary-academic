@@ -42,7 +42,7 @@ const Resources = () => {
           "A company's profit P (in dollars) is given by P = 200x - 1500, where x is the number of units sold.",
           "Question: How many units must be sold to break even (P = 0)?"
         ],
-        downloadLink: "/resources/pdfs/SAT Suite Question Bank Algebra - Results.pdf"
+        downloadLink: "/resources/pdfs/SATSuiteQuestionBankAlgebra-Results.pdf"
       }
     ],
     verbal: [
@@ -156,15 +156,14 @@ const Resources = () => {
                   >
                     Start Learning
                   </Button>
-                  <Button 
-                    as="a"
+                  <a 
                     href={resource.downloadLink}
                     download
-                    className="flex-1 sm:flex-none bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2"
+                    className="flex-1 sm:flex-none flex items-center gap-2 justify-center px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition"
                   >
                     <Download className="h-5 w-5" />
                     Download PDF
-                  </Button>
+                  </a>
                 </div>
               </CardContent>
             </Card>
