@@ -373,7 +373,8 @@ const App = () => {
         return (
           <>
             {/* Hero Section with proper spacing */}
-						<div className="relative h-[270px] overflow-hidden mt-16">
+						<div className="relative h-[270px] overflow-hidden w-full mt-16">
+
 			  <img 
 				src="/images/Teen-Area-12-23-Hero.jpg"
 				alt="Calgary Academic Excellence"
@@ -408,7 +409,8 @@ const App = () => {
 
 
             {/* Main Content Area with Services */}
-            <div className="container mx-auto px-4 py-12">
+            <div className="container mx-auto px-4 py-12 overflow-hidden">
+
               {/* Services Section with improved spacing */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {services.map((service) => (
@@ -459,7 +461,7 @@ const App = () => {
 
   // Main component return
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       <Navigation />
       
       {/* Mobile Menu with improved transitions */}

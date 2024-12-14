@@ -53,7 +53,7 @@ const About = () => {
 
 
       {/* Main Content Area */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-12">
+      	  <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-12 overflow-hidden w-full">
         {/* Mission & Approach Section */}
         <div className="grid md:grid-cols-2 gap-8 mb-12">
           <Card className="bg-white hover:shadow-lg transition-shadow">

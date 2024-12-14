@@ -101,7 +101,7 @@ const Resources = () => {
       </div>
 
       {/* Main Content */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-8 overflow-hidden w-full">
         {/* Navigation Tabs */}
         <div className="flex flex-wrap gap-3 mb-8 pb-4 border-b border-gray-200">
           {navigationItems.map(item => (
