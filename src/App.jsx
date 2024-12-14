@@ -373,7 +373,8 @@ const App = () => {
         return (
           <>
             {/* Hero Section with proper spacing */}
-						<div className="relative h-[270px] overflow-hidden w-full mt-16">
+						<div className="relative h-[270px] mt-16">
+
 
 			  <img 
 				src="/images/Teen-Area-12-23-Hero.jpg"
@@ -409,7 +410,7 @@ const App = () => {
 
 
             {/* Main Content Area with Services */}
-            <div className="container mx-auto px-4 py-12 overflow-hidden">
+            <div className="container mx-auto px-4 py-12">
 
               {/* Services Section with improved spacing */}
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
