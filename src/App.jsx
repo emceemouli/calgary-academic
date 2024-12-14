@@ -373,7 +373,7 @@ const App = () => {
         return (
           <>
             {/* Hero Section with proper spacing */}
-            <div className="relative h-[250px] overflow-hidden mt-16">
+            <div className="relative h-[200px] overflow-hidden mt-16">
               <img 
                 src="/images/Teen-Area-12-23-Hero.jpg"
                 alt="Calgary Academic Excellence"

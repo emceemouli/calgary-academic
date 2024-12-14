@@ -3,7 +3,6 @@ import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { 
   BookOpen, 
-  FileText, 
   Brain,
   Download,
   Calculator,
@@ -41,12 +40,9 @@ const Resources = () => {
         previewContent: [
           "Sample Problem: Linear Equations",
           "A company's profit P (in dollars) is given by P = 200x - 1500, where x is the number of units sold.",
-          "Question: How many units must be sold to break even (P = 0)?",
-          "Solution:",
-          "1. Set P = 0",
-          "2. Solve: 0 = 200x - 1500",
-          "3. Result: x = 7.5, therefore 8 units needed"
-        ]
+          "Question: How many units must be sold to break even (P = 0)?"
+        ],
+        downloadLink: "/resources/pdfs/SAT Suite Question Bank Algebra - Results.pdf"
       }
     ],
     verbal: [
@@ -58,9 +54,9 @@ const Resources = () => {
           "Key Strategy: Active Reading",
           "1. Preview passage structure",
           "2. Read first and last paragraphs",
-          "3. Identify topic sentences",
-          "4. Mark key evidence"
-        ]
+          "3. Identify topic sentences"
+        ],
+        downloadLink: "/resources/pdfs/sat-reading-guide.pdf"
       }
     ],
     practice: [
@@ -72,30 +68,35 @@ const Resources = () => {
           "Test Overview:",
           "• 54 Math questions",
           "• 27 Reading questions",
-          "• 27 Writing questions",
-          "• 2 hours 14 minutes total time"
-        ]
+          "• 27 Writing questions"
+        ],
+        downloadLink: "/resources/pdfs/sat-practice-test-1-digital.pdf"
       }
     ]
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Compact Hero Section */}
-{/* Hero Section - Adjusted spacing to account for fixed navigation */}
-<div className="bg-gradient-to-r from-blue-900 to-blue-800 pt-24 pb-12"> {/* Changed py-12 to pt-24 pb-12 */}
-  <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-    <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-4">
-      Digital SAT Study Resources
-    </h1>
-    <p className="text-lg text-white/90 max-w-2xl leading-relaxed">
-      Access our comprehensive collection of study materials, practice tests, and guides
-      to help you excel on the Digital SAT.
-    </p>
-  </div>
-</div>
+      {/* Hero Section */}
+      <div className="relative h-[250px] overflow-hidden mt-16">
+        <img 
+          src="/images/Teen-Area-12-23-Hero.jpg"
+          alt="Digital SAT Study Resources"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75"></div>
+        <div className="relative container mx-auto px-4 h-full flex flex-col justify-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            Digital SAT Study Resources
+          </h1>
+          <p className="text-lg md:text-xl text-white mb-6 max-w-xl">
+            Access comprehensive study materials, practice tests, and expert guides.
+          </p>
+        </div>
+      </div>
 
-      {/* Main Content Area */}
+      {/* Main Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-8">
         {/* Navigation Tabs */}
         <div className="flex flex-wrap gap-3 mb-8 pb-4 border-b border-gray-200">
@@ -112,7 +113,7 @@ const Resources = () => {
           ))}
         </div>
 
-        {/* Content Grid with Improved Readability */}
+        {/* Resource Cards */}
         <div className="space-y-8">
           {educationalContent[activeSection].map((resource, index) => (
             <Card key={index} className="overflow-hidden">
@@ -132,8 +133,7 @@ const Resources = () => {
                   {resource.topics.map((topic, i) => (
                     <span 
                       key={i}
-                      className="px-3 py-1.5 bg-blue-50 text-blue-800 rounded-full
-                               text-sm font-medium"
+                      className="px-3 py-1.5 bg-blue-50 text-blue-800 rounded-full text-sm font-medium"
                     >
                       {topic}
                     </span>
@@ -157,9 +157,12 @@ const Resources = () => {
                     Start Learning
                   </Button>
                   <Button 
-                    variant="outline"
-                    className="flex-1 sm:flex-none"
+                    as="a"
+                    href={resource.downloadLink}
+                    download
+                    className="flex-1 sm:flex-none bg-blue-500 hover:bg-blue-600 text-white flex items-center gap-2"
                   >
+                    <Download className="h-5 w-5" />
                     Download PDF
                   </Button>
                 </div>
@@ -167,59 +170,6 @@ const Resources = () => {
             </Card>
           ))}
         </div>
-
-        {/* Study Tips Section */}
-        <Card className="mt-12 bg-gradient-to-r from-blue-50 to-white">
-          <CardHeader>
-            <CardTitle className="text-xl sm:text-2xl text-blue-900">
-              Study Tips & Best Practices
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-700 text-base sm:text-lg">
-                    Start with diagnostic tests to identify your strengths and areas for improvement
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-700 text-base sm:text-lg">
-                    Practice regularly with official-style questions to build familiarity
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-700 text-base sm:text-lg">
-                    Review incorrect answers thoroughly to understand your mistakes
-                  </p>
-                </div>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-700 text-base sm:text-lg">
-                    Time yourself during practice to develop proper pacing
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-700 text-base sm:text-lg">
-                    Take regular breaks to maintain focus and productivity
-                  </p>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
-                  <p className="text-gray-700 text-base sm:text-lg">
-                    Focus on understanding concepts rather than memorizing
-                  </p>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </div>
   );

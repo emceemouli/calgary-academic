@@ -33,17 +33,24 @@ const About = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section with proper spacing for fixed nav */}
-      <div className="bg-gradient-to-r from-blue-900 to-blue-800 pt-24 pb-12">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-            About Calgary Academic Excellence
-          </h1>
-          <p className="text-lg sm:text-xl text-white/90 max-w-2xl leading-relaxed">
-            Empowering students to achieve academic excellence through personalized 
-            education and proven teaching methodologies.
-          </p>
-        </div>
-      </div>
+		<div className="relative h-[200px] overflow-hidden mt-16">
+		  <img 
+			src="/images/Teen-Area-12-23-Hero.jpg"
+			alt="About Calgary Academic Excellence"
+			className="absolute inset-0 w-full h-full object-cover"
+			loading="eager"
+		  />
+		  <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75"></div>
+		  <div className="relative container mx-auto px-4 h-full flex flex-col justify-center">
+			<h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+			  About Calgary Academic Excellence
+			</h1>
+			<p className="text-lg md:text-xl text-white mb-6 max-w-xl">
+			  Empowering students to achieve academic excellence through proven strategies.
+			</p>
+		  </div>
+		</div>
+
 
       {/* Main Content Area */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-12">
