@@ -125,7 +125,7 @@ const ScoreTracker = () => {
 };
 
 const Resources = () => {
-  const [activeSection, setActiveSection] = useState('math');
+  const [activeSection, setActiveSection] = useState('studyPlan');
   const [selectedWeek, setSelectedWeek] = useState('week1');
 
   useEffect(() => {
@@ -136,12 +136,12 @@ const Resources = () => {
     }
   }, []);
 
-  const navigationItems = [
-    { id: 'math', label: 'Mathematics', icon: <Calculator className="h-5 w-5" /> },
-    { id: 'verbal', label: 'Reading & Writing', icon: <BookOpen className="h-5 w-5" /> },
-    { id: 'practice', label: 'Practice Tests', icon: <Brain className="h-5 w-5" /> },
-    { id: 'studyPlan', label: 'Study Plan', icon: <Calendar className="h-5 w-5" /> }
-  ];
+const navigationItems = [
+  { id: 'studyPlan', label: 'Study Plan', icon: <Calendar className="h-5 w-5" /> },
+  { id: 'math', label: 'Mathematics', icon: <Calculator className="h-5 w-5" /> },
+  { id: 'verbal', label: 'Reading & Writing', icon: <BookOpen className="h-5 w-5" /> },
+  { id: 'practice', label: 'Practice Tests', icon: <Brain className="h-5 w-5" /> }
+];
 
 // Update the weeklySchedules object in your Resources.jsx:
 
@@ -243,46 +243,81 @@ const WeeklySchedule = ({ week, content }) => (
   </div>
 );
 
-  const educationalContent = {
-    math: [{
-      title: "Digital SAT Math Fundamentals",
-      description: "Essential mathematical concepts and practice problems for Digital SAT success",
-      topics: ["Algebra", "Geometry", "Problem Solving"],
-      previewContent: [
-        "Sample Problem: Linear Equations",
-        "A company's profit P (in dollars) is given by P = 200x - 1500, where x is the number of units sold.",
-        "Question: How many units must be sold to break even (P = 0)?",
-        "Solution:",
-        "1. Set P = 0",
-        "2. Solve: 0 = 200x - 1500",
-        "3. Result: x = 7.5, therefore 8 units needed"
-      ],
-      downloadLink: "/resources/pdfs/SATSuiteQuestionBankAlgebra-Results.pdf"
-    }],
-    verbal: [{
-      title: "Reading Comprehension Guide",
-      description: "Master the Digital SAT reading section with proven strategies",
-      topics: ["Main Ideas", "Evidence Analysis", "Critical Reading"],
-      previewContent: [
-        "Key Strategy: Active Reading",
-        "1. Preview passage structure",
-        "2. Read first and last paragraphs",
-        "3. Identify topic sentences"
-      ],
-      downloadLink: "/resources/pdfs/sat-reading-guide.pdf"
-    }],
-    practice: [{
-      title: "Full Practice Test",
-      description: "Complete Digital SAT practice exam with detailed solutions",
-      topics: ["Math", "Reading", "Writing"],
-      previewContent: [
-        "Test Overview:",
-        "• 54 Math questions",
-        "• 27 Reading questions",
-        "• 27 Writing questions"
-      ],
-      downloadLink: "/resources/pdfs/sat-practice-test-1-digital.pdf"
-    }],
+const educationalContent = {
+  math: [{
+    title: "Digital SAT Math Fundamentals",
+    description: "Essential mathematical concepts and practice problems for Digital SAT success",
+    topics: ["Algebra", "Geometry", "Problem Solving"],
+    previewContent: [
+      "*Sample Problem: Linear Equations*",
+      "A company's profit P (in dollars) is given by P = 200x - 1500, where x is the number of units sold.",
+      "",
+      "*Question:*",
+      "How many units must be sold to break even (P = 0)?",
+      "",
+      "*Solution Steps:*",
+      "• Set P = 0",
+      "• Solve: 0 = 200x - 1500",
+      "• Result: x = 7.5, therefore 8 units needed",
+      "",
+      "*Key Takeaways:*",
+      "• Break-even occurs when profit equals zero",
+      "• Round up when dealing with whole units",
+      "• Always verify your solution"
+    ],
+    downloadLink: "/resources/pdfs/SATSuiteQuestionBankAlgebra-Results.pdf"
+  }],
+  verbal: [{
+    title: "Reading Comprehension Guide",
+    description: "Master the Digital SAT reading section with proven strategies",
+    topics: ["Main Ideas", "Evidence Analysis", "Critical Reading"],
+    previewContent: [
+      "*Key Strategy: Active Reading*",
+      "Learn to engage with the text effectively and efficiently.",
+      "",
+      "*Essential Steps:*",
+      "• Preview passage structure",
+      "• Read first and last paragraphs",
+      "• Identify topic sentences",
+      "",
+      "*Common Question Types:*",
+      "• Main idea questions",
+      "• Detail questions",
+      "• Inference questions",
+      "• Vocabulary in context",
+      "",
+      "*Pro Tips:*",
+      "• Always refer back to the text",
+      "• Look for evidence to support answers",
+      "• Pay attention to transition words"
+    ],
+    downloadLink: "/resources/pdfs/sat-reading-guide.pdf"
+  }],
+  practice: [{
+    title: "Full Practice Test",
+    description: "Complete Digital SAT practice exam with detailed solutions",
+    topics: ["Math", "Reading", "Writing"],
+    previewContent: [
+      "*Test Structure Overview:*",
+      "Complete breakdown of the Digital SAT format.",
+      "",
+      "*Section Details:*",
+      "• 54 Math questions (60 minutes)",
+      "• 27 Reading questions (32 minutes)",
+      "• 27 Writing questions (32 minutes)",
+      "",
+      "*Testing Features:*",
+      "• Adaptive testing format",
+      "• Digital tools available",
+      "• Built-in calculator",
+      "",
+      "*Best Practices:*",
+      "• Take full-length practice tests",
+      "• Time each section accurately",
+      "• Review all answers thoroughly"
+    ],
+    downloadLink: "/resources/pdfs/sat-practice-test-1-digital.pdf"
+  }],
     studyPlan: [{
       title: "Digital SAT 8-Week Study Plan",
       description: "Comprehensive study plan aligned with College Board guidelines, customizable to your starting score and target score",
