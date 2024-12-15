@@ -12,14 +12,14 @@ import {
   Quote,
   ChevronDown,
   ChevronUp,
-  Info,
-  Star
+  Star,
+  Clock
 } from 'lucide-react';
 
 const About = () => {
   // State management
   const [openFAQ, setOpenFAQ] = useState(null);
-  const [activeTab, setActiveTab] = useState('approach');
+  const [currentTab, setCurrentTab] = useState('mission');
 
   // SEO optimization
   useEffect(() => {
@@ -32,6 +32,14 @@ const About = () => {
       );
     }
   }, []);
+
+  // Navigation tabs configuration
+  const navigationTabs = [
+    { id: 'mission', label: 'Mission & Vision', icon: <Target className="h-4 w-4" /> },
+    { id: 'approach', label: 'Our Approach', icon: <Users className="h-4 w-4" /> },
+    { id: 'success', label: 'Success Stories', icon: <Star className="h-4 w-4" /> },
+    { id: 'values', label: 'Core Values', icon: <GraduationCap className="h-4 w-4" /> }
+  ];
 
   // Achievement data
   const achievements = [
@@ -61,8 +69,6 @@ const About = () => {
   ];
 
   // FAQ data structure
-  // In Part 1 of the code, replace the existing faqs array with this complete version:
-  
   const faqs = [
     {
       category: "Alberta Curriculum Tutoring",
@@ -138,17 +144,43 @@ const About = () => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
-  // Tab content configuration
-  const tabData = {
+// Tab content configuration
+  const tabContent = {
+    mission: {
+      title: "Mission & Vision",
+      icon: <Target className="h-6 w-6 text-blue-600" />,
+      content: (
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-blue-900">Our Mission</h3>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              At Calgary Academic Excellence, we are dedicated to providing high-quality, 
+              personalized education that helps students build confidence, develop strong 
+              academic foundations, and achieve their educational goals.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <h3 className="text-xl font-semibold text-blue-900">Our Vision</h3>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              We strive to be Calgary's leading academic support provider, 
+              empowering students with the knowledge, skills, and confidence 
+              they need to excel in their academic journey and beyond.
+            </p>
+          </div>
+        </div>
+      )
+    },
     approach: {
       title: "Our Approach",
       icon: <Users className="h-6 w-6 text-blue-600" />,
       content: (
-        <div className="space-y-4">
+        <div className="space-y-6">
           <p className="text-gray-700 text-lg leading-relaxed">
-            At Calgary Academic Excellence, we believe in a personalized approach to education. Our methodology combines traditional teaching excellence with modern educational technology and individualized attention.
+            At Calgary Academic Excellence, we believe in a personalized approach to education. 
+            Our methodology combines traditional teaching excellence with modern educational 
+            technology and individualized attention.
           </p>
-          <div className="grid md:grid-cols-2 gap-6 mt-4">
+          <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-blue-50 p-4 rounded-lg">
               <h4 className="font-semibold text-blue-900 mb-2">Personalized Learning</h4>
               <p className="text-gray-700">Every student receives a customized learning plan tailored to their unique needs, learning style, and academic goals.</p>
@@ -214,12 +246,10 @@ const About = () => {
       )
     }
   };
-// Continuing from Part 1...
 
-  // Main render return statement
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section with gradient overlay */}
+      {/* Hero Section */}
       <div className="relative h-[200px] mt-16">
         <img 
           src="/images/Teen-Area-12-23-Hero.jpg" 
@@ -238,70 +268,37 @@ const About = () => {
         </div>
       </div>
 
-      {/* Main Content Area */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-12">
         {/* Tab Navigation */}
-        <div className="flex flex-wrap gap-3 mb-8 justify-center">
-          {Object.entries(tabData).map(([key, { title, icon }]) => (
-            <Button
-              key={key}
-              variant={activeTab === key ? 'default' : 'outline'}
-              onClick={() => setActiveTab(key)}
-              className={`flex items-center gap-2 ${
-                activeTab === key ? 'bg-blue-600 text-white' : 'text-blue-600'
-              }`}
-            >
-              {icon}
-              <span>{title}</span>
-            </Button>
-          ))}
-        </div>
-
-        {/* Mission and Approach Cards - Always visible */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <Card className="bg-white hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl text-blue-900">
-                <Target className="h-6 w-6 mr-2 text-blue-600" />
-                Our Mission
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 text-lg leading-relaxed">
-                At Calgary Academic Excellence, we are dedicated to providing high-quality, 
-                personalized education that helps students build confidence, develop strong 
-                academic foundations, and achieve their educational goals.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl text-blue-900">
-                <Users className="h-6 w-6 mr-2 text-blue-600" />
-                Our Approach
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 text-lg leading-relaxed">
-                We combine traditional teaching methods with modern technology and 
-                personalized learning strategies. Our focus on individual attention ensures 
-                each student receives the support they need to excel.
-              </p>
-            </CardContent>
-          </Card>
+        <div className="flex justify-center mb-8">
+          <div className="inline-flex gap-4">
+            {navigationTabs.map((tab) => (
+              <Button
+                key={tab.id}
+                onClick={() => setCurrentTab(tab.id)}
+                className={`px-6 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
+                  currentTab === tab.id 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                {tab.icon}
+                <span>{tab.label}</span>
+              </Button>
+            ))}
+          </div>
         </div>
 
         {/* Dynamic Tab Content */}
         <Card className="bg-white mb-12">
           <CardHeader>
             <CardTitle className="flex items-center text-2xl text-blue-900">
-              {tabData[activeTab].icon}
-              <span className="ml-2">{tabData[activeTab].title}</span>
+              {tabContent[currentTab].icon}
+              <span className="ml-2">{tabContent[currentTab].title}</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {tabData[activeTab].content}
+            {tabContent[currentTab].content}
           </CardContent>
         </Card>
 
