@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
-import { GraduationCap, Award, Users, BookOpen, CheckCircle, Target, Quote } from 'lucide-react';
+import { GraduationCap, Award, Users, BookOpen, CheckCircle, Target, Quote, ChevronDown, ChevronUp } from 'lucide-react';
 
 const About = () => {
+  const [openFAQ, setOpenFAQ] = useState(null);
+
   useEffect(() => {
     document.title = 'About Us - Calgary Academic Excellence | Professional Tutoring Services';
     const metaDescription = document.querySelector('meta[name="description"]');
@@ -35,6 +37,64 @@ const About = () => {
       improvement: "SAT improvement: +210 points"
     }
   ];
+
+  const faqs = [
+    {
+      category: "Alberta Curriculum Tutoring",
+      questions: [
+        {
+          q: "What grades do you support in the Alberta curriculum?",
+          a: "We provide comprehensive tutoring for students in Grades 4-10, covering Mathematics, Science, and Social Studies. Our tutoring aligns perfectly with the Alberta Education curriculum requirements and learning outcomes."
+        },
+        {
+          q: "How frequently should my child attend tutoring sessions?",
+          a: "We recommend 2-3 sessions per week based on individual needs. Each one-hour session is structured to include concept review, guided practice, and independent work to ensure optimal learning progress."
+        },
+        {
+          q: "How do you assess and track student progress?",
+          a: "We conduct regular assessments aligned with the Alberta curriculum benchmarks. Parents receive monthly progress reports detailing their child's improvements, areas of focus, and next learning objectives."
+        }
+      ]
+    },
+    {
+      category: "Digital SAT Preparation",
+      questions: [
+        {
+          q: "What is your average SAT score improvement?",
+          a: "Our students achieve an average improvement of 210+ points. Our comprehensive program combines test strategies, content review, and regular practice tests to ensure consistent score improvements."
+        },
+        {
+          q: "How long is your SAT preparation program?",
+          a: "Our standard program runs for 8-12 weeks, with custom schedules available based on test dates and target scores. Each week includes focused content review, practice sessions, and detailed performance analysis."
+        },
+        {
+          q: "Do you offer practice tests?",
+          a: "Yes, we provide regular full-length Digital SAT practice tests under timed conditions. Each test is followed by comprehensive review sessions to analyze mistakes and improve test-taking strategies."
+        }
+      ]
+    },
+    {
+      category: "University Admissions Counseling",
+      questions: [
+        {
+          q: "When should we start university counseling?",
+          a: "We recommend starting in Grade 11 for strategic planning and Grade 12 fall semester for applications. Early preparation allows time for thorough research, strong applications, and meeting all deadlines."
+        },
+        {
+          q: "Which universities do your students typically get accepted to?",
+          a: "Our students have received acceptances to top Canadian universities including University of Toronto, UBC, and McGill, as well as prestigious U.S. institutions. Success rates are particularly high for University of Calgary and other Alberta universities."
+        },
+        {
+          q: "What does your university counseling include?",
+          a: "Our comprehensive service includes university selection strategy, application guidance, essay reviews, interview preparation, and scholarship application support. We provide detailed feedback and ongoing support throughout the entire process."
+        }
+      ]
+    }
+  ];
+
+  const toggleFAQ = (index) => {
+    setOpenFAQ(openFAQ === index ? null : index);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -76,7 +136,6 @@ const About = () => {
           </Card>
         </div>
 
-        {/* Testimonials Section */}
         <Card className="mb-12 bg-gradient-to-r from-blue-50 to-white">
           <CardHeader>
             <CardTitle className="flex items-center text-2xl text-blue-900">
@@ -114,6 +173,50 @@ const About = () => {
                 <div key={index} className="flex items-start">
                   <CheckCircle className="h-6 w-6 mr-3 mt-1 text-green-500 flex-shrink-0" />
                   <p className="text-gray-700 text-lg">{achievement}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card className="mb-12 bg-white">
+          <CardHeader>
+            <CardTitle className="flex items-center text-2xl text-blue-900">
+              <BookOpen className="h-6 w-6 mr-2 text-blue-600" />Frequently Asked Questions
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-8">
+              {faqs.map((category, categoryIndex) => (
+                <div key={categoryIndex} className="space-y-4">
+                  <h3 className="text-xl font-semibold text-blue-900 border-b border-blue-100 pb-2">
+                    {category.category}
+                  </h3>
+                  <div className="space-y-3">
+                    {category.questions.map((faq, questionIndex) => {
+                      const index = `${categoryIndex}-${questionIndex}`;
+                      return (
+                        <div key={questionIndex} className="border rounded-lg hover:shadow-sm transition-shadow">
+                          <button
+                            className="w-full px-4 py-3 flex justify-between items-center hover:bg-gray-50 transition-colors"
+                            onClick={() => toggleFAQ(index)}
+                          >
+                            <span className="font-medium text-left text-gray-900">{faq.q}</span>
+                            {openFAQ === index ? (
+                              <ChevronUp className="h-5 w-5 text-gray-500 flex-shrink-0" />
+                            ) : (
+                              <ChevronDown className="h-5 w-5 text-gray-500 flex-shrink-0" />
+                            )}
+                          </button>
+                          {openFAQ === index && (
+                            <div className="px-4 py-3 border-t bg-gray-50">
+                              <p className="text-gray-700 text-lg leading-relaxed">{faq.a}</p>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               ))}
             </div>
