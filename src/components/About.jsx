@@ -1,4 +1,3 @@
-// About.jsx - Part 1
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
@@ -20,6 +19,17 @@ const About = () => {
   // State management
   const [openFAQ, setOpenFAQ] = useState(null);
   const [currentTab, setCurrentTab] = useState('mission');
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  // Handle window resize for mobile responsiveness
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // SEO optimization
   useEffect(() => {
@@ -122,18 +132,6 @@ const About = () => {
         {
           q: "Do you help with scholarship applications?",
           a: "Yes, we provide comprehensive scholarship application support. This includes identifying suitable opportunities, reviewing application materials, preparing for interviews, and crafting compelling essays. We help students apply for merit-based scholarships, specialized awards, and school-specific financial aid programs."
-        },
-        {
-          q: "How do you help with personal statements and essays?",
-          a: "Our essay guidance process includes brainstorming sessions to identify unique stories and experiences, detailed outlining, multiple rounds of revision, and final polishing. We help students maintain their authentic voice while creating compelling narratives that showcase their strengths and aspirations."
-        },
-        {
-          q: "Can you assist with international university applications?",
-          a: "Yes, we have extensive experience helping students apply to universities worldwide. We understand different application systems (UCAS for UK, Common App for US, etc.) and can guide students through country-specific requirements, visa processes, and international student considerations."
-        },
-        {
-          q: "How do you tailor university selections to each student?",
-          a: "We consider multiple factors including academic strengths, career goals, preferred location, budget, and campus culture. Our counselors help create a balanced list of reach, target, and safety schools while ensuring each choice aligns with the student's personal and academic objectives."
         }
       ]
     }
@@ -144,7 +142,7 @@ const About = () => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
-// Tab content configuration
+  // Tab content configuration
   const tabContent = {
     mission: {
       title: "Mission & Vision",
@@ -246,7 +244,6 @@ const About = () => {
       )
     }
   };
-
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
@@ -269,25 +266,41 @@ const About = () => {
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-12">
-        {/* Tab Navigation */}
-        <div className="flex justify-center mb-8">
-          <div className="inline-flex gap-4">
-            {navigationTabs.map((tab) => (
-              <Button
-                key={tab.id}
-                onClick={() => setCurrentTab(tab.id)}
-                className={`px-6 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
-                  currentTab === tab.id 
-                    ? 'bg-blue-600 text-white' 
-                    : 'bg-blue-600 text-white hover:bg-blue-700'
-                }`}
-              >
-                {tab.icon}
-                <span>{tab.label}</span>
-              </Button>
-            ))}
+        {/* Mobile-optimized Tab Navigation */}
+        {isMobile ? (
+          <div className="mb-8">
+            <select
+              value={currentTab}
+              onChange={(e) => setCurrentTab(e.target.value)}
+              className="w-full p-3 border rounded-md bg-white text-gray-900 focus:ring-2 focus:ring-blue-500"
+            >
+              {navigationTabs.map((tab) => (
+                <option key={tab.id} value={tab.id}>
+                  {tab.label}
+                </option>
+              ))}
+            </select>
           </div>
-        </div>
+        ) : (
+          <div className="flex justify-center mb-8">
+            <div className="inline-flex flex-wrap justify-center gap-4">
+              {navigationTabs.map((tab) => (
+                <Button
+                  key={tab.id}
+                  onClick={() => setCurrentTab(tab.id)}
+                  className={`px-6 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
+                    currentTab === tab.id 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
+                >
+                  {tab.icon}
+                  <span>{tab.label}</span>
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
 
         {/* Dynamic Tab Content */}
         <Card className="bg-white mb-12">
@@ -302,7 +315,7 @@ const About = () => {
           </CardContent>
         </Card>
 
-        {/* FAQ Section */}
+        {/* FAQ Section with improved mobile spacing */}
         <Card className="bg-white">
           <CardHeader>
             <CardTitle className="flex items-center text-2xl text-blue-900">
@@ -326,7 +339,9 @@ const About = () => {
                             className="w-full px-4 py-3 flex justify-between items-center hover:bg-gray-50 transition-colors"
                             onClick={() => toggleFAQ(index)}
                           >
-                            <span className="font-medium text-left text-gray-900">{faq.q}</span>
+                            <span className="font-medium text-left text-gray-900 flex-grow pr-4">
+                              {faq.q}
+                            </span>
                             {openFAQ === index ? (
                               <ChevronUp className="h-5 w-5 text-gray-500 flex-shrink-0" />
                             ) : (
