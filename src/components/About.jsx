@@ -1,18 +1,39 @@
-import React, { useEffect, useState } from 'react';
+// About.jsx - Part 1
+import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
-import { GraduationCap, Award, Users, BookOpen, CheckCircle, Target, Quote, ChevronDown, ChevronUp } from 'lucide-react';
+import { Button } from './ui/button';
+import {
+  GraduationCap,
+  Award,
+  Users,
+  BookOpen,
+  CheckCircle,
+  Target,
+  Quote,
+  ChevronDown,
+  ChevronUp,
+  Info,
+  Star
+} from 'lucide-react';
 
 const About = () => {
+  // State management
   const [openFAQ, setOpenFAQ] = useState(null);
+  const [activeTab, setActiveTab] = useState('approach');
 
+  // SEO optimization
   useEffect(() => {
     document.title = 'About Us - Calgary Academic Excellence | Professional Tutoring Services';
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Learn about Calgary Academic Excellence\'s proven track record of student success. Our students consistently improve grades and SAT scores through personalized tutoring in Calgary.');
+      metaDescription.setAttribute('content', 
+        'Learn about Calgary Academic Excellence\'s proven track record of student success. ' +
+        'Our students consistently improve grades and SAT scores through personalized tutoring in Calgary.'
+      );
     }
   }, []);
 
+  // Achievement data
   const achievements = [
     "95% of our students improve their grades by at least one letter grade",
     "Consistent improvement in Digital SAT scores with an average increase of 150+ points",
@@ -21,6 +42,7 @@ const About = () => {
     "Experienced team of educators with proven track records"
   ];
 
+  // Testimonial data
   const testimonials = [
     {
       name: "Sarah L.",
@@ -38,6 +60,9 @@ const About = () => {
     }
   ];
 
+  // FAQ data structure
+  // In Part 1 of the code, replace the existing faqs array with this complete version:
+  
   const faqs = [
     {
       category: "Alberta Curriculum Tutoring",
@@ -78,78 +103,84 @@ const About = () => {
       questions: [
         {
           q: "When should we start university counseling?",
-          a: "We recommend starting in Grade 11 for strategic planning and Grade 12 fall semester for applications. Early preparation allows time for thorough research, strong applications, and meeting all deadlines."
+          a: "We recommend starting in Grade 11 for strategic planning and Grade 12 fall semester for applications. Early preparation allows time for thorough research, strong applications, and meeting all deadlines. This early start is particularly important for students considering competitive programs or international universities."
         },
         {
           q: "Which universities do your students typically get accepted to?",
-          a: "Our students have received acceptances to top Canadian universities including University of Toronto, UBC, and McGill, as well as prestigious U.S. institutions. Success rates are particularly high for University of Calgary and other Alberta universities."
+          a: "Our students have received acceptances to top Canadian universities including University of Toronto, UBC, and McGill, as well as prestigious U.S. institutions. Success rates are particularly high for University of Calgary and other Alberta universities. We have experience with both domestic and international university applications."
         },
         {
           q: "What does your university counseling include?",
-          a: "Our comprehensive service includes university selection strategy, application guidance, essay reviews, interview preparation, and scholarship application support. We provide detailed feedback and ongoing support throughout the entire process."
+          a: "Our comprehensive service includes university selection strategy, application guidance, essay reviews, interview preparation, and scholarship application support. We provide detailed feedback and ongoing support throughout the entire process, including guidance on extracurricular activities and academic course selection to strengthen applications."
+        },
+        {
+          q: "Do you help with scholarship applications?",
+          a: "Yes, we provide comprehensive scholarship application support. This includes identifying suitable opportunities, reviewing application materials, preparing for interviews, and crafting compelling essays. We help students apply for merit-based scholarships, specialized awards, and school-specific financial aid programs."
+        },
+        {
+          q: "How do you help with personal statements and essays?",
+          a: "Our essay guidance process includes brainstorming sessions to identify unique stories and experiences, detailed outlining, multiple rounds of revision, and final polishing. We help students maintain their authentic voice while creating compelling narratives that showcase their strengths and aspirations."
+        },
+        {
+          q: "Can you assist with international university applications?",
+          a: "Yes, we have extensive experience helping students apply to universities worldwide. We understand different application systems (UCAS for UK, Common App for US, etc.) and can guide students through country-specific requirements, visa processes, and international student considerations."
+        },
+        {
+          q: "How do you tailor university selections to each student?",
+          a: "We consider multiple factors including academic strengths, career goals, preferred location, budget, and campus culture. Our counselors help create a balanced list of reach, target, and safety schools while ensuring each choice aligns with the student's personal and academic objectives."
         }
       ]
     }
   ];
 
+  // Helper function for FAQ toggling
   const toggleFAQ = (index) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <div className="relative h-[200px] mt-16">
-        <img src="/images/Teen-Area-12-23-Hero.jpg" alt="About Calgary Academic Excellence" className="absolute inset-0 w-full h-full object-cover" loading="eager" />
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75" />
-        <div className="relative container mx-auto px-4 h-full flex flex-col justify-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">About Calgary Academic Excellence</h1>
-          <p className="text-lg md:text-xl text-white mb-6 max-w-xl">Empowering students to achieve academic excellence through proven strategies.</p>
+  // Tab content configuration
+  const tabData = {
+    approach: {
+      title: "Our Approach",
+      icon: <Users className="h-6 w-6 text-blue-600" />,
+      content: (
+        <div className="space-y-4">
+          <p className="text-gray-700 text-lg leading-relaxed">
+            At Calgary Academic Excellence, we believe in a personalized approach to education. Our methodology combines traditional teaching excellence with modern educational technology and individualized attention.
+          </p>
+          <div className="grid md:grid-cols-2 gap-6 mt-4">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h4 className="font-semibold text-blue-900 mb-2">Personalized Learning</h4>
+              <p className="text-gray-700">Every student receives a customized learning plan tailored to their unique needs, learning style, and academic goals.</p>
+            </div>
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h4 className="font-semibold text-blue-900 mb-2">Expert Instruction</h4>
+              <p className="text-gray-700">Our experienced tutors are subject matter experts who understand both the curriculum and effective teaching methods.</p>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-12 overflow-hidden w-full">
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <Card className="bg-white hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl text-blue-900">
-                <Target className="h-6 w-6 mr-2 text-blue-600" />Our Mission
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 text-lg leading-relaxed">
-                At Calgary Academic Excellence, we are dedicated to providing high-quality, personalized education that helps students build confidence, develop strong academic foundations, and achieve their educational goals. Our commitment to excellence drives everything we do.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-white hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <CardTitle className="flex items-center text-2xl text-blue-900">
-                <Users className="h-6 w-6 mr-2 text-blue-600" />Our Approach
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-700 text-lg leading-relaxed">
-                We combine traditional teaching methods with modern technology and personalized learning strategies. Our focus on individual attention ensures each student receives the support they need to excel in their academic journey.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-
-        <Card className="mb-12 bg-gradient-to-r from-blue-50 to-white">
-          <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-blue-900">
-              <Quote className="h-6 w-6 mr-2 text-blue-600" />Student Success Stories
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-2 gap-8">
+      )
+    },
+    success: {
+      title: "Success Stories",
+      icon: <Star className="h-6 w-6 text-blue-600" />,
+      content: (
+        <div className="space-y-6">
+          <div className="grid gap-4">
+            {achievements.map((achievement, index) => (
+              <div key={index} className="flex items-start bg-green-50 p-4 rounded-lg">
+                <CheckCircle className="h-6 w-6 mr-3 mt-1 text-green-500 flex-shrink-0" />
+                <p className="text-gray-700 text-lg">{achievement}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8">
+            <h3 className="text-xl font-semibold text-blue-900 mb-4">Student Testimonials</h3>
+            <div className="grid md:grid-cols-2 gap-6">
               {testimonials.map((testimonial, index) => (
                 <div key={index} className="bg-white p-6 rounded-lg shadow-md">
                   <Quote className="h-8 w-8 text-blue-400/20 mb-4" />
-                  <p className="text-gray-700 text-lg mb-4 italic">
-                    "{testimonial.content}"
-                  </p>
+                  <p className="text-gray-700 text-lg mb-4 italic">"{testimonial.content}"</p>
                   <div className="border-t pt-4">
                     <p className="text-blue-900 font-semibold">{testimonial.name}</p>
                     <p className="text-gray-600">{testimonial.grade || testimonial.type}</p>
@@ -158,31 +189,128 @@ const About = () => {
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
+      )
+    },
+    values: {
+      title: "Core Values",
+      icon: <GraduationCap className="h-6 w-6 text-blue-600" />,
+      content: (
+        <div className="grid md:grid-cols-3 gap-8">
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <h3 className="text-xl font-semibold text-blue-900 mb-3">Academic Excellence</h3>
+            <p className="text-gray-700">We maintain high standards and help students achieve their full potential through proven teaching methods.</p>
+          </div>
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <h3 className="text-xl font-semibold text-blue-900 mb-3">Personalized Learning</h3>
+            <p className="text-gray-700">Every student receives individualized attention and a customized learning plan.</p>
+          </div>
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <h3 className="text-xl font-semibold text-blue-900 mb-3">Continuous Growth</h3>
+            <p className="text-gray-700">We encourage both students and educators to embrace lifelong learning.</p>
+          </div>
+        </div>
+      )
+    }
+  };
+// Continuing from Part 1...
 
-        <Card className="mb-12 bg-gradient-to-r from-blue-50 to-white">
+  // Main render return statement
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section with gradient overlay */}
+      <div className="relative h-[200px] mt-16">
+        <img 
+          src="/images/Teen-Area-12-23-Hero.jpg" 
+          alt="About Calgary Academic Excellence" 
+          className="absolute inset-0 w-full h-full object-cover" 
+          loading="eager"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75" />
+        <div className="relative container mx-auto px-4 h-full flex flex-col justify-center">
+          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            About Calgary Academic Excellence
+          </h1>
+          <p className="text-lg md:text-xl text-white mb-6 max-w-xl">
+            Empowering students to achieve academic excellence through proven strategies.
+          </p>
+        </div>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl py-12">
+        {/* Tab Navigation */}
+        <div className="flex flex-wrap gap-3 mb-8 justify-center">
+          {Object.entries(tabData).map(([key, { title, icon }]) => (
+            <Button
+              key={key}
+              variant={activeTab === key ? 'default' : 'outline'}
+              onClick={() => setActiveTab(key)}
+              className={`flex items-center gap-2 ${
+                activeTab === key ? 'bg-blue-600 text-white' : 'text-blue-600'
+              }`}
+            >
+              {icon}
+              <span>{title}</span>
+            </Button>
+          ))}
+        </div>
+
+        {/* Mission and Approach Cards - Always visible */}
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <Card className="bg-white hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center text-2xl text-blue-900">
+                <Target className="h-6 w-6 mr-2 text-blue-600" />
+                Our Mission
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-700 text-lg leading-relaxed">
+                At Calgary Academic Excellence, we are dedicated to providing high-quality, 
+                personalized education that helps students build confidence, develop strong 
+                academic foundations, and achieve their educational goals.
+              </p>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-white hover:shadow-lg transition-shadow">
+            <CardHeader>
+              <CardTitle className="flex items-center text-2xl text-blue-900">
+                <Users className="h-6 w-6 mr-2 text-blue-600" />
+                Our Approach
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-gray-700 text-lg leading-relaxed">
+                We combine traditional teaching methods with modern technology and 
+                personalized learning strategies. Our focus on individual attention ensures 
+                each student receives the support they need to excel.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Dynamic Tab Content */}
+        <Card className="bg-white mb-12">
           <CardHeader>
             <CardTitle className="flex items-center text-2xl text-blue-900">
-              <Award className="h-6 w-6 mr-2 text-blue-600" />Our Achievements
+              {tabData[activeTab].icon}
+              <span className="ml-2">{tabData[activeTab].title}</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-4">
-              {achievements.map((achievement, index) => (
-                <div key={index} className="flex items-start">
-                  <CheckCircle className="h-6 w-6 mr-3 mt-1 text-green-500 flex-shrink-0" />
-                  <p className="text-gray-700 text-lg">{achievement}</p>
-                </div>
-              ))}
-            </div>
+            {tabData[activeTab].content}
           </CardContent>
         </Card>
 
-        <Card className="mb-12 bg-white">
+        {/* FAQ Section */}
+        <Card className="bg-white">
           <CardHeader>
             <CardTitle className="flex items-center text-2xl text-blue-900">
-              <BookOpen className="h-6 w-6 mr-2 text-blue-600" />Frequently Asked Questions
+              <BookOpen className="h-6 w-6 mr-2 text-blue-600" />
+              Frequently Asked Questions
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -219,30 +347,6 @@ const About = () => {
                   </div>
                 </div>
               ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-white">
-          <CardHeader>
-            <CardTitle className="flex items-center text-2xl text-blue-900">
-              <GraduationCap className="h-6 w-6 mr-2 text-blue-600" />Our Core Values
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-blue-900">Academic Excellence</h3>
-                <p className="text-gray-700">We maintain high standards and help students achieve their full potential through proven teaching methods and continuous support.</p>
-              </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-blue-900">Personalized Learning</h3>
-                <p className="text-gray-700">Every student receives individualized attention and a customized learning plan tailored to their unique needs and goals.</p>
-              </div>
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-blue-900">Continuous Growth</h3>
-                <p className="text-gray-700">We encourage both students and educators to embrace lifelong learning and constantly strive for improvement.</p>
-              </div>
             </div>
           </CardContent>
         </Card>
