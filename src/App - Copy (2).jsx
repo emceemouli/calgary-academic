@@ -312,7 +312,6 @@ const App = () => {
   };
 
   // Navigation Component
-// Navigation Component
   const Navigation = () => {
     const isScrolled = scrollPosition > 50;
 
@@ -323,7 +322,7 @@ const App = () => {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <span className={`text-xl font-bold transition-colors duration-300 px-4 py-2 rounded-xl
+              <span className={`text-xl font-bold transition-colors duration-300 px-3 py-1 rounded-lg
                 ${isScrolled 
                   ? 'text-blue-900 hover:text-blue-700' 
                   : 'text-white bg-blue-900/90 hover:bg-blue-800/90'
@@ -334,20 +333,15 @@ const App = () => {
               </span>
             </div>
             
-            {/* Desktop Navigation - Updated with elegant curved buttons */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden md:flex items-center space-x-4">
               {navigationItems.map(item => (
                 <Button
                   key={item.id}
                   variant={currentPage === item.id ? 'default' : 'ghost'}
                   onClick={() => setCurrentPage(item.id)}
-                  className={`px-6 py-2 rounded-xl transition-all duration-200 hover:scale-105 
-                    ${currentPage === item.id 
-                      ? `${isScrolled ? 'bg-blue-600 text-white shadow-md' : 'bg-white/20 text-white'}`
-                      : `${isScrolled 
-                          ? 'text-gray-700 hover:bg-blue-50' 
-                          : 'text-white hover:bg-white/10'}`
-                    } flex items-center gap-2`}
+                  className={`flex items-center space-x-2 ${
+                    isScrolled ? '' : 'text-white hover:text-white hover:bg-white/10'
+                  }`}
                 >
                   {item.icon}
                   <span>{item.label}</span>
@@ -355,12 +349,11 @@ const App = () => {
               ))}
             </div>
 
-            {/* Mobile Menu Button */}
             <div className="md:hidden">
               <Button
                 variant="ghost"
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className={`p-2 rounded-xl ${isScrolled ? 'text-gray-700' : 'text-white'}`}
+                className={`p-2 ${isScrolled ? '' : 'text-white'}`}
               >
                 <Menu className="h-6 w-6" />
               </Button>
@@ -371,52 +364,6 @@ const App = () => {
     );
   };
 
-  {/* Mobile Menu with updated elegant styling */}
-  <div 
-    className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 ${
-      isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
-    }`}
-    onClick={() => setIsMenuOpen(false)}
-  >
-    <div 
-      className={`fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl transform 
-                 transition-transform duration-300 rounded-l-2xl ${
-                   isMenuOpen ? 'translate-x-0' : 'translate-x-full'
-                 }`}
-      onClick={e => e.stopPropagation()}
-    >
-      <div className="p-6">
-        <div className="flex justify-between items-center mb-8">
-          <h2 className="text-xl font-bold text-gray-900">Menu</h2>
-          <button 
-            onClick={() => setIsMenuOpen(false)}
-            className="p-2 hover:bg-blue-50 rounded-xl transition-colors"
-          >
-            <X className="h-6 w-6 text-gray-500" />
-          </button>
-        </div>
-        <nav className="space-y-3">
-          {navigationItems.map(item => (
-            <Button
-              key={item.id}
-              variant="ghost"
-              className={`w-full justify-start text-lg rounded-xl py-3 transition-all duration-200
-                ${currentPage === item.id 
-                  ? 'bg-blue-50 text-blue-600' 
-                  : 'text-gray-700 hover:bg-gray-50'}`}
-              onClick={() => {
-                setCurrentPage(item.id);
-                setIsMenuOpen(false);
-              }}
-            >
-              {item.icon}
-              <span className="ml-2">{item.label}</span>
-            </Button>
-          ))}
-        </nav>
-      </div>
-    </div>
-  </div>
   // Content renderer
   const renderContent = () => {
     switch (currentPage) {
