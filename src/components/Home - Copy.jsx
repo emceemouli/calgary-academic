@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card';
 import { ArrowRight, CheckCircle, Mail, Phone, MapPin } from 'lucide-react';
 
-const ServiceCard = ({ service, setSelectedService, setIsModalOpen, handleConsultationRequest }) => (
+const ServiceCard = ({ service, setSelectedService, setIsModalOpen }) => (
   <Card className="hover:shadow-lg transition-all duration-300 h-full flex flex-col">
     <div className="h-48 overflow-hidden">
       <img 
@@ -66,6 +66,7 @@ const ServiceCard = ({ service, setSelectedService, setIsModalOpen, handleConsul
 const Home = ({ services, setSelectedService, setIsModalOpen, handleConsultationRequest }) => {
   return (
     <>
+      {/* Hero Section */}
       <div className="relative h-[270px] pt-16">
         <img 
           src="/images/Teen-Area-12-23-Hero.jpg"
@@ -90,8 +91,8 @@ const Home = ({ services, setSelectedService, setIsModalOpen, handleConsultation
           <Button
             onClick={() => document.getElementById('contact').scrollIntoView({ behavior: 'smooth' })}
             className="w-fit px-2 py-2 bg-blue-600 text-white rounded-md 
-                     font-medium hover:bg-blue-700 transition-all duration-200 
-                     shadow-md border-[0.5px] border-white/10 flex items-center gap-1 text-base"
+                       font-medium hover:bg-blue-700 transition-all duration-200 
+                       shadow-md border-[0.5px] border-white/10 flex items-center gap-1 text-base"
           >
             <span>Contact Us</span>
             <ArrowRight className="h-4 w-4" />
@@ -99,7 +100,9 @@ const Home = ({ services, setSelectedService, setIsModalOpen, handleConsultation
         </div>
       </div>
 
+      {/* Main Content Area */}
       <div className="container mx-auto px-4 py-12">
+        {/* Services Section */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
             <ServiceCard 
@@ -107,11 +110,11 @@ const Home = ({ services, setSelectedService, setIsModalOpen, handleConsultation
               service={service}
               setSelectedService={setSelectedService}
               setIsModalOpen={setIsModalOpen}
-              handleConsultationRequest={handleConsultationRequest}
             />
           ))}
         </div>
 
+        {/* Contact Section */}
         <div id="contact" className="mt-20 max-w-lg mx-auto">
           <Card className="border-t-4 border-blue-500 shadow-lg">
             <CardHeader>
