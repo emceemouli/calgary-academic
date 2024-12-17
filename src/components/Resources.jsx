@@ -258,7 +258,7 @@ const Resources = () => {
         "• Calculator vs. non-calculator approaches",
         "• Error analysis methods"
       ],
-      downloadLink: "/resources/pdfs/math-guide.pdf"
+      downloadLink: "/resources/pdfs/SATSuiteQuestionBankAlgebra-Results.pdf"
     }],
     verbal: [{
       title: "Reading & Writing Guide",
@@ -292,7 +292,7 @@ const Resources = () => {
         "• Time management strategies",
         "• Review techniques"
       ],
-      downloadLink: "/resources/pdfs/practice-tests.pdf"
+      downloadLink: "/resources/pdfs/sat-practice-test-1-digital.pdf"
     }]
   };
 
