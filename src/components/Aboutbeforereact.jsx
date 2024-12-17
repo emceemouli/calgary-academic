@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { 
+import {
   GraduationCap,
   Award,
   Users,
@@ -16,10 +16,12 @@ import {
 } from 'lucide-react';
 
 const About = () => {
+  // State management
   const [openFAQ, setOpenFAQ] = useState(null);
   const [currentTab, setCurrentTab] = useState('mission');
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
+  // Handle window resize for mobile responsiveness
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
@@ -29,6 +31,7 @@ const About = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // SEO optimization
   useEffect(() => {
     document.title = 'About Us - Calgary Academic Excellence | Professional Tutoring Services';
     const metaDescription = document.querySelector('meta[name="description"]');
@@ -40,6 +43,7 @@ const About = () => {
     }
   }, []);
 
+  // Navigation tabs configuration
   const navigationTabs = [
     { id: 'mission', label: 'Mission & Vision', icon: <Target className="h-4 w-4" /> },
     { id: 'approach', label: 'Our Approach', icon: <Users className="h-4 w-4" /> },
@@ -47,6 +51,7 @@ const About = () => {
     { id: 'values', label: 'Core Values', icon: <GraduationCap className="h-4 w-4" /> }
   ];
 
+  // Achievement data
   const achievements = [
     "95% of our students improve their grades by at least one letter grade",
     "Consistent improvement in Digital SAT scores with an average increase of 150+ points",
@@ -55,6 +60,7 @@ const About = () => {
     "Experienced team of educators with proven track records"
   ];
 
+  // Testimonial data
   const testimonials = [
     {
       name: "Sarah L.",
@@ -72,6 +78,7 @@ const About = () => {
     }
   ];
 
+  // FAQ data structure
   const faqs = [
     {
       category: "Alberta Curriculum Tutoring",
@@ -130,10 +137,12 @@ const About = () => {
     }
   ];
 
+  // Helper function for FAQ toggling
   const toggleFAQ = (index) => {
     setOpenFAQ(openFAQ === index ? null : index);
   };
 
+  // Tab content configuration
   const tabContent = {
     mission: {
       title: "Mission & Vision",
@@ -235,11 +244,10 @@ const About = () => {
       )
     }
   };
-
   return (
-    <div className="min-h-screen bg-gray-50 pt-16">
+    <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative h-[200px]">
+      <div className="relative h-[200px] mt-16">
         <img 
           src="/images/Teen-Area-12-23-Hero.jpg" 
           alt="About Calgary Academic Excellence" 
@@ -280,11 +288,11 @@ const About = () => {
                 <Button
                   key={tab.id}
                   onClick={() => setCurrentTab(tab.id)}
-                  className={`px-6 py-2 rounded-xl transition-all duration-200 hover:scale-105 
-                    ${currentTab === tab.id 
-                      ? 'bg-blue-600 text-white shadow-md' 
-                      : 'bg-blue-600 text-white hover:bg-blue-700'} 
-                    flex items-center gap-2`}
+                  className={`px-6 py-2 rounded-md font-medium transition-colors flex items-center gap-2 ${
+                    currentTab === tab.id 
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-blue-600 text-white hover:bg-blue-700'
+                  }`}
                 >
                   {tab.icon}
                   <span>{tab.label}</span>
@@ -307,7 +315,7 @@ const About = () => {
           </CardContent>
         </Card>
 
-        {/* FAQ Section */}
+        {/* FAQ Section with improved mobile spacing */}
         <Card className="bg-white">
           <CardHeader>
             <CardTitle className="flex items-center text-2xl text-blue-900">
@@ -331,7 +339,9 @@ const About = () => {
                             className="w-full px-4 py-3 flex justify-between items-center hover:bg-gray-50 transition-colors"
                             onClick={() => toggleFAQ(index)}
                           >
-                            <span className="font-medium text-left text-gray-900">{faq.q}</span>
+                            <span className="font-medium text-left text-gray-900 flex-grow pr-4">
+                              {faq.q}
+                            </span>
                             {openFAQ === index ? (
                               <ChevronUp className="h-5 w-5 text-gray-500 flex-shrink-0" />
                             ) : (

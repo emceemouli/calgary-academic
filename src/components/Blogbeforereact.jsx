@@ -1,67 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { 
-  ArrowRight, 
-  Loader, 
-  ChevronLeft, 
-  ChevronRight, 
-  ExternalLink 
-} from 'lucide-react';
+import { ArrowRight, Loader, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router-dom';
 
 const POSTS_PER_PAGE = 6;
+// Replace this with your public blog URL (e.g., 'https://calgaryacademicexcellence.blogspot.com')
 const BLOG_URL = 'https://calgaryacademicexcellence.blogspot.com';
+// Replace this with your default thumbnail image path
 const DEFAULT_THUMBNAIL = '/images/default-blog-thumbnail.jpg';
 
-// Error Message Component
-const ErrorMessage = ({ message }) => (
-  <div className="bg-red-50 border-l-4 border-red-500 p-4 my-4">
-    <div className="flex">
-      <div className="flex-shrink-0">
-        <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-          <path fillRule="evenodd" 
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" 
-                clipRule="evenodd" />
-        </svg>
-      </div>
-      <div className="ml-3">
-        <p className="text-sm text-red-700">{message}</p>
-      </div>
-    </div>
-  </div>
-);
-
-// Pagination Controls Component
-const PaginationControls = ({ currentPage, totalPages, handlePageChange }) => (
-  <div className="flex justify-center items-center space-x-4 mt-8">
-    <Button
-      variant="outline"
-      onClick={() => handlePageChange(currentPage - 1)}
-      disabled={currentPage === 1}
-      className="flex items-center"
-    >
-      <ChevronLeft className="h-4 w-4 mr-2" />
-      Previous
-    </Button>
-    <span className="text-gray-700">
-      Page {currentPage} of {totalPages}
-    </span>
-    <Button
-      variant="outline"
-      onClick={() => handlePageChange(currentPage + 1)}
-      disabled={currentPage === totalPages}
-      className="flex items-center"
-    >
-      Next
-      <ChevronRight className="h-4 w-4 ml-2" />
-    </Button>
-  </div>
-);
-
 const Blog = () => {
-  const navigate = useNavigate();
   const [posts, setPosts] = useState([]);
   const [newsUpdates, setNewsUpdates] = useState([]);
   const [loadingBlogs, setLoadingBlogs] = useState(true);
@@ -69,6 +18,7 @@ const Blog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPosts, setTotalPosts] = useState(0);
   const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchBlogPosts = async () => {
       try {
@@ -186,48 +136,78 @@ const Blog = () => {
   const endIndex = startIndex + POSTS_PER_PAGE;
   const currentPosts = posts.slice(startIndex, endIndex);
 
-  // Pagination handler
+  // Pagination controls
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const PaginationControls = () => (
+    <div className="flex justify-center items-center space-x-4 mt-8">
+      <Button
+        variant="outline"
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="flex items-center"
+      >
+        <ChevronLeft className="h-4 w-4 mr-2" />
+        Previous
+      </Button>
+      <span className="text-gray-700">
+        Page {currentPage} of {totalPages}
+      </span>
+      <Button
+        variant="outline"
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="flex items-center"
+      >
+        Next
+        <ChevronRight className="h-4 w-4 ml-2" />
+      </Button>
+    </div>
+  );
+
+  const ErrorMessage = ({ message }) => (
+    <div className="bg-red-50 border-l-4 border-red-500 p-4 my-4">
+      <div className="flex">
+        <div className="flex-shrink-0">
+          <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+          </svg>
+        </div>
+        <div className="ml-3">
+          <p className="text-sm text-red-700">{message}</p>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <>
       <Helmet>
         <title>Educational Blog & News | Calgary Academic Excellence</title>
         <meta name="title" content="Educational Blog & News | Calgary Academic Excellence" />
-        <meta 
-          name="description" 
-          content="Stay updated with the latest educational insights, SAT prep strategies, and academic news. Expert advice for students in Calgary and beyond." 
-        />
-        <meta 
-          name="keywords" 
-          content="education blog, SAT prep, Calgary tutoring, academic news, study tips, university admissions, Alberta curriculum" 
-        />
+        <meta name="description" content="Stay updated with the latest educational insights, SAT prep strategies, and academic news. Expert advice for students in Calgary and beyond." />
+        <meta name="keywords" content="education blog, SAT prep, Calgary tutoring, academic news, study tips, university admissions, Alberta curriculum" />
         <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://calgaryacademic.com/blog" />
         
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://calgaryacademic.com/blog" />
         <meta property="og:title" content="Educational Blog & News | Calgary Academic Excellence" />
-        <meta 
-          property="og:description" 
-          content="Stay updated with the latest educational insights, SAT prep strategies, and academic news. Expert advice for students in Calgary and beyond." 
-        />
+        <meta property="og:description" content="Stay updated with the latest educational insights, SAT prep strategies, and academic news. Expert advice for students in Calgary and beyond." />
         <meta property="og:image" content="/images/Teen-Area-12-23-Hero.jpg" />
         
         <meta property="twitter:card" content="summary_large_image" />
         <meta property="twitter:url" content="https://calgaryacademic.com/blog" />
         <meta property="twitter:title" content="Educational Blog & News | Calgary Academic Excellence" />
-        <meta 
-          property="twitter:description" 
-          content="Stay updated with the latest educational insights, SAT prep strategies, and academic news. Expert advice for students in Calgary and beyond." 
-        />
+        <meta property="twitter:description" content="Stay updated with the latest educational insights, SAT prep strategies, and academic news. Expert advice for students in Calgary and beyond." />
         <meta property="twitter:image" content="/images/Teen-Area-12-23-Hero.jpg" />
       </Helmet>
 
       <div className="min-h-screen bg-gray-50">
-        <header className="relative h-[250px] w-full overflow-hidden pt-16">
+        <header className="relative h-[250px] w-full overflow-hidden mt-16">
           <img
             src="/images/Teen-Area-12-23-Hero.jpg"
             alt="Educational Blog"
@@ -286,9 +266,7 @@ const Blog = () => {
                       </div>
                       <CardHeader>
                         <div className="text-sm text-gray-600 mb-2">{post.published}</div>
-                        <CardTitle className="text-xl text-gray-900 line-clamp-2">
-                          {post.title}
-                        </CardTitle>
+                        <CardTitle className="text-xl text-gray-900 line-clamp-2">{post.title}</CardTitle>
                       </CardHeader>
                       <CardContent className="flex-grow">
                         <p className="text-gray-700 mb-4 line-clamp-3">{post.summary}</p>
@@ -301,13 +279,7 @@ const Blog = () => {
                     </Card>
                   ))}
                 </div>
-                {totalPages > 1 && (
-                  <PaginationControls 
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    handlePageChange={handlePageChange}
-                  />
-                )}
+                {totalPages > 1 && <PaginationControls />}
               </>
             )}
           </section>
