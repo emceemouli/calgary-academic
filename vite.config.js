@@ -41,5 +41,8 @@ export default defineConfig({
     legacy({
       targets: ['defaults', 'not IE 11']
     })
-  ]
+  ],
+  build: {
+    copyPublicDir: true
+  }
 });
