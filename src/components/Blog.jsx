@@ -58,78 +58,93 @@ const Blog = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchBlogPosts = async () => {
-      setLoadingBlogs(true);
-      try {
-        const response = await fetch(
-          `https://api.allorigins.win/get?url=${encodeURIComponent(
-            'https://www.blogger.com/feeds/7698008433679424378/posts/default?alt=json&max-results=10'
-          )}`
-        );
-        if (!response.ok) throw new Error('Failed to fetch blog posts.');
+    const cachedBlogs = JSON.parse(localStorage.getItem('cachedBlogs'));
+    const cacheExpiry = localStorage.getItem('cacheExpiry');
 
-        const result = await response.json();
-        const data = JSON.parse(result.contents);
+    // If cache exists and is not expired, load cached data
+    if (cachedBlogs && cacheExpiry && new Date().getTime() < cacheExpiry) {
+      setPosts(cachedBlogs);
+      setLoadingBlogs(false);
+    } else {
+      fetchBlogPosts();
+    }
 
-        const blogPosts = data.feed.entry.map((entry) => {
-          const link = entry.link?.find((l) => l.rel === 'alternate')?.href || '#';
-          const content = entry.content?.$t || '';
-          let thumbnail = DEFAULT_THUMBNAIL;
-
-          const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
-          if (imgMatch?.[1]) thumbnail = imgMatch[1].replace(/^http:/, 'https:');
-
-          const tempDiv = document.createElement('div');
-          tempDiv.innerHTML = content;
-          const summary = tempDiv.textContent.slice(0, 100) + '...';
-
-          return {
-            title: entry.title.$t,
-            link,
-            published: new Date(entry.published.$t).toLocaleDateString(),
-            summary,
-            thumbnail,
-          };
-        });
-
-        setPosts(blogPosts.slice(0, MAX_POSTS));
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoadingBlogs(false);
-      }
-    };
-
-    const fetchNewsUpdates = async () => {
-      setLoadingNews(true);
-      try {
-        const response = await fetch(
-          'https://docs.google.com/spreadsheets/d/e/2PACX-1vRD83yCtLxltpsjkqZFjwk_4z1zJ9NSj8N9fAGMPPtgKopCS0lqsSEAdokPTsLbxq00B3yLRX1uKr5C/pub?gid=0&single=true&output=csv'
-        );
-        if (!response.ok) throw new Error('Failed to fetch news updates.');
-
-        const data = await response.text();
-        const rows = data.split('\n').slice(1);
-        const news = rows.map((row) => {
-          const [date, title, link] = row.split(',');
-          return {
-            date: new Date(date).toLocaleDateString(),
-            title: title.trim(),
-            link: link?.trim() || '#',
-          };
-        });
-
-        setNewsUpdates(news);
-      } catch (err) {
-        setError('Failed to fetch news updates.');
-      } finally {
-        setLoadingNews(false);
-      }
-    };
-
-    fetchBlogPosts();
     fetchNewsUpdates();
   }, []);
+
+  const fetchBlogPosts = async () => {
+    setLoadingBlogs(true);
+    try {
+      const response = await fetch(
+        `https://api.allorigins.win/get?url=${encodeURIComponent(
+          'https://www.blogger.com/feeds/7698008433679424378/posts/default?alt=json&max-results=10'
+        )}`
+      );
+      if (!response.ok) throw new Error('Failed to fetch blog posts.');
+
+      const result = await response.json();
+      const data = JSON.parse(result.contents);
+
+      const blogPosts = data.feed.entry.map((entry) => {
+        const link = entry.link?.find((l) => l.rel === 'alternate')?.href || '#';
+        const content = entry.content?.$t || '';
+        let thumbnail = DEFAULT_THUMBNAIL;
+
+        const imgMatch = content.match(/<img[^>]+src="([^">]+)"/);
+        if (imgMatch?.[1]) thumbnail = imgMatch[1].replace(/^http:/, 'https:');
+
+        const tempDiv = document.createElement('div');
+        tempDiv.innerHTML = content;
+        const summary = tempDiv.textContent.slice(0, 100) + '...';
+
+        return {
+          title: entry.title.$t,
+          link,
+          published: new Date(entry.published.$t).toLocaleDateString(),
+          summary,
+          thumbnail,
+        };
+      });
+
+      const limitedPosts = blogPosts.slice(0, MAX_POSTS);
+      setPosts(limitedPosts);
+
+      // Cache blogs in localStorage
+      localStorage.setItem('cachedBlogs', JSON.stringify(limitedPosts));
+      localStorage.setItem('cacheExpiry', new Date().getTime() + 3600000); // 1 hour cache
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoadingBlogs(false);
+    }
+  };
+
+  const fetchNewsUpdates = async () => {
+    setLoadingNews(true);
+    try {
+      const response = await fetch(
+        'https://docs.google.com/spreadsheets/d/e/2PACX-1vRD83yCtLxltpsjkqZFjwk_4z1zJ9NSj8N9fAGMPPtgKopCS0lqsSEAdokPTsLbxq00B3yLRX1uKr5C/pub?gid=0&single=true&output=csv'
+      );
+      if (!response.ok) throw new Error('Failed to fetch news updates.');
+
+      const data = await response.text();
+      const rows = data.split('\n').slice(1);
+      const news = rows.map((row) => {
+        const [date, title, link] = row.split(',');
+        return {
+          date: new Date(date).toLocaleDateString(),
+          title: title.trim(),
+          link: link?.trim() || '#',
+        };
+      });
+
+      setNewsUpdates(news);
+    } catch (err) {
+      setError('Failed to fetch news updates.');
+    } finally {
+      setLoadingNews(false);
+    }
+  };
 
   const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
   const currentPosts = useMemo(() => {
