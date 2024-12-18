@@ -4,8 +4,8 @@ import { Button } from './ui/button';
 import { ArrowRight, Loader, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 
-const POSTS_PER_PAGE = 3; // 5 posts per page
-const MAX_POSTS = 9; // Maximum 10 posts
+const POSTS_PER_PAGE = 3;
+const MAX_POSTS = 9;
 const BLOG_URL = 'https://calgaryacademicexcellence.blogspot.com';
 const DEFAULT_THUMBNAIL = '/images/default-blog-thumbnail.jpg';
 
@@ -16,25 +16,35 @@ const ErrorMessage = ({ message }) => (
 );
 
 const PaginationControls = ({ currentPage, totalPages, handlePageChange }) => (
-  <div className="flex justify-center items-center space-x-4 mt-6">
+  <div className="flex justify-between items-center mt-6">
+    <div className="flex space-x-4">
+      <Button
+        variant="outline"
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="text-sm px-4 py-2"
+      >
+        <ChevronLeft className="h-4 w-4 mr-2" />
+        Previous
+      </Button>
+      <span className="text-gray-600 text-sm flex items-center">
+        Page {currentPage} of {totalPages}
+      </span>
+      <Button
+        variant="outline"
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="text-sm px-4 py-2"
+      >
+        Next
+        <ChevronRight className="h-4 w-4 ml-2" />
+      </Button>
+    </div>
     <Button
-      variant="outline"
-      onClick={() => handlePageChange(currentPage - 1)}
-      disabled={currentPage === 1}
-      className="text-sm px-4 py-2"
+      onClick={() => window.open(BLOG_URL, '_blank')}
+      className="bg-blue-700 text-white hover:bg-blue-800 text-sm px-4 py-2"
     >
-      <ChevronLeft className="h-4 w-4 mr-2" />
-      Previous
-    </Button>
-    <span className="text-gray-600 text-sm">Page {currentPage} of {totalPages}</span>
-    <Button
-      variant="outline"
-      onClick={() => handlePageChange(currentPage + 1)}
-      disabled={currentPage === totalPages}
-      className="text-sm px-4 py-2"
-    >
-      Next
-      <ChevronRight className="h-4 w-4 ml-2" />
+      View More on Blogger <ExternalLink className="ml-2 h-4 w-4" />
     </Button>
   </div>
 );
@@ -47,7 +57,6 @@ const Blog = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [error, setError] = useState(null);
 
-  // Fetch blog posts
   useEffect(() => {
     const fetchBlogPosts = async () => {
       setLoadingBlogs(true);
@@ -134,6 +143,20 @@ const Blog = () => {
         <title>Educational Blog & News Updates</title>
       </Helmet>
 
+      {/* Hero Section */}
+      <header className="relative h-[250px] pt-16 mb-8">
+        <img
+          src="/images/Teen-Area-12-23-Hero.jpg"
+          alt="Educational Blog Hero"
+          className="absolute inset-0 w-full h-full object-cover"
+          loading="eager"
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/75" />
+        <div className="relative flex justify-center items-center h-full text-white">
+          <h1 className="text-4xl font-bold">Educational Blog & Updates</h1>
+        </div>
+      </header>
+
       {/* Blog Section */}
       <section className="mb-12">
         <h2 className="text-2xl font-bold mb-4 text-blue-900">Latest Blog Posts</h2>
@@ -174,14 +197,6 @@ const Blog = () => {
               totalPages={totalPages}
               handlePageChange={setCurrentPage}
             />
-            <div className="text-center mt-6">
-              <Button
-                onClick={() => window.open(BLOG_URL, '_blank')}
-                className="bg-blue-700 text-white hover:bg-blue-800 text-sm px-4 py-2"
-              >
-                View More on Blogger <ExternalLink className="ml-2" />
-              </Button>
-            </div>
           </>
         )}
       </section>
