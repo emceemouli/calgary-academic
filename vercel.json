@@ -3,10 +3,12 @@
     {
       "source": "/sitemap.xml",
       "destination": "/api/sitemap.xml"
-    },
+    }
+  ],
+  "staticRoutes": [
     {
-      "source": "/(.*)",
-      "destination": "/"
+      "source": "/resources/pdfs/(.*)",
+      "destination": "/public/resources/pdfs/$1"
     }
   ]
 }

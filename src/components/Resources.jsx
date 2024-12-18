@@ -371,10 +371,16 @@ const Resources = () => {
                     <Button className="flex items-center gap-2">
                       Start Learning
                     </Button>
-                    <Button variant="outline" className="flex items-center gap-2">
-                      <Download className="h-5 w-5" />
-                      Download PDF
-                    </Button>
+					<Button 
+					  variant="outline" 
+					  className="flex items-center gap-2"
+					  onClick={() => {
+						window.open(resource.downloadLink, '_blank');
+					  }}
+					>
+					  <Download className="h-5 w-5" />
+					  Download PDF
+					</Button>
                   </div>
                   {resource.additionalContent}
                 </CardContent>
