@@ -1,9 +1,5 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
-  font-family: 'Inter', Arial, sans-serif;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -28,14 +24,14 @@ a:hover {
 
 body {
   margin: 0;
+  display: block; /* Changed from flex */
   min-width: 320px;
   min-height: 100vh;
   overflow-x: hidden;
-  font-family: 'Inter', Arial, sans-serif !important;
 }
 
 h1 {
-  font-size: 2.5rem; /* Adjusted for mobile */
+  font-size: 3.2em;
   line-height: 1.1;
 }
 
@@ -58,12 +54,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@layer base {
-  html {
-    font-family: 'Inter', Arial, sans-serif !important;
-  }
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -76,3 +66,6 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
