@@ -4,8 +4,8 @@ import { Button } from './ui/button';
 import { ArrowRight, Loader, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { Helmet } from 'react-helmet';
 
-const POSTS_PER_PAGE = 5; // 5 posts per page
-const MAX_POSTS = 10; // Maximum 10 posts
+const POSTS_PER_PAGE = 3; // 5 posts per page
+const MAX_POSTS = 9; // Maximum 10 posts
 const BLOG_URL = 'https://calgaryacademicexcellence.blogspot.com';
 const DEFAULT_THUMBNAIL = '/images/default-blog-thumbnail.jpg';
 
