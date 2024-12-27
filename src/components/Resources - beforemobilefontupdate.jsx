@@ -296,7 +296,7 @@ const Resources = () => {
     }]
   };
 
-return (
+  return (
     <>
       <Helmet>
         <title>Digital SAT Resources | Calgary Academic Excellence</title>
@@ -304,7 +304,6 @@ return (
       </Helmet>
 
       <div className="min-h-screen bg-gray-50">
-        {/* Hero Section */}
         <div className="relative h-[250px] pt-16">
           <img 
             src="/images/Teen-Area-12-23-Hero.jpg" 
@@ -323,27 +322,20 @@ return (
           </div>
         </div>
 
-        {/* Main Content Section */}
         <div className="container mx-auto px-4 py-8 max-w-[1200px]">
-          {/* Navigation Buttons */}
           <div className="flex flex-wrap gap-3 mb-8 pb-4 border-b border-gray-200">
             {navigationItems.map(item => (
               <Button 
                 key={item.id} 
                 variant={activeSection === item.id ? 'default' : 'outline'} 
                 onClick={() => setActiveSection(item.id)} 
-                className={`flex items-center gap-2 px-4 py-2 text-base ${
-                  activeSection === item.id 
-                    ? 'text-white bg-blue-600' 
-                    : 'text-gray-900 hover:text-blue-600'
-                }`}
+                className="flex items-center gap-2 px-4 py-2 text-base"
               >
                 {item.icon}<span>{item.label}</span>
               </Button>
             ))}
           </div>
 
-          {/* Content Cards */}
           <div className="space-y-8">
             {educationalContent[activeSection].map((resource, index) => (
               <Card key={index} className="overflow-hidden">
@@ -362,7 +354,7 @@ return (
                       </span>
                     ))}
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg text-gray-900">
+                  <div className="bg-gray-50 p-6 rounded-lg">
                     {resource.previewContent.map((line, i) => (
                       <p key={i} className="mb-3 last:mb-0">
                         {line.startsWith('*') ? (
@@ -376,19 +368,19 @@ return (
                     ))}
                   </div>
                   <div className="mt-6 flex gap-4">
-                    <Button className="flex items-center gap-2 text-white bg-blue-600 hover:bg-blue-700">
+                    <Button className="flex items-center gap-2">
                       Start Learning
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      className="flex items-center gap-2 text-blue-600 border-blue-600 hover:bg-blue-50"
-                      onClick={() => {
-                        window.open(resource.downloadLink, '_blank');
-                      }}
-                    >
-                      <Download className="h-5 w-5" />
-                      Download PDF
-                    </Button>
+					<Button 
+					  variant="outline" 
+					  className="flex items-center gap-2"
+					  onClick={() => {
+						window.open(resource.downloadLink, '_blank');
+					  }}
+					>
+					  <Download className="h-5 w-5" />
+					  Download PDF
+					</Button>
                   </div>
                   {resource.additionalContent}
                 </CardContent>
