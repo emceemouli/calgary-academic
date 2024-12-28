@@ -338,7 +338,7 @@ const CollegePredictor = () => {
 
   return (
     <div className="container mx-auto py-16 px-4 bg-white shadow rounded-md">
-      <h1 className="text-3xl font-bold mb-8 text-gray-800 text-center">US University Admission Predictor</h1>
+      <h1 className="text-3xl font-bold mb-8 text-gray-800 text-center">US University Admissions Predictor</h1>
       <div className="space-y-6 max-w-md mx-auto">
         <input
           type="text"
