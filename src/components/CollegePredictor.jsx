@@ -27,7 +27,7 @@ const CollegePredictor = () => {
       document.head.appendChild(metaKeywords);
     }
     metaKeywords.setAttribute('content', 
-      'college predictor, university admissions, college chances calculator, ' +
+      'college predictor, college admissions calculator, university admissions, college chances calculator, ' +
       'GPA calculator, SAT score predictor, college planning tool, university prediction'
     );
 
