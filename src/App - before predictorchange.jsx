@@ -6,7 +6,6 @@ import Resources from './components/Resources';
 import About from './components/About';
 import Blog from './components/Blog';
 import Home from './components/Home';
-import CollegePredictor from './components/CollegePredictor';
 import {
   BookOpen,
   GraduationCap,
@@ -114,8 +113,7 @@ const Navigation = ({ isScrolled, setIsMenuOpen }) => {
     { id: 'home', label: 'Home', icon: <HomeIcon className="h-4 w-4" />, path: '/' },
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" />, path: '/about' },
     { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" />, path: '/resources' },
-    { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
-	{ id: 'college-predictor', label: 'College Predictor', icon: <GraduationCap className="h-4 w-4" />, path: '/college-predictor' } // New Item
+    { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' }
   ];
 
   return (
@@ -416,8 +414,7 @@ const App = () => {
     { id: 'home', label: 'Home', icon: <HomeIcon className="h-4 w-4" />, path: '/' },
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" />, path: '/about' },
     { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" />, path: '/resources' },
-    { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
-	 { id: 'college-predictor', label: 'College Predictor', icon: <GraduationCap className="h-4 w-4" />, path: '/college-predictor' } // New Item
+    { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' }
   ];
 
   return (
@@ -451,7 +448,6 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/blog" element={<Blog />} />
-		   <Route path="/college-predictor" element={<CollegePredictor />} /> {/* New Route */}
         </Routes>
 
         {/* Service Modal */}

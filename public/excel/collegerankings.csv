@@ -1,0 +1,201 @@
+﻿Rank,University,GPA_Range,SAT_Range,ACT_Range,Early_Decision,Early_Action,Application_Fee,Acceptance_Rate,Average_Aid,Need_Blind,Merit_Aid,Special_Programs,Notable_Strengths
+1,Princeton University,3.90-4.00,1450-1570,33-35,Yes,No,75,0.040,57000,Yes,No,Bridge Year;Research Scholars,Leadership;Research
+2,MIT,3.95-4.00,1510-1580,34-36,No,Yes,75,0.070,53000,Yes,No,UROP;MITES,STEM;Research
+3,Harvard University,3.90-4.00,1460-1580,33-36,Yes,Yes,75,0.040,55000,Yes,No,SHARP;Research Programs,Leadership;Research
+4,Stanford University,3.95-4.00,1440-1570,32-35,Yes,No,90,0.040,54000,Yes,Limited,Stanford Institutes,Innovation;Research
+5,Yale University,3.90-4.00,1460-1570,33-35,Yes,Yes,80,0.050,56000,Yes,No,Directed Studies,Humanities;Arts
+6,University of Pennsylvania,3.85-4.00,1450-1560,33-35,Yes,No,75,0.070,54000,Yes,Limited,Wharton;Nursing,Business;Research
+7,California Institute of Technology,3.90-4.00,1530-1580,35-36,Yes,No,75,0.060,52000,Yes,No,SURF Program,STEM;Research
+8,Duke University,3.85-4.00,1440-1570,33-35,Yes,No,85,0.060,53000,Yes,Limited,Focus Program,Research;Medicine
+9,Brown University,3.90-4.00,1440-1560,33-35,Yes,No,75,0.060,52000,Yes,No,Open Curriculum,Liberal Arts;Research
+10,Northwestern University,3.85-4.00,1430-1550,33-35,Yes,No,75,0.070,51000,Yes,Limited,Co-op Programs,Journalism;Arts
+11,Johns Hopkins University,3.90-4.00,1470-1560,33-35,Yes,No,70,0.090,50000,Yes,Limited,Research Programs,Medicine;Research
+12,Columbia University,3.85-4.00,1450-1560,33-35,Yes,No,85,0.050,55000,Yes,No,Core Curriculum,Liberal Arts;Research
+13,University of Chicago,3.85-4.00,1470-1570,33-35,Yes,No,75,0.060,54000,Yes,Limited,Uncommon Core,Economics;Research
+14,UC Berkeley,3.89-4.00,1330-1530,29-34,No,No,70,0.150,45000,No,No,Research Programs,STEM;Research
+15,UCLA,3.85-4.00,1300-1530,29-34,No,No,70,0.110,43000,No,No,Honors Program,Arts;Research
+16,Carnegie Mellon University,3.85-4.00,1460-1560,33-35,Yes,No,75,0.150,49000,Yes,Limited,SCS Programs,Computer Science;Arts
+17,Vanderbilt University,3.80-4.00,1470-1570,33-35,Yes,No,85,0.070,52000,Yes,Limited,Opportunity Vanderbilt,Research;Medicine
+18,Rice University,3.85-4.00,1460-1560,33-35,Yes,No,75,0.090,47000,Yes,Limited,Residential Colleges,Engineering;Research
+19,Washington University in St. Louis,3.85-4.00,1470-1570,33-35,Yes,No,75,0.130,51000,Yes,Limited,WashU Pledge,Medicine;Research
+20,Cornell University,3.80-4.00,1400-1540,32-34,Yes,No,80,0.110,50000,Yes,Limited,College Specific,Engineering;Agriculture
+21,University of Michigan,3.75-4.00,1340-1520,31-34,No,Yes,75,0.200,43000,No,Yes,Ross School Programs,Business;Engineering
+22,USC,3.75-4.00,1360-1530,31-34,Yes,No,85,0.110,45000,No,Yes,Cinema School,Film;Business
+23,Georgetown University,3.80-4.00,1380-1530,32-34,Yes,No,75,0.140,48000,Yes,Limited,SFS Program,International Relations
+24,University of Virginia,3.75-4.00,1340-1500,31-34,Yes,No,70,0.210,42000,Yes,Yes,Jefferson Scholars,Liberal Arts
+25,UC San Diego,3.80-4.00,1280-1480,28-34,No,No,70,0.300,40000,No,No,College System,STEM;Research
+26,UC Davis,3.75-4.00,1270-1470,28-34,No,No,70,0.350,38000,No,No,Agricultural Programs,Agriculture;Research
+27,University of Florida,3.75-4.00,1330-1470,30-34,No,Yes,30,0.310,35000,No,Yes,Honors Program,Research;Sports
+28,Wake Forest University,3.75-4.00,1320-1470,30-33,Yes,No,85,0.250,44000,No,Yes,Test-Optional Pioneer,Liberal Arts
+29,UNC Chapel Hill,3.75-4.00,1320-1490,29-33,Yes,No,85,0.200,39000,No,Yes,Morehead-Cain,Research;Public Health
+30,Tufts University,3.80-4.00,1420-1540,32-34,Yes,No,75,0.110,48000,Yes,Limited,SMFA Combined,International Relations
+31,NYU,3.70-4.00,1370-1510,31-34,Yes,No,80,0.130,47000,No,Limited,Global Programs,Arts;Business
+32,UC Santa Barbara,3.75-4.00,1270-1460,27-33,No,No,70,0.300,38000,No,No,CCS Program,Research;Environmental
+33,University of Rochester,3.70-4.00,1330-1500,30-34,Yes,No,50,0.300,45000,Yes,Yes,Rochester Curriculum,Music;Engineering
+34,Boston College,3.75-4.00,1380-1490,32-34,Yes,No,80,0.270,44000,No,Limited,PULSE Program,Liberal Arts
+35,University of Wisconsin-Madison,3.70-4.00,1300-1480,28-32,No,Yes,60,0.540,35000,No,Yes,FIG Program,Research;Business
+36,UIUC,3.70-4.00,1320-1500,29-34,No,Yes,75,0.590,36000,No,Yes,Engineering Programs,Engineering;Computer Science
+37,Georgia Tech,3.75-4.00,1370-1530,31-35,Yes,No,75,0.210,38000,No,Yes,Co-op Program,Engineering;Computing
+38,Boston University,3.70-4.00,1340-1480,30-34,Yes,No,80,0.190,45000,No,Limited,Kilachand Honors,Research;Business
+39,Brandeis University,3.70-4.00,1350-1500,31-34,Yes,No,80,0.300,46000,No,Yes,Justice Programs,Social Justice;Research
+40,Case Western Reserve,3.75-4.00,1350-1520,31-34,Yes,Yes,70,0.270,44000,No,Yes,Research Programs,Engineering;Medicine
+41,William & Mary,3.70-4.00,1320-1490,30-34,Yes,No,75,0.370,34000,No,Yes,Joint Degree,Liberal Arts;Government
+42,Northeastern University,3.70-4.00,1390-1540,32-35,Yes,No,75,0.180,43000,No,Limited,Co-op Program,Experiential Learning
+43,Tulane University,3.65-4.00,1340-1500,30-33,Yes,No,75,0.100,45000,No,Yes,Public Service,Business;Medicine
+44,University of Georgia,3.70-4.00,1280-1460,29-33,No,Yes,70,0.450,33000,No,Yes,Honors Program,Journalism;Business
+45,University of Illinois-Chicago,3.60-4.00,1130-1350,23-29,No,Yes,60,0.730,32000,No,Yes,Guaranteed Professional,Medicine;Engineering
+46,UT Austin,3.70-4.00,1230-1480,27-33,No,No,75,0.320,36000,No,Yes,Plan II Honors,Engineering;Business
+47,University of Washington,3.70-4.00,1240-1440,27-33,No,No,80,0.560,34000,No,Yes,Direct Admission,Computer Science;Medicine
+48,Lehigh University,3.70-4.00,1280-1450,29-33,Yes,No,70,0.320,45000,No,Yes,IBE Program,Engineering;Business
+49,Pepperdine University,3.65-4.00,1230-1450,27-32,Yes,No,65,0.420,42000,No,Yes,International Programs,Business;Law
+50,Villanova University,3.70-4.00,1320-1470,30-33,Yes,No,80,0.310,43000,No,Yes,Presidential Scholars,Business;Engineering
+51,Rensselaer Polytechnic Institute,3.65-4.00,1300-1490,29-33,Yes,No,75,0.470,41000,No,Yes,Arch Program,Engineering;Technology
+52,University of Miami,3.60-4.00,1270-1440,29-32,Yes,No,70,0.270,42000,No,Yes,Marine Science,Medicine;Marine Science
+53,Ohio State University,3.60-4.00,1260-1450,28-32,No,Yes,60,0.540,32000,No,Yes,Scholars Program,Research;Athletics
+54,Penn State University,3.55-4.00,1200-1400,26-31,No,Yes,65,0.560,34000,No,Yes,2+2 Program,Engineering;Business
+55,Purdue University,3.65-4.00,1190-1440,26-32,No,Yes,60,0.600,33000,No,Yes,Co-op Programs,Engineering;Agriculture
+56,Rutgers University,3.60-4.00,1210-1430,25-31,No,Yes,70,0.610,31000,No,Yes,Honors College,Research;Business
+57,Syracuse University,3.60-4.00,1180-1380,26-30,Yes,No,75,0.440,40000,No,Yes,Maxwell School,Communications;Architecture
+58,University of Pittsburgh,3.65-4.00,1260-1440,28-32,No,Yes,55,0.570,33000,No,Yes,Guaranteed Health,Medicine;Engineering
+59,University of Maryland,3.65-4.00,1280-1470,29-33,Yes,No,75,0.440,34000,No,Yes,Banneker/Key,Engineering;Computer Science
+60,Worcester Polytechnic Institute,3.70-4.00,1290-1460,29-33,Yes,No,70,0.490,42000,No,Yes,Project-Based,Engineering;Technology
+61,George Washington University,3.60-4.00,1280-1470,29-33,Yes,No,80,0.410,41000,No,Yes,Politics & Values,International Affairs
+62,Southern Methodist University,3.60-4.00,1250-1450,28-32,Yes,No,60,0.470,40000,No,Yes,Hunt Leadership,Business;Arts
+63,University of Connecticut,3.60-4.00,1190-1390,27-32,No,Yes,80,0.490,33000,No,Yes,Honors Program,Business;Engineering
+64,University of Massachusetts-Amherst,3.60-4.00,1200-1390,27-32,No,Yes,85,0.640,32000,No,Yes,Commonwealth Honors,Engineering;Computer Science
+65,Clemson University,3.65-4.00,1240-1400,27-32,Yes,No,70,0.510,31000,No,Yes,Calhoun Honors,Engineering;Business
+66,Fordham University,3.60-4.00,1230-1410,28-32,Yes,No,70,0.460,39000,No,Yes,Gabelli Business,Business;Liberal Arts
+67,University of Minnesota,3.55-4.00,1240-1440,26-31,No,Yes,55,0.570,31000,No,Yes,CSE Honors,Engineering;Science
+68,Texas A&M University,3.55-4.00,1180-1390,26-31,No,Yes,75,0.630,30000,No,Yes,Engineering Academy,Engineering;Agriculture
+69,Stevens Institute of Technology,3.65-4.00,1280-1450,29-33,Yes,No,70,0.400,39000,No,Yes,Co-op Program,Engineering;Business
+70,Virginia Tech,3.65-4.00,1180-1390,25-31,No,Yes,60,0.700,31000,No,Yes,Corps of Cadets,Engineering;Technology
+71,American University,3.55-4.00,1210-1390,27-31,Yes,No,70,0.360,38000,No,Yes,Politics Program,International Relations
+72,Baylor University,3.55-4.00,1200-1380,26-31,Yes,No,60,0.450,38000,No,Yes,Business Fellows,Business;Sciences
+73,Indiana University,3.55-4.00,1150-1360,24-31,No,Yes,65,0.780,32000,No,Yes,Kelley Direct,Business;Music
+74,Marquette University,3.50-4.00,1160-1320,25-30,Yes,No,60,0.830,33000,No,Yes,Direct Entry Nursing,Nursing;Business
+75,Miami University-Oxford,3.55-4.00,1190-1380,25-30,No,Yes,50,0.800,30000,No,Yes,Farmer School,Business;Education
+76,University of Delaware,3.55-4.00,1170-1350,25-30,No,Yes,75,0.710,31000,No,Yes,World Scholars,Engineering;Business
+77,University of Iowa,3.50-4.00,1130-1340,23-29,No,Yes,40,0.830,29000,No,Yes,Writing Programs,Writing;Healthcare
+78,Clark University,3.55-4.00,1200-1380,27-31,Yes,No,60,0.620,35000,No,Yes,Accelerated BA/MS,Psychology;Geography
+79,Michigan State University,3.50-4.00,1100-1320,23-29,No,Yes,65,0.760,30000,No,Yes,RISE Program,Business;Agriculture
+80,Texas Christian University,3.50-4.00,1150-1340,25-31,Yes,No,50,0.470,36000,No,Yes,Neeley Fellows,Business;Nursing
+81,UC Irvine,3.60-4.00,1230-1430,27-33,No,No,70,0.290,35000,No,No,CHP Program,Research;Healthcare
+82,University of Denver,3.50-4.00,1180-1350,26-31,Yes,No,65,0.590,35000,No,Yes,Pioneer Leadership,Business;International Studies
+83,University of San Diego,3.55-4.00,1190-1370,26-31,Yes,No,55,0.490,37000,No,Yes,Honors Program,Business;Engineering
+84,Yeshiva University,3.50-4.00,1160-1380,24-30,Yes,No,65,0.550,35000,No,Yes,Jewish Studies,Liberal Arts;Sciences
+85,Creighton University,3.50-4.00,1150-1350,24-30,Yes,No,40,0.740,33000,No,Yes,Pre-Professional,Healthcare;Business
+86,Loyola Marymount University,3.55-4.00,1200-1380,27-31,Yes,No,60,0.440,36000,No,Yes,Film Program,Film;Business
+87,University of Kansas,3.45-4.00,1120-1320,23-29,No,Yes,65,0.910,28000,No,Yes,KU Scholars,Engineering;Journalism
+88,University of New Hampshire,3.45-4.00,1090-1280,23-28,No,Yes,50,0.850,29000,No,Yes,EcoQuest,Environmental;Engineering
+89,University of Oregon,3.45-4.00,1100-1310,22-28,No,Yes,65,0.820,28000,No,Yes,Clark Honors,Journalism;Business
+90,University of South Carolina,3.50-4.00,1180-1350,25-30,No,Yes,65,0.680,31000,No,Yes,Capstone,International Business
+91,University of Vermont,3.50-4.00,1180-1360,26-31,No,Yes,55,0.710,30000,No,Yes,Green Programs,Environmental;Medicine
+92,Gonzaga University,3.50-4.00,1200-1360,25-30,Yes,No,50,0.620,34000,No,Yes,Hogan Program,Business;Engineering
+93,Illinois Institute of Technology,3.55-4.00,1190-1400,25-31,No,Yes,60,0.580,35000,No,Yes,IPRO,Engineering;Architecture
+94,Loyola University Chicago,3.50-4.00,1130-1320,24-30,Yes,No,60,0.670,34000,No,Yes,Interdisciplinary Honors,Healthcare;Business
+95,University at Buffalo-SUNY,3.45-4.00,1160-1340,24-29,No,Yes,50,0.670,29000,No,Yes,Honors College,Engineering;Medicine
+96,University of Oklahoma,3.45-4.00,1110-1310,23-29,No,Yes,40,0.800,28000,No,Yes,National Merit,Engineering;Energy
+97,University of San Francisco,3.45-4.00,1130-1330,23-29,Yes,No,70,0.640,35000,No,Yes,St. Ignatius Institute,Nursing;Business
+98,University of St. Thomas,3.45-4.00,1160-1350,24-30,Yes,No,50,0.820,32000,No,Yes,Catholic Studies,Business;Engineering
+99,University of Tennessee,3.50-4.00,1150-1330,24-30,No,Yes,50,0.780,29000,No,Yes,Haslam Scholars,Engineering;Business
+100,University of Utah,3.45-4.00,1130-1350,23-29,No,Yes,55,0.790,28000,No,Yes,Honors College,Computer Science;Health
+101,Arizona State University,3.40-4.00,1130-1340,23-29,No,Yes,70,0.880,27000,No,Yes,Barrett Honors,Innovation;Engineering
+102,Auburn University,3.45-4.00,1150-1320,24-30,No,Yes,50,0.810,28000,No,Yes,Honors College,Engineering;Business
+103,UC Santa Cruz,3.50-4.00,1190-1380,26-31,No,No,70,0.510,32000,No,No,College System,Research;Environmental
+104,University of Missouri,3.45-4.00,1120-1320,23-29,No,Yes,55,0.810,27000,No,Yes,Journalism School,Journalism;Agriculture
+105,University of Nebraska,3.40-4.00,1110-1310,22-28,No,Yes,45,0.780,26000,No,Yes,Raikes Program,Business;Agriculture
+106,University of Tulsa,3.45-4.00,1150-1360,25-31,Yes,No,50,0.690,32000,No,Yes,Energy Programs,Engineering;Business
+107,Saint Louis University,3.45-4.00,1170-1380,25-31,Yes,No,55,0.580,33000,No,Yes,Medical Scholars,Healthcare;Business
+108,Temple University,3.40-4.00,1100-1320,23-29,No,Yes,55,0.600,29000,No,Yes,Honors Program,Business;Media
+109,University of Arizona,3.40-4.00,1110-1350,23-29,No,Yes,50,0.850,27000,No,Yes,Honors College,Science;Healthcare
+110,UC Riverside,3.45-4.00,1130-1330,24-30,No,No,70,0.570,31000,No,No,Medical Scholars,Research;Agriculture
+111,University of Colorado Boulder,3.45-4.00,1140-1350,24-30,No,Yes,65,0.780,28000,No,Yes,Engineering Plus,Engineering;Business
+112,University of Mississippi,3.40-4.00,1090-1290,22-28,No,Yes,40,0.880,26000,No,Yes,Croft Institute,Business;Pharmacy
+113,Rochester Institute of Technology,3.50-4.00,1220-1410,27-32,Yes,No,65,0.710,33000,No,Yes,Co-op Programs,Technology;Design
+114,San Diego State University,3.40-4.00,1110-1310,23-29,No,No,55,0.340,29000,No,Yes,Weber Honors,Business;Engineering
+115,University of Arkansas,3.40-4.00,1100-1290,23-28,No,Yes,40,0.770,27000,No,Yes,Honors College,Business;Agriculture
+116,Iowa State University,3.35-4.00,1080-1320,22-28,No,Yes,40,0.920,26000,No,Yes,Learning Communities,Engineering;Agriculture
+117,University of South Florida,3.40-4.00,1160-1330,25-30,No,Yes,30,0.490,28000,No,Yes,Judy Genshaft Honors,Healthcare;Business
+118,Michigan Technological University,3.45-4.00,1170-1360,25-31,No,Yes,55,0.740,29000,No,Yes,Enterprise Program,Engineering;Technology
+119,University of Alabama,3.40-4.00,1080-1300,23-29,No,Yes,40,0.830,27000,No,Yes,Presidential Scholars,Business;Engineering
+120,University of Kentucky,3.35-4.00,1070-1290,22-28,No,Yes,50,0.960,26000,No,Yes,Lewis Honors,Healthcare;Engineering
+121,Kansas State University,3.35-4.00,1080-1280,22-28,No,Yes,40,0.950,25000,No,Yes,Agriculture Programs,Agriculture;Engineering
+122,Louisiana State University,3.35-4.00,1060-1290,22-28,No,Yes,50,0.750,26000,No,Yes,Honors College,Engineering;Business
+123,University of Cincinnati,3.40-4.00,1140-1330,24-29,Yes,No,50,0.770,27000,No,Yes,Co-op 2.0,Engineering;Design
+124,University of Texas-Dallas,3.45-4.00,1240-1460,27-33,No,Yes,50,0.790,28000,No,Yes,AES Program,Technology;Business
+125,Drexel University,3.45-4.00,1190-1390,25-31,Yes,No,50,0.750,31000,No,Yes,Co-op Programs,Engineering;Business
+126,Oregon State University,3.35-4.00,1080-1310,22-28,No,Yes,65,0.820,27000,No,Yes,Honors College,Engineering;Environmental
+127,University of Alabama-Birmingham,3.35-4.00,1090-1300,22-28,No,Yes,40,0.810,26000,No,Yes,Science & Tech Honors,Healthcare;Research
+128,George Mason University,3.40-4.00,1110-1320,24-30,No,Yes,70,0.870,27000,No,Yes,Honors College,Policy;Technology
+129,Oklahoma State University,3.35-4.00,1060-1280,22-28,No,Yes,40,0.700,25000,No,Yes,CEAT Programs,Engineering;Agriculture
+130,Colorado State University,3.35-4.00,1070-1290,23-28,No,Yes,50,0.810,26000,No,Yes,Key Communities,Environmental;Agriculture
+131,DePaul University,3.35-4.00,1080-1290,23-29,No,Yes,65,0.680,29000,No,Yes,Theater School,Arts;Business
+132,Hofstra University,3.35-4.00,1160-1340,24-30,Yes,No,70,0.680,31000,No,Yes,Honors College,Business;Communications
+133,Washington State University,3.30-4.00,1050-1260,21-27,No,Yes,50,0.760,26000,No,Yes,Honors College,Agriculture;Engineering
+134,University of Idaho,3.30-4.00,1040-1250,21-27,No,Yes,60,0.780,24000,No,Yes,WWAMI Program,Engineering;Agriculture
+135,University of Louisville,3.35-4.00,1070-1290,22-28,No,Yes,50,0.690,26000,No,Yes,Brown Fellows,Healthcare;Engineering
+136,University of New Mexico,3.30-4.00,1040-1240,21-27,No,Yes,50,0.490,25000,No,Yes,BA/MD Program,Healthcare;Engineering
+137,University of Rhode Island,3.35-4.00,1090-1280,22-28,No,Yes,65,0.750,27000,No,Yes,Honors Program,Ocean;Pharmacy
+138,Rutgers University-Newark,3.35-4.00,1040-1220,21-27,No,Yes,70,0.740,28000,No,Yes,Honors Living,Business;Criminal Justice
+139,University of Central Florida,3.40-4.00,1160-1340,25-30,No,Yes,30,0.440,27000,No,Yes,Burnett Honors,Technology;Hospitality
+140,Missouri University of S&T,3.45-4.00,1180-1380,26-31,No,Yes,50,0.840,27000,No,Yes,Engineering Programs,Engineering;Technology
+141,Virginia Commonwealth University,3.35-4.00,1070-1260,22-28,No,Yes,65,0.870,26000,No,Yes,Guaranteed Admission,Arts;Healthcare
+142,Seton Hall University,3.35-4.00,1150-1330,24-29,Yes,No,55,0.740,30000,No,Yes,Business Leadership,Business;Healthcare
+143,University of Wyoming,3.30-4.00,1060-1280,22-28,No,Yes,40,0.960,24000,No,Yes,Honors Program,Engineering;Energy
+144,Clarkson University,3.40-4.00,1160-1350,25-30,Yes,No,50,0.750,32000,No,Yes,Honors Program,Engineering;Business
+145,New Jersey Institute of Technology,3.40-4.00,1190-1390,25-31,No,Yes,75,0.730,29000,No,Yes,Albert Dorman Honors,Engineering;Technology
+146,Texas Tech University,3.35-4.00,1070-1260,22-27,No,Yes,75,0.690,26000,No,Yes,Honors College,Engineering;Agriculture
+147,University of Hawaii-Manoa,3.35-4.00,1070-1270,22-27,No,Yes,70,0.580,27000,No,Yes,Honors Program,Ocean;Environmental
+148,University of South Dakota,3.30-4.00,1050-1260,21-27,No,Yes,35,0.860,24000,No,Yes,Medical Biology,Healthcare;Business
+149,Ball State University,3.30-4.00,1080-1270,21-26,No,Yes,55,0.770,25000,No,Yes,Honors College,Education;Architecture
+150,Ohio University,3.30-4.00,1050-1250,21-26,No,Yes,50,0.820,24000,No,Yes,Honors Tutorial,Communications;Business
+151,University of Maine,3.30-4.00,1050-1250,21-27,No,Yes,40,0.920,24000,No,Yes,Honors College,Engineering;Environmental
+152,University of Nevada-Reno,3.30-4.00,1060-1260,21-27,No,Yes,60,0.870,25000,No,Yes,Honors Program,Mining;Engineering
+153,Duquesne University,3.35-4.00,1130-1300,23-29,Yes,No,50,0.740,29000,No,Yes,Pharmacy Program,Pharmacy;Business
+154,Florida International University,3.35-4.00,1110-1280,23-28,No,Yes,30,0.580,25000,No,Yes,Honors College,Business;Engineering
+155,University of North Dakota,3.30-4.00,1050-1250,21-26,No,Yes,35,0.810,24000,No,Yes,Aerospace Program,Aviation;Engineering
+156,South Dakota State University,3.25-4.00,1030-1240,20-26,No,Yes,35,0.890,23000,No,Yes,Fishback Honors,Agriculture;Pharmacy
+157,University of Montana,3.30-4.00,1040-1230,20-26,No,Yes,30,0.940,23000,No,Yes,Davidson Honors,Environmental;Forestry
+158,West Virginia University,3.30-4.00,1050-1240,21-27,No,Yes,60,0.840,24000,No,Yes,Honors College,Engineering;Business
+159,Montana State University,3.30-4.00,1090-1280,22-27,No,Yes,38,0.820,24000,No,Yes,Honors College,Engineering;Agriculture
+160,North Dakota State University,3.25-4.00,1040-1250,21-26,No,Yes,35,0.940,23000,No,Yes,Scholars Program,Agriculture;Engineering
+161,University of Dayton,3.35-4.00,1120-1320,24-29,Yes,No,50,0.720,31000,No,Yes,Honors Program,Engineering;Business
+162,Utah State University,3.30-4.00,1050-1270,21-27,No,Yes,50,0.910,24000,No,Yes,Honors Program,Agriculture;Engineering
+163,Bowling Green State University,3.25-4.00,1040-1240,20-26,No,Yes,45,0.720,24000,No,Yes,Honors Learning,Education;Arts
+164,Central Michigan University,3.25-4.00,1020-1220,20-25,No,Yes,40,0.700,23000,No,Yes,Honors Program,Business;Health
+165,Northern Illinois University,3.25-4.00,1010-1210,19-25,No,Yes,40,0.480,23000,No,Yes,Honors Program,Business;Engineering
+166,San Jose State University,3.30-4.00,1050-1260,21-27,No,No,70,0.670,26000,No,Yes,Engineering Programs,Engineering;Business
+167,University of Wisconsin-Milwaukee,3.25-4.00,1030-1230,20-25,No,Yes,50,0.950,23000,No,Yes,Honors College,Architecture;Business
+168,Western Michigan University,3.25-4.00,1020-1220,20-26,No,Yes,40,0.850,24000,No,Yes,Lee Honors,Aviation;Business
+169,UNC Charlotte,3.30-4.00,1120-1290,22-27,No,Yes,60,0.650,25000,No,Yes,Levine Scholars,Business;Computing
+170,UT Arlington,3.30-4.00,1040-1250,20-26,No,Yes,60,0.830,24000,No,Yes,Honors College,Nursing;Engineering
+171,Adelphi University,3.30-4.00,1080-1270,22-27,Yes,No,50,0.740,28000,No,Yes,Honors College,Nursing;Business
+172,UMass Lowell,3.35-4.00,1150-1320,24-29,No,Yes,60,0.730,26000,No,Yes,Honors College,Engineering;Business
+173,University of South Alabama,3.25-4.00,1030-1230,20-26,No,Yes,35,0.790,23000,No,Yes,Honors College,Healthcare;Engineering
+174,Kent State University,3.25-4.00,1020-1220,20-25,No,Yes,45,0.860,23000,No,Yes,Honors College,Fashion;Education
+175,Northern Arizona University,3.25-4.00,1030-1230,20-26,No,Yes,25,0.850,23000,No,Yes,Honors Program,Education;Forestry
+176,Oakland University,3.25-4.00,1020-1220,20-25,No,Yes,45,0.830,23000,No,Yes,Honors College,Engineering;Healthcare
+177,Old Dominion University,3.25-4.00,1030-1230,19-25,No,Yes,50,0.890,24000,No,Yes,Honors College,Engineering;Business
+178,Portland State University,3.25-4.00,1020-1220,19-25,No,Yes,50,0.960,23000,No,Yes,Honors College,Urban Studies;Business
+179,University of Houston,3.30-4.00,1120-1310,22-28,No,Yes,75,0.650,25000,No,Yes,Honors College,Engineering;Business
+180,UNC Greensboro,3.25-4.00,1030-1220,20-25,No,Yes,65,0.820,23000,No,Yes,Lloyd International,Nursing;Business
+181,University of Northern Iowa,3.25-4.00,1020-1220,20-25,No,Yes,40,0.830,23000,No,Yes,Honors Program,Education;Business
+182,Wright State University,3.25-4.00,1020-1220,19-25,No,Yes,30,0.950,22000,No,Yes,Honors Program,Medicine;Engineering
+183,Cleveland State University,3.25-4.00,1020-1220,19-25,No,Yes,40,0.940,22000,No,Yes,Honors Program,Business;Engineering
+184,East Carolina University,3.25-4.00,1030-1220,19-25,No,Yes,55,0.790,23000,No,Yes,Honors College,Medicine;Business
+185,Southern Illinois University,3.20-4.00,1010-1210,19-24,No,Yes,40,0.890,22000,No,Yes,University Honors,Aviation;Engineering
+186,University of Missouri-Kansas City,3.25-4.00,1030-1230,20-26,No,Yes,45,0.800,23000,No,Yes,Honors College,Medicine;Arts
+187,University of New Orleans,3.20-4.00,1010-1210,19-24,No,Yes,40,0.570,22000,No,Yes,Honors Program,Engineering;Business
+188,UNC Wilmington,3.30-4.00,1130-1280,22-27,No,Yes,65,0.650,24000,No,Yes,Honors College,Marine Biology;Business
+189,University of Southern Mississippi,3.20-4.00,1010-1210,19-24,No,Yes,40,0.980,22000,No,Yes,Honors College,Polymer Science;Business
+190,University of Toledo,3.25-4.00,1020-1220,20-25,No,Yes,40,0.960,22000,No,Yes,Honors College,Engineering;Pharmacy
+191,Wayne State University,3.25-4.00,1020-1230,20-26,No,Yes,45,0.670,23000,No,Yes,Honors College,Medicine;Business
+192,Western Kentucky University,3.20-4.00,1010-1210,19-24,No,Yes,40,0.970,22000,No,Yes,Honors College,Education;Business
+193,Wichita State University,3.20-4.00,1010-1210,19-24,No,Yes,40,0.950,22000,No,Yes,Honors College,Aerospace;Business
+194,Marshall University,3.20-4.00,1000-1200,19-24,No,Yes,40,0.980,21000,No,Yes,Yeager Scholars,Medicine;Business
+195,UMass Dartmouth,3.25-4.00,1040-1240,21-26,No,Yes,50,0.760,23000,No,Yes,Honors College,Engineering;Marine
+196,University of Memphis,3.20-4.00,1010-1210,19-24,No,Yes,25,0.850,22000,No,Yes,Helen Hardin Honors,Business;Education
+197,University of Nebraska-Omaha,3.20-4.00,1010-1210,19-24,No,Yes,45,0.830,22000,No,Yes,Honors Program,IT;Business
+198,UT El Paso,3.20-4.00,1000-1200,19-24,No,Yes,50,1.000,21000,No,Yes,Honors Program,Engineering;Health
+199,UT San Antonio,3.25-4.00,1030-1220,20-25,No,Yes,60,0.790,22000,No,Yes,Honors College,Cyber Security;Business
+200,Texas State University,3.25-4.00,1020-1220,20-25,No,Yes,75,0.810,22000,No,Yes,Honors College,Education;Business
