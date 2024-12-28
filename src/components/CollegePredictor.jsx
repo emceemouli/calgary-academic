@@ -350,7 +350,7 @@ const CollegePredictor = () => {
         />
         <input
           type="text"
-          placeholder="Enter SAT (e.g., 1400)"
+          placeholder="Enter SAT (Convert ACT to SAT Equivalent) (e.g., 1400)"
           value={sat}
           onChange={(e) => setSat(e.target.value)}
           className="w-full p-4 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500"
@@ -359,7 +359,7 @@ const CollegePredictor = () => {
         <button
           onClick={handlePrediction}
           className="w-full bg-blue-600 text-white font-semibold py-4 rounded-md hover:bg-blue-700 transition"
-          aria-label="Predict Colleges"
+          aria-label="Predict Universities"
         >
           Predict Colleges
         </button>
@@ -399,7 +399,7 @@ const CollegePredictor = () => {
         <p>
           This tool provides predictions based on your SAT, GPA, and school data compared to
           historical admission data. Results are only a guideline and are not guaranteed. Contact us for 
-		  accurate shortlisting based on other criteria
+		  accurate shortlisting based on other criteria.
         </p>
       </div>
     </div>
