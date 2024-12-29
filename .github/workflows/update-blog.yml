@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }}  # Changed from GITHUB_TOKEN to PAT_TOKEN
           
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -23,7 +23,7 @@ jobs:
         run: npm install node-fetch@2
           
       - name: Update blog data
-        run: node scripts/update-blog.cjs  # Changed from .js to .cjs
+        run: node scripts/update-blog.cjs
           
       - name: Check for changes
         id: check_changes
@@ -32,8 +32,10 @@ jobs:
           
       - name: Commit and push if changed
         if: steps.check_changes.outputs.changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}  # Added this line
         run: |
-          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add public/blog-data.json
           git commit -m "Update blog data [skip ci]"
