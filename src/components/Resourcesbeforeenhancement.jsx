@@ -2,23 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
 import { 
-  BookOpen, Brain, Download, Calculator, GraduationCap, 
-  Calendar, CheckCircle, Target, Book 
+  BookOpen, 
+  Brain, 
+  Download, 
+  Calculator, 
+  GraduationCap, 
+  Calendar, 
+  CheckCircle 
 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
-// SEO Effect Hook
-const useSEO = () => {
-  useEffect(() => {
-    document.title = 'Digital SAT Resources & Study Materials | Calgary Academic Excellence';
-    
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 
-        'Access comprehensive Digital SAT study materials with proven 210+ point improvements. Expert-curated content with proven study plans for SAT preparation in Calgary.'
-      );
-    }
-  }, []);
-};
 const WeeklySchedule = ({ week, content }) => (
   <div className="bg-white p-6 rounded-lg shadow-md mb-6">
     <h3 className="text-xl font-semibold text-blue-900 mb-4 flex items-center">
@@ -47,6 +41,7 @@ const WeeklySchedule = ({ week, content }) => (
     </div>
   </div>
 );
+
 const ScoreTracker = () => {
   const [scores, setScores] = useState({
     initial: '',
@@ -147,19 +142,23 @@ const ScoreTracker = () => {
   );
 };
 const Resources = () => {
-  // Use SEO hook
-  useSEO();
-  
-  const [activeSection, setActiveSection] = useState('overview');
+  const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState('studyPlan');
   const [selectedWeek, setSelectedWeek] = useState('week1');
 
+  useEffect(() => {
+    document.title = 'Free Digital SAT Resources & Study Materials | Calgary Academic Excellence';
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Access free Digital SAT practice materials, study guides, and sample questions. Expert-curated content with proven study plans for comprehensive SAT preparation in Calgary.');
+    }
+  }, []);
+
   const navigationItems = [
-    { id: 'overview', label: 'SAT Overview', icon: <Book className="h-5 w-5" /> },
     { id: 'studyPlan', label: 'Study Plan', icon: <Calendar className="h-5 w-5" /> },
     { id: 'math', label: 'Mathematics', icon: <Calculator className="h-5 w-5" /> },
     { id: 'verbal', label: 'Reading & Writing', icon: <BookOpen className="h-5 w-5" /> },
-    { id: 'practice', label: 'Practice Tests', icon: <Brain className="h-5 w-5" /> },
-    { id: 'strategies', label: 'Test Strategies', icon: <Target className="h-5 w-5" /> }
+    { id: 'practice', label: 'Practice Tests', icon: <Brain className="h-5 w-5" /> }
   ];
 
   const weeklySchedules = {
@@ -196,33 +195,8 @@ const Resources = () => {
       "Weekend": ["Review weak areas", "Strategy refinement"]
     }
   };
+
   const educationalContent = {
-    overview: [{
-      title: "Digital SAT Overview & Structure",
-      description: "Complete breakdown of the Digital SAT format and scoring",
-      topics: ["Test Format", "Scoring System", "Section Breakdown", "Calgary Preparation"],
-      previewContent: [
-        "*Test Structure:*",
-        "• Adaptive testing format with Calgary-specific preparation strategies",
-        "• 2 hours and 14 minutes total duration",
-        "• Reading and Writing: 54 questions in 64 minutes",
-        "• Math: 44 questions in 70 minutes",
-        "",
-        "*Scoring Details:*",
-        "• Score range: 400-1600",
-        "• Reading/Writing: 200-800 points",
-        "• Math: 200-800 points",
-        "• Our students achieve 210+ point improvements",
-        "",
-        "*Key Features:*",
-        "• Shorter test duration",
-        "• Faster score reporting",
-        "• Built-in calculator for Math",
-        "• Digital tools and references",
-        "• Calgary-specific preparation techniques"
-      ],
-      downloadLink: "/resources/pdfs/digital-sat-overview.pdf"
-    }],
     studyPlan: [{
       title: "8-Week Digital SAT Study Plan",
       description: "Comprehensive study plan aligned with College Board guidelines",
@@ -272,26 +246,19 @@ const Resources = () => {
     math: [{
       title: "Digital SAT Math Fundamentals",
       description: "Essential mathematical concepts and practice problems",
-      topics: ["Algebra", "Geometry", "Problem Solving", "Calculator Skills"],
+      topics: ["Algebra", "Geometry", "Problem Solving"],
       previewContent: [
         "*Core Math Topics:*",
         "• Linear equations and inequalities",
-        "• Quadratic expressions and equations",
+        "• Quadratic expressions",
         "• Word problems and applications",
-        "• Geometry and trigonometry",
-        "",
-        "*Calculator Section:*",
-        "• Built-in Desmos calculator features",
-        "• Graphing capabilities",
-        "• Statistical analysis tools",
         "",
         "*Practice Strategies:*",
         "• Time management techniques",
         "• Calculator vs. non-calculator approaches",
-        "• Error analysis methods",
-        "• Common pitfall avoidance"
+        "• Error analysis methods"
       ],
-      downloadLink: "/resources/pdfs/math-guide.pdf"
+      downloadLink: "/resources/pdfs/SATSuiteQuestionBankAlgebra-Results.pdf"
     }],
     verbal: [{
       title: "Reading & Writing Guide",
@@ -302,126 +269,90 @@ const Resources = () => {
         "• Main idea identification",
         "• Evidence analysis",
         "• Author's purpose",
-        "• Inference questions",
         "",
         "*Writing Focus:*",
         "• Grammar fundamentals",
         "• Expression of ideas",
-        "• Style and tone",
-        "• Revision skills",
-        "",
-        "*Digital Format Tips:*",
-        "• Screen reading techniques",
-        "• Split screen navigation",
-        "• Highlighting and annotation tools"
+        "• Style and tone"
       ],
       downloadLink: "/resources/pdfs/verbal-guide.pdf"
     }],
     practice: [{
       title: "Practice Test Materials",
       description: "Full-length practice tests and section-specific drills",
-      topics: ["Full Tests", "Section Practice", "Timed Drills", "Performance Analytics"],
+      topics: ["Full Tests", "Section Practice", "Timed Drills"],
       previewContent: [
         "*Available Materials:*",
-        "• 4 full-length digital practice tests",
+        "• 4 full-length practice tests",
         "• Section-specific question banks",
         "• Detailed answer explanations",
-        "• Performance tracking tools",
         "",
         "*Practice Tips:*",
         "• Simulate test conditions",
         "• Time management strategies",
-        "• Review techniques",
-        "• Error analysis methods",
-        "",
-        "*Digital Testing Features:*",
-        "• Online testing interface",
-        "• Timer and progress tracking",
-        "• Built-in calculator practice",
-        "• Score reporting system"
+        "• Review techniques"
       ],
-      downloadLink: "/resources/pdfs/practice-tests.pdf"
-    }],
-    strategies: [{
-      title: "Essential Test-Taking Strategies",
-      description: "Expert techniques for maximizing your Digital SAT score",
-      topics: ["Time Management", "Question Approach", "Stress Management", "Digital Tools"],
-      previewContent: [
-        "*General Strategies:*",
-        "• Answer every question (no penalty for wrong answers)",
-        "• Use process of elimination effectively",
-        "• Manage your pace with the built-in timer",
-        "",
-        "*Section-Specific Approaches:*",
-        "• Reading: Preview questions first",
-        "• Writing: Focus on grammar rules",
-        "• Math: Utilize the embedded calculator effectively",
-        "",
-        "*Test Day Preparation:*",
-        "• Practice with digital format",
-        "• Familiarize with tools and interface",
-        "• Review technical requirements",
-        "",
-        "*Mental Preparation:*",
-        "• Stress management techniques",
-        "• Time management strategies",
-        "• Focus and concentration tips"
-      ],
-      downloadLink: "/resources/pdfs/test-strategies.pdf"
+      downloadLink: "/resources/pdfs/sat-practice-test-1-digital.pdf"
     }]
   };
-  return (
-    <div className="min-h-screen bg-gray-50" itemScope itemType="https://schema.org/EducationalOrganization">
-      {/* Hero Section */}
-      <header className="relative h-[250px] pt-16" role="banner">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75" />
-        <div className="relative container mx-auto px-4 h-full flex flex-col justify-center">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4" itemProp="name">
-            Digital SAT Study Resources
-          </h1>
-          <p className="text-lg md:text-xl text-white mb-6 max-w-xl" itemProp="description">
-            Access comprehensive study materials, practice tests, and expert guides.
-          </p>
+
+return (
+    <>
+      <Helmet>
+        <title>Digital SAT Resources | Calgary Academic Excellence</title>
+        <meta name="description" content="Access comprehensive Digital SAT study materials, practice tests, and expert guides for SAT preparation in Calgary." />
+      </Helmet>
+
+      <div className="min-h-screen bg-gray-50">
+        {/* Hero Section */}
+        <div className="relative h-[250px] pt-16">
+          <img 
+            src="/images/Teen-Area-12-23-Hero.jpg" 
+            alt="Digital SAT Study Resources" 
+            className="absolute inset-0 w-full h-full object-cover" 
+            loading="eager" 
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/85 to-blue-800/75" />
+          <div className="relative container mx-auto px-4 h-full flex flex-col justify-center">
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Digital SAT Study Resources
+            </h1>
+            <p className="text-lg md:text-xl text-white mb-6 max-w-xl">
+              Access comprehensive study materials, practice tests, and expert guides.
+            </p>
+          </div>
         </div>
-      </header>
 
-      {/* Main Content Section */}
-      <main className="container mx-auto px-4 py-8 max-w-[1200px]" itemProp="mainContentOfPage">
-        {/* Navigation Buttons */}
-        <nav className="flex flex-wrap gap-3 mb-8 pb-4 border-b border-gray-200" aria-label="Resource sections">
-          {navigationItems.map(item => (
-            <Button 
-              key={item.id} 
-              variant={activeSection === item.id ? 'default' : 'outline'} 
-              onClick={() => setActiveSection(item.id)} 
-              aria-current={activeSection === item.id ? 'page' : undefined}
-              className={`flex items-center gap-2 px-4 py-2 text-base ${
-                activeSection === item.id 
-                  ? 'text-white bg-blue-600' 
-                  : 'text-gray-900 hover:text-blue-600'
-              }`}
-            >
-              {item.icon}<span>{item.label}</span>
-            </Button>
-          ))}
-        </nav>
+        {/* Main Content Section */}
+        <div className="container mx-auto px-4 py-8 max-w-[1200px]">
+          {/* Navigation Buttons */}
+          <div className="flex flex-wrap gap-3 mb-8 pb-4 border-b border-gray-200">
+            {navigationItems.map(item => (
+              <Button 
+                key={item.id} 
+                variant={activeSection === item.id ? 'default' : 'outline'} 
+                onClick={() => setActiveSection(item.id)} 
+                className={`flex items-center gap-2 px-4 py-2 text-base ${
+                  activeSection === item.id 
+                    ? 'text-white bg-blue-600' 
+                    : 'text-gray-900 hover:text-blue-600'
+                }`}
+              >
+                {item.icon}<span>{item.label}</span>
+              </Button>
+            ))}
+          </div>
 
-        {/* Content Cards */}
-        <section className="space-y-8" aria-label="Educational Resources">
-          {educationalContent[activeSection].map((resource, index) => (
-            <article 
-              key={index} 
-              className="overflow-hidden"
-              itemScope 
-              itemType="https://schema.org/LearningResource"
-            >
-              <Card>
+          {/* Content Cards */}
+          <div className="space-y-8">
+            {educationalContent[activeSection].map((resource, index) => (
+              <Card key={index} className="overflow-hidden">
                 <CardHeader className="bg-white border-b border-gray-100">
                   <CardTitle className="text-xl sm:text-2xl text-blue-900 flex items-center gap-2">
-                    <GraduationCap className="h-6 w-6 text-blue-600" aria-hidden="true" />
-                    <span itemProp="name">{resource.title}</span>
+                    <GraduationCap className="h-6 w-6 text-blue-600" />
+                    {resource.title}
                   </CardTitle>
-                  <p className="text-gray-600 mt-2" itemProp="description">{resource.description}</p>
+                  <p className="text-gray-600 mt-2">{resource.description}</p>
                 </CardHeader>
                 <CardContent className="pt-6">
                   <div className="flex flex-wrap gap-2 mb-6">
@@ -431,7 +362,7 @@ const Resources = () => {
                       </span>
                     ))}
                   </div>
-                  <div className="bg-gray-50 p-6 rounded-lg text-gray-900" itemProp="text">
+                  <div className="bg-gray-50 p-6 rounded-lg text-gray-900">
                     {resource.previewContent.map((line, i) => (
                       <p key={i} className="mb-3 last:mb-0">
                         {line.startsWith('*') ? (
@@ -462,24 +393,11 @@ const Resources = () => {
                   {resource.additionalContent}
                 </CardContent>
               </Card>
-            </article>
-          ))}
-        </section>
-      </main>
-
-      {/* Footer */}
-      <footer className="bg-gray-50 py-8 mt-16">
-        <div className="container mx-auto px-4">
-          <p className="text-gray-600 text-center" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
-            <span itemProp="addressLocality">Calgary</span>, 
-            <span itemProp="addressRegion">Alberta</span>
-          </p>
-          <p className="text-gray-600 text-center">
-            © {new Date().getFullYear()} Calgary Academic Excellence. All rights reserved.
-          </p>
+            ))}
+          </div>
         </div>
-      </footer>
-    </div>
+      </div>
+    </>
   );
 };
 
