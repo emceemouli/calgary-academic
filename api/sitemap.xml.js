@@ -1,6 +1,17 @@
 export default function handler(req, res) {
+  // Add CORS headers
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  
+  // Set Content-Type
   res.setHeader('Content-Type', 'application/xml');
-  res.write(`<?xml version="1.0" encoding="UTF-8"?>
+  
+  // Add Cache-Control header
+  res.setHeader('Cache-Control', 's-maxage=86400, stale-while-revalidate');
+  
+  // Send response with status and XML content
+  res.status(200).send(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://calgaryacademicexcellence.vercel.app</loc>
@@ -33,5 +44,4 @@ export default function handler(req, res) {
     <priority>0.9</priority>
   </url>
 </urlset>`);
-  res.end();
 }
