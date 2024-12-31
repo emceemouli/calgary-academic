@@ -1,0 +1,279 @@
+Rank,University,GPA_Range,SAT_Range,ACT_Range,Early_Decision,Early_Action,Application_Fee,Acceptance_Rate,Average_Aid,Need_Blind,Merit_Aid,Special_Programs,Program_Strengths,Graduation_Rate,Employment_Rate,Starting_Salary
+1,Princeton University,3.90-4.00,1450-1570,33-35,Yes,No,75,0.04,57000,Yes,No,"Bridge Year;Research Scholars","Economics, Mathematics, Public Policy, Physics, Computer Science",98,96,75600
+2,MIT,3.90-4.00,1510-1580,34-36,Yes,No,75,0.07,52000,Yes,No,"UROP;MISTI","Computer Science, Engineering, Physics, Mathematics, Robotics",97,96,82300
+3,Harvard University,3.90-4.00,1460-1580,33-35,Yes,No,75,0.04,55000,Yes,No,"Research Excellence;Global Programs","Business, Law, Computer Science, Economics, Biology",98,95,74800
+4,Stanford University,3.90-4.00,1440-1550,32-35,Yes,No,90,0.04,56000,Yes,No,"Overseas Studies;Research","Computer Science, Engineering, Business, Environmental Science, Psychology",96,95,76500
+5,Yale University,3.90-4.00,1460-1570,33-35,Yes,No,80,0.06,57000,Yes,No,"Directed Studies;Science Research","Economics, Political Science, Law, History, Molecular Biology",97,95,72400
+6,Caltech,3.90-4.00,1530-1580,35-36,Yes,No,75,0.07,52500,Yes,No,"SURF;WAVE","Physics, Engineering, Chemistry, Mathematics, Astronomy",94,93,84200
+7,University of Pennsylvania,3.85-4.00,1450-1560,33-35,Yes,No,75,0.08,54000,Yes,No,"Dual Degree;Research Fellows","Business, Engineering, Nursing, Economics, Computer Science",96,94,73800
+8,Columbia University,3.85-4.00,1450-1560,33-35,Yes,No,85,0.05,55000,Yes,No,"Global Programs;Research","Engineering, Economics, Political Science, Computer Science, Medicine",96,93,74100
+9,Duke University,3.85-4.00,1470-1570,33-35,Yes,No,85,0.06,54000,Yes,No,"Focus Program;Research","Medicine, Public Policy, Engineering, Environmental Science, Business",95,94,71900
+10,Northwestern University,3.85-4.00,1430-1550,33-35,Yes,No,75,0.07,54000,Yes,No,"Undergraduate Research;Study Abroad","Journalism, Business, Engineering, Psychology, Performing Arts",95,93,69800
+11,Johns Hopkins University,3.85-4.00,1470-1560,33-35,Yes,No,70,0.09,53000,Yes,No,"Research Opportunities;Global Studies","Medicine, Public Health, Engineering, Biomedical Science, International Studies",94,92,70500
+12,Cornell University,3.85-4.00,1440-1550,32-34,Yes,No,80,0.09,52000,Yes,No,"Research;Study Abroad","Engineering, Agriculture, Computer Science, Business, Architecture",95,93,72400
+13,Rice University,3.85-4.00,1470-1570,33-35,Yes,No,75,0.09,51000,Yes,No,"Research;Study Abroad","Engineering, Architecture, Computer Science, Biosciences, Mathematics",93,91,70200
+14,Vanderbilt University,3.80-4.00,1460-1560,33-35,Yes,No,85,0.09,52000,Yes,No,"Research;Study Abroad","Education, Engineering, Medicine, Economics, Psychology",94,92,69500
+15,Brown University,3.85-4.00,1440-1550,32-35,Yes,No,75,0.07,53000,Yes,No,"Open Curriculum;Research","Applied Mathematics, Biology, Computer Science, International Relations, Neuroscience",96,92,70100
+16,Washington University in St. Louis,3.85-4.00,1470-1570,33-35,Yes,No,75,0.13,51000,Yes,No,"Research;Global Programs","Medicine, Architecture, Engineering, Business, Social Work",94,92,68900
+17,University of Chicago,3.85-4.00,1500-1570,33-35,Yes,No,75,0.06,54000,Yes,No,"Research;Core Curriculum","Economics, Mathematics, Physics, Political Science, Business",94,92,71800
+18,Georgetown University,3.85-4.00,1420-1550,32-35,Yes,No,75,0.14,50000,Yes,No,"Global Studies;Research","International Relations, Political Science, Business, Law, Economics",95,92,70100
+19,Carnegie Mellon University,3.85-4.00,1460-1560,33-35,Yes,No,75,0.15,47000,No,Yes,"Research;Innovation","Computer Science, Engineering, Business, Fine Arts, Robotics",92,94,78600
+20,University of California Berkeley,3.85-4.00,1330-1530,31-35,No,No,70,0.16,45000,No,Yes,"Research;Honors Program","Computer Science, Engineering, Business, Environmental Science, Physics",93,91,71500
+21,University of Michigan Ann Arbor,3.80-4.00,1340-1520,31-34,Yes,No,75,0.20,43000,No,Yes,"Research;Honors","Engineering, Business, Computer Science, Psychology, Public Policy",93,91,69500
+22,University of Virginia,3.85-4.00,1340-1520,31-34,Yes,No,70,0.23,41000,No,Yes,"Jefferson Scholars;Research","Business, Law, Engineering, Public Policy, Computer Science",94,91,68900
+23,Georgia Institute of Technology,3.80-4.00,1370-1530,31-34,Yes,No,75,0.21,39000,No,Yes,"Co-op;Research","Engineering, Computing, Business, Architecture, Aerospace",91,93,77800
+24,UNC Chapel Hill,3.80-4.00,1320-1500,29-33,No,No,85,0.22,35000,No,Yes,"Honors;Research","Business, Journalism, Public Health, Computer Science, Biology",91,89,65400
+25,NYU,3.70-4.00,1370-1510,30-34,Yes,No,80,0.16,37000,No,Yes,"Global Programs;Research","Business, Film, Performing Arts, Computer Science, Economics",89,88,67400
+26,Tufts University,3.80-4.00,1390-1520,32-34,Yes,No,75,0.15,38000,No,Yes,"Research;Study Abroad","International Relations, Medicine, Engineering, Computer Science, Environmental Studies",90,88,63900
+27,University of California Los Angeles,3.80-4.00,1300-1530,29-34,No,No,70,0.12,35000,No,Yes,"Honors;Research","Film, Engineering, Business, Psychology, Computer Science",92,90,68900
+28,University of Florida,3.75-4.00,1330-1460,30-33,No,Yes,30,0.37,12000,No,Yes,"Honors;Research","Engineering, Business, Computer Science, Medicine, Biology",89,87,63800
+29,University of Wisconsin Madison,3.75-4.00,1310-1470,28-32,No,No,60,0.54,15000,No,Yes,"Research;Honors","Engineering, Business, Computer Science, Environmental Studies, Medicine",88,86,63900
+30,Boston College,3.75-4.00,1340-1500,31-34,Yes,No,80,0.27,40000,No,Yes,"Honors;Research","Business, Economics, Psychology, Biology, Political Science",89,87,64100
+31,University of Washington,3.75-4.00,1240-1440,27-33,No,No,80,0.56,16000,No,Yes,"Honors;Research","Computer Science, Medicine, Engineering, Business, Environmental Science",87,85,64200
+32,University of Rochester,3.70-4.00,1320-1500,30-34,Yes,Yes,50,0.29,38000,No,Yes,"Research;Take Five","Music, Engineering, Business, Medicine, Computer Science",89,87,64500
+33,Boston University,3.70-4.00,1330-1500,30-34,Yes,No,80,0.19,42000,No,Yes,"Kilachand Honors;Research","Business, Communication, Engineering, Computer Science, Psychology",88,86,65300
+34,Case Western Reserve University,3.75-4.00,1350-1520,31-34,Yes,Yes,70,0.27,39000,No,Yes,"Research;Co-op","Engineering, Medicine, Nursing, Computer Science, Biology",88,86,64700
+35,Northeastern University,3.70-4.00,1390-1540,32-35,Yes,No,75,0.18,37000,No,Yes,"Co-op;Research","Computer Science, Engineering, Business, Data Science, Health Sciences",89,87,65100
+36,Rensselaer Polytechnic Institute,3.70-4.00,1330-1500,29-33,Yes,No,70,0.43,38000,No,Yes,"Co-op;Research","Engineering, Computer Science, Business, Architecture, Game Design",87,85,69800
+37,Tulane University,3.60-4.00,1340-1500,30-33,Yes,Yes,50,0.11,40000,No,Yes,"Honors;Research","Business, Architecture, Public Health, Law, Environmental Science",88,86,61800
+38,University of California Santa Barbara,3.75-4.00,1280-1480,27-33,No,No,70,0.30,35000,No,Yes,"College of Creative Studies;Research","Environmental Science, Physics, Computer Science, Psychology, Engineering",90,88,64200
+39,University of California San Diego,3.75-4.00,1280-1470,27-33,No,No,70,0.31,34000,No,Yes,"Research;Honors","Biology, Engineering, Computer Science, Cognitive Science, Physics",89,88,65600
+40,University of Maryland College Park,3.70-4.00,1320-1490,30-34,Yes,No,75,0.44,18000,No,Yes,"Honors;Research","Engineering, Computer Science, Business, Journalism, Physics",86,84,63500
+41,University of Miami,3.60-4.00,1270-1440,29-32,Yes,Yes,70,0.27,42000,No,Yes,"Research;Honors","Marine Science, Business, Communication, Medicine, Engineering",87,85,61500
+42,Villanova University,3.65-4.00,1320-1470,30-33,Yes,No,80,0.28,36000,No,Yes,"Honors;Research","Business, Engineering, Nursing, Computer Science, Law",88,86,62400
+43,Lehigh University,3.70-4.00,1280-1450,29-33,Yes,Yes,70,0.32,37000,No,Yes,"Research;Global","Engineering, Business, Computer Science, Materials Science, Economics",86,84,63700
+44,Pennsylvania State University,3.55-4.00,1250-1430,28-32,No,Yes,65,0.49,16000,No,Yes,"Schreyer Honors;Research","Engineering, Business, Agriculture, Computer Science, Earth Sciences",85,83,62400
+45,Pepperdine University,3.60-4.00,1230-1420,27-32,Yes,No,65,0.32,42000,No,Yes,"International Programs;Research","Business, Law, Psychology, Communication, International Studies",86,84,61000
+46,Purdue University,3.60-4.00,1190-1440,25-32,No,Yes,60,0.60,15000,No,Yes,"Honors;Research","Engineering, Agriculture, Computer Science, Aviation, Technology",85,83,62800
+47,Syracuse University,3.60-4.00,1180-1380,25-30,Yes,No,85,0.44,35000,No,Yes,"Discovery;Research","Communication, Architecture, Information Studies, Engineering, Business",85,83,60800
+48,Texas A&M University,3.55-4.00,1180-1390,26-31,No,Yes,75,0.63,13000,No,Yes,"Honors;Research","Engineering, Agriculture, Business, Veterinary Medicine, Architecture",84,82,61500
+49,University of Connecticut,3.55-4.00,1200-1410,27-32,No,Yes,80,0.49,19000,No,Yes,"Honors;Research","Engineering, Business, Healthcare, Agriculture, Marine Sciences",84,82,60900
+50,Fordham University,3.60-4.00,1250-1430,28-32,Yes,Yes,70,0.46,37000,No,Yes,"Global;Research","Business, International Studies, Psychology, Communication, Economics",85,83,60500
+51,George Washington University,3.60-4.00,1280-1470,29-33,Yes,Yes,80,0.41,33000,No,Yes,"Global Focus;Research","International Affairs, Political Science, Business, Engineering, Public Health",86,84,61200
+52,Southern Methodist University,3.60-4.00,1300-1480,29-33,Yes,Yes,60,0.47,31000,No,Yes,"Honors Program;Research","Business, Engineering, Arts, Economics, Computer Science",85,83,61800
+53,University of Georgia,3.70-4.00,1240-1410,27-32,No,Yes,70,0.45,12000,No,Yes,"Honors;Research","Business, Journalism, Agriculture, Ecology, Computer Science",87,85,60900
+54,University of Pittsburgh,3.65-4.00,1260-1440,28-33,No,No,45,0.57,23000,No,Yes,"Honors College;Research","Medicine, Engineering, Business, Computer Science, Psychology",84,82,60500
+55,Virginia Tech,3.70-4.00,1180-1390,25-31,No,No,60,0.65,19000,No,Yes,"Research;Innovation","Engineering, Architecture, Business, Computer Science, Agriculture",85,83,61800
+56,American University,3.55-4.00,1220-1390,27-31,Yes,No,70,0.36,35000,No,Yes,"Global Scholars;Research","International Relations, Political Science, Communication, Business, Data Science",84,82,59800
+57,Clemson University,3.70-4.00,1240-1400,27-32,No,Yes,70,0.51,15000,No,Yes,"Honors;Research","Engineering, Business, Architecture, Computer Science, Agriculture",84,82,60200
+58,Florida State University,3.60-4.00,1200-1340,26-30,No,Yes,30,0.32,14000,No,Yes,"Honors;Research","Film, Business, Computer Science, Engineering, Psychology",77,75,54500
+59,Miami University Oxford,3.60-4.00,1210-1410,26-31,Yes,Yes,50,0.80,16000,No,Yes,"Honors;Research","Business, Education, Engineering, Computer Science, Psychology",82,80,58200
+60,Ohio State University,3.55-4.00,1250-1460,28-32,No,Yes,60,0.54,15000,No,Yes,"Honors;Scholars","Engineering, Business, Agriculture, Computer Science, Medicine",83,81,59500
+61,Rutgers University,3.50-4.00,1210-1430,25-31,No,Yes,70,0.60,16000,No,Yes,"Honors;Research","Engineering, Business, Computer Science, Criminal Justice, Psychology",82,80,58800
+62,University of Tennessee,3.55-4.00,1150-1340,24-30,No,Yes,50,0.78,14000,No,Yes,"Honors;Research","Engineering, Business, Agriculture, Computer Science, Communication",81,79,57800
+63,University of Massachusetts Amherst,3.50-4.00,1200-1390,26-31,No,Yes,80,0.64,15000,No,Yes,"Commonwealth Honors;Research","Computer Science, Engineering, Business, Agriculture, Psychology",83,81,59200
+64,University of Minnesota Twin Cities,3.55-4.00,1260-1480,26-31,No,Yes,55,0.57,16000,No,Yes,"Honors;Research","Engineering, Business, Computer Science, Medicine, Environmental Science",83,81,59200
+65,Baylor University,3.50-4.00,1200-1380,26-31,Yes,Yes,50,0.45,38000,No,Yes,"Honors;Research","Business, Health Sciences, Engineering, Computer Science, Music",82,80,58500
+66,Michigan State University,3.50-4.00,1100-1300,23-28,No,Yes,65,0.71,15000,No,Yes,"Honors;Research","Business, Engineering, Education, Computer Science, Agriculture",83,81,59500
+67,University of Delaware,3.50-4.00,1170-1350,25-30,No,Yes,75,0.71,15000,No,Yes,"Honors;Research","Engineering, Business, Marine Science, Computer Science, Chemistry",83,81,59800
+68,University of Iowa,3.45-4.00,1130-1330,22-29,No,Yes,40,0.83,13000,No,Yes,"Honors;Research","Medicine, Engineering, Business, Writing, Computer Science",81,79,57500
+69,University of South Carolina,3.50-4.00,1180-1360,25-30,No,Yes,65,0.68,14000,No,Yes,"Honors;Research","Business, Engineering, Hospitality, Computer Science, Public Health",81,79,57200
+70,Colorado State University,3.45-4.00,1100-1300,23-29,No,Yes,50,0.81,14000,No,Yes,"Honors;Research","Environmental Science, Engineering, Business, Veterinary Medicine, Computer Science",80,78,56800
+71,Indiana University Bloomington,3.50-4.00,1150-1360,24-31,No,Yes,65,0.78,13000,No,Yes,"Hutton Honors;Research","Business, Music, Computer Science, Education, Psychology",82,80,58800
+72,Iowa State University,3.45-4.00,1110-1320,22-28,No,Yes,40,0.92,12000,No,Yes,"Honors;Research","Engineering, Agriculture, Design, Computer Science, Business",81,79,57800
+73,North Carolina State University,3.50-4.00,1230-1410,27-31,No,Yes,85,0.45,15000,No,Yes,"Honors;Research","Engineering, Computer Science, Agriculture, Design, Statistics",82,80,59200
+74,University of California Davis,3.50-4.00,1150-1360,25-31,No,No,70,0.41,18000,No,Yes,"Honors;Research","Agriculture, Veterinary Science, Engineering, Computer Science, Biology",88,86,62800
+75,University of Colorado Boulder,3.45-4.00,1140-1360,25-31,No,Yes,65,0.78,15000,No,Yes,"Honors;Research","Engineering, Business, Physics, Environmental Science, Computer Science",78,76,55800
+76,Stevens Institute of Technology,3.60-4.00,1330-1480,30-33,Yes,Yes,70,0.40,35000,No,Yes,"Co-op;Research","Engineering, Computer Science, Business, Cybersecurity, Data Science",85,83,71200
+77,University at Buffalo SUNY,3.40-3.90,1160-1340,24-29,No,Yes,50,0.61,15000,No,Yes,"Honors;Research","Engineering, Business, Computer Science, Medicine, Architecture",81,79,57500
+78,University of Alabama,3.45-4.00,1080-1340,23-31,No,Yes,40,0.83,13000,No,Yes,"Honors;Research","Business, Engineering, Communication, Computer Science, Law",80,78,56500
+79,University of Oregon,3.40-3.90,1100-1310,22-28,No,Yes,65,0.82,12000,No,Yes,"Honors;Research","Journalism, Business, Environmental Studies, Computer Science, Psychology",78,76,55200
+80,Arizona State University,3.40-4.00,1120-1350,22-28,No,Yes,70,0.86,13000,No,Yes,"Barrett Honors;Research","Business, Engineering, Journalism, Computer Science, Sustainability",78,76,55500
+81,Auburn University,3.45-4.00,1150-1320,25-30,No,Yes,50,0.81,14000,No,Yes,"Honors;Research","Engineering, Business, Agriculture, Architecture, Computer Science",79,77,55500
+82,University of Tennessee Knoxville,3.40-4.00,1150-1330,24-30,No,Yes,50,0.78,14000,No,Yes,"Honors;Research","Engineering, Business, Agriculture, Computer Science, Communication",79,77,55800
+83,University of Utah,3.40-4.00,1143-1380,23-29,No,Yes,55,0.62,15000,No,Yes,"Honors;Research","Computer Science, Engineering, Business, Health Sciences, Film",79,77,56200
+84,University of Vermont,3.40-4.00,1180-1350,26-31,No,Yes,55,0.67,19000,No,Yes,"Honors;Research","Environmental Science, Medicine, Agriculture, Engineering, Computer Science",80,78,56200
+85,Worcester Polytechnic Institute,3.60-4.00,1310-1470,29-33,Yes,Yes,65,0.49,32000,No,Yes,"Project Based;Research","Engineering, Computer Science, Robotics, Business, Data Science",87,85,65800
+86,Michigan Technological University,3.45-4.00,1160-1350,25-30,No,Yes,55,0.74,15000,No,Yes,"Enterprise;Research","Engineering, Computer Science, Environmental Science, Business, Data Science",81,79,58500
+87,University of Kansas,3.40-4.00,1120-1320,23-29,No,Yes,40,0.91,12000,No,Yes,"Honors;Research","Engineering, Journalism, Business, Computer Science, Medicine",79,77,55900
+88,University of Missouri Columbia,3.40-4.00,1120-1320,23-29,No,Yes,45,0.81,13000,No,Yes,"Honors;Research","Journalism, Business, Engineering, Agriculture, Computer Science",80,78,56200
+89,University of Nebraska Lincoln,3.40-4.00,1110-1320,22-28,No,Yes,45,0.78,12000,No,Yes,"Honors;Research","Agriculture, Engineering, Business, Computer Science, Journalism",79,77,55600
+90,University of New Hampshire,3.40-4.00,1130-1320,24-29,No,Yes,50,0.84,15000,No,Yes,"Honors;Research","Marine Science, Engineering, Business, Computer Science, Environmental Studies",79,77,55900
+91,Oregon State University,3.35-3.90,1080-1320,22-28,No,Yes,65,0.82,14000,No,Yes,"Honors;Research","Engineering, Environmental Science, Agriculture, Computer Science, Business",78,76,55200
+92,University of Kentucky,3.40-4.00,1070-1310,22-28,No,Yes,50,0.96,12000,No,Yes,"Honors;Research","Engineering, Medicine, Agriculture, Business, Computer Science",78,76,55500
+93,University of Oklahoma,3.40-4.00,1110-1320,23-29,No,Yes,40,0.80,13000,No,Yes,"Honors;Research","Engineering, Meteorology, Energy, Computer Science, Business",78,76,55200
+94,Kansas State University,3.30-3.90,1080-1280,21-28,No,Yes,40,0.95,11000,No,Yes,"Honors;Research","Agriculture, Engineering, Architecture, Business, Computer Science",77,75,54500
+95,Louisiana State University,3.35-4.00,1060-1310,22-28,No,Yes,50,0.75,13000,No,Yes,"Honors;Research","Engineering, Business, Mass Communication, Computer Science, Agriculture",77,75,54800
+96,Oklahoma State University,3.35-4.00,1060-1280,21-27,No,Yes,40,0.70,12000,No,Yes,"Honors;Research","Engineering, Agriculture, Business, Computer Science, Education",77,75,54500
+97,Temple University,3.35-3.95,1100-1320,23-29,No,Yes,55,0.60,15000,No,Yes,"Honors;Research","Business, Medicine, Media Studies, Computer Science, Education",76,74,54200
+98,University of Arizona,3.35-3.95,1110-1350,21-29,No,Yes,50,0.85,13000,No,Yes,"Honors;Research","Astronomy, Engineering, Business, Computer Science, Medicine",77,75,54800
+99,University of Illinois Chicago,3.35-3.95,1080-1300,21-28,No,Yes,60,0.73,14000,No,Yes,"Honors;Research","Engineering, Architecture, Business, Computer Science, Health Sciences",86,84,61200
+100,University of Mississippi,3.30-3.90,1020-1250,21-27,No,Yes,40,0.88,12000,No,Yes,"Honors;Research","Business, Engineering, Pharmacy, Law, Computer Science",76,74,54200
+101,West Virginia University,3.30-3.90,1050-1240,21-26,No,Yes,45,0.84,11000,No,Yes,"Honors;Research","Engineering, Medicine, Business, Computer Science, Forensics",76,74,54000
+102,University of Cincinnati,3.35-3.95,1120-1320,23-28,Yes,No,50,0.77,13000,No,Yes,"Co-op;Research","Engineering, Architecture, Design, Business, Medicine",77,75,54500
+103,University of South Florida,3.35-3.95,1170-1330,25-29,No,Yes,30,0.48,11000,No,Yes,"Honors;Research","Medicine, Engineering, Business, Computer Science, Marine Science",76,74,54200
+104,Washington State University,3.30-3.90,1020-1220,20-26,No,Yes,50,0.76,12000,No,Yes,"Honors;Research","Agriculture, Veterinary Medicine, Engineering, Business, Computer Science",76,74,54000
+105,Illinois State University,3.30-3.90,1020-1220,20-26,No,Yes,50,0.89,11000,No,Yes,"Honors;Research","Education, Business, Technology, Computer Science, Nursing",75,73,53500
+106,University of Nevada Reno,3.25-3.85,1070-1260,21-26,No,Yes,60,0.87,11000,No,Yes,"Honors;Research","Engineering, Business, Journalism, Computer Science, Earth Sciences",75,73,53800
+107,University of Rhode Island,3.30-3.90,1090-1270,22-27,No,Yes,65,0.76,13000,No,Yes,"Honors;Research","Engineering, Pharmacy, Business, Computer Science, Marine Biology",76,74,54200
+108,Kent State University,3.25-3.85,1040-1220,20-25,No,Yes,45,0.86,11000,No,Yes,"Honors;Research","Fashion, Education, Business, Computer Science, Architecture",74,72,53200
+109,University of New Mexico,3.25-3.85,1030-1230,19-25,No,Yes,25,0.94,11000,No,Yes,"Honors;Research","Engineering, Medicine, Architecture, Computer Science, Native American Studies",74,72,53000
+110,New Mexico State University,3.20-3.80,1010-1200,18-24,No,Yes,25,0.98,10000,No,Yes,"Honors;Research","Engineering, Agriculture, Business, Computer Science, Space Science",73,71,52800
+111,University of Hawaii Manoa,3.25-3.85,1050-1240,21-26,No,Yes,70,0.83,12000,No,Yes,"Honors;Research","Ocean Sciences, Engineering, Business, Computer Science, Asian Studies",75,73,53500
+112,University of Idaho,3.20-3.80,1010-1220,20-26,No,Yes,60,0.78,11000,No,Yes,"Honors;Research","Engineering, Agriculture, Natural Resources, Computer Science, Business",73,71,52500
+113,Ohio University,3.25-3.85,1050-1250,21-26,No,Yes,50,0.82,12000,No,Yes,"Honors;Research","Communication, Business, Engineering, Computer Science, Fine Arts",74,72,53000
+114,University of Central Florida,3.30-3.90,1160-1340,25-29,No,Yes,30,0.44,11000,No,Yes,"Honors;Research","Engineering, Computer Science, Hospitality, Business, Digital Media",76,74,54200
+115,University of Louisville,3.25-3.85,1070-1290,22-29,No,Yes,50,0.69,12000,No,Yes,"Honors;Research","Engineering, Medicine, Business, Computer Science, Law",75,73,53800
+116,University of Montana,3.20-3.80,1020-1230,20-26,No,Yes,30,0.94,10000,No,Yes,"Davidson Honors;Research","Environmental Science, Wildlife Biology, Business, Computer Science, Journalism",73,71,52500
+117,University of Wyoming,3.20-3.80,1030-1260,21-27,No,Yes,40,0.96,10000,No,Yes,"Honors;Research","Engineering, Energy, Agriculture, Computer Science, Business",73,71,52800
+118,Ball State University,3.25-3.85,1080-1240,21-26,No,Yes,55,0.77,11000,No,Yes,"Honors;Research","Architecture, Education, Business, Computer Science, Communication",74,72,53000
+119,Florida International University,3.30-3.90,1110-1280,23-28,No,Yes,30,0.58,11000,No,Yes,"Honors;Research","Engineering, Business, Hospitality, Computer Science, Architecture",75,73,53500
+120,Mississippi State University,3.25-3.85,1070-1280,22-28,No,Yes,40,0.54,12000,No,Yes,"Honors;Research","Engineering, Agriculture, Business, Computer Science, Veterinary Medicine",74,72,53200
+121,University of Houston,3.30-3.90,1120-1310,22-28,No,Yes,75,0.65,12000,No,Yes,"Honors;Research","Engineering, Business, Hotel Management, Computer Science, Architecture",75,73,53800
+122,University of North Dakota,3.20-3.80,1060-1280,21-26,No,Yes,35,0.81,11000,No,Yes,"Honors;Research","Aerospace, Engineering, Business, Computer Science, Energy Studies",73,71,52500
+123,South Dakota State University,3.15-3.75,1020-1250,20-25,No,Yes,20,0.91,10000,No,Yes,"Honors;Research","Agriculture, Engineering, Pharmacy, Computer Science, Nursing",72,70,52200
+124,University of Alaska Fairbanks,3.15-3.75,1030-1240,19-25,No,Yes,40,0.77,10000,No,Yes,"Honors;Research","Engineering, Environmental Science, Arctic Studies, Computer Science, Biology",72,70,52000
+125,University of Maine,3.20-3.80,1050-1260,21-27,No,Yes,40,0.92,11000,No,Yes,"Honors;Research","Engineering, Forestry, Marine Sciences, Computer Science, Business",73,71,52500
+126,University of Nebraska Omaha,3.20-3.80,1040-1250,20-26,No,Yes,45,0.83,10000,No,Yes,"Honors;Research","Information Technology, Business, Criminal Justice, Computer Science, Engineering",73,71,52800
+127,University of Nevada Las Vegas,3.20-3.80,1030-1240,19-24,No,Yes,60,0.81,10000,No,Yes,"Honors;Research","Hospitality, Business, Engineering, Computer Science, Entertainment",74,72,53200
+128,University of South Dakota,3.15-3.75,1020-1230,20-25,No,Yes,20,0.91,10000,No,Yes,"Honors;Research","Medicine, Business, Law, Computer Science, Education",72,70,52000
+129,University of Texas Arlington,3.25-3.85,1060-1270,20-26,No,Yes,85,0.83,11000,No,Yes,"Honors;Research","Engineering, Nursing, Business, Computer Science, Architecture",74,72,53500
+130,University of Texas El Paso,3.20-3.80,1020-1230,18-24,No,Yes,30,0.99,10000,No,Yes,"Honors;Research","Engineering, Business, Education, Computer Science, Health Sciences",73,71,52800
+131,University of Wisconsin Milwaukee,3.25-3.85,1080-1280,21-26,No,Yes,50,0.95,11000,No,Yes,"Honors;Research","Architecture, Engineering, Business, Computer Science, Information Studies",74,72,53200
+132,Northern Illinois University,3.20-3.80,1020-1220,19-25,No,Yes,40,0.94,11000,No,Yes,"Honors;Research","Business, Education, Engineering, Computer Science, Health Sciences",73,71,52500
+133,Portland State University,3.25-3.85,1050-1250,20-26,No,Yes,50,0.96,11000,No,Yes,"Honors;Research","Urban Studies, Business, Engineering, Computer Science, Environmental Science",74,72,53000
+134,University of North Carolina Charlotte,3.30-3.90,1120-1290,22-27,No,Yes,60,0.75,11000,No,Yes,"Honors;Research","Business, Engineering, Computing, Architecture, Data Analytics",75,73,53500
+135,University of North Texas,3.25-3.85,1060-1260,20-26,No,Yes,75,0.84,11000,No,Yes,"Honors;Research","Music, Business, Engineering, Computer Science, Information Science",74,72,53200
+136,University of Memphis,3.20-3.80,1030-1240,19-25,No,Yes,25,0.85,11000,No,Yes,"Honors;Research","Business, Engineering, Education, Computer Science, Music",73,71,52800
+137,University of Missouri Kansas City,3.25-3.85,1070-1280,21-27,No,Yes,35,0.80,11000,No,Yes,"Honors;Research","Pharmacy, Law, Business, Computer Science, Education",74,72,53000
+138,University of Texas San Antonio,3.20-3.80,1040-1250,19-25,No,Yes,70,0.79,11000,No,Yes,"Honors;Research","Business, Engineering, Cyber Security, Computer Science, Architecture",73,71,52500
+139,Wright State University,3.15-3.75,1020-1230,19-25,No,Yes,30,0.95,10000,No,Yes,"Honors;Research","Engineering, Business, Nursing, Computer Science, Medicine",72,70,52200
+140,Cleveland State University,3.20-3.80,1050-1260,20-26,No,Yes,40,0.94,11000,No,Yes,"Honors;Research","Business, Engineering, Urban Affairs, Computer Science, Law",73,71,52500
+141,Eastern Michigan University,3.15-3.75,1010-1200,19-25,No,Yes,35,0.75,10000,No,Yes,"Honors;Research","Education, Business, Technology, Computer Science, Health Sciences",72,70,52000
+142,Georgia Southern University,3.20-3.80,1050-1240,20-25,No,Yes,30,0.91,11000,No,Yes,"Honors;Research","Business, Engineering, Education, Computer Science, Nursing",73,71,52500
+143,Indiana State University,3.15-3.75,1000-1200,18-24,No,Yes,25,0.94,10000,No,Yes,"Honors;Research","Education, Business, Technology, Computer Science, Aviation",72,70,51800
+144,Old Dominion University,3.20-3.80,1040-1250,19-25,No,Yes,50,0.89,11000,No,Yes,"Honors;Research","Engineering, Education, Business, Computer Science, Maritime Studies",73,71,52500
+145,University of Texas Dallas,3.30-3.90,1200-1410,26-32,No,Yes,50,0.79,12000,No,Yes,"Honors;Research","Computer Science, Engineering, Business, Brain Sciences, Data Science",75,73,54000
+146,Western Michigan University,3.15-3.75,1020-1230,19-25,No,Yes,40,0.83,10000,No,Yes,"Honors;Research","Aviation, Engineering, Business, Computer Science, Fine Arts",72,70,51800
+147,Bowling Green State University,3.15-3.75,1010-1220,19-25,No,Yes,45,0.72,11000,No,Yes,"Honors;Research","Education, Business, Technology, Computer Science, Communication",71,69,51500
+148,Central Michigan University,3.15-3.75,1010-1220,19-25,No,Yes,40,0.70,11000,No,Yes,"Honors;Research","Education, Business, Health Sciences, Computer Science, Psychology",71,69,51500
+149,East Carolina University,3.15-3.75,1030-1230,19-24,No,Yes,75,0.79,11000,No,Yes,"Honors;Research","Medicine, Business, Education, Computer Science, Engineering",72,70,52000
+150,University of North Carolina Greensboro,3.20-3.80,1060-1250,21-26,No,Yes,65,0.82,11000,No,Yes,"Honors;Research","Business, Education, Nursing, Computer Science, Health Sciences",72,70,51800
+151,Texas Tech University,3.20-3.80,1070-1260,22-27,No,Yes,75,0.69,11000,No,Yes,"Honors;Research","Engineering, Business, Agriculture, Computer Science, Media Studies",73,71,52500
+152,University of Alabama Huntsville,3.20-3.80,1090-1320,25-31,No,Yes,40,0.83,11000,No,Yes,"Honors;Research","Engineering, Business, Computer Science, Science, Cybersecurity",72,70,52000
+153,University of Arkansas Little Rock,3.15-3.75,980-1200,19-25,No,Yes,40,0.95,10000,No,Yes,"Honors;Research","Business, Engineering, Law, Computer Science, Information Science",71,69,51500
+154,University of Southern Mississippi,3.15-3.75,1020-1230,20-26,No,Yes,40,0.98,10000,No,Yes,"Honors;Research","Marine Science, Business, Education, Computer Science, Psychology",71,69,51500
+155,Western Kentucky University,3.15-3.75,1020-1230,20-26,No,Yes,45,0.97,10000,No,Yes,"Honors;Research","Business, Education, Engineering, Computer Science, Health Sciences",71,69,51500
+156,Wichita State University,3.20-3.80,1030-1240,21-26,No,Yes,40,0.95,10000,No,Yes,"Honors;Research","Engineering, Business, Health Professions, Computer Science, Aviation",72,70,51800
+157,Marshall University,3.15-3.75,990-1210,19-24,No,Yes,40,0.98,10000,No,Yes,"Honors;Research","Medicine, Business, Education, Computer Science, Engineering",71,69,51500
+158,Middle Tennessee State University,3.15-3.75,1000-1220,19-25,No,Yes,35,0.94,10000,No,Yes,"Honors;Research","Recording Industry, Business, Aerospace, Computer Science, Media",71,69,51500
+159,University of New Orleans,3.10-3.70,980-1200,19-24,No,Yes,40,0.94,10000,No,Yes,"Honors;Research","Engineering, Business, Film, Computer Science, Naval Architecture",70,68,51200
+160,University of North Carolina Wilmington,3.20-3.80,1180-1330,23-28,No,Yes,65,0.65,11000,No,Yes,"Honors;Research","Marine Biology, Business, Education, Computer Science, Film Studies",72,70,51800
+161,University of Toledo,3.15-3.75,1020-1240,20-26,No,Yes,45,0.95,10000,No,Yes,"Honors;Research","Engineering, Pharmacy, Business, Computer Science, Medicine",71,69,51500
+162,Arkansas State University,3.10-3.70,990-1200,19-24,No,Yes,30,0.97,10000,No,Yes,"Honors;Research","Business, Education, Engineering, Computer Science, Agriculture",70,68,51200
+163,California State University Fullerton,3.20-3.80,1030-1250,19-24,No,No,70,0.68,10000,No,Yes,"Honors;Research","Business, Engineering, Communications, Computer Science, Arts",72,70,52000
+164,California State University Long Beach,3.20-3.80,1040-1250,20-26,No,No,70,0.39,10000,No,Yes,"Honors;Research","Engineering, Business, Art, Computer Science, Health Sciences",72,70,51800
+165,Sam Houston State University,3.15-3.75,1000-1200,19-24,No,Yes,45,0.83,10000,No,Yes,"Honors;Research","Criminal Justice, Business, Education, Computer Science, Sciences",71,69,51500
+166,University of Massachusetts Lowell,3.20-3.80,1150-1320,25-30,No,Yes,75,0.73,11000,No,Yes,"Honors;Research","Engineering, Business, Health Sciences, Computer Science, Sciences",72,70,52000
+167,Virginia Commonwealth University,3.20-3.80,1070-1260,21-27,No,Yes,70,0.87,11000,No,Yes,"Honors;Research","Arts, Medicine, Business, Engineering, Computer Science",72,70,51800
+168,Western Washington University,3.15-3.75,1100-1300,23-29,No,Yes,60,0.88,11000,No,Yes,"Honors;Research","Environmental Studies, Business, Computer Science, Design, Sciences",71,69,51500
+169,Appalachian State University,3.15-3.75,1100-1270,22-28,No,Yes,65,0.77,11000,No,Yes,"Honors;Research","Education, Business, Computer Science, Sustainable Technology, Health Sciences",71,69,51500
+170,Boise State University,3.15-3.75,1030-1250,20-26,No,Yes,50,0.84,10000,No,Yes,"Honors;Research","Engineering, Business, Education, Computer Science, Health Sciences",71,69,51500
+171,California State University Fresno,3.10-3.70,990-1200,18-24,No,No,70,0.58,10000,No,Yes,"Honors;Research","Agriculture, Business, Engineering, Computer Science, Education",70,68,51200
+172,Missouri State University,3.10-3.70,1000-1210,20-26,No,Yes,35,0.88,10000,No,Yes,"Honors;Research","Business, Education, Health Sciences, Computer Science, Agriculture",70,68,51200
+173,Northern Arizona University,3.10-3.70,1020-1220,19-25,No,Yes,25,0.85,10000,No,Yes,"Honors;Research","Education, Forestry, Business, Computer Science, Hotel Management",70,68,51200
+174,Southern Illinois University,3.10-3.70,1000-1210,19-25,No,Yes,40,0.97,10000,No,Yes,"Honors;Research","Aviation, Engineering, Agriculture, Computer Science, Mass Communication",70,68,51200
+175,Texas State University,3.15-3.75,1020-1230,20-25,No,Yes,75,0.81,10000,No,Yes,"Honors;Research","Education, Business, Health Professions, Computer Science, Communication",71,69,51500
+176,University of Massachusetts Boston,3.15-3.75,1080-1260,22-27,No,Yes,60,0.76,11000,No,Yes,"Honors;Research","Environmental Science, Business, Computer Science, Psychology, Nursing",71,69,51500
+177,University of Wisconsin Oshkosh,3.10-3.70,1000-1210,19-24,No,Yes,50,0.83,10000,No,Yes,"Honors;Research","Business, Education, Nursing, Computer Science, Environmental Studies",70,68,51200
+178,Weber State University,3.10-3.70,990-1200,18-24,No,Yes,30,0.99,9000,No,Yes,"Honors;Research","Health Professions, Business, Computer Science, Engineering, Education",70,68,51000
+179,California State University Northridge,3.15-3.75,1030-1240,19-25,No,No,70,0.58,10000,No,Yes,"Honors;Research","Business, Engineering, Education, Computer Science, Media Studies",71,69,51500
+180,California State University Sacramento,3.15-3.75,1040-1250,19-25,No,No,70,0.63,10000,No,Yes,"Honors;Research","Business, Engineering, Criminal Justice, Computer Science, Health",71,69,51500
+181,Central Washington University,3.10-3.70,990-1200,18-24,No,Yes,50,0.86,10000,No,Yes,"Honors;Research","Business, Education, Aviation, Computer Science, Sciences",70,68,51000
+182,Eastern Washington University,3.10-3.70,980-1190,18-24,No,Yes,60,0.96,10000,No,Yes,"Honors;Research","Business, Education, Computer Science, Health Sciences, Social Work",70,68,51000
+183,Jacksonville State University,3.05-3.65,970-1180,18-24,No,Yes,35,0.98,9000,No,Yes,"Honors;Research","Education, Business, Computer Science, Criminal Justice, Nursing",69,67,50800
+184,Minnesota State University Mankato,3.10-3.70,1000-1210,19-25,No,Yes,20,0.95,10000,No,Yes,"Honors;Research","Education, Business, Engineering, Computer Science, Psychology",70,68,51000
+185,University of Central Arkansas,3.05-3.65,980-1190,18-24,No,Yes,25,0.94,9000,No,Yes,"Honors;Research","Business, Education, Health Sciences, Computer Science, Sciences",69,67,50800
+186,University of Nebraska Kearney,3.05-3.65,980-1190,18-24,No,Yes,45,0.94,9000,No,Yes,"Honors;Research","Education, Business, Health Sciences, Computer Science, Communication",69,67,50800
+187,University of Northern Iowa,3.10-3.70,1010-1220,20-25,No,Yes,40,0.81,10000,No,Yes,"Honors;Research","Education, Business, Computer Science, Social Work, Technology",70,68,51000
+188,University of Wisconsin Whitewater,3.10-3.70,1000-1210,19-25,No,Yes,40,0.89,10000,No,Yes,"Honors;Research","Business, Education, Computer Science, Communication, Arts",70,68,51000
+189,Youngstown State University,3.05-3.65,970-1180,18-24,No,Yes,45,0.96,9000,No,Yes,"Honors;Research","Engineering, Business, Health Sciences, Computer Science, Education",69,67,50800
+190,California State University Chico,3.05-3.65,990-1200,19-24,No,No,70,0.72,10000,No,Yes,"Honors;Research","Business, Engineering, Agriculture, Computer Science, Communication",69,67,50800
+191,University of West Florida,3.05-3.65,1000-1210,19-25,No,Yes,30,0.92,9000,No,Yes,"Honors;Research","Business, Education, Engineering, Computer Science, Marine Science",69,67,50600
+192,Southeast Missouri State University,3.00-3.60,970-1180,18-24,No,Yes,30,0.96,9000,No,Yes,"Honors;Research","Business, Education, Computer Science, Health Sciences, Agriculture",68,66,50400
+193,Stephen F Austin State University,3.00-3.60,980-1190,18-24,No,Yes,45,0.93,9000,No,Yes,"Honors;Research","Education, Forestry, Business, Computer Science, Sciences",68,66,50400
+194,University of Michigan Dearborn,3.10-3.70,1080-1290,23-29,No,Yes,55,0.64,10000,No,Yes,"Honors;Research","Engineering, Business, Education, Computer Science, Psychology",70,68,51200
+195,University of North Carolina Asheville,3.05-3.65,1130-1300,23-28,No,Yes,75,0.84,10000,No,Yes,"Honors;Research","Environmental Studies, Computer Science, Arts, Management, Sciences",69,67,50600
+196,Winona State University,3.00-3.60,990-1200,19-25,No,Yes,20,0.96,9000,No,Yes,"Honors;Research","Nursing, Business, Education, Computer Science, Engineering",68,66,50400
+197,Austin Peay State University,3.00-3.60,960-1170,18-24,No,Yes,25,0.95,9000,No,Yes,"Honors;Research","Education, Business, Computer Science, Health Sciences, Technology",67,65,50200
+198,California State University East Bay,3.05-3.65,950-1150,17-23,No,No,70,0.76,10000,No,Yes,"Honors;Research","Business, Healthcare, Education, Computer Science, Technology",69,67,50600
+199,California State University San Bernardino,3.05-3.65,960-1170,17-23,No,No,70,0.69,10000,No,Yes,"Honors;Research","Business, Education, Computer Science, Psychology, Criminal Justice",69,67,50600
+200,Edinboro University,3.00-3.60,940-1150,17-23,No,Yes,30,0.95,9000,No,Yes,"Honors;Research","Education, Art, Business, Computer Science, Criminal Justice",67,65,50000
+201,Humboldt State University,3.00-3.60,970-1180,18-24,No,No,70,0.85,9000,No,Yes,"Honors;Research","Environmental Science, Forestry, Wildlife, Computer Science, Marine Biology",68,66,50400
+202,Murray State University,3.00-3.60,980-1190,19-25,No,Yes,40,0.87,9000,No,Yes,"Honors;Research","Business, Education, Agriculture, Computer Science, Engineering",68,66,50200
+203,Radford University,3.00-3.60,990-1180,18-24,No,Yes,50,0.79,9000,No,Yes,"Honors;Research","Business, Education, Computer Science, Criminal Justice, Sciences",68,66,50200
+204,Sonoma State University,3.05-3.65,1000-1200,19-24,No,No,70,0.76,10000,No,Yes,"Honors;Research","Business, Education, Environmental Studies, Computer Science, Psychology",69,67,50600
+205,University of Southern Indiana,3.00-3.60,950-1160,18-24,No,Yes,40,0.94,9000,No,Yes,"Honors;Research","Nursing, Business, Engineering, Computer Science, Health Sciences",67,65,50000
+206,Western Illinois University,3.00-3.60,940-1150,18-24,No,Yes,30,0.97,9000,No,Yes,"Honors;Research","Business, Education, Law Enforcement, Computer Science, Agriculture",67,65,50000
+207,California State University San Marcos,3.05-3.65,980-1190,18-24,No,No,70,0.62,10000,No,Yes,"Honors;Research","Business, Nursing, Psychology, Computer Science, Education",69,67,50400
+208,Eastern Illinois University,3.00-3.60,940-1150,18-24,No,Yes,30,0.96,9000,No,Yes,"Honors;Research","Education, Business, Health Sciences, Computer Science, Arts",67,65,50000
+209,Francis Marion University,2.95-3.55,930-1140,17-23,No,Yes,41,0.98,9000,No,Yes,"Honors;Research","Nursing, Business, Education, Computer Science, Biology",66,64,49800
+210,Henderson State University,2.95-3.55,920-1130,17-23,No,Yes,35,0.99,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Nursing, Arts",66,64,49600
+211,Indiana University South Bend,3.00-3.60,950-1160,18-24,No,Yes,35,0.95,9000,No,Yes,"Honors;Research","Business, Education, Computer Science, Nursing, Arts",67,65,50000
+212,Lock Haven University,2.95-3.55,920-1130,17-23,No,Yes,25,0.98,8000,No,Yes,"Honors;Research","Health Sciences, Education, Computer Science, Criminal Justice, Business",66,64,49600
+213,Louisiana Tech University,3.00-3.60,980-1190,19-25,No,Yes,40,0.75,9000,No,Yes,"Honors;Research","Engineering, Business, Education, Computer Science, Architecture",68,66,50200
+214,Metropolitan State University of Denver,3.00-3.60,950-1160,18-24,No,Yes,50,0.91,9000,No,Yes,"Honors;Research","Aviation, Business, Education, Computer Science, Hospitality",67,65,50000
+215,Morehead State University,2.95-3.55,930-1140,17-23,No,Yes,30,0.97,8000,No,Yes,"Honors;Research","Education, Business, Space Science, Computer Science, Nursing",66,64,49800
+216,Norfolk State University,2.95-3.55,920-1130,17-23,No,Yes,25,0.96,8000,No,Yes,"Honors;Research","Engineering, Business, Computer Science, Education, Social Work",66,64,49600
+217,North Carolina Central University,3.00-3.60,950-1160,18-24,No,Yes,40,0.87,9000,No,Yes,"Honors;Research","Law, Business, Education, Computer Science, Criminal Justice",67,65,49800
+218,Northern Kentucky University,3.00-3.60,980-1190,19-25,No,Yes,40,0.90,9000,No,Yes,"Honors;Research","Business, Education, Computer Science, Law, Health Sciences",68,66,50200
+219,Northwestern State University,2.95-3.55,920-1130,17-23,No,Yes,30,0.97,8000,No,Yes,"Honors;Research","Nursing, Business, Education, Computer Science, Arts",66,64,49600
+220,Plymouth State University,3.00-3.60,950-1160,18-24,No,Yes,40,0.88,9000,No,Yes,"Honors;Research","Business, Education, Environmental Science, Computer Science, Psychology",67,65,49800
+221,Southern Oregon University,3.00-3.60,950-1160,18-24,No,Yes,50,0.94,9000,No,Yes,"Honors;Research","Environmental Studies, Business, Computer Science, Theater, Psychology",67,65,49800
+222,SUNY College Plattsburgh,3.00-3.60,980-1190,19-25,No,Yes,50,0.86,9000,No,Yes,"Honors;Research","Business, Education, Environmental Science, Computer Science, Psychology",68,66,50000
+223,Tennessee Technological University,3.00-3.60,980-1190,19-25,No,Yes,40,0.80,9000,No,Yes,"Honors;Research","Engineering, Education, Business, Computer Science, Agriculture",68,66,50200
+224,Texas A&M University Corpus Christi,3.00-3.60,950-1160,18-24,No,Yes,40,0.85,9000,No,Yes,"Honors;Research","Marine Biology, Business, Computer Science, Education, Sciences",67,65,50000
+225,University of Michigan Flint,3.00-3.60,950-1160,18-24,No,Yes,45,0.83,9000,No,Yes,"Honors;Research","Business, Nursing, Computer Science, Health Sciences, Education",67,65,50000
+226,University of Montevallo,2.95-3.55,920-1130,17-23,No,Yes,30,0.94,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Arts, Communication",66,64,49600
+227,University of Tennessee Chattanooga,3.00-3.60,980-1190,19-25,No,Yes,30,0.83,9000,No,Yes,"Honors;Research","Business, Engineering, Education, Computer Science, Nursing",68,66,50200
+228,University of Wisconsin Eau Claire,3.00-3.60,980-1190,19-25,No,Yes,50,0.85,9000,No,Yes,"Honors;Research","Business, Education, Computer Science, Nursing, Sciences",68,66,50000
+229,University of Wisconsin La Crosse,3.00-3.60,980-1190,19-25,No,Yes,50,0.84,9000,No,Yes,"Honors;Research","Health Sciences, Business, Computer Science, Education, Sciences",68,66,50000
+230,University of Wisconsin Stevens Point,3.00-3.60,950-1160,18-24,No,Yes,50,0.87,9000,No,Yes,"Honors;Research","Natural Resources, Education, Business, Computer Science, Arts",67,65,49800
+231,Western Carolina University,3.00-3.60,950-1160,18-24,No,Yes,65,0.86,9000,No,Yes,"Honors;Research","Engineering, Business, Education, Computer Science, Health Sciences",67,65,49800
+232,William Paterson University,3.00-3.60,950-1160,18-24,No,Yes,50,0.92,9000,No,Yes,"Honors;Research","Business, Education, Computer Science, Nursing, Arts",67,65,49800
+233,Bloomsburg University,3.00-3.60,950-1160,18-24,No,Yes,35,0.88,9000,No,Yes,"Honors;Research","Business, Education, Computer Science, Nursing, Liberal Arts",67,65,49800
+234,California State University Bakersfield,3.00-3.60,980-1190,19-25,No,No,70,0.78,9000,No,Yes,"Honors;Research","Business, Education, Computer Science, Nursing, Sciences",68,66,50000
+235,Columbus State University,2.95-3.55,920-1130,17-23,No,Yes,40,0.93,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Arts, Nursing",66,64,49600
+236,Eastern Kentucky University,3.00-3.60,950-1160,18-24,No,Yes,35,0.94,9000,No,Yes,"Honors;Research","Criminal Justice, Education, Business, Computer Science, Aviation",67,65,49800
+237,Frostburg State University,2.95-3.55,920-1130,17-23,No,Yes,45,0.95,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Sciences, Social Work",66,64,49600
+238,McNeese State University,2.95-3.55,910-1120,17-23,No,Yes,20,0.97,8000,No,Yes,"Honors;Research","Engineering, Business, Computer Science, Nursing, Sciences",66,64,49400
+239,Nicholls State University,2.95-3.55,910-1120,17-23,No,Yes,20,0.94,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Culinary Arts, Sciences",66,64,49400
+240,Pittsburg State University,2.95-3.55,910-1120,17-23,No,Yes,30,0.96,8000,No,Yes,"Honors;Research","Technology, Education, Business, Computer Science, Arts",66,64,49400
+241,Southern Connecticut State University,3.00-3.60,950-1160,18-24,No,Yes,50,0.85,9000,No,Yes,"Honors;Research","Education, Business, Computer Science, Nursing, Sciences",67,65,49600
+242,SUNY College Oswego,3.00-3.60,950-1160,18-24,No,Yes,50,0.86,9000,No,Yes,"Honors;Research","Education, Business, Computer Science, Communication, Arts",67,65,49600
+243,University of Central Missouri,3.00-3.60,950-1160,18-24,No,Yes,30,0.86,9000,No,Yes,"Honors;Research","Aviation, Business, Computer Science, Criminal Justice, Technology",67,65,49600
+244,University of South Carolina Upstate,2.95-3.55,910-1120,17-23,No,Yes,45,0.89,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Nursing, Arts",66,64,49400
+245,University of Wisconsin River Falls,2.95-3.55,910-1120,17-23,No,Yes,50,0.92,8000,No,Yes,"Honors;Research","Agriculture, Education, Business, Computer Science, Sciences",66,64,49400
+246,Valdosta State University,2.95-3.55,910-1120,17-23,No,Yes,40,0.95,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Nursing, Arts",66,64,49400
+247,Wayne State College,2.90-3.50,900-1110,16-22,No,Yes,30,0.96,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Sciences, Social Sciences",65,63,49200
+248,West Texas A&M University,2.95-3.55,910-1120,17-23,No,Yes,40,0.87,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Agriculture, Sciences",66,64,49400
+249,Western Connecticut State University,2.95-3.55,910-1120,17-23,No,Yes,50,0.88,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Music, Sciences",66,64,49400
+250,Adams State University,2.90-3.50,900-1110,16-22,No,Yes,30,0.99,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Sciences, Athletics",65,63,49000
+251,Alabama State University,2.90-3.50,900-1110,16-22,No,Yes,30,0.98,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Sciences, Social Sciences",65,63,49000
+252,Black Hills State University,2.90-3.50,900-1110,16-22,No,Yes,20,0.97,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Sciences, Natural Sciences",65,63,49000
+253,Cameron University,2.90-3.50,900-1110,16-22,No,Yes,20,0.98,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Sciences, Technology",65,63,49000
+254,Coastal Carolina University,2.95-3.55,910-1120,17-23,No,Yes,45,0.84,8000,No,Yes,"Honors;Research","Marine Science, Business, Computer Science, Sciences, Education",66,64,49400
+255,Delta State University,2.90-3.50,900-1110,16-22,No,Yes,30,0.97,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Nursing, Sciences",65,63,49000
+256,Elizabeth City State University,2.90-3.50,890-1100,16-22,No,Yes,30,0.95,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Aviation, Sciences",65,63,48800
+257,Fort Hays State University,2.95-3.55,910-1120,17-23,No,Yes,30,0.91,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Technology, Health Sciences",66,64,49200
+258,Francis Marion University,2.90-3.50,900-1110,16-22,No,Yes,40,0.95,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Nursing, Sciences",65,63,49000
+259,Georgia Southwestern State University,2.90-3.50,890-1100,16-22,No,Yes,25,0.96,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Nursing, Sciences",65,63,48800
+260,Grambling State University,2.90-3.50,890-1100,16-22,No,Yes,20,0.97,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Engineering Technology, Sciences",65,63,48800
+261,Johnson State College,2.85-3.45,880-1090,15-21,No,Yes,40,0.98,8000,No,Yes,"Honors;Research","Environmental Science, Education, Business, Computer Science, Arts",64,62,48600
+262,Keene State College,2.90-3.50,890-1100,16-22,No,Yes,40,0.92,8000,No,Yes,"Honors;Research","Education, Sciences, Business, Computer Science, Health Sciences",65,63,48800
+263,Lake Superior State University,2.90-3.50,890-1100,16-22,No,Yes,35,0.92,8000,No,Yes,"Honors;Research","Engineering, Business, Computer Science, Environmental Science, Criminal Justice",65,63,48800
+264,Longwood University,2.95-3.55,910-1120,17-23,No,Yes,50,0.89,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Sciences, Social Sciences",66,64,49200
+265,Massachusetts College of Liberal Arts,2.90-3.50,890-1100,16-22,No,Yes,50,0.93,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Arts, Sciences",65,63,48800
+266,Midwestern State University,2.90-3.50,890-1100,16-22,No,Yes,40,0.94,8000,No,Yes,"Honors;Research","Nursing, Business, Computer Science, Education, Liberal Arts",65,63,48800
+267,Mississippi Valley State University,2.85-3.45,880-1090,15-21,No,Yes,20,0.99,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Criminal Justice, Sciences",64,62,48600
+268,University of Arkansas Fort Smith,2.90-3.50,890-1100,16-22,No,Yes,30,0.95,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Health Sciences, Technology",65,63,48800
+269,University of Arkansas Monticello,2.85-3.45,880-1090,15-21,No,Yes,30,0.98,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Forestry, Agriculture",64,62,48600
+270,University of Texas Permian Basin,2.90-3.50,890-1100,16-22,No,Yes,40,0.92,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Engineering, Sciences",65,63,48800
+271,University of Texas Tyler,2.90-3.50,890-1100,16-22,No,Yes,40,0.93,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Engineering, Health Sciences",65,63,48800
+272,Western State Colorado University,2.85-3.45,880-1090,15-21,No,Yes,30,0.96,8000,No,Yes,"Honors;Research","Business, Education, Computer Science, Environmental Studies, Recreation",64,62,48600
+273,Harris Stowe State University,2.85-3.45,880-1090,15-21,No,Yes,20,0.99,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Sciences, Liberal Arts",64,62,48600
+274,University of Arkansas Pine Bluff,2.85-3.45,880-1090,15-21,No,Yes,30,0.98,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Agriculture, Sciences",64,62,48600
+275,Kentucky State University,2.85-3.45,880-1090,15-21,No,Yes,20,0.97,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Agriculture, Sciences",64,62,48600
+276,Lincoln University Pennsylvania,2.85-3.45,880-1090,15-21,No,Yes,20,0.98,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Sciences, Liberal Arts",64,62,48600
+277,Savannah State University,2.85-3.45,880-1090,15-21,No,Yes,20,0.98,8000,No,Yes,"Honors;Research","Business, Engineering Technology, Computer Science, Sciences, Liberal Arts",64,62,48600
+278,Worcester State University,2.90-3.50,890-1100,16-22,No,Yes,50,0.91,8000,No,Yes,"Honors;Research","Education, Business, Computer Science, Nursing, Sciences",65,63,48800
