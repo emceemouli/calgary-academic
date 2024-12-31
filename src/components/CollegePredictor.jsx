@@ -617,7 +617,7 @@ return (
       />
       <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/75" />
       <div className="relative flex justify-center items-center h-full text-white">
-        <h1 className="text-4xl font-bold">Enhanced College Predictor</h1>
+        <h1 className="text-4xl font-bold">College Predictor</h1>
       </div>
     </header>
 
@@ -705,7 +705,7 @@ return (
       {/* Footer Information */}
       <div className="mt-8 text-sm text-gray-600 text-center">
         <p className="max-w-2xl mx-auto">
-          This enhanced college predictor provides recommendations based on your academic profile,
+          This college predictor provides recommendations based on your academic profile,
           program preferences, and success metrics. Results are for guidance only.
         </p>
       </div>
