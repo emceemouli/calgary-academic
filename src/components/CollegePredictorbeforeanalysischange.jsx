@@ -4,14 +4,18 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Card } from './ui/card';
 import { Button } from './ui/button';
 import {
-  BarChart,
-  Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
   ResponsiveContainer,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  Radar
 } from 'recharts';
 import { School, Trophy, TrendingUp, GraduationCap } from 'lucide-react';
 import * as XLSX from 'xlsx';
@@ -494,160 +498,112 @@ const renderInputSection = () => (
   );
 
   // Analysis section renderer
-    const renderAnalysisSection = () => {
+  const renderAnalysisSection = () => {
     const calculateAverages = () => {
-      if (!results.Target?.[0]) return {};
-      const totals = results.Target.reduce(
-        (acc, college) => ({
-          acceptanceRate: acc.acceptanceRate + parseFloat(college.Acceptance_Rate),
-          ranking: acc.ranking + parseInt(college.Ranking),
-          graduationRate: acc.graduationRate + parseFloat(college.Graduation_Rate),
-          startingSalary: acc.startingSalary + parseInt(college.Starting_Salary),
-        }),
-        { acceptanceRate: 0, ranking: 0, graduationRate: 0, startingSalary: 0 }
-      );
-      const averages = {
-        acceptanceRate: (totals.acceptanceRate / results.Target.length).toFixed(2),
-        ranking: Math.round(totals.ranking / results.Target.length),
-        graduationRate: (totals.graduationRate / results.Target.length).toFixed(2), // Corrected calculation
-        startingSalary: Math.round(totals.startingSalary / results.Target.length),
-        gpa: (totals.gpa / results.Target.length).toFixed(2),
-        sat: Math.round(totals.sat / results.Target.length),
+      const allColleges = [...(results.Reach || []), ...(results.Target || []), ...(results.Safety || [])];
+      const totalColleges = allColleges.length || 1;
+
+      return {
+        graduationRate: Math.round(
+          allColleges.reduce((acc, college) => 
+            acc + (parseFloat(college.Graduation_Rate) || 0), 0
+          ) / totalColleges
+        ),
+        employmentRate: Math.round(
+          allColleges.reduce((acc, college) => 
+            acc + (parseFloat(college.Employment_Rate) || 0), 0
+          ) / totalColleges
+        ),
+        startingSalary: Math.round(
+          allColleges.reduce((acc, college) => 
+            acc + (parseFloat(college.Starting_Salary) || 0), 0
+          ) / totalColleges
+        )
       };
-      return averages;
     };
 
-    const getBarDataGPA = () => {
+    const getRadarData = () => {
       if (!results.Target?.[0]) return [];
-      const college = results.Target[0];
-      const userGPA = parseFloat(studentProfile.gpa);
-      const [minGPA, maxGPA] = college.GPA_Range.split('-').map(Number);
-      const avgGPA = (minGPA + maxGPA) / 2;
+      
       return [
-        { name: 'Your GPA', value: userGPA, fill: userGPA >= avgGPA ? '#82ca9d' : '#f4a460' },
-        { name: 'Average GPA', value: avgGPA, fill: '#8884d8' },
-      ];
-    };
-
-    const getBarDataSAT = () => {
-      if (!results.Target?.[0]) return [];
-      const college = results.Target[0];
-      const userSAT = parseInt(studentProfile.sat);
-      const [minSAT, maxSAT] = college.SAT_Range.split('-').map(Number);
-      const avgSAT = (minSAT + maxSAT) / 2;
-      return [
-        { name: 'Your SAT', value: userSAT, fill: userSAT >= avgSAT ? '#82ca9d' : '#f4a460' },
-        { name: 'Average SAT', value: avgSAT, fill: '#8884d8' },
+        {
+          subject: 'Graduation Rate',
+          value: parseFloat(results.Target[0].Graduation_Rate) || 0,
+          fullMark: 100
+        },
+        {
+          subject: 'Employment Rate',
+          value: parseFloat(results.Target[0].Employment_Rate) || 0,
+          fullMark: 100
+        },
+        {
+          subject: 'Salary Potential',
+          value: Math.min((parseFloat(results.Target[0].Starting_Salary) || 0) / 1000, 100),
+          fullMark: 100
+        }
       ];
     };
 
     const averages = calculateAverages();
 
     return (
-    <div className="space-y-8">
-      <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4">
-          Your College Match Profile
-        </h3>
-        <p className="text-gray-600">
-          Based on your profile, we've analyzed your potential fit with various
-          universities. Here's a breakdown of your predicted match with your
-          target colleges:
-        </p>
-      </Card>
+      <div className="space-y-8">
+        <Card className="p-6 bg-white shadow-lg">
+          <h3 className="text-2xl font-bold text-gray-800 mb-4">Understanding Your Matches</h3>
+          <p className="text-gray-600">
+            This analysis provides insights into your college matches based on key success metrics
+            and academic alignment. Review these metrics to make informed decisions about your
+            college choices.
+          </p>
+        </Card>
 
-      <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-center">
-          Your Scores Compared to Others
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="p-6 bg-white shadow-lg">
+          <h3 className="text-xl font-semibold mb-4">Success Metrics Analysis</h3>
           <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={getBarDataGPA()}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" />
-              </BarChart>
-            </ResponsiveContainer>
+            {results.Target && results.Target.length > 0 ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <RadarChart data={getRadarData()}>
+                  <PolarGrid strokeDasharray="3 3" />
+                  <PolarAngleAxis dataKey="subject" />
+                  <Radar
+                    name="Success Metrics"
+                    dataKey="value"
+                    stroke="#2563eb"
+                    fill="#2563eb"
+                    fillOpacity={0.6}
+                  />
+                  <Tooltip />
+                  <Legend />
+                </RadarChart>
+              </ResponsiveContainer>
+            ) : (
+              <div className="flex items-center justify-center h-full text-gray-500">
+                Complete your profile and find matches to see the analysis
+              </div>
+            )}
           </div>
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={getBarDataSAT()}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
+        </Card>
+
+        <div className="grid md:grid-cols-3 gap-6">
+          <Card className="p-6 bg-white shadow-lg">
+            <h4 className="text-lg font-semibold text-blue-600 mb-2">Graduation Success</h4>
+            <p className="text-3xl font-bold mb-2">{averages.graduationRate}%</p>
+            <p className="text-gray-600 text-sm">Average graduation rate</p>
+          </Card>
+          <Card className="p-6 bg-white shadow-lg">
+            <h4 className="text-lg font-semibold text-green-600 mb-2">Employment Rate</h4>
+            <p className="text-3xl font-bold mb-2">{averages.employmentRate}%</p>
+            <p className="text-gray-600 text-sm">Average employment rate</p>
+          </Card>
+          <Card className="p-6 bg-white shadow-lg">
+            <h4 className="text-lg font-semibold text-purple-600 mb-2">Starting Salary</h4>
+            <p className="text-3xl font-bold mb-2">${averages.startingSalary.toLocaleString()}</p>
+            <p className="text-gray-600 text-sm">Average starting salary</p>
+          </Card>
         </div>
-      </Card>
-
-      <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-center">
-          What to Expect After Graduation
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-green-500" />
-            <span>
-              Average Graduation Rate: {averages.graduationRate}%
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <GraduationCap className="w-5 h-5 text-red-500" />
-            <span>
-              Average Starting Salary: $
-              {averages.startingSalary.toLocaleString()}
-            </span>
-          </div>
-        </div>
-      </Card>
-
-      <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-center">Key Takeaways</h3>
-<ul className="list-disc pl-6 text-lg">
-  {results.Target.length > 0 && parseFloat(studentProfile.gpa) >= parseFloat(results.Target[0].GPA_Range.split('-').reduce((a, b) => parseFloat(a) + parseFloat(b), 0) / 2) ? (
-    <li>Your GPA is a strong point!</li>
-  ) : (
-    <li>
-      Your GPA is a bit lower than the average for your target schools. Consider ways to improve your GPA or explore schools with slightly lower GPA requirements.
-    </li>
-  )}
-  {results.Target.length > 0 && parseInt(studentProfile.sat) >= parseInt(results.Target[0].SAT_Range.split('-').reduce((a, b) => parseInt(a) + parseInt(b), 0) / 2) ? (
-    <li>Your SAT score is competitive for these colleges.</li>
-  ) : (
-    <li>
-      Your SAT score is a bit low for some of your target schools. Consider retaking the SAT or exploring colleges with lower score requirements.
-    </li>
-  )}
-          {studentProfile.major && results.Target.length > 0 ? (
-            <li>
-              {results.Target.some(
-                (college) =>
-                  college.Program_Strengths.includes(studentProfile.major) ||
-                  Object.keys(majorCategories).some((category) =>
-                    majorCategories[category].includes(studentProfile.major) &&
-                    college.Program_Strengths.includes(category)
-                  )
-              ) ? (
-                `Your chosen major in ${studentProfile.major} aligns well with the program strengths of your top-matched colleges.`
-              ) : (
-                `Consider exploring colleges with stronger programs in ${studentProfile.major}.`
-              )}
-            </li>
-          ) : null}
-          {/* Add more insights based on other factors like location, etc. */}
-        </ul>
-      </Card>
-    </div>
-  );
-};
-
- 
+      </div>
+    );
+  };
 return (
   <div className="container mx-auto py-8 px-4">
     {/* Hero Section */}
