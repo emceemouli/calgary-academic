@@ -590,7 +590,7 @@ const renderInputSection = () => (
         <h3 className="text-xl font-semibold mb-4 text-center">
           What to Expect After Graduation
         </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg text-gray-800">
           <div className="flex items-center gap-2">
             <TrendingUp className="w-5 h-5 text-green-500" />
             <span>
@@ -609,7 +609,7 @@ const renderInputSection = () => (
 
       <Card className="p-6 bg-white shadow-lg">
         <h3 className="text-xl font-semibold mb-4 text-center">Key Takeaways</h3>
-<ul className="list-disc pl-6 text-lg">
+<ul className="list-disc pl-6 text-lg text-gray-800">
   {results.Target.length > 0 && parseFloat(studentProfile.gpa) >= parseFloat(results.Target[0].GPA_Range.split('-').reduce((a, b) => parseFloat(a) + parseFloat(b), 0) / 2) ? (
     <li>Your GPA is a strong point!</li>
   ) : (
