@@ -321,7 +321,7 @@ const renderInputSection = () => (
     <div className="grid md:grid-cols-2 gap-8">
       {/* Academic Profile */}
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold mb-4">Academic Profile</h3>
+        <h3 className="text-xl font-semibold mb-4 text-gray-800">Academic Profile</h3>
         <div className="space-y-4">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -334,7 +334,7 @@ const renderInputSection = () => (
                 ...prev,
                 gpa: e.target.value
               }))}
-              placeholder="Enter your GPA (e.g., 3.8)"
+              placeholder="Enter your GPA (e.g., 3.8) (ACT equivalent)"
               className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
               step="0.01"
               min="0"
@@ -364,7 +364,7 @@ const renderInputSection = () => (
 
       {/* Program Selection */}
       <div className="space-y-6">
-        <h3 className="text-xl font-semibold mb-4">Program Interests</h3>
+        <h3 className="text-xl font-semibold mb-4 text-gray-800">Program Interests</h3>
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
             Desired Major
