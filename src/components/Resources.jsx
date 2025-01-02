@@ -291,7 +291,7 @@ const Resources = () => {
         "• Error analysis methods",
         "• Common pitfall avoidance"
       ],
-      downloadLink: "/resources/pdfs/math-guide.pdf"
+      downloadLink: "/resources/pdfs/SATSuiteQuestionBankAlgebra-Results.pdf"
     }],
     verbal: [{
       title: "Reading & Writing Guide",
@@ -340,7 +340,7 @@ const Resources = () => {
         "• Built-in calculator practice",
         "• Score reporting system"
       ],
-      downloadLink: "/resources/pdfs/practice-tests.pdf"
+      downloadLink: "/resources/pdfs/sat-practice-test-1-digital.pdf"
     }],
     strategies: [{
       title: "Essential Test-Taking Strategies",
