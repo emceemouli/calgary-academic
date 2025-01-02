@@ -557,7 +557,7 @@ const renderInputSection = () => (
       </Card>
 
       <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-center">
+        <h3 className="text-xl font-semibold mb-4 text-center text-gray-800">
           Your Scores Compared to Others
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -587,7 +587,7 @@ const renderInputSection = () => (
       </Card>
 
       <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-center">
+        <h3 className="text-xl font-semibold mb-4 text-center text-gray-800">
           What to Expect After Graduation
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg text-gray-800">
@@ -608,20 +608,27 @@ const renderInputSection = () => (
       </Card>
 
       <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-center">Key Takeaways</h3>
+        <h3 className="text-xl font-semibold mb-4 text-center text-gray-800">Key Takeaways</h3>
 <ul className="list-disc pl-6 text-lg text-gray-800">
-  {results.Target.length > 0 && parseFloat(studentProfile.gpa) >= parseFloat(results.Target[0].GPA_Range.split('-').reduce((a, b) => parseFloat(a) + parseFloat(b), 0) / 2) ? (
+  {results.Target.length > 0 &&
+  parseFloat(studentProfile.gpa) >=
+    (parseFloat(results.Target[0].GPA_Range.split('-')[0]) + parseFloat(results.Target[0].GPA_Range.split('-')[1])) / 2 ? ( // Corrected average GPA calculation
     <li>Your GPA is a strong point!</li>
   ) : (
     <li>
-      Your GPA is a bit lower than the average for your target schools. Consider ways to improve your GPA or explore schools with slightly lower GPA requirements.
+      Your GPA is a bit lower than the average for your target schools. Consider
+      ways to improve your GPA or explore schools with slightly lower GPA
+      requirements.
     </li>
   )}
-  {results.Target.length > 0 && parseInt(studentProfile.sat) >= parseInt(results.Target[0].SAT_Range.split('-').reduce((a, b) => parseInt(a) + parseInt(b), 0) / 2) ? (
+  {results.Target.length > 0 &&
+  parseInt(studentProfile.sat) >=
+    (parseInt(results.Target[0].SAT_Range.split('-')[0]) + parseInt(results.Target[0].SAT_Range.split('-')[1])) / 2 ? ( // Corrected average SAT calculation
     <li>Your SAT score is competitive for these colleges.</li>
   ) : (
     <li>
-      Your SAT score is a bit low for some of your target schools. Consider retaking the SAT or exploring colleges with lower score requirements.
+      Your SAT score is a bit low for some of your target schools. Consider
+      retaking the SAT or exploring colleges with lower score requirements.
     </li>
   )}
           {studentProfile.major && results.Target.length > 0 ? (
