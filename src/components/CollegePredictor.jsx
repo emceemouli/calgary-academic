@@ -1,275 +1,327 @@
-// Part 1: Imports and Initial Setup
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { Card } from './ui/card';
+import React, { useState } from 'react';
+import { School, Trophy, TrendingUp, Brain, AlertCircle, CheckCircle, Target, Zap, Sparkles } from 'lucide-react';
+import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import {
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
-} from 'recharts';
-import { School, Trophy, TrendingUp, GraduationCap } from 'lucide-react';
-import * as XLSX from 'xlsx';
 
 const CollegePredictor = () => {
-  const navigate = useNavigate();
-  const [activeSection, setActiveSection] = useState('input');
+  // State Management
   const [studentProfile, setStudentProfile] = useState({
     gpa: '',
     sat: '',
     desiredMajor: '',
     location: '',
-    costPreference: '',
-    campusSize: ''
+    budget: ''
   });
-  const [results, setResults] = useState({
-    Reach: [],
-    Target: [],
-    Safety: [],
-    insights: null,
-    matchScore: null
-  });
+  const [results, setResults] = useState({ Reach: [], Target: [], Safety: [] });
+  const [aiInsights, setAiInsights] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [showAdvanced, setShowAdvanced] = useState(false);
-  const [collegeData, setCollegeData] = useState(null);
-  const [isMobile, setIsMobile] = useState(false);
-  // Constants for scoring and matching calculations
-  const MATCH_THRESHOLDS = {
-    SAFETY: 0.8,    // 80% match or higher for safety schools
-    TARGET: 0.6,    // 60-79% match for target schools
-    REACH: 0.3      // 30-59% match for reach schools
+  const [activeSection, setActiveSection] = useState('input');
+
+  // Format AI response for beautiful display
+  const formatAIResponse = (text) => {
+    if (!text) return null;
+
+    const lines = text.split('\n').filter(line => line.trim());
+    
+    return (
+      <div className="space-y-4">
+        {lines.map((line, idx) => {
+          line = line.trim();
+          
+          // Skip empty lines
+          if (!line) return null;
+          
+          // Main section headers (with numbers like **1. Overall Assessment:** or bold headers)
+          if (line.match(/^\*\*\d+\.\s+.+:\*\*/) || line.match(/^\*\*[A-Z][^*]+:\*\*/)) {
+            const headerText = line.replace(/^\*\*\d+\.\s+/, '').replace(/\*\*/g, '').replace(':', '');
+            return (
+              <h3 key={idx} className="text-lg font-bold text-purple-900 mt-6 mb-3 flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-purple-600" />
+                {headerText}
+              </h3>
+            );
+          }
+          
+          // Sub-headers (like **Strengths:** or **Target Schools:**)
+          if (line.match(/^\*\*[^*]+\*\*$/)) {
+            const subHeader = line.replace(/\*\*/g, '');
+            return (
+              <h4 key={idx} className="text-md font-semibold text-purple-800 mt-4 mb-2 ml-2">
+                {subHeader}
+              </h4>
+            );
+          }
+          
+          // Bullet points with asterisks
+          if (line.startsWith('* ')) {
+            const content = line.substring(2).replace(/\*\*/g, '');
+            return (
+              <div key={idx} className="flex gap-3 ml-6 mb-2">
+                <span className="text-purple-600 mt-1 text-lg">•</span>
+                <p className="text-gray-700 leading-relaxed flex-1">{content}</p>
+              </div>
+            );
+          }
+          
+          // Numbered lists
+          if (line.match(/^\d+\.\s+/)) {
+            const content = line.replace(/\*\*/g, '');
+            return (
+              <div key={idx} className="flex gap-3 ml-6 mb-2">
+                <span className="text-purple-600 font-semibold min-w-[24px]">{line.match(/^\d+\./)[0]}</span>
+                <p className="text-gray-700 leading-relaxed flex-1">{content.replace(/^\d+\.\s+/, '')}</p>
+              </div>
+            );
+          }
+          
+          // Regular paragraphs (but skip if it's part of a heading)
+          if (!line.includes('**') && line.length > 20) {
+            return (
+              <p key={idx} className="text-gray-700 leading-relaxed mb-3 ml-2">
+                {line}
+              </p>
+            );
+          }
+          
+          return null;
+        })}
+      </div>
+    );
   };
 
-  const WEIGHTS = {
-    GPA: 0.3,       // 30% weight for GPA
-    SAT: 0.3,       // 30% weight for SAT scores
-    PROGRAM: 0.2,   // 20% weight for program match
-    METRICS: 0.2    // 20% weight for success metrics
+  // PURE AI - Get everything from AI (colleges + insights)
+  const getAIRecommendations = async (profile) => {
+    try {
+      const API_KEY = 'AIzaSyBIskHL7K9p5-bf7xv-8lOu8Zj1WF-MCI8';
+      const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent';
+
+      // COMPACT PROMPT - AI provides colleges WITH stats
+      const prompt = `As a college admissions counselor, recommend 24 US universities for this student and analyze their profile:
+
+**Student Profile:**
+- GPA: ${profile.gpa}/4.0
+- SAT: ${profile.sat}/1600
+- Intended Major: ${profile.desiredMajor}
+- Location Preference: ${profile.location || 'Any'}
+- Budget: ${profile.budget || 'Not specified'}
+
+**Task 1 - College Recommendations:**
+Provide exactly 24 unique US universities (NO DUPLICATES) categorized as:
+
+**REACH SCHOOLS (8 colleges):**
+For each college, format as:
+[College Name] | GPA: [range] | SAT: [range]
+
+**TARGET SCHOOLS (8 colleges):**
+For each college, format as:
+[College Name] | GPA: [range] | SAT: [range]
+
+**SAFETY SCHOOLS (8 colleges):**
+For each college, format as:
+[College Name] | GPA: [range] | SAT: [range]
+
+**Task 2 - Analysis:**
+Provide brief analysis with these sections:
+
+**1. Overall Assessment:**
+(2-3 sentences about profile strength)
+
+**2. Strengths:**
+* List 2-3 key strengths
+
+**3. Strategic Recommendations:**
+* List 2-3 actionable recommendations
+
+**4. Application Timeline:**
+* Brief timeline advice
+
+IMPORTANT:
+- Each college must appear ONLY ONCE
+- Include realistic GPA/SAT ranges for each college
+- Strongly prioritize the location preference
+- Keep total response under 600 words
+- Use the exact formatting shown above`;
+
+      console.log('🤖 Requesting pure AI recommendations...');
+
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'x-goog-api-key': API_KEY
+        },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: prompt }]
+          }]
+        })
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('❌ AI Error:', errorData);
+        throw new Error(`AI request failed: ${response.status}`);
+      }
+      
+      const data = await response.json();
+      const aiResponse = data.candidates[0]?.content?.parts[0]?.text || '';
+      
+      console.log('✅ AI recommendations received');
+      console.log('Response length:', aiResponse.length);
+      
+      return aiResponse;
+    } catch (error) {
+      console.error('🔥 AI Error:', error);
+      throw error;
+    }
   };
 
-  // Data structure for organizing majors by category
-  const majorCategories = {
-    "Arts & Humanities": [
-      "Art History",
-      "English",
-      "History",
-      "Literature",
-      "Music",
-      "Philosophy",
-      "Theater Arts"
-    ],
-    "STEM Fields": [
-      "Computer Science",
-      "Engineering",
-      "Mathematics",
-      "Physics",
-      "Biology",
-      "Chemistry"
-    ],
-    "Business & Economics": [
-      "Business Administration",
-      "Economics",
-      "Finance",
-      "Marketing",
-      "Management",
-      "Accounting"
-    ],
-    "Social Sciences": [
-      "Psychology",
-      "Sociology",
-      "Political Science",
-      "Communications",
-      "Anthropology"
-    ],
-    "Health Sciences": [
-      "Nursing",
-      "Public Health",
-      "Pre-Medicine",
-      "Health Administration"
-    ]
-  };
-
-  // Mobile detection effect
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Data loading effect
-  useEffect(() => {
-    const loadCollegeData = async () => {
-      try {
-        const response = await fetch('/excel/collegerankings.xlsx');
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+  // Parse AI response into structured data
+  const parseAIResponse = (aiResponse) => {
+    const results = { Reach: [], Target: [], Safety: [] };
+    let insights = '';
+    
+    try {
+      const lines = aiResponse.split('\n');
+      let currentCategory = null;
+      let insightsStarted = false;
+      const seenColleges = new Set(); // Track unique colleges
+      
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i].trim();
+        
+        // Detect category headers
+        if (line.match(/REACH SCHOOLS?/i) || line.match(/^\*\*REACH/i)) {
+          currentCategory = 'Reach';
+          insightsStarted = false;
+          continue;
+        } else if (line.match(/TARGET SCHOOLS?/i) || line.match(/^\*\*TARGET/i)) {
+          currentCategory = 'Target';
+          insightsStarted = false;
+          continue;
+        } else if (line.match(/SAFETY SCHOOLS?/i) || line.match(/^\*\*SAFETY/i)) {
+          currentCategory = 'Safety';
+          insightsStarted = false;
+          continue;
         }
-
-        const arrayBuffer = await response.arrayBuffer();
-        const workbook = XLSX.read(new Uint8Array(arrayBuffer), {
-          type: 'array',
-          cellDates: true,
-          cellStyles: true,
-          cellNF: true,
-          cellFormula: true
-        });
-
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        const rawData = XLSX.utils.sheet_to_json(worksheet);
-
-        const processedData = rawData.map(college => ({
-          University: college.University || college.university || '',
-          Rank: college.Rank || college.rank || 0,
-          GPA_Range: college.GPA_Range || college.gpa_range || '0-4',
-          SAT_Range: college.SAT_Range || college.sat_range || '400-1600',
-          Program_Strengths: college.Program_Strengths || college.program_strengths || '',
-          Graduation_Rate: parseFloat(college.Graduation_Rate || college.graduation_rate || 0),
-          Employment_Rate: parseFloat(college.Employment_Rate || college.employment_rate || 0),
-          Starting_Salary: parseFloat(college.Starting_Salary || college.starting_salary || 0)
-        }));
-
-        setCollegeData(processedData);
-        setError(null);
-      } catch (error) {
-        console.error("Error loading college data:", error);
-        setError("Unable to load college rankings data. Please try again.");
+        
+        // Detect start of analysis section
+        if (line.match(/^\*\*\d+\.\s+Overall Assessment/i) || 
+            line.match(/^\*\*Analysis/i) ||
+            line.match(/^\*\*Task 2/i)) {
+          insightsStarted = true;
+          currentCategory = null;
+        }
+        
+        // If we're in insights section, collect all remaining text
+        if (insightsStarted) {
+          insights += line + '\n';
+          continue;
+        }
+        
+        // Parse college data (format: Name | GPA: range | SAT: range)
+        if (currentCategory && line && !line.match(/^(REACH|TARGET|SAFETY)/i)) {
+          // Try to parse line with | separator
+          if (line.includes('|')) {
+            const parts = line.split('|').map(p => p.trim());
+            let collegeName = parts[0].replace(/^\d+\.\s*/, '').replace(/^-\s*/, '').trim();
+            
+            // Remove markdown formatting
+            collegeName = collegeName.replace(/^\*\*/, '').replace(/\*\*$/, '');
+            
+            // Check for duplicates
+            const collegeLower = collegeName.toLowerCase();
+            if (seenColleges.has(collegeLower)) {
+              console.log('⚠️ Skipping duplicate:', collegeName);
+              continue;
+            }
+            seenColleges.add(collegeLower);
+            
+            let gpaRange = 'N/A';
+            let satRange = 'N/A';
+            
+            // Extract GPA range
+            const gpaPart = parts.find(p => p.toLowerCase().includes('gpa'));
+            if (gpaPart) {
+              const gpaMatch = gpaPart.match(/(\d\.\d+\s*-\s*\d\.\d+)/);
+              if (gpaMatch) gpaRange = gpaMatch[1].replace(/\s+/g, '');
+            }
+            
+            // Extract SAT range
+            const satPart = parts.find(p => p.toLowerCase().includes('sat'));
+            if (satPart) {
+              const satMatch = satPart.match(/(\d{3,4}\s*-\s*\d{3,4})/);
+              if (satMatch) satRange = satMatch[1].replace(/\s+/g, '');
+            }
+            
+            if (collegeName && results[currentCategory].length < 8) {
+              results[currentCategory].push({
+                University: collegeName,
+                GPA_Range: gpaRange,
+                SAT_Range: satRange
+              });
+            }
+          }
+          // Alternative format: just college name on a line
+          else if (line.match(/^\d+\.\s+[A-Z]/) || line.match(/^-\s+[A-Z]/)) {
+            let collegeName = line.replace(/^\d+\.\s*/, '').replace(/^-\s*/, '').trim();
+            collegeName = collegeName.replace(/^\*\*/, '').replace(/\*\*$/, '');
+            
+            // Check for duplicates
+            const collegeLower = collegeName.toLowerCase();
+            if (seenColleges.has(collegeLower)) {
+              console.log('⚠️ Skipping duplicate:', collegeName);
+              continue;
+            }
+            seenColleges.add(collegeLower);
+            
+            // Look ahead for GPA/SAT in next lines
+            let gpaRange = 'N/A';
+            let satRange = 'N/A';
+            
+            for (let j = i + 1; j < Math.min(i + 3, lines.length); j++) {
+              const nextLine = lines[j].trim();
+              if (nextLine.toLowerCase().includes('gpa:')) {
+                const gpaMatch = nextLine.match(/(\d\.\d+\s*-\s*\d\.\d+)/);
+                if (gpaMatch) gpaRange = gpaMatch[1].replace(/\s+/g, '');
+              }
+              if (nextLine.toLowerCase().includes('sat:')) {
+                const satMatch = nextLine.match(/(\d{3,4}\s*-\s*\d{3,4})/);
+                if (satMatch) satRange = satMatch[1].replace(/\s+/g, '');
+              }
+            }
+            
+            if (collegeName && results[currentCategory].length < 8) {
+              results[currentCategory].push({
+                University: collegeName,
+                GPA_Range: gpaRange,
+                SAT_Range: satRange
+              });
+            }
+          }
+        }
       }
-    };
-
-    loadCollegeData();
-  }, []);
-  // Matching algorithm functions
-  const calculateMatch = (studentProfile, university) => {
-    const gpaMatch = calculateGPAMatch(studentProfile.gpa, university.GPA_Range);
-    const satMatch = calculateSATMatch(studentProfile.sat, university.SAT_Range);
-    const programMatch = calculateProgramMatch(studentProfile.desiredMajor, university.Program_Strengths);
-    const metricsMatch = calculateMetricsMatch(university);
-
-    return {
-      overall: (
-        gpaMatch * WEIGHTS.GPA +
-        satMatch * WEIGHTS.SAT +
-        programMatch * WEIGHTS.PROGRAM +
-        metricsMatch * WEIGHTS.METRICS
-      ),
-      details: {
-        academic: (gpaMatch + satMatch) / 2,
-        program: programMatch,
-        metrics: metricsMatch
-      }
-    };
-  };
-
-  const calculateGPAMatch = (studentGpa, rangeString) => {
-    if (!rangeString || !studentGpa) return 0.5;
-
-    try {
-      const [minGPA, maxGPA] = rangeString.split('-').map(Number);
-      const gpa = parseFloat(studentGpa);
-
-      if (isNaN(gpa) || isNaN(minGPA) || isNaN(maxGPA)) return 0.5;
-
-      if (gpa >= maxGPA) return 1;
-      if (gpa < minGPA) return 0;
-      return (gpa - minGPA) / (maxGPA - minGPA);
+      
+      console.log('📊 Parsed results:', {
+        reach: results.Reach.length,
+        target: results.Target.length,
+        safety: results.Safety.length,
+        uniqueColleges: seenColleges.size
+      });
+      
+      return { results, insights: insights.trim() };
+      
     } catch (error) {
-      console.error("Error calculating GPA match:", error);
-      return 0.5;
+      console.error('Error parsing AI response:', error);
+      return { results, insights: aiResponse };
     }
   };
 
-  const calculateSATMatch = (studentSat, rangeString) => {
-    if (!rangeString || !studentSat) return 0.5;
-
-    try {
-      const [minSAT, maxSAT] = rangeString.split('-').map(Number);
-      const sat = parseInt(studentSat);
-
-      if (isNaN(sat) || isNaN(minSAT) || isNaN(maxSAT)) return 0.5;
-
-      if (sat >= maxSAT) return 1;
-      if (sat < minSAT) return 0;
-      return (sat - minSAT) / (maxSAT - minSAT);
-    } catch (error) {
-      console.error("Error calculating SAT match:", error);
-      return 0.5;
-    }
-  };
-
-  const calculateProgramMatch = (desiredMajor, programStrengths) => {
-    if (!desiredMajor || !programStrengths) return 0.5;
-
-    try {
-      const programs = programStrengths.toLowerCase().split(',').map(p => p.trim());
-      const major = desiredMajor.toLowerCase().trim();
-
-      if (programs.includes(major)) return 1;
-
-      const majorCategory = Object.entries(majorCategories)
-        .find(([_, majors]) => 
-          majors.map(m => m.toLowerCase()).includes(major)
-        )?.[0];
-
-      if (majorCategory) {
-        const relatedMajors = majorCategories[majorCategory]
-          .map(m => m.toLowerCase());
-
-        const hasRelatedProgram = programs.some(program => 
-          relatedMajors.includes(program)
-        );
-
-        if (hasRelatedProgram) return 0.75;
-      }
-
-      return 0.5;
-    } catch (error) {
-      console.error("Error calculating program match:", error);
-      return 0.5;
-    }
-  };
-
-  const calculateMetricsMatch = (university) => {
-    try {
-      const graduationRate = parseFloat(university.Graduation_Rate) / 100;
-      const employmentRate = parseFloat(university.Employment_Rate) / 100;
-      const startingSalary = Math.min(
-        parseFloat(university.Starting_Salary) / 100000, 
-        1
-      );
-
-      const validGrad = !isNaN(graduationRate) ? graduationRate : 0;
-      const validEmp = !isNaN(employmentRate) ? employmentRate : 0;
-      const validSal = !isNaN(startingSalary) ? startingSalary : 0;
-
-      return (
-        validGrad * 0.4 +
-        validEmp * 0.3 +
-        validSal * 0.3
-      );
-    } catch (error) {
-      console.error("Error calculating metrics match:", error);
-      return 0.5;
-    }
-  };
-  // Prediction handler
-  const handlePrediction = async () => {
+  // Main prediction handler
+  const handlePredict = async () => {
     if (!studentProfile.gpa || !studentProfile.sat) {
-      setError("Please enter both GPA and SAT scores to continue");
-      return;
-    }
-
-    if (!collegeData || collegeData.length === 0) {
-      setError("College data is not yet loaded. Please wait or refresh the page");
+      setError("Please enter your GPA and SAT score.");
       return;
     }
 
@@ -277,492 +329,455 @@ const CollegePredictor = () => {
     setError(null);
 
     try {
-      const processedResults = { 
-        Reach: [], 
-        Target: [], 
-        Safety: [] 
-      };
+      console.log('🚀 Starting pure AI prediction...');
 
-      const matches = collegeData.map(university => ({
-        university,
-        matchScore: calculateMatch(studentProfile, university)
-      }));
+      // Get AI recommendations (colleges + insights)
+      const aiResponse = await getAIRecommendations(studentProfile);
+      
+      // Parse response
+      const { results: parsedResults, insights } = parseAIResponse(aiResponse);
+      
+      // Verify we got results
+      if (parsedResults.Reach.length === 0 && parsedResults.Target.length === 0 && parsedResults.Safety.length === 0) {
+        throw new Error('No colleges parsed from AI response');
+      }
 
-      matches.sort((a, b) => b.matchScore.overall - a.matchScore.overall);
-
-      matches.forEach(({ university, matchScore }) => {
-        if (matchScore.overall >= MATCH_THRESHOLDS.SAFETY) {
-          processedResults.Safety.push({ ...university, matchScore });
-        } else if (matchScore.overall >= MATCH_THRESHOLDS.TARGET) {
-          processedResults.Target.push({ ...university, matchScore });
-        } else if (matchScore.overall >= MATCH_THRESHOLDS.REACH) {
-          processedResults.Reach.push({ ...university, matchScore });
-        }
-      });
-
-      Object.keys(processedResults).forEach(category => {
-        processedResults[category] = processedResults[category].slice(0, 5);
-      });
-
-      setResults(processedResults);
+      setResults(parsedResults);
+      setAiInsights(insights);
       setActiveSection('results');
 
     } catch (error) {
       console.error("Error:", error);
-      setError("Error processing college matches. Please try again.");
+      setError("AI service temporarily unavailable. Please try again in a moment.");
     } finally {
       setLoading(false);
     }
   };
 
-  // Input section renderer
-const renderInputSection = () => (
-  <Card className="p-6 bg-white shadow-lg">
-    <div className="grid md:grid-cols-2 gap-8">
-      {/* Academic Profile */}
-      <div className="space-y-6">
-        <h3 className="text-xl font-semibold mb-4 text-gray-800">Academic Profile</h3>
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              GPA (0.0 - 4.0)
-            </label>
-            <input
-              type="number"
-              value={studentProfile.gpa}
-              onChange={(e) => setStudentProfile(prev => ({
-                ...prev,
-                gpa: e.target.value
-              }))}
-              placeholder="Enter your GPA (e.g., 3.8) (ACT equivalent)"
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-              step="0.01"
-              min="0"
-              max="4.0"
-            />
+  // Input Section
+  const renderInputSection = () => (
+    <Card className="bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100">
+      <CardHeader className="bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 text-white p-8">
+        <div className="flex items-center gap-4 mb-2">
+          <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+            <School className="h-8 w-8" />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              SAT Score (400 - 1600)
-            </label>
-            <input
-              type="number"
-              value={studentProfile.sat}
-              onChange={(e) => setStudentProfile(prev => ({
-                ...prev,
-                sat: e.target.value
-              }))}
-              placeholder="Enter your SAT score (e.g., 1400)"
-              className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
-              step="10"
-              min="400"
-              max="1600"
-            />
+            <CardTitle className="text-3xl font-bold">Enter Your Academic Profile</CardTitle>
+            <p className="text-blue-100 mt-2 text-lg">AI will find your perfect college matches</p>
           </div>
         </div>
-      </div>
+      </CardHeader>
+      <CardContent className="p-8">
+        <div className="grid md:grid-cols-2 gap-8">
+          {/* Academic Credentials */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 pb-3 border-b-2 border-blue-100">
+              <div className="p-2 bg-blue-50 rounded-lg">
+                <Trophy className="h-5 w-5 text-blue-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800">Academic Credentials</h3>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                GPA (on 4.0 scale) <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                placeholder="e.g., 3.85"
+                value={studentProfile.gpa}
+                onChange={(e) => setStudentProfile(prev => ({ ...prev, gpa: e.target.value }))}
+                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                step="0.01"
+                min="0"
+                max="4.0"
+              />
+              <p className="text-xs text-gray-500 mt-1">Enter your cumulative GPA</p>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                SAT Score (out of 1600) <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                placeholder="e.g., 1450"
+                value={studentProfile.sat}
+                onChange={(e) => setStudentProfile(prev => ({ ...prev, sat: e.target.value }))}
+                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+                step="10"
+                min="400"
+                max="1600"
+              />
+              <p className="text-xs text-gray-500 mt-1">Combined Math + EBRW score</p>
+            </div>
+          </div>
 
-      {/* Program Selection */}
-      <div className="space-y-6">
-        <h3 className="text-xl font-semibold mb-4 text-gray-800">Program Interests</h3>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Desired Major
-          </label>
-          <select
-            value={studentProfile.desiredMajor}
-            onChange={(e) => setStudentProfile(prev => ({
-              ...prev,
-              desiredMajor: e.target.value
-            }))}
-            className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500"
+          {/* Preferences */}
+          <div className="space-y-6">
+            <div className="flex items-center gap-2 pb-3 border-b-2 border-purple-100">
+              <div className="p-2 bg-purple-50 rounded-lg">
+                <Target className="h-5 w-5 text-purple-600" />
+              </div>
+              <h3 className="text-xl font-bold text-gray-800">Your Preferences</h3>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Intended Major <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., Computer Science, Biology, Business"
+                value={studentProfile.desiredMajor}
+                onChange={(e) => setStudentProfile(prev => ({ ...prev, desiredMajor: e.target.value }))}
+                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+              />
+              <p className="text-xs text-gray-500 mt-1">Your field of interest</p>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Preferred Location
+              </label>
+              <input
+                type="text"
+                placeholder="e.g., Mid-Atlantic, California, Northeast"
+                value={studentProfile.location}
+                onChange={(e) => setStudentProfile(prev => ({ ...prev, location: e.target.value }))}
+                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+              />
+              <p className="text-xs text-gray-500 mt-1">Geographic preference (optional)</p>
+            </div>
+            
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Budget Range
+              </label>
+              <select
+                value={studentProfile.budget}
+                onChange={(e) => setStudentProfile(prev => ({ ...prev, budget: e.target.value }))}
+                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
+              >
+                <option value="">Select your budget (optional)</option>
+                <option value="under30k">Under $30k/year</option>
+                <option value="30k-50k">$30k - $50k/year</option>
+                <option value="50k-70k">$50k - $70k/year</option>
+                <option value="over70k">Over $70k/year</option>
+              </select>
+              <p className="text-xs text-gray-500 mt-1">Annual cost preference</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="mt-10 flex justify-center">
+          <Button
+            onClick={handlePredict}
+            disabled={loading}
+            className="px-16 py-6 text-xl font-semibold bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 hover:from-blue-700 hover:via-blue-800 hover:to-purple-700 text-white rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            <option value="">Select your intended major</option>
-            {Object.entries(majorCategories).map(([category, majors]) => (
-              <optgroup key={category} label={category}>
-                {majors.map(major => (
-                  <option key={major} value={major}>{major}</option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
+            {loading ? (
+              <div className="flex items-center gap-4">
+                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+                <span>AI is analyzing...</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                <Brain className="h-6 w-6" />
+                <span>Get AI-Powered Predictions</span>
+                <Sparkles className="h-6 w-6" />
+              </div>
+            )}
+          </Button>
         </div>
-      </div>
-    </div>
 
-    {/* Removed Advanced Options Section */}
-
-    {/* Action Buttons */}
-    <div className="mt-6 flex flex-col sm:flex-row justify-end items-center gap-4">
-      <Button
-        onClick={handlePrediction}
-        disabled={loading}
-        className="w-full sm:w-auto bg-blue-600 text-white hover:bg-blue-700 
-          disabled:opacity-50 disabled:cursor-not-allowed"
-      >
-        {loading ? 'Processing...' : 'Find Matches'}
-      </Button>
-    </div>
-  </Card>
-);
-  // Results section renderer
-  const renderResultsSection = () => (
-    <div className="space-y-6">
-      {/* Results Introduction */}
-      <Card className="p-6 bg-white shadow-lg">
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">Your College Matches</h2>
-        <p className="text-gray-600 mb-4">
-          Based on your academic profile, we've categorized colleges into three groups:
-          Reach, Target, and Safety schools. Here are your personalized matches:
-        </p>
-      </Card>
-
-      {/* Results Grid */}
-      <div className="grid md:grid-cols-3 gap-6">
-        {['Reach', 'Target', 'Safety'].map((category) => (
-          <Card key={category} className="p-6 bg-white shadow-lg">
-            <div className="mb-4">
-              <h3 className="text-xl font-semibold text-gray-800">{category} Schools</h3>
-              <p className="text-sm text-gray-600 mt-1">
-                {category === 'Reach' && 'Ambitious options that may be challenging to get into'}
-                {category === 'Target' && 'Schools that match well with your profile'}
-                {category === 'Safety' && 'Schools where you have a strong chance of acceptance'}
-              </p>
-            </div>
-
-            <div className="space-y-4">
-              {results[category]?.map((college, index) => (
-                <div key={index} className={`p-4 rounded-lg border 
-                  ${category === 'Reach' ? 'border-red-200 bg-red-50' :
-                    category === 'Target' ? 'border-blue-200 bg-blue-50' :
-                    'border-green-200 bg-green-50'}
-                  hover:shadow-lg transition-all duration-300`}>
-                  <div className="flex justify-between items-start mb-2">
-                    <h4 className="font-semibold text-gray-800">{college.University}</h4>
-                    <span className="text-sm text-gray-500">#{college.Rank}</span>
-                  </div>
-                  <div className="grid grid-cols-2 gap-2 text-sm">
-                    <div>
-                      <span className="text-gray-600">Match Score:</span>
-                      <br />
-                      <span className={`font-semibold 
-                        ${category === 'Reach' ? 'text-red-600' :
-                          category === 'Target' ? 'text-blue-600' :
-                          'text-green-600'}`}>
-                        {Math.round(college.matchScore.overall * 100)}%
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-gray-600">Program Match:</span>
-                      <br />
-                      <span className="font-semibold text-green-600">
-                        {college.matchScore.details.program >= 0.8 ? 'High' : 
-                         college.matchScore.details.program >= 0.5 ? 'Medium' : 'Low'}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="mt-3 pt-3 border-t border-gray-200 text-xs grid grid-cols-3 gap-2">
-                    <div>
-                      <span className="text-gray-600">Graduation:</span>
-                      <br />
-                      <span className="font-medium">{college.Graduation_Rate}%</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-600">Employment:</span>
-                      <br />
-                      <span className="font-medium">{college.Employment_Rate}%</span>
-                    </div>
-                    <div>
-                      <span className="text-gray-600">Starting Salary:</span>
-                      <br />
-                      <span className="font-medium">${college.Starting_Salary.toLocaleString()}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {(!results[category] || results[category].length === 0) && (
-                <div className="text-center py-8 text-gray-500">
-                  <School className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                  <p>No {category.toLowerCase()} schools found</p>
-                </div>
-              )}
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-
-  // Analysis section renderer
-    const renderAnalysisSection = () => {
-    const calculateAverages = () => {
-      if (!results.Target?.[0]) return {};
-      const totals = results.Target.reduce(
-        (acc, college) => ({
-          acceptanceRate: acc.acceptanceRate + parseFloat(college.Acceptance_Rate),
-          ranking: acc.ranking + parseInt(college.Ranking),
-          graduationRate: acc.graduationRate + parseFloat(college.Graduation_Rate),
-          startingSalary: acc.startingSalary + parseInt(college.Starting_Salary),
-        }),
-        { acceptanceRate: 0, ranking: 0, graduationRate: 0, startingSalary: 0 }
-      );
-      const averages = {
-        acceptanceRate: (totals.acceptanceRate / results.Target.length).toFixed(2),
-        ranking: Math.round(totals.ranking / results.Target.length),
-        graduationRate: (totals.graduationRate / results.Target.length).toFixed(2), // Corrected calculation
-        startingSalary: Math.round(totals.startingSalary / results.Target.length),
-        gpa: (totals.gpa / results.Target.length).toFixed(2),
-        sat: Math.round(totals.sat / results.Target.length),
-      };
-      return averages;
-    };
-
-    const getBarDataGPA = () => {
-      if (!results.Target?.[0]) return [];
-      const college = results.Target[0];
-      const userGPA = parseFloat(studentProfile.gpa);
-      const [minGPA, maxGPA] = college.GPA_Range.split('-').map(Number);
-      const avgGPA = (minGPA + maxGPA) / 2;
-      return [
-        { name: 'Your GPA', value: userGPA, fill: userGPA >= avgGPA ? '#82ca9d' : '#f4a460' },
-        { name: 'Average GPA', value: avgGPA, fill: '#8884d8' },
-      ];
-    };
-
-    const getBarDataSAT = () => {
-      if (!results.Target?.[0]) return [];
-      const college = results.Target[0];
-      const userSAT = parseInt(studentProfile.sat);
-      const [minSAT, maxSAT] = college.SAT_Range.split('-').map(Number);
-      const avgSAT = (minSAT + maxSAT) / 2;
-      return [
-        { name: 'Your SAT', value: userSAT, fill: userSAT >= avgSAT ? '#82ca9d' : '#f4a460' },
-        { name: 'Average SAT', value: avgSAT, fill: '#8884d8' },
-      ];
-    };
-
-    const averages = calculateAverages();
-
-    return (
-    <div className="space-y-8">
-      <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4">
-          Your College Match Profile
-        </h3>
-        <p className="text-gray-600">
-          Based on your profile, we've analyzed your potential fit with various
-          universities. Here's a breakdown of your predicted match with your
-          target colleges:
-        </p>
-      </Card>
-
-      <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-center text-gray-800">
-          Your Scores Compared to Others
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={getBarDataGPA()}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={getBarDataSAT()}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="value" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </Card>
-
-      <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-center text-gray-800">
-          What to Expect After Graduation
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-lg text-gray-800">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 text-green-500" />
-            <span>
-              Average Graduation Rate: {averages.graduationRate}%
-            </span>
-          </div>
-          <div className="flex items-center gap-2">
-            <GraduationCap className="w-5 h-5 text-red-500" />
-            <span>
-              Average Starting Salary: $
-              {averages.startingSalary.toLocaleString()}
-            </span>
-          </div>
-        </div>
-      </Card>
-
-      <Card className="p-6 bg-white shadow-lg">
-        <h3 className="text-xl font-semibold mb-4 text-center text-gray-800">Key Takeaways</h3>
-<ul className="list-disc pl-6 text-lg text-gray-800">
-  {results.Target.length > 0 &&
-  parseFloat(studentProfile.gpa) >=
-    (parseFloat(results.Target[0].GPA_Range.split('-')[0]) + parseFloat(results.Target[0].GPA_Range.split('-')[1])) / 2 ? ( // Corrected average GPA calculation
-    <li>Your GPA is a strong point!</li>
-  ) : (
-    <li>
-      Your GPA is a bit lower than the average for your target schools. Consider
-      ways to improve your GPA or explore schools with slightly lower GPA
-      requirements.
-    </li>
-  )}
-  {results.Target.length > 0 &&
-  parseInt(studentProfile.sat) >=
-    (parseInt(results.Target[0].SAT_Range.split('-')[0]) + parseInt(results.Target[0].SAT_Range.split('-')[1])) / 2 ? ( // Corrected average SAT calculation
-    <li>Your SAT score is competitive for these colleges.</li>
-  ) : (
-    <li>
-      Your SAT score is a bit low for some of your target schools. Consider
-      retaking the SAT or exploring colleges with lower score requirements.
-    </li>
-  )}
-          {studentProfile.major && results.Target.length > 0 ? (
-            <li>
-              {results.Target.some(
-                (college) =>
-                  college.Program_Strengths.includes(studentProfile.major) ||
-                  Object.keys(majorCategories).some((category) =>
-                    majorCategories[category].includes(studentProfile.major) &&
-                    college.Program_Strengths.includes(category)
-                  )
-              ) ? (
-                `Your chosen major in ${studentProfile.major} aligns well with the program strengths of your top-matched colleges.`
-              ) : (
-                `Consider exploring colleges with stronger programs in ${studentProfile.major}.`
-              )}
-            </li>
-          ) : null}
-          {/* Add more insights based on other factors like location, etc. */}
-        </ul>
-      </Card>
-    </div>
-  );
-};
-
- 
-return (
-  <div className="container mx-auto py-8 px-4">
-    {/* Hero Section */}
-    <header className="relative h-[250px] pt-16 mb-8">
-      <img
-        src="/images/Teen-Area-12-23-Hero.jpg"
-        alt="College Predictor"
-        className="absolute inset-0 w-full h-full object-cover"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/75" />
-      <div className="relative flex justify-center items-center h-full text-white">
-        <h1 className="text-4xl font-bold">College Predictor</h1>
-      </div>
-    </header>
-
-    {/* Main Content */}
-    <div className="max-w-6xl mx-auto">
-      {/* Description Card */}
-      <Card className="mb-8 bg-white shadow-lg">
-        <div className="text-center p-6">
-          <p className="text-gray-600 text-lg">
-            Find your best-fit colleges based on academic profile and success metrics
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-500">
+            Pure AI-powered recommendations - no spreadsheet needed!
           </p>
         </div>
-      </Card>
+      </CardContent>
+    </Card>
+  );
 
-      {/* Section Navigation */}
-      {/* Section Navigation */}
-<div className="flex justify-center gap-4 mb-8">
-  <Button
-    onClick={() => setActiveSection('input')}
-    className={`flex items-center gap-2 ${
-      activeSection === 'input' 
-        ? 'bg-blue-600 text-white' 
-        : 'bg-blue-100 text-gray-700 hover:bg-blue-200'
-    }`}
-  >
-    <School className="h-4 w-4" />
-    <span className="hidden sm:inline">Profile Input</span>
-    <span className="sm:hidden">Input</span>
-  </Button>
-  
-  <Button
-    onClick={() => setActiveSection('results')}
-    className={`flex items-center gap-2 ${
-      activeSection === 'results' 
-        ? 'bg-blue-600 text-white' 
-        : 'bg-blue-100 text-gray-700 hover:bg-blue-200'
-    }`}
-    disabled={!results.Target?.length}
-  >
-    <Trophy className="h-4 w-4" />
-    <span className="hidden sm:inline">College Matches</span>
-    <span className="sm:hidden">Matches</span>
-  </Button>
-  
-  <Button
-    onClick={() => setActiveSection('analysis')}
-    className={`flex items-center gap-2 ${
-      activeSection === 'analysis' 
-        ? 'bg-blue-600 text-white' 
-        : 'bg-blue-100 text-gray-700 hover:bg-blue-200'
-    }`}
-    disabled={!results.Target?.length}
-  >
-    <TrendingUp className="h-4 w-4" />
-    <span className="hidden sm:inline">Analysis</span>
-    <span className="sm:hidden">Analysis</span>
-  </Button>
-</div>
-
-      {/* Error Display */}
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 text-red-700 rounded-md">
-          {error}
-        </div>
+  // Results Section
+  const renderResultsSection = () => (
+    <div className="space-y-8">
+      {/* AI Insights */}
+      {aiInsights && (
+        <Card className="bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 border-2 border-purple-200 shadow-2xl rounded-2xl overflow-hidden">
+          <CardHeader className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6">
+            <CardTitle className="text-2xl font-bold flex items-center gap-3">
+              <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
+                <Brain className="h-7 w-7" />
+              </div>
+              <span>AI-Powered Insights</span>
+              <Sparkles className="h-6 w-6 ml-auto animate-pulse" />
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="p-8">
+            {formatAIResponse(aiInsights)}
+          </CardContent>
+        </Card>
       )}
 
-      {/* Loading State */}
-      {loading && (
-        <div className="text-center py-8">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto">
+      {/* College Match Results */}
+      <div className="grid lg:grid-cols-3 gap-6">
+        {/* Reach Schools */}
+        <Card className="border-2 border-orange-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden group">
+          <CardHeader className="bg-gradient-to-br from-orange-50 to-orange-100 p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-orange-200 rounded-xl group-hover:scale-110 transition-transform">
+                  <Zap className="h-6 w-6 text-orange-600" />
+                </div>
+                <div>
+                  <CardTitle className="text-2xl font-bold text-orange-900">
+                    Reach Schools
+                  </CardTitle>
+                  <p className="text-sm text-orange-700 font-medium mt-1">
+                    {results.Reach?.length || 0} ambitious targets
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto bg-gradient-to-b from-white to-orange-50/30">
+            {results.Reach?.length > 0 ? (
+              results.Reach.map((college, idx) => (
+                <div key={idx} className="p-5 bg-white border-2 border-orange-100 rounded-xl hover:border-orange-300 hover:shadow-lg transition-all duration-200">
+                  <h4 className="font-bold text-lg text-gray-900 mb-3">{college.University}</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <span className="font-semibold">📊 GPA:</span>
+                      <span>{college.GPA_Range}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <span className="font-semibold">📝 SAT:</span>
+                      <span>{college.SAT_Range}</span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Zap className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                <p>No reach schools found</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Target Schools */}
+        <Card className="border-2 border-blue-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden group">
+          <CardHeader className="bg-gradient-to-br from-blue-50 to-blue-100 p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-blue-200 rounded-xl group-hover:scale-110 transition-transform">
+                  <Target className="h-6 w-6 text-blue-600" />
+                </div>
+                <div>
+                  <CardTitle className="text-2xl font-bold text-blue-900">
+                    Target Schools
+                  </CardTitle>
+                  <p className="text-sm text-blue-700 font-medium mt-1">
+                    {results.Target?.length || 0} strong matches
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto bg-gradient-to-b from-white to-blue-50/30">
+            {results.Target?.length > 0 ? (
+              results.Target.map((college, idx) => (
+                <div key={idx} className="p-5 bg-white border-2 border-blue-100 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all duration-200">
+                  <h4 className="font-bold text-lg text-gray-900 mb-3">{college.University}</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <span className="font-semibold">📊 GPA:</span>
+                      <span>{college.GPA_Range}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <span className="font-semibold">📝 SAT:</span>
+                      <span>{college.SAT_Range}</span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <Target className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                <p>No target schools found</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+
+        {/* Safety Schools */}
+        <Card className="border-2 border-green-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden group">
+          <CardHeader className="bg-gradient-to-br from-green-50 to-green-100 p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-green-200 rounded-xl group-hover:scale-110 transition-transform">
+                  <CheckCircle className="h-6 w-6 text-green-600" />
+                </div>
+                <div>
+                  <CardTitle className="text-2xl font-bold text-green-900">
+                    Safety Schools
+                  </CardTitle>
+                  <p className="text-sm text-green-700 font-medium mt-1">
+                    {results.Safety?.length || 0} likely admits
+                  </p>
+                </div>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto bg-gradient-to-b from-white to-green-50/30">
+            {results.Safety?.length > 0 ? (
+              results.Safety.map((college, idx) => (
+                <div key={idx} className="p-5 bg-white border-2 border-green-100 rounded-xl hover:border-green-300 hover:shadow-lg transition-all duration-200">
+                  <h4 className="font-bold text-lg text-gray-900 mb-3">{college.University}</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <span className="font-semibold">📊 GPA:</span>
+                      <span>{college.GPA_Range}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-gray-600">
+                      <span className="font-semibold">📝 SAT:</span>
+                      <span>{college.SAT_Range}</span>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="text-center py-8 text-gray-500">
+                <CheckCircle className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                <p>No safety schools found</p>
+              </div>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Application Strategy */}
+      <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl shadow-xl">
+        <CardContent className="p-8">
+          <h3 className="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
+            <TrendingUp className="h-7 w-7 text-blue-600" />
+            Recommended Application Strategy
+          </h3>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
+              <h4 className="font-bold text-lg text-orange-600 mb-3 flex items-center gap-2">
+                <Zap className="h-5 w-5" />
+                Reach (2-4 schools)
+              </h4>
+              <p className="text-gray-700 text-sm leading-relaxed">
+                Apply to schools where you'd be below average. These are your dream schools - 
+                ambitious but achievable with a strong application.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
+              <h4 className="font-bold text-lg text-blue-600 mb-3 flex items-center gap-2">
+                <Target className="h-5 w-5" />
+                Target (3-5 schools)
+              </h4>
+              <p className="text-gray-700 text-sm leading-relaxed">
+                Your stats match well with these schools. You have a solid 50-70% chance of 
+                acceptance. Focus your efforts here.
+              </p>
+            </div>
+            <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
+              <h4 className="font-bold text-lg text-green-600 mb-3 flex items-center gap-2">
+                <CheckCircle className="h-5 w-5" />
+                Safety (2-3 schools)
+              </h4>
+              <p className="text-gray-700 text-sm leading-relaxed">
+                You exceed their average admitted student's credentials. Very likely to be 
+                accepted (80%+ probability).
+              </p>
+            </div>
           </div>
-          <p className="mt-4 text-gray-600">Processing your request...</p>
-        </div>
-      )}
+        </CardContent>
+      </Card>
+    </div>
+  );
 
-      {/* Main Content Section */}
-      {!loading && (
-        <div className="transition-all duration-300">
+  // Main Render
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4">
+      {/* Header */}
+      <header className="max-w-7xl mx-auto mb-10 text-center">
+        <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+          <Sparkles className="h-4 w-4" />
+          <span>Powered by Google AI</span>
+        </div>
+        <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4">
+          AI College Admissions Predictor
+        </h1>
+        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
+          Get personalized college recommendations powered entirely by AI
+        </p>
+      </header>
+
+      {/* Main Container */}
+      <div className="max-w-7xl mx-auto">
+        {/* Navigation */}
+        <div className="flex flex-wrap gap-4 mb-8 justify-center">
+          <Button
+            onClick={() => setActiveSection('input')}
+            className={`flex items-center gap-3 px-8 py-4 text-lg rounded-2xl transition-all duration-300 ${
+              activeSection === 'input' 
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl scale-105' 
+                : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300'
+            }`}
+          >
+            <School className="h-6 w-6" />
+            <span className="font-semibold">Profile Input</span>
+          </Button>
+          
+          <Button
+            onClick={() => setActiveSection('results')}
+            className={`flex items-center gap-3 px-8 py-4 text-lg rounded-2xl transition-all duration-300 ${
+              activeSection === 'results' 
+                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl scale-105' 
+                : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300'
+            }`}
+            disabled={!results.Target?.length && !results.Reach?.length && !results.Safety?.length}
+          >
+            <Trophy className="h-6 w-6" />
+            <span className="font-semibold">Your Matches</span>
+          </Button>
+        </div>
+
+        {/* Error Display */}
+        {error && (
+          <div className="mb-6 p-5 bg-red-50 border-2 border-red-200 text-red-700 rounded-2xl flex items-start gap-4 shadow-lg">
+            <AlertCircle className="h-6 w-6 mt-0.5 flex-shrink-0" />
+            <div>
+              <p className="font-semibold mb-1">Error</p>
+              <p className="text-sm">{error}</p>
+            </div>
+          </div>
+        )}
+
+        {/* Content Sections */}
+        <div className="transition-all duration-500">
           {activeSection === 'input' && renderInputSection()}
           {activeSection === 'results' && renderResultsSection()}
-          {activeSection === 'analysis' && renderAnalysisSection()}
         </div>
-      )}
-
-      {/* Footer Information */}
-      <div className="mt-8 text-sm text-gray-600 text-center">
-        <p className="max-w-2xl mx-auto">
-          This college predictor provides recommendations based on your academic profile,
-          program preferences, and success metrics. Results are for guidance only.
-        </p>
       </div>
+
+      {/* Footer */}
+      <footer className="max-w-7xl mx-auto mt-20 pt-10 border-t-2 border-gray-200">
+        <div className="text-center text-sm text-gray-500">
+          <p>100% AI-Powered College Predictor | No Spreadsheet Required | Free College Match Finder 2025</p>
+        </div>
+      </footer>
     </div>
-  </div>
-);
+  );
 };
 
 export default CollegePredictor;

@@ -226,10 +226,9 @@ const MobileMenu = ({ isOpen, setIsOpen, navigationItems }) => {
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white pt-16 pb-8">
+    <footer className="bg-gray-900 text-white py-12 mt-12">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-          {/* Hours of Operation */}
+        <div className="grid md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4">Hours of Operation</h3>
             <div className="space-y-2 text-gray-300">
@@ -238,78 +237,41 @@ const Footer = () => {
               <p>Sunday: Closed</p>
             </div>
           </div>
-
-          {/* Contact Information */}
           <div>
             <h3 className="text-xl font-bold mb-4">Contact Information</h3>
             <div className="space-y-2 text-gray-300">
-              <p className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                calgaryacademicexcellence@gmail.com
-              </p>
-              <p className="flex items-center gap-2">
-                <Phone className="h-4 w-4" />
-                (587) 718-2903
-              </p>
-              <p className="flex items-center gap-2">
-                <MapPin className="h-4 w-4" />
-                Calgary, Alberta
-              </p>
-            </div>
-          </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Quick Links</h3>
-            <div className="space-y-2 text-gray-300">
-              <Link to="/" className="block hover:text-white transition-colors">
-                Home
-              </Link>
-              <Link to="/about" className="block hover:text-white transition-colors">
-                About Us
-              </Link>
-              <Link to="/resources" className="block hover:text-white transition-colors">
-                SAT Resources
-              </Link>
-              <Link to="/college-predictor" className="block hover:text-white transition-colors">
-                College Predictor
-              </Link>
-            </div>
-          </div>
-
-          {/* Legal - NEW SECTION! */}
-          <div>
-            <h3 className="text-xl font-bold mb-4">Legal</h3>
-            <div className="space-y-2 text-gray-300">
-              <a href="/privacy-policy.html" className="block hover:text-white transition-colors">
-                Privacy Policy
-              </a>
-              <a href="/terms.html" className="block hover:text-white transition-colors">
-                Terms of Service
-              </a>
-              <a href="/contact.html" className="block hover:text-white transition-colors">
-                Contact Us
-              </a>
+              <p>Email: calgaryacademicexcellence@gmail.com</p>
+              <p>Phone: (587) 718-2903</p>
+              <p>Location: Calgary, Alberta</p>
             </div>
           </div>
         </div>
 
-        {/* Our Services - Keep existing */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <div>
-            <h3 className="text-xl font-bold mb-4">Our Services</h3>
-            <div className="space-y-2 text-gray-300">
-              <p>Alberta Curriculum Tutoring</p>
-              <p>Digital SAT Preparation</p>
-              <p>University Admissions Counselling</p>
+        <div className="mt-8 pt-8 border-t border-gray-800">
+          <div className="grid md:grid-cols-3 gap-8">
+            <div>
+              <h3 className="text-xl font-bold mb-4">Quick Links</h3>
+              <div className="space-y-2 text-gray-300">
+                <Link to="/" className="block hover:text-white transition-colors">Home</Link>
+                <Link to="/about" className="block hover:text-white transition-colors">About Us</Link>
+                <Link to="/resources" className="block hover:text-white transition-colors">SAT Resources</Link>
+              </div>
             </div>
-          </div>
-          <div>
-            <h3 className="text-xl font-bold mb-4">Important Information</h3>
-            <div className="space-y-2 text-gray-300">
-              <p>Online and In-Person Sessions</p>
-              <p>Flexible Scheduling</p>
-              <p>Personalized Learning Plans</p>
+            <div>
+              <h3 className="text-xl font-bold mb-4">Our Services</h3>
+              <div className="space-y-2 text-gray-300">
+                <p>Alberta Curriculum Tutoring</p>
+                <p>Digital SAT Preparation</p>
+                <p>University Admissions Counselling</p>
+              </div>
+            </div>
+            <div>
+              <h3 className="text-xl font-bold mb-4">Important Information</h3>
+              <div className="space-y-2 text-gray-300">
+                <p>Online and In-Person Sessions</p>
+                <p>Flexible Scheduling</p>
+                <p>Personalized Learning Plans</p>
+              </div>
             </div>
           </div>
         </div>

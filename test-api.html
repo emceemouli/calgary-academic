@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google AI API Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background: #357ae8;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .loading {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Google AI API Test</h1>
+        <p>This will test if your Google AI Studio API key is working correctly.</p>
+        
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <strong>API Key:</strong> <code>AIzaSyBIskHL7K9p5-bf7xv-8lOu8Zj1WF-MCI8</code><br>
+            <strong>Model:</strong> <code>gemini-2.0-flash-exp</code>
+        </div>
+
+        <button id="testBtn" onclick="testAPI()">🚀 Test API Connection</button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            const btn = document.getElementById('testBtn');
+            
+            // Show loading
+            resultDiv.className = 'loading';
+            resultDiv.innerHTML = '⏳ Testing API connection...\n\nPlease wait...';
+            btn.disabled = true;
+
+            try {
+                const API_KEY = 'AIzaSyBIskHL7K9p5-bf7xv-8lOu8Zj1WF-MCI8';
+                const API_URL = 'const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';';
+
+                console.log('Testing API with URL:', API_URL);
+                console.log('Using API Key:', API_KEY);
+
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-goog-api-key': API_KEY
+                    },
+                    body: JSON.stringify({
+                        contents: [{
+                            parts: [{
+                                text: 'Say "Hello! API is working!" in exactly 5 words.'
+                            }]
+                        }]
+                    })
+                });
+
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+
+                const data = await response.json();
+                console.log('Response data:', data);
+
+                if (!response.ok) {
+                    throw new Error(`API Error: ${response.status} - ${JSON.stringify(data)}`);
+                }
+
+                const aiText = data.candidates[0]?.content?.parts[0]?.text;
+
+                if (aiText) {
+                    // SUCCESS!
+                    resultDiv.className = 'success';
+                    resultDiv.innerHTML = `✅ <strong>SUCCESS!</strong> API is working correctly!\n\n<strong>AI Response:</strong>\n${aiText}\n\n<strong>Status:</strong> ${response.status}\n\n<strong>Your API key is valid and working!</strong>`;
+                } else {
+                    throw new Error('No text in response');
+                }
+
+            } catch (error) {
+                console.error('Full error:', error);
+                
+                // ERROR
+                resultDiv.className = 'error';
+                resultDiv.innerHTML = `❌ <strong>ERROR!</strong>\n\n<strong>Error Message:</strong>\n${error.message}\n\n<strong>What to check:</strong>\n1. Is your API key correct?\n2. Is the API key enabled in Google AI Studio?\n3. Check browser console (F12) for more details\n4. Check if you've exceeded rate limits (60 requests/min)\n\n<strong>Troubleshooting:</strong>\n- Visit: https://aistudio.google.com/\n- Check your API key is active\n- Try creating a new API key`;
+            } finally {
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>
