@@ -93,7 +93,7 @@ const CollegePredictor = () => {
   // PURE AI - Get everything from AI (colleges + insights)
   const getAIRecommendations = async (profile) => {
     try {
-      const API_KEY = 'AIzaSyBIskHL7K9p5-bf7xv-8lOu8Zj1WF-MCI8';
+      const API_KEY = import.meta.env.VITE_GOOGLE_AI_KEY;
       const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent';
 
       // COMPACT PROMPT - AI provides colleges WITH stats
