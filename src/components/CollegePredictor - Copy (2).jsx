@@ -31,19 +31,11 @@ const Button = ({ children, onClick, disabled, className = '' }) => (
 const CollegePredictor = () => {
   // State Management
   const [studentProfile, setStudentProfile] = useState({
-    gradeType: 'gpa', // 'gpa' or 'percentage'
     gpa: '',
-    percentage: '',
-    testType: 'sat', // 'sat', 'act', or 'none'
     sat: '',
-    act: '',
     desiredMajor: '',
     location: '',
-    budget: '',
-    // Optional for USA (more accurate predictions)
-    extracurriculars: '',
-    leadership: '',
-    awards: ''
+    budget: ''
   });
   const [results, setResults] = useState({ Reach: [], Target: [], Safety: [] });
   const [aiInsights, setAiInsights] = useState(null);
@@ -263,7 +255,11 @@ const CollegePredictor = () => {
       
       const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent';
 
-      // Smart location detection
+      // Calculate percentiles for better AI context
+      const gpaPercent = (parseFloat(profile.gpa) / 4.0 * 100).toFixed(0);
+      const satPercent = (parseInt(profile.sat) / 1600 * 100).toFixed(0);
+
+      // SMART LOCATION DETECTION - USA default, Canada if mentioned
       const location = (profile.location || '').toLowerCase();
       const canadianKeywords = [
         'canada', 'canadian', 'ontario', 'quebec', 'british columbia', 'bc', 
@@ -274,95 +270,78 @@ const CollegePredictor = () => {
       
       const isCanadaFocused = canadianKeywords.some(keyword => location.includes(keyword));
       
-      // Build grade info (GPA or Percentage)
-      let gradeInfo, gradePercent;
-      if (profile.gradeType === 'percentage') {
-        const pct = parseFloat(profile.percentage);
-        gradePercent = pct.toFixed(0);
-        gradeInfo = `${pct}% (${gradePercent}th percentile)`;
-      } else {
-        const gpa = parseFloat(profile.gpa);
-        gradePercent = (gpa / 4.0 * 100).toFixed(0);
-        gradeInfo = `${gpa}/4.0 (${gradePercent}th percentile)`;
-      }
-      
-      // Build test info (SAT, ACT, or None)
-      let testInfo, testPercent;
-      if (profile.testType === 'sat' && profile.sat) {
-        const sat = parseInt(profile.sat);
-        testPercent = (sat / 1600 * 100).toFixed(0);
-        testInfo = `SAT ${sat}/1600 (${testPercent}th percentile)`;
-      } else if (profile.testType === 'act' && profile.act) {
-        const act = parseInt(profile.act);
-        testPercent = (act / 36 * 100).toFixed(0);
-        testInfo = `ACT ${act}/36 (${testPercent}th percentile)`;
-      } else {
-        testInfo = 'No test scores (common for Canadian applications)';
-        testPercent = gradePercent; // Use grade as proxy
-      }
-      
-      // Build extracurricular info (optional, for USA)
-      let ecInfo = '';
-      if (profile.extracurriculars || profile.leadership || profile.awards) {
-        const parts = [];
-        if (profile.extracurriculars) parts.push(`Activities: ${profile.extracurriculars}`);
-        if (profile.leadership) parts.push(`Leadership: ${profile.leadership}`);
-        if (profile.awards) parts.push(`Awards: ${profile.awards}`);
-        ecInfo = `\nExtracurriculars: ${parts.join('; ')}`;
-      }
-
-      let locationInstructions, locationLabel;
+      let locationInstructions;
+      let locationLabel;
       
       if (isCanadaFocused) {
-        locationInstructions = `Focus PRIMARILY on Canadian universities in ${profile.location}. Include top Canadian schools (Toronto, UBC, McGill, Waterloo, McMaster, Queen's, Western, Alberta). Most Canadian schools don't require SAT/ACT. May include 2-4 top USA universities.`;
+        // User specified Canada - focus on Canadian universities
+        locationInstructions = `Focus PRIMARILY on Canadian universities, especially in ${profile.location}. Include top Canadian universities (University of Toronto, UBC, McGill, Waterloo, McMaster, Queen's, Western, Alberta, etc.). For Canadian schools, note that many don't require SAT scores. You may include 2-4 top USA universities as alternatives if relevant.`;
         locationLabel = `Canada (${profile.location})`;
         console.log('🇨🇦 CANADA MODE: Prioritizing Canadian universities');
       } else if (location && !location.includes('any') && !location.includes('anywhere')) {
-        locationInstructions = `Focus on universities in ${profile.location}, USA. Include diverse options from this region.`;
+        // User specified USA location
+        locationInstructions = `Focus on universities in ${profile.location}, USA. Include a wide range of universities from this region. All recommendations should be USA universities unless student profile strongly suggests Canadian options.`;
         locationLabel = `USA (${profile.location})`;
         console.log('🇺🇸 USA REGIONAL MODE:', profile.location);
       } else {
-        locationInstructions = `Focus PRIMARILY on USA universities nationwide (Ivy League, UC schools, state universities, private colleges). Diverse geographic representation. May include 2-3 top Canadian schools (Toronto, UBC, McGill).`;
+        // Default: USA universities
+        locationInstructions = `Focus PRIMARILY on USA universities nationwide. Include top universities across United States (Ivy League, UC schools, state universities, private colleges, etc.). Provide diverse geographic representation across USA. You may include 2-3 top Canadian universities (like Toronto, UBC, McGill) as alternatives.`;
         locationLabel = 'USA (Nationwide)';
         console.log('🇺🇸 USA DEFAULT MODE: Nationwide universities');
       }
 
-      // COMPACT PROMPT - Same token count (~380)
-      const prompt = `College counselor. Profile: Grade ${gradeInfo}, ${testInfo}, Major: ${profile.desiredMajor}, Location: ${locationLabel}, Budget: ${profile.budget || 'Any'}${ecInfo}
+      // COMPACT HIGH-EFFICIENCY PROMPT (optimized for Gemma)
+      const prompt = `You're a college counselor. Student profile: GPA ${profile.gpa}/4.0 (${gpaPercent}th percentile), SAT ${profile.sat}/1600 (${satPercent}th percentile), Major: ${profile.desiredMajor}, Location Preference: ${locationLabel}, Budget: ${profile.budget || 'Any'}.
 
+LOCATION INSTRUCTIONS:
 ${locationInstructions}
 
-List exactly 24 UNIQUE universities. NO DUPLICATES.
+TASK: List exactly 24 UNIQUE universities. NO DUPLICATES.
 
-FORMAT:
+FORMAT (strict):
 **REACH SCHOOLS (8):**
 1. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
+2. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
 ...
+
 **TARGET SCHOOLS (8):**
+1. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
 ...
+
 **SAFETY SCHOOLS (8):**
+1. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
 ...
 
 RULES:
-- REACH: Stats 5-15% below average
-- TARGET: Stats match average  
-- SAFETY: Stats 5-15% above average
-- For Canadian schools: show grade ranges, note "Test Optional"
-- For USA with extracurriculars: factor into reach/target evaluation
-- Each school ONCE only
-- Real 2024-25 stats
+- REACH: Student stats 5-15% below school average
+- TARGET: Student stats match school average
+- SAFETY: Student stats 5-15% above school average
 - Consider ${profile.desiredMajor} programs
+- Use real 2024-25 admission stats
+- Each school appears ONCE only
+- For Canadian universities: provide GPA ranges, note "SAT Optional" if applicable
 
 **ANALYSIS:**
-**1. Profile Strength:** [2 sentences]
-**2. Key Strengths:** * [Point 1] * [Point 2]
-**3. Recommendations:** * [Advice 1] * [Advice 2]
-**4. Strategy:** * Apply 2-3 reach, 4-5 target, 2-3 safety * [Timeline]`;
 
-      console.log('🤖 Calling Gemma...');
-      console.log('📊 Grade:', gradePercent + '%', '| Test:', testPercent + '%');
-      console.log('🌍 Location:', locationLabel);
-      console.log('🎯 Mode:', isCanadaFocused ? 'Canada' : 'USA');
+**1. Profile Strength:**
+[2 sentences on competitiveness]
+
+**2. Key Strengths:**
+* [Strength 1]
+* [Strength 2]
+
+**3. Recommendations:**
+* [Advice 1]
+* [Advice 2]
+
+**4. Application Strategy:**
+* Apply to 2-3 reach, 4-5 target, 2-3 safety schools
+* [Timeline advice]`;
+
+      console.log('🤖 Calling Gemma with location-optimized prompt...');
+      console.log('📊 Student Level: GPA', gpaPercent + '%', 'SAT', satPercent + '%');
+      console.log('🌍 Location Focus:', locationLabel);
+      console.log('🎯 Mode:', isCanadaFocused ? 'Canada-focused' : 'USA-focused');
 
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -517,49 +496,21 @@ RULES:
 
   // Handle prediction
   const handlePredict = async () => {
-    // Validate grade input
-    if (studentProfile.gradeType === 'gpa') {
-      if (!studentProfile.gpa) {
-        setError('Please enter your GPA');
-        return;
-      }
-      const gpa = parseFloat(studentProfile.gpa);
-      if (isNaN(gpa) || gpa < 0 || gpa > 4.0) {
-        setError('GPA must be between 0.0 and 4.0');
-        return;
-      }
-    } else {
-      if (!studentProfile.percentage) {
-        setError('Please enter your percentage');
-        return;
-      }
-      const pct = parseFloat(studentProfile.percentage);
-      if (isNaN(pct) || pct < 0 || pct > 100) {
-        setError('Percentage must be between 0 and 100');
-        return;
-      }
+    if (!studentProfile.gpa || !studentProfile.sat || !studentProfile.desiredMajor) {
+      setError('Please fill in GPA, SAT score, and desired major');
+      return;
     }
 
-    // Validate test scores (if provided)
-    if (studentProfile.testType === 'sat' && studentProfile.sat) {
-      const sat = parseInt(studentProfile.sat);
-      if (isNaN(sat) || sat < 400 || sat > 1600) {
-        setError('SAT must be between 400 and 1600');
-        return;
-      }
+    const gpa = parseFloat(studentProfile.gpa);
+    const sat = parseInt(studentProfile.sat);
+
+    if (isNaN(gpa) || gpa < 0 || gpa > 4.0) {
+      setError('GPA must be between 0.0 and 4.0');
+      return;
     }
 
-    if (studentProfile.testType === 'act' && studentProfile.act) {
-      const act = parseInt(studentProfile.act);
-      if (isNaN(act) || act < 1 || act > 36) {
-        setError('ACT must be between 1 and 36');
-        return;
-      }
-    }
-
-    // Validate major
-    if (!studentProfile.desiredMajor) {
-      setError('Please enter your intended major');
+    if (isNaN(sat) || sat < 400 || sat > 1600) {
+      setError('SAT must be between 400 and 1600');
       return;
     }
 
@@ -581,15 +532,10 @@ RULES:
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           event: 'college_search_success',
-          grade_type: studentProfile.gradeType,
           gpa: studentProfile.gpa,
-          percentage: studentProfile.percentage,
-          test_type: studentProfile.testType,
           sat: studentProfile.sat,
-          act: studentProfile.act,
           major: studentProfile.desiredMajor,
           location: studentProfile.location,
-          has_extracurriculars: !!(studentProfile.extracurriculars || studentProfile.leadership || studentProfile.awards),
           results_count: parsedResults.Reach.length + parsedResults.Target.length + parsedResults.Safety.length
         });
       }
@@ -630,154 +576,43 @@ RULES:
       </CardHeader>
       
       <CardContent className="p-8 space-y-6">
-        {/* Grade Type Toggle */}
-        <div className="space-y-3">
+        {/* GPA */}
+        <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-700 flex items-center gap-2">
             <GraduationCap className="h-4 w-4 text-purple-600" />
-            Academic Grade
+            GPA (Unweighted, 4.0 scale)
             <span className="text-red-500">*</span>
           </label>
-          
-          {/* Toggle between GPA and Percentage */}
-          <div className="flex gap-3 mb-3">
-            <button
-              type="button"
-              onClick={() => handleInputChange('gradeType', 'gpa')}
-              className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
-                studentProfile.gradeType === 'gpa'
-                  ? 'bg-purple-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              🇺🇸 GPA (USA - 4.0 scale)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleInputChange('gradeType', 'percentage')}
-              className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
-                studentProfile.gradeType === 'percentage'
-                  ? 'bg-purple-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              🇨🇦 Percentage (Canada)
-            </button>
-          </div>
-
-          {/* Conditional Input */}
-          {studentProfile.gradeType === 'gpa' ? (
-            <>
-              <input
-                type="number"
-                step="0.01"
-                min="0"
-                max="4.0"
-                value={studentProfile.gpa}
-                onChange={(e) => handleInputChange('gpa', e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
-                placeholder="e.g., 3.75"
-              />
-              <p className="text-xs text-gray-500">Unweighted GPA on 4.0 scale (commonly used in USA)</p>
-            </>
-          ) : (
-            <>
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                max="100"
-                value={studentProfile.percentage}
-                onChange={(e) => handleInputChange('percentage', e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
-                placeholder="e.g., 92"
-              />
-              <p className="text-xs text-gray-500">Overall percentage (commonly used in Canada and international)</p>
-            </>
-          )}
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            max="4.0"
+            value={studentProfile.gpa}
+            onChange={(e) => handleInputChange('gpa', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
+            placeholder="e.g., 3.75"
+          />
+          <p className="text-xs text-gray-500">Enter your cumulative unweighted GPA on 4.0 scale (USA/Canada)</p>
         </div>
 
-        {/* Test Score Type */}
-        <div className="space-y-3">
+        {/* SAT */}
+        <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-700 flex items-center gap-2">
             <Trophy className="h-4 w-4 text-purple-600" />
-            Standardized Test (Optional for Canada)
+            SAT Score (Digital SAT, 1600 scale)
+            <span className="text-red-500">*</span>
           </label>
-          
-          {/* Test Type Selection */}
-          <div className="flex gap-2 mb-3">
-            <button
-              type="button"
-              onClick={() => handleInputChange('testType', 'sat')}
-              className={`flex-1 py-2 px-3 rounded-lg font-semibold text-sm transition-all ${
-                studentProfile.testType === 'sat'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              SAT
-            </button>
-            <button
-              type="button"
-              onClick={() => handleInputChange('testType', 'act')}
-              className={`flex-1 py-2 px-3 rounded-lg font-semibold text-sm transition-all ${
-                studentProfile.testType === 'act'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              ACT
-            </button>
-            <button
-              type="button"
-              onClick={() => handleInputChange('testType', 'none')}
-              className={`flex-1 py-2 px-3 rounded-lg font-semibold text-sm transition-all ${
-                studentProfile.testType === 'none'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              None
-            </button>
-          </div>
-
-          {/* Conditional Test Score Input */}
-          {studentProfile.testType === 'sat' && (
-            <>
-              <input
-                type="number"
-                min="400"
-                max="1600"
-                value={studentProfile.sat}
-                onChange={(e) => handleInputChange('sat', e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
-                placeholder="e.g., 1450"
-              />
-              <p className="text-xs text-gray-500">Digital SAT total score (400-1600) - Required for most USA universities</p>
-            </>
-          )}
-
-          {studentProfile.testType === 'act' && (
-            <>
-              <input
-                type="number"
-                min="1"
-                max="36"
-                value={studentProfile.act}
-                onChange={(e) => handleInputChange('act', e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
-                placeholder="e.g., 32"
-              />
-              <p className="text-xs text-gray-500">ACT composite score (1-36) - Alternative to SAT for USA universities</p>
-            </>
-          )}
-
-          {studentProfile.testType === 'none' && (
-            <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
-              <p className="text-sm text-blue-800">
-                <strong>ℹ️ No test scores:</strong> Common for Canadian universities and some USA test-optional schools. We'll focus on your grades and profile.
-              </p>
-            </div>
-          )}
+          <input
+            type="number"
+            min="400"
+            max="1600"
+            value={studentProfile.sat}
+            onChange={(e) => handleInputChange('sat', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
+            placeholder="e.g., 1450"
+          />
+          <p className="text-xs text-gray-500">Total SAT score (400-1600) - Required for most USA universities, optional for many Canadian universities</p>
         </div>
 
         {/* Major */}
@@ -834,58 +669,6 @@ RULES:
             <option value="Need aid">Need significant financial aid</option>
           </select>
           <p className="text-xs text-gray-500">Help us recommend affordable options within your budget range (USD for USA, CAD for Canada)</p>
-        </div>
-
-        {/* Optional: Extracurriculars (USA Focus) */}
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-6 space-y-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="h-5 w-5 text-blue-600" />
-            <h3 className="font-bold text-blue-900">Optional: Boost USA Predictions</h3>
-          </div>
-          <p className="text-sm text-gray-600 mb-4">
-            For more accurate USA university recommendations, share your extracurricular profile. <em>These are optional and primarily used for USA admissions evaluation.</em>
-          </p>
-
-          <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">
-                Extracurricular Activities
-              </label>
-              <input
-                type="text"
-                value={studentProfile.extracurriculars}
-                onChange={(e) => handleInputChange('extracurriculars', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 transition-all"
-                placeholder="e.g., Varsity Soccer, Debate Team, Robotics Club"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">
-                Leadership Roles
-              </label>
-              <input
-                type="text"
-                value={studentProfile.leadership}
-                onChange={(e) => handleInputChange('leadership', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 transition-all"
-                placeholder="e.g., Student Council President, Club Founder, Team Captain"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">
-                Awards & Honors
-              </label>
-              <input
-                type="text"
-                value={studentProfile.awards}
-                onChange={(e) => handleInputChange('awards', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 transition-all"
-                placeholder="e.g., National Merit Scholar, Science Fair Winner, AP Scholar"
-              />
-            </div>
-          </div>
         </div>
 
         {/* AdSense Zone 1 - Prominent Above Submit */}

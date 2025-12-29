@@ -31,19 +31,11 @@ const Button = ({ children, onClick, disabled, className = '' }) => (
 const CollegePredictor = () => {
   // State Management
   const [studentProfile, setStudentProfile] = useState({
-    gradeType: 'gpa', // 'gpa' or 'percentage'
     gpa: '',
-    percentage: '',
-    testType: 'sat', // 'sat', 'act', or 'none'
     sat: '',
-    act: '',
     desiredMajor: '',
     location: '',
-    budget: '',
-    // Optional for USA (more accurate predictions)
-    extracurriculars: '',
-    leadership: '',
-    awards: ''
+    budget: ''
   });
   const [results, setResults] = useState({ Reach: [], Target: [], Safety: [] });
   const [aiInsights, setAiInsights] = useState(null);
@@ -58,9 +50,9 @@ const CollegePredictor = () => {
     
     // Dynamic page title
     if (hasResults) {
-      document.title = `${totalColleges} College Matches Found | Free AI College Predictor - USA Universities`;
+      document.title = `${totalColleges} College Matches Found | Free AI College Predictor - USA & Canada`;
     } else {
-      document.title = 'Free AI College Predictor 2025 - USA Universities | What Colleges Can I Get Into?';
+      document.title = 'Free AI College Predictor 2025 - USA & Canada Universities | What Colleges Can I Get Into?';
     }
     
     // Meta description
@@ -71,17 +63,17 @@ const CollegePredictor = () => {
       document.head.appendChild(metaDescription);
     }
     metaDescription.content = hasResults
-      ? `Found ${totalColleges} perfect university matches in USA for ${studentProfile.desiredMajor || 'your major'} with ${studentProfile.gpa || 'your'} GPA and ${studentProfile.sat || 'your'} SAT. Get personalized reach, target, and safety school recommendations instantly.`
-      : 'Free AI-powered college predictor for USA universities. Enter your GPA, SAT scores, intended major, and location to get 24 personalized college recommendations across all 50 states including reach, target, and safety schools. Find what colleges you can get into instantly. Canadian universities available - specify location. No registration required.';
+      ? `Found ${totalColleges} perfect university matches in USA and Canada for ${studentProfile.desiredMajor || 'your major'} with ${studentProfile.gpa || 'your'} GPA and ${studentProfile.sat || 'your'} SAT. Get personalized reach, target, and safety school recommendations instantly.`
+      : 'Free AI-powered college predictor for USA and Canadian universities. Enter your GPA, SAT scores, intended major, and location to get 24 personalized college recommendations including reach, target, and safety schools. Find what colleges you can get into instantly. No registration required.';
     
-    // Keywords - USA Primary, Canada Secondary
+    // Keywords - USA & Canada optimized
     let metaKeywords = document.querySelector('meta[name="keywords"]');
     if (!metaKeywords) {
       metaKeywords = document.createElement('meta');
       metaKeywords.name = 'keywords';
       document.head.appendChild(metaKeywords);
     }
-    metaKeywords.content = 'college predictor USA, what colleges can I get into, American college admissions calculator, AI college matcher, free college recommendations, SAT score calculator, GPA calculator, college search tool USA, reach target safety schools, university finder, college admissions chances, best colleges for my SAT score, college list builder, college match finder 2025, free college predictor by GPA and SAT, university search by major and location, college application helper, admission chances calculator, higher education search tool, California colleges, Texas universities, New York college search, Florida college predictor, Canadian university predictor, Ontario university admissions';
+    metaKeywords.content = 'college predictor USA Canada, what colleges can I get into, Canadian university predictor, American college admissions calculator, AI college matcher, free college recommendations, Ontario university admissions, SAT score calculator, GPA calculator, college search tool USA Canada, reach target safety schools, university finder, Canadian college GPA calculator, college admissions chances, best colleges for my SAT score, college list builder, college match finder 2025, free college predictor by GPA and SAT, university search by major and location, college application helper, admission chances calculator, higher education search tool';
     
     // Open Graph for social sharing
     const ogTags = [
@@ -131,9 +123,9 @@ const CollegePredictor = () => {
     structuredData.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "AI College Predictor - USA Universities",
+      "name": "AI College Predictor - USA & Canada",
       "applicationCategory": "EducationalApplication",
-      "description": "Free AI-powered college recommendation tool that analyzes your GPA, SAT scores, intended major, and location preferences to suggest 24 perfect university matches in United States including reach, target, and safety schools. Canadian universities available when location specified.",
+      "description": "Free AI-powered college recommendation tool that analyzes your GPA, SAT scores, intended major, and location preferences to suggest 24 perfect university matches in USA and Canada including reach, target, and safety schools.",
       "offers": {
         "@type": "Offer",
         "price": "0",
@@ -142,8 +134,7 @@ const CollegePredictor = () => {
       "featureList": [
         "AI-powered college recommendations using Google Gemma",
         "Personalized reach, target, and safety school suggestions",
-        "USA university search across all 50 states",
-        "Canadian university search available",
+        "USA and Canadian university search",
         "Academic profile analysis",
         "Application strategy guidance",
         "24 college matches instantly",
@@ -151,7 +142,7 @@ const CollegePredictor = () => {
         "GPA and SAT calculator",
         "Location-based college search",
         "Major-specific recommendations",
-        "California colleges, Texas universities, New York schools",
+        "Ontario university admissions calculator",
         "American college admissions chances"
       ],
       "operatingSystem": "Any",
@@ -252,7 +243,7 @@ const CollegePredictor = () => {
     );
   };
 
-  // OPTIMIZED GEMMA PROMPT - USA Default, Canada if specified
+  // OPTIMIZED GEMMA PROMPT - Enhanced for USA & Canada
   const getAIRecommendations = async (profile) => {
     try {
       const API_KEY = import.meta.env.VITE_GOOGLE_AI_KEY;
@@ -263,106 +254,60 @@ const CollegePredictor = () => {
       
       const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent';
 
-      // Smart location detection
-      const location = (profile.location || '').toLowerCase();
-      const canadianKeywords = [
-        'canada', 'canadian', 'ontario', 'quebec', 'british columbia', 'bc', 
-        'alberta', 'manitoba', 'saskatchewan', 'nova scotia', 'new brunswick',
-        'toronto', 'vancouver', 'montreal', 'calgary', 'edmonton', 'ottawa',
-        'waterloo', 'mcgill', 'ubc', 'uoft'
-      ];
-      
-      const isCanadaFocused = canadianKeywords.some(keyword => location.includes(keyword));
-      
-      // Build grade info (GPA or Percentage)
-      let gradeInfo, gradePercent;
-      if (profile.gradeType === 'percentage') {
-        const pct = parseFloat(profile.percentage);
-        gradePercent = pct.toFixed(0);
-        gradeInfo = `${pct}% (${gradePercent}th percentile)`;
-      } else {
-        const gpa = parseFloat(profile.gpa);
-        gradePercent = (gpa / 4.0 * 100).toFixed(0);
-        gradeInfo = `${gpa}/4.0 (${gradePercent}th percentile)`;
-      }
-      
-      // Build test info (SAT, ACT, or None)
-      let testInfo, testPercent;
-      if (profile.testType === 'sat' && profile.sat) {
-        const sat = parseInt(profile.sat);
-        testPercent = (sat / 1600 * 100).toFixed(0);
-        testInfo = `SAT ${sat}/1600 (${testPercent}th percentile)`;
-      } else if (profile.testType === 'act' && profile.act) {
-        const act = parseInt(profile.act);
-        testPercent = (act / 36 * 100).toFixed(0);
-        testInfo = `ACT ${act}/36 (${testPercent}th percentile)`;
-      } else {
-        testInfo = 'No test scores (common for Canadian applications)';
-        testPercent = gradePercent; // Use grade as proxy
-      }
-      
-      // Build extracurricular info (optional, for USA)
-      let ecInfo = '';
-      if (profile.extracurriculars || profile.leadership || profile.awards) {
-        const parts = [];
-        if (profile.extracurriculars) parts.push(`Activities: ${profile.extracurriculars}`);
-        if (profile.leadership) parts.push(`Leadership: ${profile.leadership}`);
-        if (profile.awards) parts.push(`Awards: ${profile.awards}`);
-        ecInfo = `\nExtracurriculars: ${parts.join('; ')}`;
-      }
+      // Calculate percentiles for better AI context
+      const gpaPercent = (parseFloat(profile.gpa) / 4.0 * 100).toFixed(0);
+      const satPercent = (parseInt(profile.sat) / 1600 * 100).toFixed(0);
 
-      let locationInstructions, locationLabel;
-      
-      if (isCanadaFocused) {
-        locationInstructions = `Focus PRIMARILY on Canadian universities in ${profile.location}. Include top Canadian schools (Toronto, UBC, McGill, Waterloo, McMaster, Queen's, Western, Alberta). Most Canadian schools don't require SAT/ACT. May include 2-4 top USA universities.`;
-        locationLabel = `Canada (${profile.location})`;
-        console.log('🇨🇦 CANADA MODE: Prioritizing Canadian universities');
-      } else if (location && !location.includes('any') && !location.includes('anywhere')) {
-        locationInstructions = `Focus on universities in ${profile.location}, USA. Include diverse options from this region.`;
-        locationLabel = `USA (${profile.location})`;
-        console.log('🇺🇸 USA REGIONAL MODE:', profile.location);
-      } else {
-        locationInstructions = `Focus PRIMARILY on USA universities nationwide (Ivy League, UC schools, state universities, private colleges). Diverse geographic representation. May include 2-3 top Canadian schools (Toronto, UBC, McGill).`;
-        locationLabel = 'USA (Nationwide)';
-        console.log('🇺🇸 USA DEFAULT MODE: Nationwide universities');
-      }
+      // COMPACT HIGH-EFFICIENCY PROMPT (optimized for Gemma)
+      const prompt = `You're a college counselor for USA and Canadian universities. Student profile: GPA ${profile.gpa}/4.0 (${gpaPercent}th percentile), SAT ${profile.sat}/1600 (${satPercent}th percentile), Major: ${profile.desiredMajor}, Location: ${profile.location || 'USA or Canada'}, Budget: ${profile.budget || 'Any'}.
 
-      // COMPACT PROMPT - Same token count (~380)
-      const prompt = `College counselor. Profile: Grade ${gradeInfo}, ${testInfo}, Major: ${profile.desiredMajor}, Location: ${locationLabel}, Budget: ${profile.budget || 'Any'}${ecInfo}
+TASK: List exactly 24 UNIQUE universities in USA and/or Canada. NO DUPLICATES.
 
-${locationInstructions}
-
-List exactly 24 UNIQUE universities. NO DUPLICATES.
-
-FORMAT:
+FORMAT (strict):
 **REACH SCHOOLS (8):**
 1. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
+2. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
 ...
+
 **TARGET SCHOOLS (8):**
+1. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
 ...
+
 **SAFETY SCHOOLS (8):**
+1. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
 ...
 
 RULES:
-- REACH: Stats 5-15% below average
-- TARGET: Stats match average  
-- SAFETY: Stats 5-15% above average
-- For Canadian schools: show grade ranges, note "Test Optional"
-- For USA with extracurriculars: factor into reach/target evaluation
-- Each school ONCE only
-- Real 2024-25 stats
+- REACH: Student stats 5-15% below school average
+- TARGET: Student stats match school average
+- SAFETY: Student stats 5-15% above school average
+- Include both USA and Canadian universities if location allows
+- Prioritize ${profile.location || 'top universities in USA and Canada'}
 - Consider ${profile.desiredMajor} programs
+- Use real 2024-25 admission stats
+- Each school appears ONCE only
+- For Canadian universities, provide GPA ranges (many don't require SAT)
 
 **ANALYSIS:**
-**1. Profile Strength:** [2 sentences]
-**2. Key Strengths:** * [Point 1] * [Point 2]
-**3. Recommendations:** * [Advice 1] * [Advice 2]
-**4. Strategy:** * Apply 2-3 reach, 4-5 target, 2-3 safety * [Timeline]`;
 
-      console.log('🤖 Calling Gemma...');
-      console.log('📊 Grade:', gradePercent + '%', '| Test:', testPercent + '%');
-      console.log('🌍 Location:', locationLabel);
-      console.log('🎯 Mode:', isCanadaFocused ? 'Canada' : 'USA');
+**1. Profile Strength:**
+[2 sentences on competitiveness for USA and Canadian admissions]
+
+**2. Key Strengths:**
+* [Strength 1]
+* [Strength 2]
+
+**3. Recommendations:**
+* [Advice 1 - consider both USA and Canada options]
+* [Advice 2]
+
+**4. Application Strategy:**
+* Apply to 2-3 reach, 4-5 target, 2-3 safety schools
+* [Timeline advice for USA and Canadian application cycles]`;
+
+      console.log('🤖 Calling Gemma with optimized USA/Canada prompt...');
+      console.log('📊 Student Level: GPA', gpaPercent + '%', 'SAT', satPercent + '%');
+      console.log('🌍 Location:', profile.location || 'USA/Canada');
 
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -517,49 +462,21 @@ RULES:
 
   // Handle prediction
   const handlePredict = async () => {
-    // Validate grade input
-    if (studentProfile.gradeType === 'gpa') {
-      if (!studentProfile.gpa) {
-        setError('Please enter your GPA');
-        return;
-      }
-      const gpa = parseFloat(studentProfile.gpa);
-      if (isNaN(gpa) || gpa < 0 || gpa > 4.0) {
-        setError('GPA must be between 0.0 and 4.0');
-        return;
-      }
-    } else {
-      if (!studentProfile.percentage) {
-        setError('Please enter your percentage');
-        return;
-      }
-      const pct = parseFloat(studentProfile.percentage);
-      if (isNaN(pct) || pct < 0 || pct > 100) {
-        setError('Percentage must be between 0 and 100');
-        return;
-      }
+    if (!studentProfile.gpa || !studentProfile.sat || !studentProfile.desiredMajor) {
+      setError('Please fill in GPA, SAT score, and desired major');
+      return;
     }
 
-    // Validate test scores (if provided)
-    if (studentProfile.testType === 'sat' && studentProfile.sat) {
-      const sat = parseInt(studentProfile.sat);
-      if (isNaN(sat) || sat < 400 || sat > 1600) {
-        setError('SAT must be between 400 and 1600');
-        return;
-      }
+    const gpa = parseFloat(studentProfile.gpa);
+    const sat = parseInt(studentProfile.sat);
+
+    if (isNaN(gpa) || gpa < 0 || gpa > 4.0) {
+      setError('GPA must be between 0.0 and 4.0');
+      return;
     }
 
-    if (studentProfile.testType === 'act' && studentProfile.act) {
-      const act = parseInt(studentProfile.act);
-      if (isNaN(act) || act < 1 || act > 36) {
-        setError('ACT must be between 1 and 36');
-        return;
-      }
-    }
-
-    // Validate major
-    if (!studentProfile.desiredMajor) {
-      setError('Please enter your intended major');
+    if (isNaN(sat) || sat < 400 || sat > 1600) {
+      setError('SAT must be between 400 and 1600');
       return;
     }
 
@@ -581,15 +498,10 @@ RULES:
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
           event: 'college_search_success',
-          grade_type: studentProfile.gradeType,
           gpa: studentProfile.gpa,
-          percentage: studentProfile.percentage,
-          test_type: studentProfile.testType,
           sat: studentProfile.sat,
-          act: studentProfile.act,
           major: studentProfile.desiredMajor,
           location: studentProfile.location,
-          has_extracurriculars: !!(studentProfile.extracurriculars || studentProfile.leadership || studentProfile.awards),
           results_count: parsedResults.Reach.length + parsedResults.Target.length + parsedResults.Safety.length
         });
       }
@@ -630,154 +542,43 @@ RULES:
       </CardHeader>
       
       <CardContent className="p-8 space-y-6">
-        {/* Grade Type Toggle */}
-        <div className="space-y-3">
+        {/* GPA */}
+        <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-700 flex items-center gap-2">
             <GraduationCap className="h-4 w-4 text-purple-600" />
-            Academic Grade
+            GPA (Unweighted, 4.0 scale)
             <span className="text-red-500">*</span>
           </label>
-          
-          {/* Toggle between GPA and Percentage */}
-          <div className="flex gap-3 mb-3">
-            <button
-              type="button"
-              onClick={() => handleInputChange('gradeType', 'gpa')}
-              className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
-                studentProfile.gradeType === 'gpa'
-                  ? 'bg-purple-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              🇺🇸 GPA (USA - 4.0 scale)
-            </button>
-            <button
-              type="button"
-              onClick={() => handleInputChange('gradeType', 'percentage')}
-              className={`flex-1 py-2 px-4 rounded-lg font-semibold transition-all ${
-                studentProfile.gradeType === 'percentage'
-                  ? 'bg-purple-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              🇨🇦 Percentage (Canada)
-            </button>
-          </div>
-
-          {/* Conditional Input */}
-          {studentProfile.gradeType === 'gpa' ? (
-            <>
-              <input
-                type="number"
-                step="0.01"
-                min="0"
-                max="4.0"
-                value={studentProfile.gpa}
-                onChange={(e) => handleInputChange('gpa', e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
-                placeholder="e.g., 3.75"
-              />
-              <p className="text-xs text-gray-500">Unweighted GPA on 4.0 scale (commonly used in USA)</p>
-            </>
-          ) : (
-            <>
-              <input
-                type="number"
-                step="0.1"
-                min="0"
-                max="100"
-                value={studentProfile.percentage}
-                onChange={(e) => handleInputChange('percentage', e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
-                placeholder="e.g., 92"
-              />
-              <p className="text-xs text-gray-500">Overall percentage (commonly used in Canada and international)</p>
-            </>
-          )}
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            max="4.0"
+            value={studentProfile.gpa}
+            onChange={(e) => handleInputChange('gpa', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
+            placeholder="e.g., 3.75"
+          />
+          <p className="text-xs text-gray-500">Enter your cumulative unweighted GPA on 4.0 scale (USA/Canada)</p>
         </div>
 
-        {/* Test Score Type */}
-        <div className="space-y-3">
+        {/* SAT */}
+        <div className="space-y-2">
           <label className="block text-sm font-bold text-gray-700 flex items-center gap-2">
             <Trophy className="h-4 w-4 text-purple-600" />
-            Standardized Test (Optional for Canada)
+            SAT Score (Digital SAT, 1600 scale)
+            <span className="text-red-500">*</span>
           </label>
-          
-          {/* Test Type Selection */}
-          <div className="flex gap-2 mb-3">
-            <button
-              type="button"
-              onClick={() => handleInputChange('testType', 'sat')}
-              className={`flex-1 py-2 px-3 rounded-lg font-semibold text-sm transition-all ${
-                studentProfile.testType === 'sat'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              SAT
-            </button>
-            <button
-              type="button"
-              onClick={() => handleInputChange('testType', 'act')}
-              className={`flex-1 py-2 px-3 rounded-lg font-semibold text-sm transition-all ${
-                studentProfile.testType === 'act'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              ACT
-            </button>
-            <button
-              type="button"
-              onClick={() => handleInputChange('testType', 'none')}
-              className={`flex-1 py-2 px-3 rounded-lg font-semibold text-sm transition-all ${
-                studentProfile.testType === 'none'
-                  ? 'bg-blue-600 text-white shadow-md'
-                  : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-              }`}
-            >
-              None
-            </button>
-          </div>
-
-          {/* Conditional Test Score Input */}
-          {studentProfile.testType === 'sat' && (
-            <>
-              <input
-                type="number"
-                min="400"
-                max="1600"
-                value={studentProfile.sat}
-                onChange={(e) => handleInputChange('sat', e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
-                placeholder="e.g., 1450"
-              />
-              <p className="text-xs text-gray-500">Digital SAT total score (400-1600) - Required for most USA universities</p>
-            </>
-          )}
-
-          {studentProfile.testType === 'act' && (
-            <>
-              <input
-                type="number"
-                min="1"
-                max="36"
-                value={studentProfile.act}
-                onChange={(e) => handleInputChange('act', e.target.value)}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
-                placeholder="e.g., 32"
-              />
-              <p className="text-xs text-gray-500">ACT composite score (1-36) - Alternative to SAT for USA universities</p>
-            </>
-          )}
-
-          {studentProfile.testType === 'none' && (
-            <div className="p-4 bg-blue-50 border border-blue-200 rounded-xl">
-              <p className="text-sm text-blue-800">
-                <strong>ℹ️ No test scores:</strong> Common for Canadian universities and some USA test-optional schools. We'll focus on your grades and profile.
-              </p>
-            </div>
-          )}
+          <input
+            type="number"
+            min="400"
+            max="1600"
+            value={studentProfile.sat}
+            onChange={(e) => handleInputChange('sat', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
+            placeholder="e.g., 1450"
+          />
+          <p className="text-xs text-gray-500">Total SAT score (400-1600) - Required for most USA universities, optional for many Canadian universities</p>
         </div>
 
         {/* Major */}
@@ -808,11 +609,9 @@ RULES:
             value={studentProfile.location}
             onChange={(e) => handleInputChange('location', e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
-            placeholder="e.g., California, Texas, Northeast, New York... (Type 'Canada' or 'Ontario' for Canadian universities)"
+            placeholder="e.g., California, Ontario, Northeast USA, British Columbia, Texas, Canada..."
           />
-          <p className="text-xs text-gray-500">
-            🇺🇸 USA by default (all 50 states). 🇨🇦 For Canadian universities, type "Canada", "Ontario", "British Columbia", etc.
-          </p>
+          <p className="text-xs text-gray-500">Enter any location: USA states, Canadian provinces, regions, cities, or leave blank for USA and Canada nationwide search</p>
         </div>
 
         {/* Budget */}
@@ -834,58 +633,6 @@ RULES:
             <option value="Need aid">Need significant financial aid</option>
           </select>
           <p className="text-xs text-gray-500">Help us recommend affordable options within your budget range (USD for USA, CAD for Canada)</p>
-        </div>
-
-        {/* Optional: Extracurriculars (USA Focus) */}
-        <div className="bg-gradient-to-br from-blue-50 to-purple-50 border-2 border-blue-200 rounded-xl p-6 space-y-4">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="h-5 w-5 text-blue-600" />
-            <h3 className="font-bold text-blue-900">Optional: Boost USA Predictions</h3>
-          </div>
-          <p className="text-sm text-gray-600 mb-4">
-            For more accurate USA university recommendations, share your extracurricular profile. <em>These are optional and primarily used for USA admissions evaluation.</em>
-          </p>
-
-          <div className="space-y-3">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">
-                Extracurricular Activities
-              </label>
-              <input
-                type="text"
-                value={studentProfile.extracurriculars}
-                onChange={(e) => handleInputChange('extracurriculars', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 transition-all"
-                placeholder="e.g., Varsity Soccer, Debate Team, Robotics Club"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">
-                Leadership Roles
-              </label>
-              <input
-                type="text"
-                value={studentProfile.leadership}
-                onChange={(e) => handleInputChange('leadership', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 transition-all"
-                placeholder="e.g., Student Council President, Club Founder, Team Captain"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-1">
-                Awards & Honors
-              </label>
-              <input
-                type="text"
-                value={studentProfile.awards}
-                onChange={(e) => handleInputChange('awards', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:border-blue-500 focus:ring-1 focus:ring-blue-200 transition-all"
-                placeholder="e.g., National Merit Scholar, Science Fair Winner, AP Scholar"
-              />
-            </div>
-          </div>
         </div>
 
         {/* AdSense Zone 1 - Prominent Above Submit */}
@@ -1094,7 +841,7 @@ RULES:
         <CardContent className="p-8">
           <h3 className="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
             <TrendingUp className="h-7 w-7 text-blue-600" />
-            College Application Strategy for USA Universities
+            College Application Strategy for USA & Canada
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
@@ -1103,7 +850,7 @@ RULES:
                 Reach (2-4 schools)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                Dream schools where you're below average but have a chance with a strong application. These are ambitious targets that could transform your future.
+                Dream schools where you're below average but have a chance with a strong application. These are ambitious targets in USA or Canada that could transform your future.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
@@ -1112,7 +859,7 @@ RULES:
                 Target (3-5 schools)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                Your stats match well. Solid 50-70% acceptance chance. Focus your efforts here for the best balance of ambition and likelihood.
+                Your stats match well. Solid 50-70% acceptance chance. Focus your efforts here for the best balance of ambition and likelihood in USA and Canadian universities.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
@@ -1121,7 +868,7 @@ RULES:
                 Safety (2-3 schools)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                You exceed average admitted student credentials. Very likely to be accepted (80%+ probability). Essential for peace of mind in your applications.
+                You exceed average admitted student credentials. Very likely to be accepted (80%+ probability). Essential for peace of mind in your USA or Canada applications.
               </p>
             </div>
           </div>
@@ -1152,16 +899,16 @@ RULES:
       <header className="max-w-7xl mx-auto mb-10 text-center">
         <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
           <Sparkles className="h-4 w-4" />
-          <span>Powered by Google AI (Gemma) - 100% Free for USA Universities (Canada Available)</span>
+          <span>Powered by Google AI (Gemma) - 100% Free for USA & Canada</span>
         </div>
         <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4">
-          Free AI College Predictor 2025 - USA Universities
+          Free AI College Predictor 2025 - USA & Canada
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
-          What colleges can I get into? Find your perfect university match in United States. AI-powered college admissions calculator helps you discover 24 personalized reach, target, and safety schools based on your GPA, SAT scores, and intended major. Enter "Canada" in location for Canadian universities.
+          What colleges can I get into? Find your perfect university match in United States and Canada. AI-powered college admissions calculator helps you discover 24 personalized reach, target, and safety schools based on your GPA, SAT scores, and intended major.
         </p>
         <p className="text-sm text-gray-500 max-w-2xl mx-auto">
-          Free college predictor tool for USA universities (Canadian universities available - just specify location). Calculate your college admissions chances at top universities. Search colleges by GPA, SAT score, major, and location across all 50 states. Includes California colleges, Texas universities, New York schools, and more. Type "Canada", "Ontario", or any province for Canadian options. No registration required.
+          Free college predictor tool for USA and Canadian universities. Calculate your college admissions chances at top universities. Search colleges by GPA, SAT score, major, and location. Includes Ontario university admissions, California colleges, and more. No registration required.
         </p>
       </header>
 
@@ -1213,24 +960,24 @@ RULES:
         </div>
       </div>
 
-      {/* SEO-Rich Footer with USA Primary, Canada Secondary */}
+      {/* SEO-Rich Footer with USA & Canada Keywords */}
       <footer className="max-w-7xl mx-auto mt-20 pt-10 border-t-2 border-gray-200">
         <div className="text-center space-y-4">
           <p className="text-sm text-gray-600 font-medium">
-            🎓 100% AI-Powered College Predictor | Free USA College Admissions Calculator 2025 | Canadian Universities Available | No Registration Required
+            🎓 100% AI-Powered College Predictor | Free College Admissions Calculator 2025 | USA & Canada Universities | No Registration Required
           </p>
           <p className="text-xs text-gray-500 max-w-4xl mx-auto leading-relaxed">
-            Our free AI college predictor uses advanced Google Gemma AI technology to analyze your academic profile and match you with the best colleges and universities in the United States. Get instant recommendations for reach schools, target schools, and safety schools based on your GPA, SAT scores, intended major, and location preferences across all 50 states (including California, Texas, New York, Florida, Illinois, Pennsylvania, and more). Canadian universities also available - simply enter "Canada" or any Canadian province (Ontario, British Columbia, Alberta, Quebec) in the location field. This college admissions calculator helps high school students, juniors, and seniors find perfect college matches. Completely free college search tool with no registration needed. Find out which colleges you can get into with our AI-powered university matcher. Calculate your admission chances at top American universities and Canadian universities when specified.
+            Our free AI college predictor uses advanced Google Gemma AI technology to analyze your academic profile and match you with the best colleges and universities in the United States and Canada. Get instant recommendations for reach schools, target schools, and safety schools based on your GPA, SAT scores, intended major, location preferences (including Ontario, California, British Columbia, Texas, New York), and budget. This college admissions calculator helps high school students, juniors, and seniors find perfect college matches in USA and Canada. Completely free college search tool with no registration needed. Find out which colleges you can get into with our AI-powered university matcher. Calculate your admission chances at top American and Canadian universities.
           </p>
           <div className="pt-4 space-y-2">
-            <p className="text-xs text-gray-400 font-semibold">🔍 Popular Searches - USA College Predictor (Canada Available):</p>
+            <p className="text-xs text-gray-400 font-semibold">🔍 Popular Searches - USA & Canada College Predictor:</p>
             <p className="text-xs text-gray-400 max-w-4xl mx-auto leading-relaxed">
-              what colleges can I get into | college predictor USA | AI college matcher | free college recommendations | SAT score calculator | GPA calculator | college admissions chances calculator USA | reach target safety schools | best colleges for my SAT score | college list builder | American university finder | college search engine | higher education search tool USA | university finder by major and location | college application helper | admission chances calculator | college match finder 2025 | free college predictor by GPA and SAT | colleges in California by GPA | UC Berkeley admission calculator | Texas universities admissions | New York college search | Florida colleges predictor | Illinois university finder | college predictor for computer science | affordable colleges in USA | what universities can I get into with my GPA | North American college search tool | Canadian university predictor | Ontario university admissions | University of Toronto | UBC admissions | McGill calculator
+              what colleges can I get into | college predictor USA Canada | AI college matcher | Canadian university predictor | free college recommendations | SAT score calculator | GPA calculator | college admissions chances calculator | Ontario university admissions | reach target safety schools | best colleges for my SAT score | college list builder USA Canada | American university finder | Canadian college GPA calculator | college search engine | higher education search tool | university finder by major and location | college application helper | admission chances calculator for USA and Canada | college match finder 2025 | free college predictor by GPA and SAT | University of Toronto admissions | UC Berkeley admission calculator | college search by state and province | British Columbia university search | California colleges by GPA | McGill admission chances | college predictor for computer science | affordable colleges in USA and Canada | what universities can I get into with my GPA | North American college search tool
             </p>
           </div>
           <div className="pt-6">
             <p className="text-xs text-gray-400">
-              © 2025 Calgary Academic Excellence. Free AI-powered college predictor for USA university admissions. Canadian universities available.
+              © 2025 Calgary Academic Excellence. Free AI-powered college predictor for USA and Canadian university admissions.
             </p>
           </div>
         </div>
