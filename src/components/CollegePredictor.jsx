@@ -131,7 +131,7 @@ const CollegePredictor = () => {
     structuredData.textContent = JSON.stringify({
       "@context": "https://schema.org",
       "@type": "WebApplication",
-      "name": "AI College Predictor - USA Universities",
+      "name": "AI College Predictor - USA/Canada Universities",
       "applicationCategory": "EducationalApplication",
       "description": "Free AI-powered college recommendation tool that analyzes your GPA, SAT scores, intended major, and location preferences to suggest 24 perfect university matches in United States including reach, target, and safety schools. Canadian universities available when location specified.",
       "offers": {
@@ -1155,13 +1155,13 @@ RULES:
           <span>Powered by Google AI (Gemma) - 100% Free for USA Universities (Canada Available)</span>
         </div>
         <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4">
-          Free AI College Predictor 2025 - USA Universities
+          Free AI College Predictor 2025 - USA/Canada Universities
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
-          What colleges can I get into? Find your perfect university match in United States. AI-powered college admissions calculator helps you discover 24 personalized reach, target, and safety schools based on your GPA, SAT scores, and intended major. Enter "Canada" in location for Canadian universities.
+          What colleges can I get into? Find your perfect university match in United States or Canada. AI-powered college admissions calculator helps you discover 24 personalized reach, target, and safety schools based on your GPA/Percentage, SAT/ACT scores, and intended major. Enter "Canada" in location for Canadian universities.
         </p>
         <p className="text-sm text-gray-500 max-w-2xl mx-auto">
-          Free college predictor tool for USA universities (Canadian universities available - just specify location). Calculate your college admissions chances at top universities. Search colleges by GPA, SAT score, major, and location across all 50 states. Includes California colleges, Texas universities, New York schools, and more. Type "Canada", "Ontario", or any province for Canadian options. No registration required.
+          Free college predictor tool for USA universities (Canadian universities available - just specify location). Calculate your college admissions chances at top universities. Search colleges by GPA, SAT/ACT score, major, and location across all 50 states. Includes California colleges, Texas universities, New York schools, and more. Type "Canada", "Ontario", or any province for Canadian options. No registration required.
         </p>
       </header>
 
