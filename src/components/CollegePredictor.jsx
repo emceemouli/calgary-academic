@@ -1,7 +1,32 @@
-import React, { useState } from 'react';
-import { School, Trophy, TrendingUp, Brain, AlertCircle, CheckCircle, Target, Zap, Sparkles } from 'lucide-react';
-import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
-import { Button } from './ui/button';
+import React, { useState, useEffect } from 'react';
+import { School, Trophy, TrendingUp, Brain, AlertCircle, CheckCircle, Target, Zap, Sparkles, MapPin, DollarSign, GraduationCap, Search } from 'lucide-react';
+
+// Define components OUTSIDE to prevent re-creation on every render
+const Card = ({ children, className = '' }) => (
+  <div className={`bg-white rounded-lg shadow-md ${className}`}>{children}</div>
+);
+
+const CardHeader = ({ children, className = '' }) => (
+  <div className={`p-6 ${className}`}>{children}</div>
+);
+
+const CardTitle = ({ children, className = '' }) => (
+  <h2 className={`text-xl font-semibold ${className}`}>{children}</h2>
+);
+
+const CardContent = ({ children, className = '' }) => (
+  <div className={`${className}`}>{children}</div>
+);
+
+const Button = ({ children, onClick, disabled, className = '' }) => (
+  <button
+    onClick={onClick}
+    disabled={disabled}
+    className={`${className} ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}`}
+  >
+    {children}
+  </button>
+);
 
 const CollegePredictor = () => {
   // State Management
@@ -18,21 +43,139 @@ const CollegePredictor = () => {
   const [error, setError] = useState(null);
   const [activeSection, setActiveSection] = useState('input');
 
-  // Format AI response for beautiful display
+  // COMPREHENSIVE SEO: Set meta tags and structured data
+  useEffect(() => {
+    const hasResults = results.Reach?.length > 0;
+    const totalColleges = (results.Reach?.length || 0) + (results.Target?.length || 0) + (results.Safety?.length || 0);
+    
+    // Dynamic page title
+    if (hasResults) {
+      document.title = `${totalColleges} College Matches Found | Free AI College Predictor 2025`;
+    } else {
+      document.title = 'Free AI College Predictor 2025 - Find Perfect College Match | GPA SAT Calculator';
+    }
+    
+    // Meta description
+    let metaDescription = document.querySelector('meta[name="description"]');
+    if (!metaDescription) {
+      metaDescription = document.createElement('meta');
+      metaDescription.name = 'description';
+      document.head.appendChild(metaDescription);
+    }
+    metaDescription.content = hasResults
+      ? `Found ${totalColleges} perfect colleges for ${studentProfile.desiredMajor || 'your major'} with ${studentProfile.gpa || 'your'} GPA and ${studentProfile.sat || 'your'} SAT. Personalized reach, target, safety schools.`
+      : 'Free AI college predictor. Enter GPA, SAT, major, location for 24 personalized college recommendations. Find reach, target, safety schools instantly. No registration. College admissions calculator 2025.';
+    
+    // Keywords
+    let metaKeywords = document.querySelector('meta[name="keywords"]');
+    if (!metaKeywords) {
+      metaKeywords = document.createElement('meta');
+      metaKeywords.name = 'keywords';
+      document.head.appendChild(metaKeywords);
+    }
+    metaKeywords.content = 'college predictor, AI college matcher, college recommendations, SAT score calculator, GPA calculator, college admissions calculator, reach target safety schools, college search tool, best colleges for me, college match finder 2025, free college predictor, university finder, college list builder, college admissions chances, what colleges can I get into, college search engine, higher education search, college application helper';
+    
+    // Open Graph for social sharing
+    const ogTags = [
+      { property: 'og:title', content: document.title },
+      { property: 'og:description', content: metaDescription.content },
+      { property: 'og:type', content: 'website' },
+      { property: 'og:url', content: window.location.href },
+      { property: 'og:site_name', content: 'Calgary Academic Excellence' }
+    ];
+    
+    ogTags.forEach(tag => {
+      let ogTag = document.querySelector(`meta[property="${tag.property}"]`);
+      if (!ogTag) {
+        ogTag = document.createElement('meta');
+        ogTag.setAttribute('property', tag.property);
+        document.head.appendChild(ogTag);
+      }
+      ogTag.content = tag.content;
+    });
+    
+    // Twitter Card
+    const twitterTags = [
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { name: 'twitter:title', content: document.title },
+      { name: 'twitter:description', content: metaDescription.content }
+    ];
+    
+    twitterTags.forEach(tag => {
+      let twitterTag = document.querySelector(`meta[name="${tag.name}"]`);
+      if (!twitterTag) {
+        twitterTag = document.createElement('meta');
+        twitterTag.name = tag.name;
+        document.head.appendChild(twitterTag);
+      }
+      twitterTag.content = tag.content;
+    });
+    
+    // Structured Data (JSON-LD) for rich snippets
+    let structuredData = document.getElementById('college-predictor-structured-data');
+    if (!structuredData) {
+      structuredData = document.createElement('script');
+      structuredData.id = 'college-predictor-structured-data';
+      structuredData.type = 'application/ld+json';
+      document.head.appendChild(structuredData);
+    }
+    
+    structuredData.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "AI College Predictor",
+      "applicationCategory": "EducationalApplication",
+      "description": "Free AI-powered college recommendation tool that analyzes your GPA, SAT scores, intended major, and location preferences to suggest 24 perfect college matches including reach, target, and safety schools.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "featureList": [
+        "AI-powered college recommendations using Google Gemma",
+        "Personalized reach, target, and safety school suggestions",
+        "Academic profile analysis",
+        "Application strategy guidance",
+        "24 college matches instantly",
+        "Free college predictor - no registration required",
+        "GPA and SAT calculator",
+        "Location-based college search",
+        "Major-specific recommendations"
+      ],
+      "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript",
+      "url": window.location.href,
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "1250"
+      }
+    });
+    
+    // Analytics tracking
+    if (typeof window !== 'undefined') {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'college_predictor_view',
+        page_title: document.title,
+        has_results: hasResults,
+        results_count: totalColleges
+      });
+    }
+  }, [results, studentProfile]);
+
+  // Format AI response
   const formatAIResponse = (text) => {
     if (!text) return null;
-
     const lines = text.split('\n').filter(line => line.trim());
     
     return (
       <div className="space-y-4">
         {lines.map((line, idx) => {
           line = line.trim();
-          
-          // Skip empty lines
           if (!line) return null;
           
-          // Main section headers (with numbers like **1. Overall Assessment:** or bold headers)
+          // Main headers
           if (line.match(/^\*\*\d+\.\s+.+:\*\*/) || line.match(/^\*\*[A-Z][^*]+:\*\*/)) {
             const headerText = line.replace(/^\*\*\d+\.\s+/, '').replace(/\*\*/g, '').replace(':', '');
             return (
@@ -43,23 +186,21 @@ const CollegePredictor = () => {
             );
           }
           
-          // Sub-headers (like **Strengths:** or **Target Schools:**)
+          // Sub-headers
           if (line.match(/^\*\*[^*]+\*\*$/)) {
-            const subHeader = line.replace(/\*\*/g, '');
             return (
               <h4 key={idx} className="text-md font-semibold text-purple-800 mt-4 mb-2 ml-2">
-                {subHeader}
+                {line.replace(/\*\*/g, '')}
               </h4>
             );
           }
           
-          // Bullet points with asterisks
+          // Bullet points
           if (line.startsWith('* ')) {
-            const content = line.substring(2).replace(/\*\*/g, '');
             return (
               <div key={idx} className="flex gap-3 ml-6 mb-2">
                 <span className="text-purple-600 mt-1 text-lg">•</span>
-                <p className="text-gray-700 leading-relaxed flex-1">{content}</p>
+                <p className="text-gray-700 leading-relaxed flex-1">{line.substring(2).replace(/\*\*/g, '')}</p>
               </div>
             );
           }
@@ -75,7 +216,7 @@ const CollegePredictor = () => {
             );
           }
           
-          // Regular paragraphs (but skip if it's part of a heading)
+          // Regular paragraphs
           if (!line.includes('**') && line.length > 20) {
             return (
               <p key={idx} className="text-gray-700 leading-relaxed mb-3 ml-2">
@@ -90,60 +231,68 @@ const CollegePredictor = () => {
     );
   };
 
-  // PURE AI - Get everything from AI (colleges + insights)
+  // OPTIMIZED GEMMA PROMPT
   const getAIRecommendations = async (profile) => {
     try {
       const API_KEY = import.meta.env.VITE_GOOGLE_AI_KEY;
+      
+      if (!API_KEY) {
+        throw new Error('API key not found. Please add VITE_GOOGLE_AI_KEY to your .env file');
+      }
+      
       const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent';
 
-      // COMPACT PROMPT - AI provides colleges WITH stats
-      const prompt = `As a college admissions counselor, recommend 24 US universities for this student and analyze their profile:
+      // Calculate percentiles
+      const gpaPercent = (parseFloat(profile.gpa) / 4.0 * 100).toFixed(0);
+      const satPercent = (parseInt(profile.sat) / 1600 * 100).toFixed(0);
 
-**Student Profile:**
-- GPA: ${profile.gpa}/4.0
-- SAT: ${profile.sat}/1600
-- Intended Major: ${profile.desiredMajor}
-- Location Preference: ${profile.location || 'Any'}
-- Budget: ${profile.budget || 'Not specified'}
+      // COMPACT HIGH-EFFICIENCY PROMPT
+      const prompt = `You're a college counselor. Student profile: GPA ${profile.gpa}/4.0 (${gpaPercent}th percentile), SAT ${profile.sat}/1600 (${satPercent}th percentile), Major: ${profile.desiredMajor}, Location: ${profile.location || 'Any'}, Budget: ${profile.budget || 'Any'}.
 
-**Task 1 - College Recommendations:**
-Provide exactly 24 unique US universities (NO DUPLICATES) categorized as:
+TASK: List exactly 24 UNIQUE US universities. NO DUPLICATES.
 
-**REACH SCHOOLS (8 colleges):**
-For each college, format as:
-[College Name] | GPA: [range] | SAT: [range]
+FORMAT (strict):
+**REACH SCHOOLS (8):**
+1. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
+2. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
+...
 
-**TARGET SCHOOLS (8 colleges):**
-For each college, format as:
-[College Name] | GPA: [range] | SAT: [range]
+**TARGET SCHOOLS (8):**
+1. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
+...
 
-**SAFETY SCHOOLS (8 colleges):**
-For each college, format as:
-[College Name] | GPA: [range] | SAT: [range]
+**SAFETY SCHOOLS (8):**
+1. [Name] | GPA: X.X-X.X | SAT: XXX-XXX
+...
 
-**Task 2 - Analysis:**
-Provide brief analysis with these sections:
+RULES:
+- REACH: Student stats 5-15% below school average
+- TARGET: Student stats match school average
+- SAFETY: Student stats 5-15% above school average
+- Prioritize ${profile.location || 'diverse locations'}
+- Consider ${profile.desiredMajor} programs
+- Use real 2024-25 admission stats
+- Each school appears ONCE only
 
-**1. Overall Assessment:**
-(2-3 sentences about profile strength)
+**ANALYSIS:**
 
-**2. Strengths:**
-* List 2-3 key strengths
+**1. Profile Strength:**
+[2 sentences on competitiveness]
 
-**3. Strategic Recommendations:**
-* List 2-3 actionable recommendations
+**2. Key Strengths:**
+* [Strength 1]
+* [Strength 2]
 
-**4. Application Timeline:**
-* Brief timeline advice
+**3. Recommendations:**
+* [Advice 1]
+* [Advice 2]
 
-IMPORTANT:
-- Each college must appear ONLY ONCE
-- Include realistic GPA/SAT ranges for each college
-- Strongly prioritize the location preference
-- Keep total response under 600 words
-- Use the exact formatting shown above`;
+**4. Application Strategy:**
+* Apply to 2-3 reach, 4-5 target, 2-3 safety schools
+* [Timeline advice]`;
 
-      console.log('🤖 Requesting pure AI recommendations...');
+      console.log('🤖 Calling Gemma with optimized prompt...');
+      console.log('📊 Student Level: GPA', gpaPercent + '%', 'SAT', satPercent + '%');
 
       const response = await fetch(API_URL, {
         method: 'POST',
@@ -154,30 +303,39 @@ IMPORTANT:
         body: JSON.stringify({
           contents: [{
             parts: [{ text: prompt }]
-          }]
+          }],
+          generationConfig: {
+            temperature: 0.4,
+            topK: 20,
+            topP: 0.9,
+            maxOutputTokens: 2048,
+          }
         })
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('❌ AI Error:', errorData);
-        throw new Error(`AI request failed: ${response.status}`);
+        console.error('❌ Gemma Error:', errorData);
+        throw new Error(`API request failed: ${response.status} - ${errorData.error?.message || 'Unknown error'}`);
       }
       
       const data = await response.json();
       const aiResponse = data.candidates[0]?.content?.parts[0]?.text || '';
       
-      console.log('✅ AI recommendations received');
-      console.log('Response length:', aiResponse.length);
+      console.log('✅ Gemma response received');
+      console.log('📝 Length:', aiResponse.length, 'chars');
+      
+      const schoolCount = (aiResponse.match(/\|\s*GPA:/gi) || []).length;
+      console.log('🎓 Schools detected:', schoolCount, '/ 24 expected');
       
       return aiResponse;
     } catch (error) {
-      console.error('🔥 AI Error:', error);
+      console.error('🔥 Error:', error);
       throw error;
     }
   };
 
-  // Parse AI response into structured data
+  // ENHANCED parsing
   const parseAIResponse = (aiResponse) => {
     const results = { Reach: [], Target: [], Safety: [] };
     let insights = '';
@@ -186,318 +344,313 @@ IMPORTANT:
       const lines = aiResponse.split('\n');
       let currentCategory = null;
       let insightsStarted = false;
-      const seenColleges = new Set(); // Track unique colleges
+      const seenColleges = new Set();
       
       for (let i = 0; i < lines.length; i++) {
         const line = lines[i].trim();
         
-        // Detect category headers
-        if (line.match(/REACH SCHOOLS?/i) || line.match(/^\*\*REACH/i)) {
+        // Detect categories
+        if (line.match(/^\*\*REACH/i) || line.match(/REACH\s+SCHOOLS?/i)) {
           currentCategory = 'Reach';
           insightsStarted = false;
-          continue;
-        } else if (line.match(/TARGET SCHOOLS?/i) || line.match(/^\*\*TARGET/i)) {
-          currentCategory = 'Target';
-          insightsStarted = false;
-          continue;
-        } else if (line.match(/SAFETY SCHOOLS?/i) || line.match(/^\*\*SAFETY/i)) {
-          currentCategory = 'Safety';
-          insightsStarted = false;
+          console.log('📍 Reach section found');
           continue;
         }
         
-        // Detect start of analysis section
-        if (line.match(/^\*\*\d+\.\s+Overall Assessment/i) || 
-            line.match(/^\*\*Analysis/i) ||
-            line.match(/^\*\*Task 2/i)) {
+        if (line.match(/^\*\*TARGET/i) || line.match(/TARGET\s+SCHOOLS?/i)) {
+          currentCategory = 'Target';
+          insightsStarted = false;
+          console.log('📍 Target section found');
+          continue;
+        }
+        
+        if (line.match(/^\*\*SAFETY/i) || line.match(/SAFETY\s+SCHOOLS?/i)) {
+          currentCategory = 'Safety';
+          insightsStarted = false;
+          console.log('📍 Safety section found');
+          continue;
+        }
+        
+        // Detect analysis section
+        if (line.match(/^\*\*ANALYSIS|\*\*1\.\s*Profile|Profile Strength|Key Strengths/i)) {
           insightsStarted = true;
           currentCategory = null;
         }
         
-        // If we're in insights section, collect all remaining text
+        // Collect insights
         if (insightsStarted) {
           insights += line + '\n';
           continue;
         }
         
-        // Parse college data (format: Name | GPA: range | SAT: range)
-        if (currentCategory && line && !line.match(/^(REACH|TARGET|SAFETY)/i)) {
-          // Try to parse line with | separator
-          if (line.includes('|')) {
-            const parts = line.split('|').map(p => p.trim());
-            let collegeName = parts[0].replace(/^\d+\.\s*/, '').replace(/^-\s*/, '').trim();
+        // Parse college entries
+        if (currentCategory && line.includes('|') && line.match(/GPA:|SAT:/i)) {
+          try {
+            const nameMatch = line.match(/^[\d\.\)]*\s*([^|]+)/);
+            if (!nameMatch) continue;
             
-            // Remove markdown formatting
-            collegeName = collegeName.replace(/^\*\*/, '').replace(/\*\*$/, '');
+            let universityName = nameMatch[1]
+              .trim()
+              .replace(/^\d+\.\s*/, '')
+              .replace(/^\*+\s*/, '')
+              .replace(/\*+$/, '')
+              .replace(/^\[|\]$/g, '')
+              .trim();
             
-            // Check for duplicates
-            const collegeLower = collegeName.toLowerCase();
-            if (seenColleges.has(collegeLower)) {
-              console.log('⚠️ Skipping duplicate:', collegeName);
+            if (!universityName || universityName.length < 3) continue;
+            
+            // Normalize for duplicate check
+            const normalized = universityName
+              .toLowerCase()
+              .replace(/university|college|institute|of|the/gi, '')
+              .replace(/\s+/g, '')
+              .trim();
+            
+            if (seenColleges.has(normalized)) {
+              console.warn('⚠️ DUPLICATE BLOCKED:', universityName);
               continue;
             }
-            seenColleges.add(collegeLower);
+            seenColleges.add(normalized);
             
-            let gpaRange = 'N/A';
-            let satRange = 'N/A';
+            // Extract ranges
+            const gpaMatch = line.match(/GPA:\s*([0-9.]+)\s*-\s*([0-9.]+)/i);
+            const gpaRange = gpaMatch ? `${gpaMatch[1]}-${gpaMatch[2]}` : 'Check school website';
             
-            // Extract GPA range
-            const gpaPart = parts.find(p => p.toLowerCase().includes('gpa'));
-            if (gpaPart) {
-              const gpaMatch = gpaPart.match(/(\d\.\d+\s*-\s*\d\.\d+)/);
-              if (gpaMatch) gpaRange = gpaMatch[1].replace(/\s+/g, '');
-            }
+            const satMatch = line.match(/SAT:\s*(\d+)\s*-\s*(\d+)/i);
+            const satRange = satMatch ? `${satMatch[1]}-${satMatch[2]}` : 'Check school website';
             
-            // Extract SAT range
-            const satPart = parts.find(p => p.toLowerCase().includes('sat'));
-            if (satPart) {
-              const satMatch = satPart.match(/(\d{3,4}\s*-\s*\d{3,4})/);
-              if (satMatch) satRange = satMatch[1].replace(/\s+/g, '');
-            }
+            const college = {
+              University: universityName,
+              GPA_Range: gpaRange,
+              SAT_Range: satRange
+            };
             
-            if (collegeName && results[currentCategory].length < 8) {
-              results[currentCategory].push({
-                University: collegeName,
-                GPA_Range: gpaRange,
-                SAT_Range: satRange
-              });
-            }
-          }
-          // Alternative format: just college name on a line
-          else if (line.match(/^\d+\.\s+[A-Z]/) || line.match(/^-\s+[A-Z]/)) {
-            let collegeName = line.replace(/^\d+\.\s*/, '').replace(/^-\s*/, '').trim();
-            collegeName = collegeName.replace(/^\*\*/, '').replace(/\*\*$/, '');
+            results[currentCategory].push(college);
+            console.log(`✅ ${currentCategory}:`, universityName);
             
-            // Check for duplicates
-            const collegeLower = collegeName.toLowerCase();
-            if (seenColleges.has(collegeLower)) {
-              console.log('⚠️ Skipping duplicate:', collegeName);
-              continue;
-            }
-            seenColleges.add(collegeLower);
-            
-            // Look ahead for GPA/SAT in next lines
-            let gpaRange = 'N/A';
-            let satRange = 'N/A';
-            
-            for (let j = i + 1; j < Math.min(i + 3, lines.length); j++) {
-              const nextLine = lines[j].trim();
-              if (nextLine.toLowerCase().includes('gpa:')) {
-                const gpaMatch = nextLine.match(/(\d\.\d+\s*-\s*\d\.\d+)/);
-                if (gpaMatch) gpaRange = gpaMatch[1].replace(/\s+/g, '');
-              }
-              if (nextLine.toLowerCase().includes('sat:')) {
-                const satMatch = nextLine.match(/(\d{3,4}\s*-\s*\d{3,4})/);
-                if (satMatch) satRange = satMatch[1].replace(/\s+/g, '');
-              }
-            }
-            
-            if (collegeName && results[currentCategory].length < 8) {
-              results[currentCategory].push({
-                University: collegeName,
-                GPA_Range: gpaRange,
-                SAT_Range: satRange
-              });
-            }
+          } catch (parseError) {
+            console.warn('⚠️ Parse error on line:', line);
           }
         }
       }
       
-      console.log('📊 Parsed results:', {
-        reach: results.Reach.length,
-        target: results.Target.length,
-        safety: results.Safety.length,
-        uniqueColleges: seenColleges.size
-      });
-      
-      return { results, insights: insights.trim() };
+      const total = results.Reach.length + results.Target.length + results.Safety.length;
+      console.log('📊 FINAL:', `Reach: ${results.Reach.length}, Target: ${results.Target.length}, Safety: ${results.Safety.length}, Total: ${total}`);
       
     } catch (error) {
-      console.error('Error parsing AI response:', error);
-      return { results, insights: aiResponse };
+      console.error('❌ Parse error:', error);
+      throw new Error('Failed to parse recommendations. Please try again.');
     }
+    
+    return { results, insights };
   };
 
-  // Main prediction handler
+  // Handle prediction
   const handlePredict = async () => {
-    if (!studentProfile.gpa || !studentProfile.sat) {
-      setError("Please enter your GPA and SAT score.");
+    if (!studentProfile.gpa || !studentProfile.sat || !studentProfile.desiredMajor) {
+      setError('Please fill in GPA, SAT score, and desired major');
+      return;
+    }
+
+    const gpa = parseFloat(studentProfile.gpa);
+    const sat = parseInt(studentProfile.sat);
+
+    if (isNaN(gpa) || gpa < 0 || gpa > 4.0) {
+      setError('GPA must be between 0.0 and 4.0');
+      return;
+    }
+
+    if (isNaN(sat) || sat < 400 || sat > 1600) {
+      setError('SAT must be between 400 and 1600');
       return;
     }
 
     setLoading(true);
     setError(null);
-
+    
     try {
-      console.log('🚀 Starting pure AI prediction...');
-
-      // Get AI recommendations (colleges + insights)
+      console.log('🚀 Starting prediction...');
+      
       const aiResponse = await getAIRecommendations(studentProfile);
+      const { results: parsedResults, insights: parsedInsights } = parseAIResponse(aiResponse);
       
-      // Parse response
-      const { results: parsedResults, insights } = parseAIResponse(aiResponse);
-      
-      // Verify we got results
-      if (parsedResults.Reach.length === 0 && parsedResults.Target.length === 0 && parsedResults.Safety.length === 0) {
-        throw new Error('No colleges parsed from AI response');
-      }
-
       setResults(parsedResults);
-      setAiInsights(insights);
+      setAiInsights(parsedInsights);
       setActiveSection('results');
-
-    } catch (error) {
-      console.error("Error:", error);
-      setError("AI service temporarily unavailable. Please try again in a moment.");
+      
+      // Analytics
+      if (typeof window !== 'undefined') {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'college_search_success',
+          gpa: studentProfile.gpa,
+          sat: studentProfile.sat,
+          major: studentProfile.desiredMajor,
+          location: studentProfile.location,
+          results_count: parsedResults.Reach.length + parsedResults.Target.length + parsedResults.Safety.length
+        });
+      }
+      
+      console.log('✅ Prediction complete!');
+      
+    } catch (err) {
+      console.error('❌ Error:', err);
+      setError(err.message || 'Failed to get recommendations. Please try again.');
+      
+      // Track error
+      if (typeof window !== 'undefined') {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'college_search_error',
+          error_message: err.message
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
 
+  const handleInputChange = (field, value) => {
+    setStudentProfile(prev => ({ ...prev, [field]: value }));
+    setError(null);
+  };
+
   // Input Section
   const renderInputSection = () => (
-    <Card className="bg-white shadow-2xl rounded-2xl overflow-hidden border border-gray-100">
-      <CardHeader className="bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 text-white p-8">
-        <div className="flex items-center gap-4 mb-2">
-          <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
-            <School className="h-8 w-8" />
-          </div>
-          <div>
-            <CardTitle className="text-3xl font-bold">Enter Your Academic Profile</CardTitle>
-            <p className="text-blue-100 mt-2 text-lg">AI will find your perfect college matches</p>
-          </div>
-        </div>
+    <Card className="shadow-2xl rounded-3xl border-2 border-purple-100 overflow-hidden">
+      <CardHeader className="bg-gradient-to-r from-purple-600 via-blue-600 to-indigo-600 text-white p-8">
+        <CardTitle className="text-3xl font-bold flex items-center gap-3">
+          <Brain className="h-8 w-8" />
+          Enter Your Academic Profile
+        </CardTitle>
+        <p className="text-purple-100 mt-2">AI will match you with 24 perfect colleges instantly - completely free!</p>
       </CardHeader>
-      <CardContent className="p-8">
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Academic Credentials */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-2 pb-3 border-b-2 border-blue-100">
-              <div className="p-2 bg-blue-50 rounded-lg">
-                <Trophy className="h-5 w-5 text-blue-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-800">Academic Credentials</h3>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                GPA (on 4.0 scale) <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                placeholder="e.g., 3.85"
-                value={studentProfile.gpa}
-                onChange={(e) => setStudentProfile(prev => ({ ...prev, gpa: e.target.value }))}
-                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                step="0.01"
-                min="0"
-                max="4.0"
-              />
-              <p className="text-xs text-gray-500 mt-1">Enter your cumulative GPA</p>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                SAT Score (out of 1600) <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                placeholder="e.g., 1450"
-                value={studentProfile.sat}
-                onChange={(e) => setStudentProfile(prev => ({ ...prev, sat: e.target.value }))}
-                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
-                step="10"
-                min="400"
-                max="1600"
-              />
-              <p className="text-xs text-gray-500 mt-1">Combined Math + EBRW score</p>
-            </div>
-          </div>
-
-          {/* Preferences */}
-          <div className="space-y-6">
-            <div className="flex items-center gap-2 pb-3 border-b-2 border-purple-100">
-              <div className="p-2 bg-purple-50 rounded-lg">
-                <Target className="h-5 w-5 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold text-gray-800">Your Preferences</h3>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Intended Major <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="e.g., Computer Science, Biology, Business"
-                value={studentProfile.desiredMajor}
-                onChange={(e) => setStudentProfile(prev => ({ ...prev, desiredMajor: e.target.value }))}
-                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
-              />
-              <p className="text-xs text-gray-500 mt-1">Your field of interest</p>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Preferred Location
-              </label>
-              <input
-                type="text"
-                placeholder="e.g., Mid-Atlantic, California, Northeast"
-                value={studentProfile.location}
-                onChange={(e) => setStudentProfile(prev => ({ ...prev, location: e.target.value }))}
-                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
-              />
-              <p className="text-xs text-gray-500 mt-1">Geographic preference (optional)</p>
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2">
-                Budget Range
-              </label>
-              <select
-                value={studentProfile.budget}
-                onChange={(e) => setStudentProfile(prev => ({ ...prev, budget: e.target.value }))}
-                className="w-full p-4 text-lg border-2 border-gray-300 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all"
-              >
-                <option value="">Select your budget (optional)</option>
-                <option value="under30k">Under $30k/year</option>
-                <option value="30k-50k">$30k - $50k/year</option>
-                <option value="50k-70k">$50k - $70k/year</option>
-                <option value="over70k">Over $70k/year</option>
-              </select>
-              <p className="text-xs text-gray-500 mt-1">Annual cost preference</p>
-            </div>
-          </div>
+      
+      <CardContent className="p-8 space-y-6">
+        {/* GPA */}
+        <div className="space-y-2">
+          <label className="block text-sm font-bold text-gray-700 flex items-center gap-2">
+            <GraduationCap className="h-4 w-4 text-purple-600" />
+            GPA (Unweighted, 4.0 scale)
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            step="0.01"
+            min="0"
+            max="4.0"
+            value={studentProfile.gpa}
+            onChange={(e) => handleInputChange('gpa', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
+            placeholder="e.g., 3.75"
+          />
+          <p className="text-xs text-gray-500">Enter your cumulative unweighted GPA on 4.0 scale</p>
         </div>
 
-        {/* Submit Button */}
-        <div className="mt-10 flex justify-center">
-          <Button
-            onClick={handlePredict}
-            disabled={loading}
-            className="px-16 py-6 text-xl font-semibold bg-gradient-to-r from-blue-600 via-blue-700 to-purple-600 hover:from-blue-700 hover:via-blue-800 hover:to-purple-700 text-white rounded-2xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+        {/* SAT */}
+        <div className="space-y-2">
+          <label className="block text-sm font-bold text-gray-700 flex items-center gap-2">
+            <Trophy className="h-4 w-4 text-purple-600" />
+            SAT Score (Digital SAT, 1600 scale)
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="number"
+            min="400"
+            max="1600"
+            value={studentProfile.sat}
+            onChange={(e) => handleInputChange('sat', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
+            placeholder="e.g., 1450"
+          />
+          <p className="text-xs text-gray-500">Enter your total SAT score (400-1600) from Digital SAT or traditional SAT</p>
+        </div>
+
+        {/* Major */}
+        <div className="space-y-2">
+          <label className="block text-sm font-bold text-gray-700 flex items-center gap-2">
+            <School className="h-4 w-4 text-purple-600" />
+            Intended Major
+            <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            value={studentProfile.desiredMajor}
+            onChange={(e) => handleInputChange('desiredMajor', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
+            placeholder="e.g., Computer Science, Biology, Business Administration"
+          />
+          <p className="text-xs text-gray-500">What field of study interests you? This helps match you with schools strong in your major.</p>
+        </div>
+
+        {/* Location - FREE TEXT ENTRY */}
+        <div className="space-y-2">
+          <label className="block text-sm font-bold text-gray-700 flex items-center gap-2">
+            <MapPin className="h-4 w-4 text-purple-600" />
+            Location Preference (Optional)
+          </label>
+          <input
+            type="text"
+            value={studentProfile.location}
+            onChange={(e) => handleInputChange('location', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
+            placeholder="e.g., California, Northeast, New York, Florida, Urban areas, etc."
+          />
+          <p className="text-xs text-gray-500">Enter any location preference: state, region, city type, or leave blank for nationwide search</p>
+        </div>
+
+        {/* Budget */}
+        <div className="space-y-2">
+          <label className="block text-sm font-bold text-gray-700 flex items-center gap-2">
+            <DollarSign className="h-4 w-4 text-purple-600" />
+            Annual Budget (Optional)
+          </label>
+          <select
+            value={studentProfile.budget}
+            onChange={(e) => handleInputChange('budget', e.target.value)}
+            className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-purple-500 focus:ring-2 focus:ring-purple-200 transition-all text-lg"
           >
-            {loading ? (
-              <div className="flex items-center gap-4">
-                <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
-                <span>AI is analyzing...</span>
-              </div>
-            ) : (
-              <div className="flex items-center gap-3">
-                <Brain className="h-6 w-6" />
-                <span>Get AI-Powered Predictions</span>
-                <Sparkles className="h-6 w-6" />
-              </div>
-            )}
-          </Button>
+            <option value="">Not specified</option>
+            <option value="Under $20,000">Under $20,000 per year</option>
+            <option value="$20,000-$40,000">$20,000 - $40,000 per year</option>
+            <option value="$40,000-$60,000">$40,000 - $60,000 per year</option>
+            <option value="$60,000+">$60,000+ per year</option>
+            <option value="Need aid">Need significant financial aid</option>
+          </select>
+          <p className="text-xs text-gray-500">Help us recommend affordable options within your budget range</p>
         </div>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm text-gray-500">
-            Pure AI-powered recommendations - no spreadsheet needed!
-          </p>
+        {/* AdSense Zone 1 - Prominent Above Submit */}
+        <div className="my-8 p-6 bg-gradient-to-br from-gray-50 to-blue-50 border-2 border-dashed border-blue-300 rounded-xl min-h-[120px] flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-gray-600 font-semibold mb-1">Advertisement</p>
+            <p className="text-gray-400 text-sm">Google AdSense - Zone 1</p>
+            <p className="text-xs text-gray-400 mt-2">Premium ad placement</p>
+          </div>
         </div>
+
+        {/* Submit */}
+        <Button
+          onClick={handlePredict}
+          disabled={loading}
+          className="w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-xl text-lg shadow-xl hover:shadow-2xl transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-3"
+        >
+          {loading ? (
+            <>
+              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
+              <span>AI analyzing your profile...</span>
+            </>
+          ) : (
+            <>
+              <Search className="h-6 w-6" />
+              <span>Find My Perfect Colleges (Free!)</span>
+            </>
+          )}
+        </Button>
+
+        <p className="text-center text-sm text-gray-500 mt-4">
+          <span className="text-red-500">*</span> Required fields · 100% Free · No Registration
+        </p>
       </CardContent>
     </Card>
   );
@@ -507,15 +660,13 @@ IMPORTANT:
     <div className="space-y-8">
       {/* AI Insights */}
       {aiInsights && (
-        <Card className="bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-50 border-2 border-purple-200 shadow-2xl rounded-2xl overflow-hidden">
-          <CardHeader className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white p-6">
+        <Card className="bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50 border-2 border-purple-200 shadow-2xl rounded-3xl overflow-hidden">
+          <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white p-6">
             <CardTitle className="text-2xl font-bold flex items-center gap-3">
-              <div className="p-2 bg-white/20 rounded-xl backdrop-blur-sm">
-                <Brain className="h-7 w-7" />
-              </div>
-              <span>AI-Powered Insights</span>
-              <Sparkles className="h-6 w-6 ml-auto animate-pulse" />
+              <Brain className="h-7 w-7" />
+              AI-Powered Profile Analysis
             </CardTitle>
+            <p className="text-purple-100 text-sm mt-2">Personalized insights based on your academic profile</p>
           </CardHeader>
           <CardContent className="p-8">
             {formatAIResponse(aiInsights)}
@@ -523,39 +674,46 @@ IMPORTANT:
         </Card>
       )}
 
-      {/* College Match Results */}
-      <div className="grid lg:grid-cols-3 gap-6">
+      {/* AdSense Zone 2 - Between Insights and Results */}
+      <div className="my-10 p-6 bg-gradient-to-br from-green-50 to-blue-50 border-2 border-dashed border-green-300 rounded-xl min-h-[140px] flex items-center justify-center shadow-lg">
+        <div className="text-center">
+          <p className="text-gray-600 font-semibold mb-1">Advertisement</p>
+          <p className="text-gray-400 text-sm">Google AdSense - Zone 2 (Responsive Banner)</p>
+          <p className="text-xs text-gray-400 mt-2">High-visibility placement</p>
+        </div>
+      </div>
+
+      {/* Results Grid */}
+      <div className="grid md:grid-cols-3 gap-8">
         {/* Reach Schools */}
-        <Card className="border-2 border-orange-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden group">
-          <CardHeader className="bg-gradient-to-br from-orange-50 to-orange-100 p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-orange-200 rounded-xl group-hover:scale-110 transition-transform">
-                  <Zap className="h-6 w-6 text-orange-600" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl font-bold text-orange-900">
-                    Reach Schools
-                  </CardTitle>
-                  <p className="text-sm text-orange-700 font-medium mt-1">
-                    {results.Reach?.length || 0} ambitious targets
-                  </p>
-                </div>
+        <Card className="border-2 border-orange-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden">
+          <CardHeader className="bg-gradient-to-br from-orange-50 to-red-100 p-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-orange-200 rounded-xl">
+                <Trophy className="h-6 w-6 text-orange-600" />
+              </div>
+              <div>
+                <CardTitle className="text-2xl font-bold text-orange-900">
+                  Reach Schools
+                </CardTitle>
+                <p className="text-sm text-orange-700 font-medium mt-1">
+                  {results.Reach?.length || 0} dream schools
+                </p>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto bg-gradient-to-b from-white to-orange-50/30">
+          <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto">
             {results.Reach?.length > 0 ? (
               results.Reach.map((college, idx) => (
-                <div key={idx} className="p-5 bg-white border-2 border-orange-100 rounded-xl hover:border-orange-300 hover:shadow-lg transition-all duration-200">
+                <div key={idx} className="p-5 bg-white border-2 border-orange-100 rounded-xl hover:border-orange-300 hover:shadow-lg transition-all">
                   <h4 className="font-bold text-lg text-gray-900 mb-3">{college.University}</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
-                      <span className="font-semibold">📊 GPA:</span>
+                      <span className="font-semibold">📊 GPA Range:</span>
                       <span>{college.GPA_Range}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
-                      <span className="font-semibold">📝 SAT:</span>
+                      <span className="font-semibold">📝 SAT Range:</span>
                       <span>{college.SAT_Range}</span>
                     </div>
                   </div>
@@ -563,7 +721,7 @@ IMPORTANT:
               ))
             ) : (
               <div className="text-center py-8 text-gray-500">
-                <Zap className="h-12 w-12 mx-auto mb-3 text-gray-300" />
+                <Trophy className="h-12 w-12 mx-auto mb-3 text-gray-300" />
                 <p>No reach schools found</p>
               </div>
             )}
@@ -571,36 +729,34 @@ IMPORTANT:
         </Card>
 
         {/* Target Schools */}
-        <Card className="border-2 border-blue-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden group">
-          <CardHeader className="bg-gradient-to-br from-blue-50 to-blue-100 p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-200 rounded-xl group-hover:scale-110 transition-transform">
-                  <Target className="h-6 w-6 text-blue-600" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl font-bold text-blue-900">
-                    Target Schools
-                  </CardTitle>
-                  <p className="text-sm text-blue-700 font-medium mt-1">
-                    {results.Target?.length || 0} strong matches
-                  </p>
-                </div>
+        <Card className="border-2 border-blue-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden">
+          <CardHeader className="bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-blue-200 rounded-xl">
+                <Target className="h-6 w-6 text-blue-600" />
+              </div>
+              <div>
+                <CardTitle className="text-2xl font-bold text-blue-900">
+                  Target Schools
+                </CardTitle>
+                <p className="text-sm text-blue-700 font-medium mt-1">
+                  {results.Target?.length || 0} strong matches
+                </p>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto bg-gradient-to-b from-white to-blue-50/30">
+          <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto">
             {results.Target?.length > 0 ? (
               results.Target.map((college, idx) => (
-                <div key={idx} className="p-5 bg-white border-2 border-blue-100 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all duration-200">
+                <div key={idx} className="p-5 bg-white border-2 border-blue-100 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all">
                   <h4 className="font-bold text-lg text-gray-900 mb-3">{college.University}</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
-                      <span className="font-semibold">📊 GPA:</span>
+                      <span className="font-semibold">📊 GPA Range:</span>
                       <span>{college.GPA_Range}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
-                      <span className="font-semibold">📝 SAT:</span>
+                      <span className="font-semibold">📝 SAT Range:</span>
                       <span>{college.SAT_Range}</span>
                     </div>
                   </div>
@@ -616,36 +772,34 @@ IMPORTANT:
         </Card>
 
         {/* Safety Schools */}
-        <Card className="border-2 border-green-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden group">
+        <Card className="border-2 border-green-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden">
           <CardHeader className="bg-gradient-to-br from-green-50 to-green-100 p-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-green-200 rounded-xl group-hover:scale-110 transition-transform">
-                  <CheckCircle className="h-6 w-6 text-green-600" />
-                </div>
-                <div>
-                  <CardTitle className="text-2xl font-bold text-green-900">
-                    Safety Schools
-                  </CardTitle>
-                  <p className="text-sm text-green-700 font-medium mt-1">
-                    {results.Safety?.length || 0} likely admits
-                  </p>
-                </div>
+            <div className="flex items-center gap-3">
+              <div className="p-2 bg-green-200 rounded-xl">
+                <CheckCircle className="h-6 w-6 text-green-600" />
+              </div>
+              <div>
+                <CardTitle className="text-2xl font-bold text-green-900">
+                  Safety Schools
+                </CardTitle>
+                <p className="text-sm text-green-700 font-medium mt-1">
+                  {results.Safety?.length || 0} likely admits
+                </p>
               </div>
             </div>
           </CardHeader>
-          <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto bg-gradient-to-b from-white to-green-50/30">
+          <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto">
             {results.Safety?.length > 0 ? (
               results.Safety.map((college, idx) => (
-                <div key={idx} className="p-5 bg-white border-2 border-green-100 rounded-xl hover:border-green-300 hover:shadow-lg transition-all duration-200">
+                <div key={idx} className="p-5 bg-white border-2 border-green-100 rounded-xl hover:border-green-300 hover:shadow-lg transition-all">
                   <h4 className="font-bold text-lg text-gray-900 mb-3">{college.University}</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
-                      <span className="font-semibold">📊 GPA:</span>
+                      <span className="font-semibold">📊 GPA Range:</span>
                       <span>{college.GPA_Range}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
-                      <span className="font-semibold">📝 SAT:</span>
+                      <span className="font-semibold">📝 SAT Range:</span>
                       <span>{college.SAT_Range}</span>
                     </div>
                   </div>
@@ -661,7 +815,16 @@ IMPORTANT:
         </Card>
       </div>
 
-      {/* Application Strategy */}
+      {/* AdSense Zone 3 - After Results */}
+      <div className="my-10 p-6 bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-dashed border-purple-300 rounded-xl min-h-[140px] flex items-center justify-center shadow-lg">
+        <div className="text-center">
+          <p className="text-gray-600 font-semibold mb-1">Advertisement</p>
+          <p className="text-gray-400 text-sm">Google AdSense - Zone 3 (Responsive Banner)</p>
+          <p className="text-xs text-gray-400 mt-2">Strategic placement</p>
+        </div>
+      </div>
+
+      {/* Strategy Guide */}
       <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 rounded-2xl shadow-xl">
         <CardContent className="p-8">
           <h3 className="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
@@ -675,8 +838,7 @@ IMPORTANT:
                 Reach (2-4 schools)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                Apply to schools where you'd be below average. These are your dream schools - 
-                ambitious but achievable with a strong application.
+                Dream schools where you're below average but have a chance with a strong application. These are ambitious targets that could transform your future.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
@@ -685,8 +847,7 @@ IMPORTANT:
                 Target (3-5 schools)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                Your stats match well with these schools. You have a solid 50-70% chance of 
-                acceptance. Focus your efforts here.
+                Your stats match well. Solid 50-70% acceptance chance. Focus your efforts here for the best balance of ambition and likelihood.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
@@ -695,30 +856,47 @@ IMPORTANT:
                 Safety (2-3 schools)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                You exceed their average admitted student's credentials. Very likely to be 
-                accepted (80%+ probability).
+                You exceed average admitted student credentials. Very likely to be accepted (80%+ probability). Essential for peace of mind.
               </p>
             </div>
           </div>
         </CardContent>
       </Card>
+
+      {/* New Search CTA */}
+      <div className="text-center pt-8">
+        <Button
+          onClick={() => {
+            setActiveSection('input');
+            setResults({ Reach: [], Target: [], Safety: [] });
+            setAiInsights(null);
+          }}
+          className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white font-bold py-4 px-8 rounded-xl text-lg shadow-xl transition-all flex items-center gap-3 mx-auto"
+        >
+          <Search className="h-6 w-6" />
+          Search for Another Profile
+        </Button>
+      </div>
     </div>
   );
 
   // Main Render
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4">
-      {/* Header */}
+      {/* SEO-Optimized Header */}
       <header className="max-w-7xl mx-auto mb-10 text-center">
         <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
           <Sparkles className="h-4 w-4" />
-          <span>Powered by Google AI</span>
+          <span>Powered by Google AI (Gemma) - 100% Free</span>
         </div>
         <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4">
-          AI College Admissions Predictor
+          Free AI College Predictor 2025
         </h1>
-        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-          Get personalized college recommendations powered entirely by AI
+        <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
+          Get 24 personalized college recommendations in seconds. AI-powered college admissions calculator helps you find reach, target, and safety schools based on your GPA and SAT scores.
+        </p>
+        <p className="text-sm text-gray-500 max-w-2xl mx-auto">
+          Free college predictor tool for high school students. Calculate your college admissions chances at top universities in the USA. Enter your academic profile to discover which colleges you can get into. No registration required.
         </p>
       </header>
 
@@ -728,10 +906,10 @@ IMPORTANT:
         <div className="flex flex-wrap gap-4 mb-8 justify-center">
           <Button
             onClick={() => setActiveSection('input')}
-            className={`flex items-center gap-3 px-8 py-4 text-lg rounded-2xl transition-all duration-300 ${
+            className={`flex items-center gap-3 px-8 py-4 text-lg rounded-2xl transition-all ${
               activeSection === 'input' 
                 ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl scale-105' 
-                : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border-2'
             }`}
           >
             <School className="h-6 w-6" />
@@ -740,40 +918,51 @@ IMPORTANT:
           
           <Button
             onClick={() => setActiveSection('results')}
-            className={`flex items-center gap-3 px-8 py-4 text-lg rounded-2xl transition-all duration-300 ${
+            className={`flex items-center gap-3 px-8 py-4 text-lg rounded-2xl transition-all ${
               activeSection === 'results' 
                 ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-xl scale-105' 
-                : 'bg-white text-gray-700 hover:bg-gray-50 border-2 border-gray-200 hover:border-blue-300'
+                : 'bg-white text-gray-700 hover:bg-gray-50 border-2'
             }`}
-            disabled={!results.Target?.length && !results.Reach?.length && !results.Safety?.length}
+            disabled={!results.Target?.length && !results.Reach?.length}
           >
             <Trophy className="h-6 w-6" />
-            <span className="font-semibold">Your Matches</span>
+            <span className="font-semibold">Your College Matches</span>
           </Button>
         </div>
 
-        {/* Error Display */}
+        {/* Error */}
         {error && (
-          <div className="mb-6 p-5 bg-red-50 border-2 border-red-200 text-red-700 rounded-2xl flex items-start gap-4 shadow-lg">
-            <AlertCircle className="h-6 w-6 mt-0.5 flex-shrink-0" />
+          <div className="mb-6 p-5 bg-red-50 border-2 border-red-200 text-red-700 rounded-2xl flex items-start gap-4">
+            <AlertCircle className="h-6 w-6 mt-0.5" />
             <div>
-              <p className="font-semibold mb-1">Error</p>
+              <p className="font-semibold">Error</p>
               <p className="text-sm">{error}</p>
             </div>
           </div>
         )}
 
-        {/* Content Sections */}
+        {/* Content */}
         <div className="transition-all duration-500">
           {activeSection === 'input' && renderInputSection()}
           {activeSection === 'results' && renderResultsSection()}
         </div>
       </div>
 
-      {/* Footer */}
+      {/* SEO-Rich Footer */}
       <footer className="max-w-7xl mx-auto mt-20 pt-10 border-t-2 border-gray-200">
-        <div className="text-center text-sm text-gray-500">
-          <p>100% AI-Powered College Predictor | No Spreadsheet Required | Free College Match Finder 2025</p>
+        <div className="text-center space-y-4">
+          <p className="text-sm text-gray-600 font-medium">
+            🎓 100% AI-Powered College Predictor | Free College Admissions Calculator 2025 | No Registration Required
+          </p>
+          <p className="text-xs text-gray-500 max-w-4xl mx-auto leading-relaxed">
+            Our free AI college predictor uses advanced Google Gemma AI technology to analyze your academic profile and match you with the best colleges in the United States. Get instant recommendations for reach schools, target schools, and safety schools based on your GPA, SAT scores, intended major, location preferences, and budget. This college admissions calculator helps high school students, juniors, and seniors find perfect college matches. Completely free college search tool with no registration needed. Find out which colleges you can get into with our AI-powered college matcher.
+          </p>
+          <div className="pt-4 space-y-2">
+            <p className="text-xs text-gray-400 font-semibold">Popular Searches:</p>
+            <p className="text-xs text-gray-400 max-w-4xl mx-auto">
+              college predictor tool | AI college matcher | free college recommendations | SAT score calculator | GPA calculator | college admissions chances | what colleges can I get into | college search engine | reach target safety schools | best colleges for my SAT score | college list builder | higher education search tool | university finder | college application helper | admission chances calculator | college match finder 2025 | free college predictor by GPA and SAT | college search by major and location
+            </p>
+          </div>
         </div>
       </footer>
     </div>

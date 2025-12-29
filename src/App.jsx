@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Button } from './components/ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './components/ui/card';
+import { HelmetProvider } from 'react-helmet-async';
 import Resources from './components/Resources';
 import About from './components/About';
 import Blog from './components/Blog';
