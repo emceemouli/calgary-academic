@@ -21,10 +21,10 @@ export default function handler(req, res) {
     <priority>1.0</priority>
   </url>
   
-  <!-- College Predictor - High Priority -->
+  <!-- College Admissions Calculator - High Priority -->
   <url>
-    <loc>https://calgaryacademicexcellence.vercel.app/college-predictor</loc>
-    <lastmod>2024-12-28</lastmod>
+    <loc>https://calgaryacademicexcellence.vercel.app/college-admissions-calculator</loc>
+    <lastmod>2025-12-29</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>
   </url>
