@@ -9,9 +9,6 @@ import Blog from './components/Blog';
 import Home from './components/Home';
 import CollegePredictor from './components/CollegePredictor';
 import GPACalculator from './components/GPACalculator';
-import PrivacyPolicy from './components/PrivacyPolicy';
-import TermsOfService from './components/TermsOfService';
-import ContactUs from './components/ContactUs';
 import {
   BookOpen,
   GraduationCap,
@@ -111,7 +108,6 @@ const ServiceModal = ({ isOpen, onClose, service, handleConsultationRequest }) =
     </div>
   );
 };
-
 // Navigation Component
 const Navigation = ({ isScrolled, setIsMenuOpen }) => {
   const location = useLocation();
@@ -121,8 +117,8 @@ const Navigation = ({ isScrolled, setIsMenuOpen }) => {
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" />, path: '/about' },
     { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" />, path: '/resources' },
     { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
-    { id: 'college-calculator', label: 'Admissions Calculator', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' },
-    { id: 'gpa-calculator', label: 'GPA Calculator', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' }
+	{ id: 'college-calculator', label: 'Admissions Calculator', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' }, // New Item
+	{ id: 'gpa-calculator', label: 'GPA Calculator', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' }
   ];
 
   return (
@@ -184,12 +180,6 @@ const Navigation = ({ isScrolled, setIsMenuOpen }) => {
 const MobileMenu = ({ isOpen, setIsOpen, navigationItems }) => {
   const location = useLocation();
   
-  const legalPages = [
-    { id: 'privacy', label: 'Privacy Policy', path: '/privacy-policy' },
-    { id: 'terms', label: 'Terms of Service', path: '/terms-of-service' },
-    { id: 'contact', label: 'Contact Us', path: '/contact-us' }
-  ];
-  
   return (
     <div 
       className={`fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 ${
@@ -199,7 +189,7 @@ const MobileMenu = ({ isOpen, setIsOpen, navigationItems }) => {
     >
       <div 
         className={`fixed inset-y-0 right-0 max-w-xs w-full bg-white shadow-xl transform 
-                   transition-transform duration-300 rounded-l-2xl overflow-y-auto ${
+                   transition-transform duration-300 rounded-l-2xl ${
                      isOpen ? 'translate-x-0' : 'translate-x-full'
                    }`}
         onClick={e => e.stopPropagation()}
@@ -214,9 +204,7 @@ const MobileMenu = ({ isOpen, setIsOpen, navigationItems }) => {
               <X className="h-6 w-6 text-gray-500" />
             </button>
           </div>
-          
-          {/* Main Navigation */}
-          <nav className="space-y-3 mb-6">
+          <nav className="space-y-3">
             {navigationItems.map(item => (
               <Link
                 key={item.id}
@@ -233,50 +221,6 @@ const MobileMenu = ({ isOpen, setIsOpen, navigationItems }) => {
               </Link>
             ))}
           </nav>
-          
-          {/* Legal Pages Section */}
-          <div className="pt-6 border-t border-gray-200">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase mb-3 px-2">
-              Information
-            </h3>
-            <nav className="space-y-2">
-              {legalPages.map(item => (
-                <Link
-                  key={item.id}
-                  to={item.path}
-                  className={`flex items-center w-full p-3 rounded-xl transition-all duration-200 text-sm
-                    ${location.pathname === item.path
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-gray-600 hover:bg-gray-50'
-                    }`}
-                  onClick={() => setIsOpen(false)}
-                >
-                  <span>{item.label}</span>
-                </Link>
-              ))}
-            </nav>
-          </div>
-          
-          {/* Contact Info */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4">
-              <h4 className="font-semibold text-gray-900 mb-3 text-sm">Get in Touch</h4>
-              <div className="space-y-2 text-xs">
-                <p className="flex items-center gap-2 text-gray-700">
-                  <Mail className="h-4 w-4 text-blue-600" />
-                  <a href="mailto:calgaryacademicexcellence@gmail.com" className="hover:text-blue-600">
-                    Email Us
-                  </a>
-                </p>
-                <p className="flex items-center gap-2 text-gray-700">
-                  <Phone className="h-4 w-4 text-green-600" />
-                  <a href="tel:+15877182903" className="hover:text-blue-600">
-                    (587) 718-2903
-                  </a>
-                </p>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </div>
@@ -333,30 +277,30 @@ const Footer = () => {
               <Link to="/college-admissions-calculator" className="block hover:text-white transition-colors">
                 Admissions Calculator
               </Link>
-              <Link to="/gpa-calculator" className="block hover:text-white transition-colors">
-                GPA Calculator
+			  <Link to="/gpa-calculator" className="block hover:text-white transition-colors">
+               GPA Calculator
               </Link>
             </div>
           </div>
 
-          {/* Legal */}
+          {/* Legal - NEW SECTION! */}
           <div>
             <h3 className="text-xl font-bold mb-4">Legal</h3>
             <div className="space-y-2 text-gray-300">
-              <Link to="/privacy-policy" className="block hover:text-white transition-colors">
+              <a href="/privacy-policy.html" className="block hover:text-white transition-colors">
                 Privacy Policy
-              </Link>
-              <Link to="/terms-of-service" className="block hover:text-white transition-colors">
+              </a>
+              <a href="/terms.html" className="block hover:text-white transition-colors">
                 Terms of Service
-              </Link>
-              <Link to="/contact-us" className="block hover:text-white transition-colors">
+              </a>
+              <a href="/contact.html" className="block hover:text-white transition-colors">
                 Contact Us
-              </Link>
+              </a>
             </div>
           </div>
         </div>
 
-        {/* Our Services */}
+        {/* Our Services - Keep existing */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           <div>
             <h3 className="text-xl font-bold mb-4">Our Services</h3>
@@ -388,7 +332,6 @@ const Footer = () => {
     </footer>
   );
 };
-
 const App = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [selectedService, setSelectedService] = useState(null);
@@ -518,8 +461,7 @@ const App = () => {
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" />, path: '/about' },
     { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" />, path: '/resources' },
     { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
-    { id: 'college-predictor', label: 'College Predictor', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' },
-    { id: 'gpa-calculator', label: 'GPA Calculator', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' }
+	 { id: 'college-predictor', label: 'College Predictor', icon: <GraduationCap className="h-4 w-4" />, path: '/college-predictor' } // New Item
   ];
 
   return (
@@ -553,11 +495,9 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/college-admissions-calculator" element={<CollegePredictor />} />
-          <Route path="/gpa-calculator" element={<GPACalculator />} />
-          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/terms-of-service" element={<TermsOfService />} />
-          <Route path="/contact-us" element={<ContactUs />} />
+		   <Route path="/college-admissions-calculator" element={<CollegePredictor />} /> {/* New Route */}
+		   <Route path="/gpa-calculator" element={<GPACalculator />} 
+/>
         </Routes>
 
         {/* Service Modal */}
