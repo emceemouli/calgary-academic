@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card';
-import { ArrowRight, CheckCircle, Mail, Phone, MapPin, Calculator, GraduationCap } from 'lucide-react';
+import { ArrowRight, CheckCircle, Mail, Phone, MapPin } from 'lucide-react';
 
 const ServiceCard = ({ service, setSelectedService, setIsModalOpen, handleConsultationRequest }) => (
   <Card className="hover:shadow-lg transition-all duration-300 h-full flex flex-col">
@@ -110,56 +110,6 @@ const Home = ({ services, setSelectedService, setIsModalOpen, handleConsultation
               handleConsultationRequest={handleConsultationRequest}
             />
           ))}
-        </div>
-
-        {/* ✅ NEW: Free Tools Section */}
-        <div className="mt-16 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 border-2 border-blue-100">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl font-bold text-gray-900 mb-3">
-              🎓 Free Tools for College Admissions
-            </h2>
-            <p className="text-gray-600 mb-8 text-lg">
-              Take advantage of our free calculators to strengthen your college applications
-            </p>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              <a 
-                href="/gpa-calculator"
-                className="block p-6 bg-white rounded-xl hover:shadow-xl transition-all duration-300 border-2 border-blue-200 hover:border-blue-400 group"
-              >
-                <Calculator className="h-10 w-10 text-blue-600 mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="font-bold text-xl text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-                  GPA Calculator
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Convert your Indian, Canadian, or IB grades to U.S. 4.0 scale using AACRAO EDGE standards
-                </p>
-                <div className="mt-4 text-blue-600 font-semibold flex items-center justify-center gap-2">
-                  Try it free <ArrowRight className="h-4 w-4" />
-                </div>
-              </a>
-              
-              <a 
-                href="/college-admissions-calculator"
-                className="block p-6 bg-white rounded-xl hover:shadow-xl transition-all duration-300 border-2 border-purple-200 hover:border-purple-400 group"
-              >
-                <GraduationCap className="h-10 w-10 text-purple-600 mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="font-bold text-xl text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
-                  College Matcher
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  Get AI-powered recommendations for reach, target, and safety schools based on your profile
-                </p>
-                <div className="mt-4 text-purple-600 font-semibold flex items-center justify-center gap-2">
-                  Find your match <ArrowRight className="h-4 w-4" />
-                </div>
-              </a>
-            </div>
-
-            <p className="mt-6 text-sm text-gray-500">
-              100% free • No registration required • Instant results
-            </p>
-          </div>
         </div>
 
         <div id="contact" className="mt-20 max-w-lg mx-auto">

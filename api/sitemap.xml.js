@@ -29,6 +29,14 @@ export default function handler(req, res) {
     <priority>0.95</priority>
   </url>
   
+  <!-- GPA Calculator - High Priority Tool -->
+  <url>
+	<loc>https://calgaryacademicexcellence.vercel.app/gpa-calculator</loc>
+	<lastmod>2025-12-29</lastmod>
+	<changefreq>monthly</changefreq>
+	<priority>0.9</priority>
+  </url>
+  
   <!-- About & Info Pages -->
   <url>
     <loc>https://calgaryacademicexcellence.vercel.app/about</loc>

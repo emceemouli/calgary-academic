@@ -8,7 +8,6 @@ import About from './components/About';
 import Blog from './components/Blog';
 import Home from './components/Home';
 import CollegePredictor from './components/CollegePredictor';
-import GPACalculator from './components/GPACalculator';
 import {
   BookOpen,
   GraduationCap,
@@ -117,8 +116,7 @@ const Navigation = ({ isScrolled, setIsMenuOpen }) => {
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" />, path: '/about' },
     { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" />, path: '/resources' },
     { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
-	{ id: 'college-calculator', label: 'Admissions Calculator', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' }, // New Item
-	{ id: 'gpa-calculator', label: 'GPA Calculator', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' }
+	{ id: 'college-calculator', label: 'Admissions Calculator', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' } // New Item
   ];
 
   return (
@@ -276,9 +274,6 @@ const Footer = () => {
               </Link>
               <Link to="/college-admissions-calculator" className="block hover:text-white transition-colors">
                 Admissions Calculator
-              </Link>
-			  <Link to="/gpa-calculator" className="block hover:text-white transition-colors">
-               GPA Calculator
               </Link>
             </div>
           </div>
@@ -496,8 +491,6 @@ const App = () => {
           <Route path="/resources" element={<Resources />} />
           <Route path="/blog" element={<Blog />} />
 		   <Route path="/college-admissions-calculator" element={<CollegePredictor />} /> {/* New Route */}
-		   <Route path="/gpa-calculator" element={<GPACalculator />} 
-/>
         </Routes>
 
         {/* Service Modal */}

@@ -153,15 +153,13 @@ const Resources = () => {
   const [activeSection, setActiveSection] = useState('overview');
   const [selectedWeek, setSelectedWeek] = useState('week1');
 
-  // ✅ UPDATED: Added GPA Calculator to navigation
   const navigationItems = [
     { id: 'overview', label: 'SAT Overview', icon: <Book className="h-5 w-5" /> },
     { id: 'studyPlan', label: 'Study Plan', icon: <Calendar className="h-5 w-5" /> },
     { id: 'math', label: 'Mathematics', icon: <Calculator className="h-5 w-5" /> },
     { id: 'verbal', label: 'Reading & Writing', icon: <BookOpen className="h-5 w-5" /> },
     { id: 'practice', label: 'Practice Tests', icon: <Brain className="h-5 w-5" /> },
-    { id: 'strategies', label: 'Test Strategies', icon: <Target className="h-5 w-5" /> },
-    { id: 'gpa', label: 'GPA Calculator', icon: <Calculator className="h-5 w-5" />, external: true, path: '/gpa-calculator' }
+    { id: 'strategies', label: 'Test Strategies', icon: <Target className="h-5 w-5" /> }
   ];
 
   const weeklySchedules = {
@@ -390,19 +388,12 @@ const Resources = () => {
       {/* Main Content Section */}
       <main className="container mx-auto px-4 py-8 max-w-[1200px]" itemProp="mainContentOfPage">
         {/* Navigation Buttons */}
-        {/* ✅ UPDATED: Modified onClick to handle external links */}
         <nav className="flex flex-wrap gap-3 mb-8 pb-4 border-b border-gray-200" aria-label="Resource sections">
           {navigationItems.map(item => (
             <Button 
               key={item.id} 
               variant={activeSection === item.id ? 'default' : 'outline'} 
-              onClick={() => {
-                if (item.external) {
-                  window.location.href = item.path;
-                } else {
-                  setActiveSection(item.id);
-                }
-              }}
+              onClick={() => setActiveSection(item.id)} 
               aria-current={activeSection === item.id ? 'page' : undefined}
               className={`flex items-center gap-2 px-4 py-2 text-base ${
                 activeSection === item.id 

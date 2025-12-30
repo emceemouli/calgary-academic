@@ -705,12 +705,6 @@ CRITICAL REQUIREMENTS:
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
               placeholder="e.g., 85"
             />
-			    <p className="mt-2 text-sm text-gray-500">
-      Need to convert to U.S. GPA? 
-      <a href="/gpa-calculator" className="text-blue-600 hover:underline ml-1 font-semibold">
-        Use our GPA Calculator →
-      </a>
-    </p>
           </div>
         )}
 
