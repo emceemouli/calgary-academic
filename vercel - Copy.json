@@ -1,11 +1,4 @@
 {
-  "redirects": [
-    {
-      "source": "/college-predictor",
-      "destination": "/college-admissions-calculator",
-      "permanent": true
-    }
-  ],
   "rewrites": [
     {
       "source": "/sitemap.xml",

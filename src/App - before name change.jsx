@@ -116,7 +116,7 @@ const Navigation = ({ isScrolled, setIsMenuOpen }) => {
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" />, path: '/about' },
     { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" />, path: '/resources' },
     { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
-	{ id: 'college-calculator', label: 'Admissions Calculator', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' } // New Item
+	{ id: 'college-predictor', label: 'College Predictor', icon: <GraduationCap className="h-4 w-4" />, path: '/college-predictor' } // New Item
   ];
 
   return (
@@ -272,8 +272,8 @@ const Footer = () => {
               <Link to="/resources" className="block hover:text-white transition-colors">
                 SAT Resources
               </Link>
-              <Link to="/college-admissions-calculator" className="block hover:text-white transition-colors">
-                Admissions Calculator
+              <Link to="/college-predictor" className="block hover:text-white transition-colors">
+                College Predictor
               </Link>
             </div>
           </div>
@@ -490,7 +490,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/blog" element={<Blog />} />
-		   <Route path="/college-admissions-calculator" element={<CollegePredictor />} /> {/* New Route */}
+		   <Route path="/college-predictor" element={<CollegePredictor />} /> {/* New Route */}
         </Routes>
 
         {/* Service Modal */}

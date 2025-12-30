@@ -68,9 +68,9 @@ const CollegePredictor = () => {
     }
     
     if (hasResults) {
-      document.title = `${totalColleges} College Matches Found | Free AI College Admissions Calculator - USA Universities | What Colleges Can I Get Into?`;
+      document.title = `${totalColleges} College Matches Found | Free AI College Predictor - USA Universities`;
     } else {
-      document.title = 'Free AI College admissions calculator 2025 - USA Universities | What Colleges Can I Get Into?';
+      document.title = 'Free AI College Predictor 2025 - USA Universities | What Colleges Can I Get Into?';
     }
     
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -81,7 +81,7 @@ const CollegePredictor = () => {
     }
     metaDescription.content = hasResults
       ? `Found ${totalColleges} perfect university matches in USA for ${studentProfile.desiredMajor || 'your major'} with ${studentProfile.gpa || 'your'} GPA and ${studentProfile.sat || 'your'} SAT. Get personalized reach, target, and safety school recommendations instantly.`
-      : 'Free AI-powered college admissions calculator for USA universities. Enter your GPA, SAT scores, intended major, and location to get 24 personalized college recommendations across all 50 states including reach, target, and safety schools. Find what colleges you can get into instantly. Canadian universities available - specify location. No registration required.';
+      : 'Free AI-powered college predictor for USA universities. Enter your GPA, SAT scores, intended major, and location to get 24 personalized college recommendations across all 50 states including reach, target, and safety schools. Find what colleges you can get into instantly. Canadian universities available - specify location. No registration required.';
     
     let metaKeywords = document.querySelector('meta[name="keywords"]');
     if (!metaKeywords) {
@@ -114,14 +114,14 @@ const CollegePredictor = () => {
       linkCanonical.setAttribute('rel', 'canonical');
       document.head.appendChild(linkCanonical);
     }
-    linkCanonical.setAttribute('href', 'https://calgaryacademicexcellence.vercel.app/college-admissions-calculator');
+    linkCanonical.setAttribute('href', 'https://calgaryacademicexcellence.vercel.app/college-predictor');
     
     const ogTags = [
       { property: 'og:title', content: document.title },
       { property: 'og:description', content: metaDescription.content },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://calgaryacademicexcellence.vercel.app/college-admissions-calculator' },
-      { property: 'og:site_name', content: 'AI College Admissions Calculator - USA/Canada Universities' },
+      { property: 'og:url', content: 'https://calgaryacademicexcellence.vercel.app/college-predictor' },
+      { property: 'og:site_name', content: 'Calgary Academic Excellence - College Predictor' },
       { property: 'og:locale', content: 'en_US' }
     ];
     
@@ -155,9 +155,9 @@ const CollegePredictor = () => {
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "AI College Admissions Calculator - USA/Canada Universities",
+        "name": "AI College Predictor - USA/Canada Universities",
         "applicationCategory": "EducationalApplication",
-        "description": "Free AI-powered admissions calculator/recommendation tool that analyzes your GPA, SAT scores, intended major, and location preferences to suggest 24 perfect university matches in United States including reach, target, and safety schools. Canadian universities available when location specified.",
+        "description": "Free AI-powered college recommendation tool that analyzes your GPA, SAT scores, intended major, and location preferences to suggest 24 perfect university matches in United States including reach, target, and safety schools. Canadian universities available when location specified.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -165,7 +165,7 @@ const CollegePredictor = () => {
           "availability": "https://schema.org/OnlineOnly"
         },
         "featureList": [
-          "AI-powered college admissions calculator/recommendations using Google Gemini",
+          "AI-powered college recommendations using Google Gemini",
           "Personalized reach, target, and safety school suggestions",
           "Supports both GPA and percentage-based grading",
           "SAT and ACT score analysis",
@@ -198,10 +198,10 @@ const CollegePredictor = () => {
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "How accurate is this AI college admissions calculator?",
+            "name": "How accurate is this AI college predictor?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Our AI college admissions calculator uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats."
+              "text": "Our AI college predictor uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats."
             }
           },
           {
@@ -214,10 +214,10 @@ const CollegePredictor = () => {
           },
           {
             "@type": "Question",
-            "name": "Is this college admissions calculator tool really free?",
+            "name": "Is this college predictor tool really free?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes! Our AI college admissions calculator is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. We believe every student deserves access to quality college planning tools."
+              "text": "Yes! Our AI college predictor is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. We believe every student deserves access to quality college planning tools."
             }
           },
           {
@@ -230,7 +230,7 @@ const CollegePredictor = () => {
           },
           {
             "@type": "Question",
-            "name": "What information do I need to use the admissions calculator?",
+            "name": "What information do I need to use the predictor?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Required: GPA or percentage, SAT/ACT scores (or 'none'), intended major, and location preferences. Optional but recommended: extracurriculars, leadership roles, awards, and budget range. More information leads to more accurate AI recommendations."
@@ -251,8 +251,8 @@ const CollegePredictor = () => {
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Admissions Calculator",
-            "item": "https://calgaryacademicexcellence.vercel.app/college-admissions-calculator"
+            "name": "College Predictor",
+            "item": "https://calgaryacademicexcellence.vercel.app/college-predictor"
           }
         ]
       }
@@ -1133,7 +1133,7 @@ CRITICAL REQUIREMENTS:
           </li>
           <li className="text-gray-400">/</li>
           <li className="text-gray-700 font-semibold">
-            Admissions Calculator
+            College Predictor
           </li>
         </ol>
       </nav>
@@ -1145,13 +1145,13 @@ CRITICAL REQUIREMENTS:
           <span>Powered by Google AI (Gemini) - 100% Free for USA Universities (Canada Available)</span>
         </div>
         <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4">
-          Free AI Admissions Calculator - USA/Canada Universities
+          Free AI College Predictor 2025 - USA/Canada Universities
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
           What colleges can I get into? Find your perfect university match in United States or Canada. AI-powered college admissions calculator helps you discover 24 personalized reach, target, and safety schools based on your GPA/Percentage, SAT/ACT scores, and intended major. Enter "Canada" in location for Canadian universities.
         </p>
         <p className="text-sm text-gray-500 max-w-2xl mx-auto">
-          Free college Admissions/chances calculator tool for USA universities (Canadian universities available - just specify location). Calculate your college admissions chances at top universities. Search colleges by GPA, SAT/ACT score, major, and location across all 50 states. Includes California colleges, Texas universities, New York schools, and more. Type "Canada", "Ontario", or any province for Canadian options. No registration required.
+          Free college predictor tool for USA universities (Canadian universities available - just specify location). Calculate your college admissions chances at top universities. Search colleges by GPA, SAT/ACT score, major, and location across all 50 states. Includes California colleges, Texas universities, New York schools, and more. Type "Canada", "Ontario", or any province for Canadian options. No registration required.
         </p>
       </header>
 
@@ -1164,7 +1164,7 @@ CRITICAL REQUIREMENTS:
           <div className="flex items-center gap-3">
             <GraduationCap className="h-6 w-6 text-blue-600" />
             <span className="text-lg font-semibold text-gray-800">
-              {showContent ? 'Hide' : 'Show'} Complete Guide: How This College Admissions Calculator Works
+              {showContent ? 'Hide' : 'Show'} Complete Guide: How This College Predictor Works
             </span>
           </div>
           {showContent ? <ChevronUp className="h-6 w-6 text-gray-600" /> : <ChevronDown className="h-6 w-6 text-gray-600" />}
@@ -1174,11 +1174,11 @@ CRITICAL REQUIREMENTS:
           <div className="mt-6 bg-white rounded-2xl p-8 border-2 border-gray-100 shadow-lg">
             <div className="prose max-w-none">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                How Our AI College Admissions caculator Works
+                How Our AI College Predictor Works
               </h2>
               
               <p className="text-gray-700 leading-relaxed mb-6">
-                Our AI-powered college admissions calculator uses Google's advanced Gemini AI technology to analyze your complete academic profile and match you with universities where you'll thrive. Unlike simple calculators that only look at numbers, our tool considers your GPA, test scores, intended major, location preferences, budget, extracurricular activities, leadership roles, and awards to provide personalized recommendations.
+                Our AI-powered college predictor uses Google's advanced Gemini AI technology to analyze your complete academic profile and match you with universities where you'll thrive. Unlike simple calculators that only look at numbers, our tool considers your GPA, test scores, intended major, location preferences, budget, extracurricular activities, leadership roles, and awards to provide personalized recommendations.
               </p>
 
               <div className="grid md:grid-cols-4 gap-4 my-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
@@ -1297,23 +1297,23 @@ CRITICAL REQUIREMENTS:
         <div className="bg-white rounded-2xl p-8 border-2 border-gray-100 shadow-lg space-y-4">
           {[
             {
-              q: "How accurate is this AI college admissions calculator?",
-              a: "Our AI college admissions calculator uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats."
+              q: "How accurate is this AI college predictor?",
+              a: "Our AI college predictor uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats."
             },
             {
               q: "What's the difference between reach, target, and safety schools?",
               a: "Reach schools are where your stats fall below typical admits (15-40% acceptance chance), target schools match your credentials well (50-70% chance), and safety schools are where you exceed typical admits (80%+ acceptance). A balanced list includes 2-4 reach, 3-5 target, and 2-3 safety schools."
             },
             {
-              q: "Is this college admissions calculator tool really free?",
-              a: "Yes! Our AI college admissions calculator is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. We believe every student deserves access to quality college planning tools."
+              q: "Is this college predictor tool really free?",
+              a: "Yes! Our AI college predictor is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. We believe every student deserves access to quality college planning tools."
             },
             {
               q: "Can I use this tool for Canadian universities?",
               a: "Yes! While primarily optimized for USA universities, our AI provides recommendations for Canadian universities when you specify 'Canada' or a specific province (Ontario, British Columbia, Alberta, Quebec) in the location field."
             },
             {
-              q: "What information do I need to use the admissions calculator?",
+              q: "What information do I need to use the predictor?",
               a: "Required: GPA or percentage, SAT/ACT scores (or 'none'), intended major, and location preferences. Optional but recommended: extracurriculars, leadership roles, awards, and budget range. More information leads to more accurate AI recommendations."
             }
           ].map((faq, index) => (
@@ -1374,15 +1374,15 @@ CRITICAL REQUIREMENTS:
       <footer className="max-w-7xl mx-auto mt-20 pt-10 border-t-2 border-gray-200">
         <div className="text-center space-y-4">
           <p className="text-sm text-gray-600 font-medium">
-            🎓 100% AI-Powered College admissions calculator | Free USA College Admissions Calculator 2025 | Canadian Universities Available | No Registration Required
+            🎓 100% AI-Powered College Predictor | Free USA College Admissions Calculator 2025 | Canadian Universities Available | No Registration Required
           </p>
           <p className="text-xs text-gray-500 max-w-4xl mx-auto leading-relaxed">
-            Our free AI college admissions calculator uses advanced Google Gemini AI technology to analyze your academic profile and match you with the best colleges and universities in the United States. Get instant recommendations for reach schools, target schools, and safety schools based on your GPA, SAT scores, intended major, and location preferences across all 50 states (including California, Texas, New York, Florida, Illinois, Pennsylvania, and more). Canadian universities also available - simply enter "Canada" or any Canadian province (Ontario, British Columbia, Alberta, Quebec) in the location field. This college admissions calculator helps high school students, juniors, and seniors find perfect college matches. Completely free college search tool with no registration needed. Find out which colleges you can get into with our AI-powered university matcher. Calculate your admission chances at top American universities and Canadian universities when specified.
+            Our free AI college predictor uses advanced Google Gemini AI technology to analyze your academic profile and match you with the best colleges and universities in the United States. Get instant recommendations for reach schools, target schools, and safety schools based on your GPA, SAT scores, intended major, and location preferences across all 50 states (including California, Texas, New York, Florida, Illinois, Pennsylvania, and more). Canadian universities also available - simply enter "Canada" or any Canadian province (Ontario, British Columbia, Alberta, Quebec) in the location field. This college admissions calculator helps high school students, juniors, and seniors find perfect college matches. Completely free college search tool with no registration needed. Find out which colleges you can get into with our AI-powered university matcher. Calculate your admission chances at top American universities and Canadian universities when specified.
           </p>
           <div className="pt-4 space-y-2">
-            <p className="text-xs text-gray-400 font-semibold">🔍 Popular Searches - USA College admissions calculator (Canada Available):</p>
+            <p className="text-xs text-gray-400 font-semibold">🔍 Popular Searches - USA College Predictor (Canada Available):</p>
             <p className="text-xs text-gray-400 max-w-4xl mx-auto leading-relaxed">
-              what colleges can I get into | college predictor USA | AI college matcher | free college recommendations | SAT score calculator | GPA calculator | college admissions chances calculator USA | reach target safety schools | best colleges for my SAT score | college list builder | American university finder | college search engine | higher education search tool USA | university finder by major and location | college application helper | admission chances calculator | college match finder 2025 | free college admissions calculator by GPA and SAT | colleges in California by GPA | UC Berkeley admission calculator | Texas universities admissions | New York college search | Florida colleges admissions calculator | Illinois university finder | college admissions calculator for computer science | affordable colleges in USA | what universities can I get into with my GPA | North American college search tool | Canadian university predictor | Ontario university admissions | University of Toronto | UBC admissions | McGill calculator
+              what colleges can I get into | college predictor USA | AI college matcher | free college recommendations | SAT score calculator | GPA calculator | college admissions chances calculator USA | reach target safety schools | best colleges for my SAT score | college list builder | American university finder | college search engine | higher education search tool USA | university finder by major and location | college application helper | admission chances calculator | college match finder 2025 | free college predictor by GPA and SAT | colleges in California by GPA | UC Berkeley admission calculator | Texas universities admissions | New York college search | Florida colleges predictor | Illinois university finder | college predictor for computer science | affordable colleges in USA | what universities can I get into with my GPA | North American college search tool | Canadian university predictor | Ontario university admissions | University of Toronto | UBC admissions | McGill calculator
             </p>
           </div>
           
@@ -1397,7 +1397,7 @@ CRITICAL REQUIREMENTS:
           
           <div className="pt-6">
             <p className="text-xs text-gray-400">
-              © 2025 Calgary Academic Excellence. Free AI-powered college admissions calculator for USA university admissions. Canadian universities available.
+              © 2025 Calgary Academic Excellence. Free AI-powered college predictor for USA university admissions. Canadian universities available.
             </p>
             <p className="text-xs text-gray-400 mt-2">
               Made with ❤️ in Calgary • Helping students achieve their academic dreams since 2020
