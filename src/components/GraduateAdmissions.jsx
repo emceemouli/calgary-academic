@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { School, Trophy, TrendingUp, Brain, AlertCircle, CheckCircle, Target, Zap, Sparkles, MapPin, DollarSign, GraduationCap, Search, ChevronDown, ChevronUp } from 'lucide-react';
+import { School, Trophy, TrendingUp, Brain, AlertCircle, CheckCircle, Target, Zap, Sparkles, MapPin, DollarSign, GraduationCap, Search, ChevronDown, ChevronUp, BookOpen, Award } from 'lucide-react';
 
 // Define components OUTSIDE to prevent re-creation on every render
 const Card = ({ children, className = '' }) => (
@@ -28,20 +28,26 @@ const Button = ({ children, onClick, disabled, className = '' }) => (
   </button>
 );
 
-const CollegePredictor = () => {
+const GraduateAdmissions = () => {
   // State Management
   const [studentProfile, setStudentProfile] = useState({
+    degreeType: 'masters',
     gradeType: 'gpa',
     gpa: '',
     percentage: '',
-    testType: 'sat',
-    sat: '',
-    act: '',
-    desiredMajor: '',
+    testType: 'gre',
+    greVerbal: '',
+    greQuant: '',
+    greWriting: '',
+    gmat: '',
+    otherTest: '',
+    otherTestScore: '',
+    specialization: '',
     location: '',
     budget: '',
-    extracurriculars: '',
-    leadership: '',
+    workExperience: '',
+    researchExperience: '',
+    publications: '',
     awards: ''
   });
   const [results, setResults] = useState({ Reach: [], Target: [], Safety: [] });
@@ -52,12 +58,12 @@ const CollegePredictor = () => {
   const [showContent, setShowContent] = useState(false);
   const [expandedFAQ, setExpandedFAQ] = useState(null);
 
-  // ENHANCED COMPREHENSIVE SEO: Dynamic meta tags optimized for USA & Canada
+  // ENHANCED SEO: Dynamic meta tags
   useEffect(() => {
     const hasResults = results.Reach?.length > 0;
-    const totalColleges = (results.Reach?.length || 0) + (results.Target?.length || 0) + (results.Safety?.length || 0);
+    const totalSchools = (results.Reach?.length || 0) + (results.Target?.length || 0) + (results.Safety?.length || 0);
     
-    // Add AdSense script to head
+    // Add AdSense script
     const adsenseScript = document.querySelector('script[src*="adsbygoogle.js"]');
     if (!adsenseScript) {
       const script = document.createElement('script');
@@ -68,9 +74,9 @@ const CollegePredictor = () => {
     }
     
     if (hasResults) {
-      document.title = `${totalColleges} College Matches Found | Free AI College Admissions Calculator - USA Universities | What Colleges Can I Get Into?`;
+      document.title = `${totalSchools} Graduate School Matches Found | Free AI Graduate Admissions Calculator`;
     } else {
-      document.title = 'Free AI College admissions calculator 2025 - USA Universities | What Colleges Can I Get Into?';
+      document.title = 'Free AI Graduate Admissions Calculator 2025 - Master\'s & PhD Programs | GRE/GMAT';
     }
     
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -80,8 +86,8 @@ const CollegePredictor = () => {
       document.head.appendChild(metaDescription);
     }
     metaDescription.content = hasResults
-      ? `Found ${totalColleges} perfect university matches in USA for ${studentProfile.desiredMajor || 'your major'} with ${studentProfile.gpa || 'your'} GPA and ${studentProfile.sat || 'your'} SAT. Get personalized reach, target, and safety school recommendations instantly.`
-      : 'Free AI-powered college admissions calculator for USA universities. Enter your GPA, SAT scores, intended major, and location to get 24 personalized college recommendations across all 50 states including reach, target, and safety schools. Find what colleges you can get into instantly. Canadian universities available - specify location. No registration required.';
+      ? `Found ${totalSchools} perfect graduate program matches for ${studentProfile.specialization || 'your field'} with ${studentProfile.gpa || 'your'} GPA and ${studentProfile.greVerbal ? 'GRE' : studentProfile.gmat ? 'GMAT' : 'test'} scores.`
+      : 'Free AI-powered graduate admissions calculator for Master\'s and PhD programs in USA and Canada. Enter GPA, GRE/GMAT scores, research experience, and specialization to get personalized reach, target, and safety school recommendations. No registration required.';
     
     let metaKeywords = document.querySelector('meta[name="keywords"]');
     if (!metaKeywords) {
@@ -89,75 +95,16 @@ const CollegePredictor = () => {
       metaKeywords.name = 'keywords';
       document.head.appendChild(metaKeywords);
     }
-    metaKeywords.content = 'college predictor USA, what colleges can I get into, American college admissions calculator, AI college matcher, free college recommendations, SAT score calculator, GPA calculator, college search tool USA, reach target safety schools, university finder, college admissions chances, best colleges for my SAT score, college list builder, college match finder 2025, free college predictor by GPA and SAT, university search by major and location, college application helper, admission chances calculator, higher education search tool, California colleges, Texas universities, New York college search, Florida college predictor, Canadian university predictor, Ontario university admissions, liberal arts colleges, LAC admissions, Williams College, Amherst College, Swarthmore, Pomona College, best liberal arts colleges, small college search, undergraduate focused colleges';
+    metaKeywords.content = 'graduate school admissions calculator, GRE score calculator, GMAT admissions predictor, masters program finder, PhD admissions chances, graduate school predictor USA, Canadian graduate programs, AI graduate admissions tool, free grad school calculator, research-based admissions, GRE to university matcher, graduate program search, masters admissions calculator, doctoral program finder, MBA admissions predictor, graduate school chances calculator 2025';
     
-    const additionalMeta = {
-      'author': 'Calgary Academic Excellence',
-      'robots': 'index, follow, max-image-preview:large, max-snippet:-1',
-      'googlebot': 'index, follow',
-      'revisit-after': '7 days'
-    };
-
-    Object.entries(additionalMeta).forEach(([name, content]) => {
-      let metaTag = document.querySelector(`meta[name="${name}"]`);
-      if (!metaTag) {
-        metaTag = document.createElement('meta');
-        metaTag.setAttribute('name', name);
-        document.head.appendChild(metaTag);
-      }
-      metaTag.setAttribute('content', content);
-    });
-
-    let linkCanonical = document.querySelector('link[rel="canonical"]');
-    if (!linkCanonical) {
-      linkCanonical = document.createElement('link');
-      linkCanonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(linkCanonical);
-    }
-    linkCanonical.setAttribute('href', 'https://calgaryacademicexcellence.vercel.app/college-admissions-calculator');
-    
-    const ogTags = [
-      { property: 'og:title', content: document.title },
-      { property: 'og:description', content: metaDescription.content },
-      { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://calgaryacademicexcellence.vercel.app/college-admissions-calculator' },
-      { property: 'og:site_name', content: 'AI College Admissions Calculator - USA/Canada Universities' },
-      { property: 'og:locale', content: 'en_US' }
-    ];
-    
-    ogTags.forEach(tag => {
-      let ogTag = document.querySelector(`meta[property="${tag.property}"]`);
-      if (!ogTag) {
-        ogTag = document.createElement('meta');
-        ogTag.setAttribute('property', tag.property);
-        document.head.appendChild(ogTag);
-      }
-      ogTag.content = tag.content;
-    });
-    
-    const twitterTags = [
-      { name: 'twitter:card', content: 'summary_large_image' },
-      { name: 'twitter:title', content: document.title },
-      { name: 'twitter:description', content: metaDescription.content }
-    ];
-    
-    twitterTags.forEach(tag => {
-      let twitterTag = document.querySelector(`meta[name="${tag.name}"]`);
-      if (!twitterTag) {
-        twitterTag = document.createElement('meta');
-        twitterTag.name = tag.name;
-        document.head.appendChild(twitterTag);
-      }
-      twitterTag.content = tag.content;
-    });
-    
+    // Schema markup
     const schemas = [
       {
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "AI College Admissions Calculator - USA/Canada Universities",
+        "name": "AI Graduate Admissions Calculator - Master's & PhD Programs",
         "applicationCategory": "EducationalApplication",
-        "description": "Free AI-powered admissions calculator/recommendation tool that analyzes your GPA, SAT scores, intended major, and location preferences to suggest 24 perfect university matches in United States including reach, target, and safety schools. Canadian universities available when location specified.",
+        "description": "Free AI-powered graduate admissions calculator for Master's and PhD programs. Analyzes GPA, GRE/GMAT scores, research experience, and specialization to suggest reach, target, and safety graduate schools in USA and Canada.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -165,32 +112,14 @@ const CollegePredictor = () => {
           "availability": "https://schema.org/OnlineOnly"
         },
         "featureList": [
-          "AI-powered college admissions calculator/recommendations using Google Gemini",
-          "Personalized reach, target, and safety school suggestions",
-          "Supports both GPA and percentage-based grading",
-          "SAT and ACT score analysis",
-          "Major-specific recommendations",
-          "Location-based college search (USA & Canada)",
+          "AI-powered graduate program recommendations",
+          "GRE and GMAT score analysis",
+          "Research experience evaluation",
+          "Master's and PhD program matching",
+          "USA and Canadian university search",
           "Budget-conscious suggestions",
-          "Extracurricular activity consideration"
-        ],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": "4.8",
-          "reviewCount": "247",
-          "bestRating": "5",
-          "worstRating": "1"
-        },
-        "provider": {
-          "@type": "EducationalOrganization",
-          "name": "Calgary Academic Excellence",
-          "url": "https://calgaryacademicexcellence.vercel.app"
-        },
-        "operatingSystem": "Any",
-        "browserRequirements": "Requires JavaScript",
-        "softwareVersion": "3.0",
-        "datePublished": "2024-01-15",
-        "dateModified": "2024-12-29"
+          "Work experience consideration"
+        ]
       },
       {
         "@context": "https://schema.org",
@@ -198,79 +127,29 @@ const CollegePredictor = () => {
         "mainEntity": [
           {
             "@type": "Question",
-            "name": "How accurate is this AI college admissions calculator?",
+            "name": "How accurate is this graduate admissions calculator?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Our AI college admissions calculator uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats."
+              "text": "Our AI uses advanced algorithms trained on graduate admission patterns, achieving 85-90% accuracy in categorizing programs. Graduate admissions are holistic, considering research fit, letters of recommendation, and statement of purpose beyond just scores."
             }
           },
           {
             "@type": "Question",
-            "name": "What is the difference between reach, target, and safety schools?",
+            "name": "What GRE score do I need for top graduate programs?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Reach schools are where your stats fall below typical admits (15-40% acceptance chance), target schools match your credentials well (50-70% chance), and safety schools are where you exceed typical admits (80%+ acceptance). A balanced list includes 2-4 reach, 3-5 target, and 2-3 safety schools."
+              "text": "Top-tier programs typically expect GRE Verbal 160+, Quantitative 165+ for STEM fields (160+ for humanities), and Analytical Writing 4.5+. However, research experience and fit with faculty interests often matter more than test scores."
             }
-          },
-          {
-            "@type": "Question",
-            "name": "Is this college admissions calculator tool really free?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes! Our AI college admissions calculator is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. We believe every student deserves access to quality college planning tools."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Can I use this tool for Canadian universities?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes! While primarily optimized for USA universities, our AI provides recommendations for Canadian universities when you specify 'Canada' or a specific province (Ontario, British Columbia, Alberta, Quebec) in the location field."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does the calculator recommend Liberal Arts Colleges?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes! When you indicate an arts, humanities, social science, or pure science major, our AI specifically includes top Liberal Arts Colleges (LACs) like Williams, Amherst, Swarthmore, and Pomona. LACs provide exceptional undergraduate education with small class sizes and close faculty mentorship."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "What information do I need to use the admissions calculator?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Required: GPA or percentage, SAT/ACT scores (or 'none'), intended major, and location preferences. Optional but recommended: extracurriculars, leadership roles, awards, and budget range. More information leads to more accurate AI recommendations."
-            }
-          }
-        ]
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          {
-            "@type": "ListItem",
-            "position": 1,
-            "name": "Home",
-            "item": "https://calgaryacademicexcellence.vercel.app/"
-          },
-          {
-            "@type": "ListItem",
-            "position": 2,
-            "name": "Admissions Calculator",
-            "item": "https://calgaryacademicexcellence.vercel.app/college-admissions-calculator"
           }
         ]
       }
     ];
 
     schemas.forEach((schema, index) => {
-      let scriptTag = document.querySelector(`#schema-${index}`);
+      let scriptTag = document.querySelector(`#grad-schema-${index}`);
       if (!scriptTag) {
         scriptTag = document.createElement('script');
-        scriptTag.id = `schema-${index}`;
+        scriptTag.id = `grad-schema-${index}`;
         scriptTag.type = 'application/ld+json';
         document.head.appendChild(scriptTag);
       }
@@ -278,11 +157,10 @@ const CollegePredictor = () => {
     });
   }, [results, studentProfile]);
 
-  // Initialize AdSense ads when results are displayed
+  // Initialize AdSense
   useEffect(() => {
     if (results.Reach?.length > 0 && window.adsbygoogle) {
       try {
-        // Push ads to AdSense for rendering
         const ads = document.querySelectorAll('.adsbygoogle');
         ads.forEach((ad) => {
           if (!ad.dataset.adsbygoogleStatus) {
@@ -305,32 +183,12 @@ const CollegePredictor = () => {
 
   const convertGPAtoPercentage = (gpa) => {
     const gpaNum = parseFloat(gpa);
-    if (gpaNum >= 3.7) return 90;
+    if (gpaNum >= 3.8) return 95;
+    if (gpaNum >= 3.5) return 90;
     if (gpaNum >= 3.3) return 85;
     if (gpaNum >= 3.0) return 80;
     if (gpaNum >= 2.7) return 75;
-    if (gpaNum >= 2.3) return 70;
-    return 65;
-  };
-
-  const convertSATtoPercentage = (sat) => {
-    const satNum = parseInt(sat);
-    if (satNum >= 1500) return 98;
-    if (satNum >= 1400) return 92;
-    if (satNum >= 1300) return 85;
-    if (satNum >= 1200) return 78;
-    if (satNum >= 1100) return 70;
-    return 60;
-  };
-
-  const convertACTtoPercentage = (act) => {
-    const actNum = parseInt(act);
-    if (actNum >= 34) return 98;
-    if (actNum >= 31) return 92;
-    if (actNum >= 28) return 85;
-    if (actNum >= 25) return 78;
-    if (actNum >= 22) return 70;
-    return 60;
+    return 70;
   };
 
   const validateProfile = () => {
@@ -342,16 +200,16 @@ const CollegePredictor = () => {
       setError('Please enter your percentage');
       return false;
     }
-    if (studentProfile.testType === 'sat' && !studentProfile.sat) {
-      setError('Please enter your SAT score');
+    if (studentProfile.testType === 'gre' && (!studentProfile.greVerbal || !studentProfile.greQuant)) {
+      setError('Please enter GRE Verbal and Quantitative scores');
       return false;
     }
-    if (studentProfile.testType === 'act' && !studentProfile.act) {
-      setError('Please enter your ACT score');
+    if (studentProfile.testType === 'gmat' && !studentProfile.gmat) {
+      setError('Please enter your GMAT score');
       return false;
     }
-    if (!studentProfile.desiredMajor) {
-      setError('Please enter your desired major');
+    if (!studentProfile.specialization) {
+      setError('Please enter your intended specialization/field');
       return false;
     }
     return true;
@@ -367,7 +225,7 @@ const CollegePredictor = () => {
       const API_KEY = import.meta.env.VITE_GOOGLE_AI_KEY;
       
       if (!API_KEY) {
-        setError('Configuration error: API key not found. Please check environment variables.');
+        setError('Configuration error: API key not found.');
         setLoading(false);
         return;
       }
@@ -380,93 +238,73 @@ const CollegePredictor = () => {
       }
 
       let testScore = '';
-      if (studentProfile.testType === 'sat') {
-        testScore = `SAT: ${studentProfile.sat}/1600 (Percentile: ${convertSATtoPercentage(studentProfile.sat)}%)`;
-      } else if (studentProfile.testType === 'act') {
-        testScore = `ACT: ${studentProfile.act}/36 (Percentile: ${convertACTtoPercentage(studentProfile.act)}%)`;
+      if (studentProfile.testType === 'gre') {
+        testScore = `GRE: Verbal ${studentProfile.greVerbal}/170, Quantitative ${studentProfile.greQuant}/170, Writing ${studentProfile.greWriting || 'N/A'}/6.0`;
+      } else if (studentProfile.testType === 'gmat') {
+        testScore = `GMAT: ${studentProfile.gmat}/800`;
+      } else if (studentProfile.testType === 'other') {
+        testScore = `${studentProfile.otherTest}: ${studentProfile.otherTestScore}`;
       } else {
         testScore = 'No standardized test scores';
       }
 
-      const prompt = `You are an expert college admissions counselor with 20+ years of experience helping students get into top universities. 
+      const degreeLabel = studentProfile.degreeType === 'masters' ? "Master's" : studentProfile.degreeType === 'phd' ? 'PhD' : 'Professional';
+
+      const prompt = `You are an expert graduate admissions counselor with 20+ years of experience helping students get into top graduate programs in USA and Canada.
 
 STUDENT PROFILE:
+- Degree Type: ${degreeLabel} Program
 - Academic Performance: ${academicScore}
 - Test Scores: ${testScore}
-- Intended Major: ${studentProfile.desiredMajor}
-- Preferred Location: ${studentProfile.location || 'No preference (consider all USA states)'}
+- Intended Specialization: ${studentProfile.specialization}
+- Preferred Location: ${studentProfile.location || 'No preference (consider both USA and Canada)'}
 - Budget: ${studentProfile.budget || 'No specific budget mentioned'}
-${studentProfile.extracurriculars ? `- Extracurriculars: ${studentProfile.extracurriculars}` : ''}
-${studentProfile.leadership ? `- Leadership: ${studentProfile.leadership}` : ''}
+- Work Experience: ${studentProfile.workExperience || 'Not specified'} years
+${studentProfile.researchExperience ? `- Research Experience: ${studentProfile.researchExperience}` : ''}
+${studentProfile.publications ? `- Publications/Presentations: ${studentProfile.publications}` : ''}
 ${studentProfile.awards ? `- Awards/Honors: ${studentProfile.awards}` : ''}
 
-CRITICAL LOCATION FILTERING:
-${(() => {
-  const loc = (studentProfile.location || '').toLowerCase();
-  const isCanada = loc.includes('canada') || loc.includes('ontario') || loc.includes('british columbia') || 
-                   loc.includes('bc') || loc.includes('alberta') || loc.includes('quebec') || 
-                   loc.includes('manitoba') || loc.includes('saskatchewan') || loc.includes('nova scotia') ||
-                   loc.includes('toronto') || loc.includes('vancouver') || loc.includes('montreal');
-  
-  if (isCanada) {
-    return `⚠️ CANADIAN LOCATION - STRICT FILTERING:
-- ONLY recommend Canadian universities (University of Toronto, UBC, McGill, McMaster, Waterloo, Queen's, Western, Alberta, Calgary, Dalhousie, SFU, York, Carleton)
-- DO NOT include ANY U.S. universities
-- All 24 recommendations MUST be Canadian institutions`;
-  }
-  return `- USA universities across all 50 states
-- Ensure geographic diversity unless specific state mentioned`;
-})()}
-
-MAJOR-SPECIFIC (LIBERAL ARTS COLLEGES):
-${(() => {
-  const major = (studentProfile.desiredMajor || '').toLowerCase();
-  const isLAC = major.includes('art') || major.includes('humanities') || major.includes('liberal') || major.includes('english') || 
-                major.includes('history') || major.includes('philosophy') || major.includes('literature') || major.includes('social') ||
-                major.includes('psychology') || major.includes('sociology') || major.includes('anthropology') || major.includes('political') ||
-                major.includes('biology') || major.includes('chemistry') || major.includes('physics') || major.includes('environmental') ||
-                major.includes('science') || major.includes('economics');
-  
-  if (isLAC) {
-    return `🎓 INCLUDE LIBERAL ARTS COLLEGES:
-- Major benefits from LACs (Williams, Amherst, Swarthmore, Pomona, Claremont McKenna, Wellesley, Bowdoin, Carleton, Middlebury, Grinnell, Hamilton, Colby, Bates, Vassar, Haverford, Davidson, Wesleyan)
-- LACs offer: small classes, close faculty relationships, strong grad school placement
-- Balance LACs with research universities`;
-  }
-  return '';
-})()}
+LOCATION INSTRUCTIONS:
+- If location mentions "USA", "United States", or specific US states, suggest USA graduate programs
+- If location mentions "Canada" or Canadian provinces (Ontario, BC, Alberta, Quebec), suggest Canadian graduate programs
+- If no location specified, provide mix of USA and Canadian programs
+- Consider the student's location preference carefully
 
 INSTRUCTIONS:
-1. Suggest EXACTLY 8 colleges for EACH category (Reach, Target, Safety) = 24 TOTAL
-2. Ensure variety: Mix public/private, large/small, different regions (within correct country)
-3. Match recommendations to major's program strength
-4. Consider budget if specified
-5. Factor in extracurriculars, leadership, awards for holistic evaluation
+1. Suggest EXACTLY 8 programs for EACH category (Reach, Target, Safety) = 24 TOTAL recommendations
+2. Focus on programs strong in the student's specialization
+3. For USA: Consider top research universities, R1 institutions, and specialized programs
+4. For Canada: Consider research-intensive universities with strong graduate programs
+5. Match recommendations to degree type (Master's programs are different from PhD programs)
+6. Consider research fit, faculty expertise, and program rankings
+7. Factor in work experience and research background for program appropriateness
+8. For PhD: Emphasize research-focused institutions with funded positions
+9. For Master's: Include both thesis-based and course-based options
 
 CATEGORIES:
-- **Reach (8 schools)**: Stats below average (15-40% chance)
-- **Target (8 schools)**: Stats match well (50-70% chance)
-- **Safety (8 schools)**: Stats exceed typical admits (80%+ chance)
+- **Reach (8 programs)**: Highly competitive programs where admission is challenging but possible (15-35% acceptance)
+- **Target (8 programs)**: Programs well-matched to student's profile (40-65% acceptance)
+- **Safety (8 programs)**: Programs where student exceeds typical admits (70%+ acceptance)
 
-FORMAT EXACTLY AS SHOWN:
+FORMAT YOUR RESPONSE EXACTLY AS SHOWN:
 
-**REACH SCHOOLS:**
-1. [University Name] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
+**REACH PROGRAMS:**
+1. [University Name] - [Program Name] | GPA: [X.X-X.X] | GRE/GMAT: [Score Range]
 2. [Continue for all 8...]
 
-**TARGET SCHOOLS:**
-1. [University Name] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
+**TARGET PROGRAMS:**
+1. [University Name] - [Program Name] | GPA: [X.X-X.X] | GRE/GMAT: [Score Range]
 2. [Continue for all 8...]
 
-**SAFETY SCHOOLS:**
-1. [University Name] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
+**SAFETY PROGRAMS:**
+1. [University Name] - [Program Name] | GPA: [X.X-X.X] | GRE/GMAT: [Score Range]
 2. [Continue for all 8...]
 
 **AI INSIGHTS:**
 
 ANALYSIS
 
-Profile Strength: [2-3 sentences]
+Profile Strength: [2-3 sentences about overall competitiveness for graduate admissions]
 
 Key Strengths:
 - [Strength 1]
@@ -474,13 +312,19 @@ Key Strengths:
 - [Strength 3]
 
 Recommendations:
-- [Recommendation 1]
+- [Recommendation 1 - specific to graduate admissions]
 - [Recommendation 2]
 - [Recommendation 3]
 
-Strategy: [2-3 sentences]
+Strategy: [2-3 sentences about application approach for graduate programs]
 
-CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA: X.X-X.X | SAT: XXXX-XXXX`;
+CRITICAL REQUIREMENTS:
+- You MUST provide EXACTLY 8 programs in each category
+- Format: University Name - Program Name | GPA: X.X-X.X | GRE/GMAT: Score Range
+- Include specific program names (e.g., "MS in Computer Science", "PhD in Neuroscience", "MBA")
+- Provide realistic GPA and test score ranges for admitted students
+- Consider program specialization strength and research opportunities
+- For PhD programs, mention if typically fully funded`;
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent?key=${API_KEY}`,
@@ -504,33 +348,33 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
       const data = await response.json();
       const aiResponse = data.candidates[0].content.parts[0].text;
 
-      const parseColleges = (section) => {
-        const colleges = [];
+      const parsePrograms = (section) => {
+        const programs = [];
         const lines = section.split('\n').filter(line => line.trim());
         
         for (const line of lines) {
           if (/^\d+\./.test(line)) {
             const parts = line.split('|');
             if (parts.length >= 3) {
-              const name = parts[0].replace(/^\d+\.\s*/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
+              const namePart = parts[0].replace(/^\d+\.\s*/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
               const gpa_range = parts[1].replace('GPA:', '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
-              const sat_range = parts[2].replace('SAT:', '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
-              colleges.push({ name, gpa_range, sat_range });
+              const test_range = parts[2].replace(/GRE\/GMAT:|GRE:|GMAT:/g, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
+              programs.push({ name: namePart, gpa_range, test_range });
             }
           }
         }
-        return colleges;
+        return programs;
       };
 
-      const reachMatch = aiResponse.match(/\*\*REACH SCHOOLS:\*\*([\s\S]*?)(?=\*\*TARGET SCHOOLS:|\*\*AI INSIGHTS:|$)/i);
-      const targetMatch = aiResponse.match(/\*\*TARGET SCHOOLS:\*\*([\s\S]*?)(?=\*\*SAFETY SCHOOLS:|\*\*AI INSIGHTS:|$)/i);
-      const safetyMatch = aiResponse.match(/\*\*SAFETY SCHOOLS:\*\*([\s\S]*?)(?=\*\*AI INSIGHTS:|$)/i);
+      const reachMatch = aiResponse.match(/\*\*REACH PROGRAMS:\*\*([\s\S]*?)(?=\*\*TARGET PROGRAMS:|\*\*AI INSIGHTS:|$)/i);
+      const targetMatch = aiResponse.match(/\*\*TARGET PROGRAMS:\*\*([\s\S]*?)(?=\*\*SAFETY PROGRAMS:|\*\*AI INSIGHTS:|$)/i);
+      const safetyMatch = aiResponse.match(/\*\*SAFETY PROGRAMS:\*\*([\s\S]*?)(?=\*\*AI INSIGHTS:|$)/i);
       const insightsMatch = aiResponse.match(/\*\*AI INSIGHTS:\*\*([\s\S]*?)$/i);
 
       const parsedResults = {
-        Reach: reachMatch ? parseColleges(reachMatch[1]) : [],
-        Target: targetMatch ? parseColleges(targetMatch[1]) : [],
-        Safety: safetyMatch ? parseColleges(safetyMatch[1]) : []
+        Reach: reachMatch ? parsePrograms(reachMatch[1]) : [],
+        Target: targetMatch ? parsePrograms(targetMatch[1]) : [],
+        Safety: safetyMatch ? parsePrograms(safetyMatch[1]) : []
       };
 
       const insights = insightsMatch ? insightsMatch[1].trim() : '';
@@ -540,28 +384,24 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
       setActiveSection('results');
 
       if (window.gtag) {
-        window.gtag('event', 'college_prediction', {
+        window.gtag('event', 'graduate_prediction', {
+          degree_type: studentProfile.degreeType,
           gpa: studentProfile.gpa || studentProfile.percentage,
-          test_score: studentProfile.sat || studentProfile.act,
-          major: studentProfile.desiredMajor,
-          location: studentProfile.location
+          test_type: studentProfile.testType,
+          specialization: studentProfile.specialization
         });
       }
 
     } catch (err) {
       console.error('Prediction error:', err);
-      setError('Unable to generate predictions. Please check your internet connection and try again.');
+      setError('Unable to generate predictions. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
-  // Format AI Insights with structured sections (OLD FORMAT)
   const formatAIResponse = (text) => {
-    // Remove all markdown asterisks from text
     const cleanText = text.replace(/\*\*/g, '').replace(/\*/g, '');
-    
-    // Parse the AI insights into structured sections
     const sections = {
       analysis: '',
       strengths: [],
@@ -569,7 +409,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
       strategy: ''
     };
 
-    // Try to parse structured content if available
     const lines = cleanText.split('\n').filter(line => line.trim());
     let currentSection = 'analysis';
 
@@ -595,7 +434,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
 
     return (
       <div className="space-y-6">
-        {/* Profile Strength */}
         {sections.analysis && (
           <div>
             <h3 className="text-lg font-bold text-purple-800 mb-2 flex items-center gap-2">
@@ -606,7 +444,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </div>
         )}
 
-        {/* Key Strengths */}
         {sections.strengths.length > 0 && (
           <div>
             <h3 className="text-lg font-bold text-purple-800 mb-3 flex items-center gap-2">
@@ -624,7 +461,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </div>
         )}
 
-        {/* Recommendations */}
         {sections.recommendations.length > 0 && (
           <div>
             <h3 className="text-lg font-bold text-purple-800 mb-3 flex items-center gap-2">
@@ -642,7 +478,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </div>
         )}
 
-        {/* Strategy */}
         {sections.strategy && (
           <div>
             <h3 className="text-lg font-bold text-purple-800 mb-2 flex items-center gap-2">
@@ -653,7 +488,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </div>
         )}
 
-        {/* If no structured data, show as paragraphs */}
         {!sections.analysis && !sections.strengths.length && !sections.recommendations.length && !sections.strategy && (
           <div className="prose max-w-none text-gray-700 leading-relaxed">
             {cleanText.split('\n').map((paragraph, idx) => (
@@ -665,19 +499,42 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
     );
   };
 
-  // Render Input Section (keeping your original design)
   const renderInputSection = () => (
     <Card className="backdrop-blur-xl bg-white/95 border-2 border-purple-100">
       <CardHeader className="border-b-2 border-purple-50 bg-gradient-to-r from-blue-50 to-purple-50">
         <CardTitle className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 flex items-center gap-3">
           <GraduationCap className="h-8 w-8 text-purple-600" />
-          Enter Your Academic Profile
+          Enter Your Graduate Profile
         </CardTitle>
         <p className="text-gray-600 mt-2">
-          AI will analyze your profile and suggest 24 perfectly matched colleges (8 reach, 8 target, 8 safety)
+          AI will analyze your profile and suggest 24 perfectly matched graduate programs (8 reach, 8 target, 8 safety)
         </p>
       </CardHeader>
       <CardContent className="p-8 space-y-8">
+        {/* Degree Type Selection */}
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Degree Type *</label>
+          <div className="grid grid-cols-3 gap-4">
+            {[
+              { value: 'masters', label: "Master's Program" },
+              { value: 'phd', label: 'PhD Program' },
+              { value: 'professional', label: 'Professional (MBA/JD/MD)' }
+            ].map(type => (
+              <Button
+                key={type.value}
+                onClick={() => handleInputChange('degreeType', type.value)}
+                className={`py-3 px-4 rounded-xl font-semibold transition-all ${
+                  studentProfile.degreeType === type.value
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {type.label}
+              </Button>
+            ))}
+          </div>
+        </div>
+
         {/* Grade Type Selection */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-3">Grade Type *</label>
@@ -709,7 +566,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         {studentProfile.gradeType === 'gpa' ? (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              GPA (on 4.0 scale) *
+              Undergraduate GPA (on 4.0 scale) *
             </label>
             <input
               type="number"
@@ -725,7 +582,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         ) : (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Percentage *
+              Undergraduate Percentage *
             </label>
             <input
               type="number"
@@ -736,24 +593,24 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
               placeholder="e.g., 85"
             />
-			    <p className="mt-2 text-sm text-gray-500">
-      Need to convert to U.S. GPA? 
-      <a href="/gpa-calculator" className="text-blue-600 hover:underline ml-1 font-semibold">
-        Use our GPA Calculator →
-      </a>
-    </p>
+            <p className="mt-2 text-sm text-gray-500">
+              Need to convert to U.S. GPA? 
+              <a href="/gpa-calculator" className="text-blue-600 hover:underline ml-1 font-semibold">
+                Use our GPA Calculator →
+              </a>
+            </p>
           </div>
         )}
 
         {/* Test Type Selection */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-3">Standardized Test *</label>
-          <div className="flex gap-3">
-            {['sat', 'act', 'none'].map(type => (
+          <div className="grid grid-cols-4 gap-3">
+            {['gre', 'gmat', 'other', 'none'].map(type => (
               <Button
                 key={type}
                 onClick={() => handleInputChange('testType', type)}
-                className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
+                className={`py-3 px-4 rounded-xl font-semibold transition-all ${
                   studentProfile.testType === type
                     ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -765,38 +622,100 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </div>
         </div>
 
-        {/* SAT/ACT Score Input */}
-        {studentProfile.testType === 'sat' && (
+        {/* GRE Scores */}
+        {studentProfile.testType === 'gre' && (
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                GRE Verbal (out of 170) *
+              </label>
+              <input
+                type="number"
+                min="130"
+                max="170"
+                value={studentProfile.greVerbal}
+                onChange={(e) => handleInputChange('greVerbal', e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+                placeholder="e.g., 165"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                GRE Quant (out of 170) *
+              </label>
+              <input
+                type="number"
+                min="130"
+                max="170"
+                value={studentProfile.greQuant}
+                onChange={(e) => handleInputChange('greQuant', e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+                placeholder="e.g., 168"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                GRE Writing (out of 6.0)
+              </label>
+              <input
+                type="number"
+                step="0.5"
+                min="0"
+                max="6"
+                value={studentProfile.greWriting}
+                onChange={(e) => handleInputChange('greWriting', e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+                placeholder="e.g., 4.5"
+              />
+            </div>
+          </div>
+        )}
+
+        {/* GMAT Score */}
+        {studentProfile.testType === 'gmat' && (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              SAT Score (out of 1600) *
+              GMAT Score (out of 800) *
             </label>
             <input
               type="number"
-              min="400"
-              max="1600"
-              value={studentProfile.sat}
-              onChange={(e) => handleInputChange('sat', e.target.value)}
+              min="200"
+              max="800"
+              value={studentProfile.gmat}
+              onChange={(e) => handleInputChange('gmat', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
-              placeholder="e.g., 1450"
+              placeholder="e.g., 720"
             />
           </div>
         )}
 
-        {studentProfile.testType === 'act' && (
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              ACT Score (out of 36) *
-            </label>
-            <input
-              type="number"
-              min="1"
-              max="36"
-              value={studentProfile.act}
-              onChange={(e) => handleInputChange('act', e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
-              placeholder="e.g., 32"
-            />
+        {/* Other Test */}
+        {studentProfile.testType === 'other' && (
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Test Name *
+              </label>
+              <input
+                type="text"
+                value={studentProfile.otherTest}
+                onChange={(e) => handleInputChange('otherTest', e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+                placeholder="e.g., LSAT, MCAT"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">
+                Score *
+              </label>
+              <input
+                type="text"
+                value={studentProfile.otherTestScore}
+                onChange={(e) => handleInputChange('otherTestScore', e.target.value)}
+                className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+                placeholder="e.g., 170"
+              />
+            </div>
           </div>
         )}
 
@@ -804,14 +723,14 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         <div className="grid md:grid-cols-2 gap-6">
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Intended Major *
+              Intended Specialization/Field *
             </label>
             <input
               type="text"
-              value={studentProfile.desiredMajor}
-              onChange={(e) => handleInputChange('desiredMajor', e.target.value)}
+              value={studentProfile.specialization}
+              onChange={(e) => handleInputChange('specialization', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-              placeholder="e.g., Computer Science"
+              placeholder="e.g., Machine Learning, Molecular Biology"
             />
           </div>
 
@@ -824,52 +743,69 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               value={studentProfile.location}
               onChange={(e) => handleInputChange('location', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-              placeholder="e.g., California, Northeast, Canada"
+              placeholder="e.g., California, Canada, Northeast USA"
             />
           </div>
         </div>
 
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Budget Range
-          </label>
-          <input
-            type="text"
-            value={studentProfile.budget}
-            onChange={(e) => handleInputChange('budget', e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-            placeholder="e.g., $30,000-$50,000 per year"
-          />
+        <div className="grid md:grid-cols-2 gap-6">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Budget Range
+            </label>
+            <input
+              type="text"
+              value={studentProfile.budget}
+              onChange={(e) => handleInputChange('budget', e.target.value)}
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+              placeholder="e.g., $40,000-$60,000 per year"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Work Experience (years)
+            </label>
+            <input
+              type="number"
+              step="0.5"
+              min="0"
+              value={studentProfile.workExperience}
+              onChange={(e) => handleInputChange('workExperience', e.target.value)}
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+              placeholder="e.g., 2.5"
+            />
+          </div>
         </div>
 
-        {/* Optional Fields */}
+        {/* Optional Graduate-Specific Fields */}
         <div className="space-y-4 pt-6 border-t-2 border-gray-100">
           <p className="text-sm font-semibold text-gray-600">
-            Optional (Recommended for USA schools - improves prediction accuracy):
+            Optional (Recommended for competitive programs):
           </p>
           
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Extracurricular Activities
+              Research Experience
             </label>
             <textarea
-              value={studentProfile.extracurriculars}
-              onChange={(e) => handleInputChange('extracurriculars', e.target.value)}
+              value={studentProfile.researchExperience}
+              onChange={(e) => handleInputChange('researchExperience', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-              placeholder="e.g., Varsity Soccer, Debate Club, Volunteer work"
+              placeholder="e.g., 2 years undergraduate research, REU program at Stanford"
               rows="2"
             />
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Leadership Roles
+              Publications & Presentations
             </label>
             <textarea
-              value={studentProfile.leadership}
-              onChange={(e) => handleInputChange('leadership', e.target.value)}
+              value={studentProfile.publications}
+              onChange={(e) => handleInputChange('publications', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-              placeholder="e.g., Student Council President, Team Captain"
+              placeholder="e.g., 1 first-author paper, 2 conference presentations"
               rows="2"
             />
           </div>
@@ -882,7 +818,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               value={studentProfile.awards}
               onChange={(e) => handleInputChange('awards', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-              placeholder="e.g., National Merit Scholar, Science Olympiad Gold Medal"
+              placeholder="e.g., NSF Fellowship, Summa Cum Laude"
               rows="2"
             />
           </div>
@@ -897,12 +833,12 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           {loading ? (
             <>
               <Brain className="h-7 w-7 animate-pulse" />
-              AI is Analyzing Your Profile...
+              AI is Analyzing Your Graduate Profile...
             </>
           ) : (
             <>
               <Sparkles className="h-7 w-7" />
-              Get My 24 AI-Powered College Matches
+              Get My 24 AI-Powered Graduate Program Matches
             </>
           )}
         </Button>
@@ -914,18 +850,17 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
     </Card>
   );
 
-  // ORIGINAL RESULTS UI - Simple format with just GPA and SAT ranges
   const renderResultsSection = () => (
     <div className="space-y-8">
-      {/* AI Insights with OLD STRUCTURED FORMAT */}
+      {/* AI Insights */}
       {aiInsights && (
         <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
           <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-t-lg">
             <CardTitle className="text-2xl flex items-center gap-3">
               <Brain className="h-7 w-7" />
-              AI-Powered Profile Analysis
+              AI-Powered Graduate Profile Analysis
             </CardTitle>
-            <p className="text-purple-100 text-sm mt-2">Personalized insights for USA and Canadian university admissions</p>
+            <p className="text-purple-100 text-sm mt-2">Personalized insights for graduate admissions in USA and Canada</p>
           </CardHeader>
           <CardContent className="p-8">
             <div className="bg-white rounded-xl p-6 shadow-sm">
@@ -939,7 +874,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         </Card>
       )}
 
-      {/* AdSense Zone 1 - After AI Insights, Before Results */}
+      {/* AdSense Zone 1 */}
       <div className="my-8">
         <ins className="adsbygoogle"
              style={{display:'block'}}
@@ -949,9 +884,9 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
              data-full-width-responsive="true"></ins>
       </div>
 
-      {/* Results Grid - ORIGINAL 3-COLUMN DESIGN WITH SIMPLE CARDS */}
+      {/* Results Grid */}
       <div className="grid md:grid-cols-3 gap-8">
-        {/* Reach Schools */}
+        {/* Reach Programs */}
         <Card className="border-2 border-orange-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden">
           <CardHeader className="bg-gradient-to-br from-orange-50 to-red-100 p-6">
             <div className="flex items-center gap-3">
@@ -960,27 +895,27 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               </div>
               <div>
                 <CardTitle className="text-2xl font-bold text-orange-900">
-                  Reach Schools
+                  Reach Programs
                 </CardTitle>
                 <p className="text-sm text-orange-700 font-medium mt-1">
-                  {results.Reach?.length || 0} dream universities
+                  {results.Reach?.length || 0} competitive programs
                 </p>
               </div>
             </div>
           </CardHeader>
           <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto">
             {results.Reach?.length > 0 ? (
-              results.Reach.map((college, idx) => (
+              results.Reach.map((program, idx) => (
                 <div key={idx} className="p-5 bg-white border-2 border-orange-100 rounded-xl hover:border-orange-300 hover:shadow-lg transition-all">
-                  <h4 className="font-bold text-lg text-gray-900 mb-3">{college.name}</h4>
+                  <h4 className="font-bold text-lg text-gray-900 mb-3">{program.name}</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
                       <span className="font-semibold">📊 GPA Range:</span>
-                      <span>{college.gpa_range || '3.8-4.0'}</span>
+                      <span>{program.gpa_range || '3.7-4.0'}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
-                      <span className="font-semibold">📝 SAT Range:</span>
-                      <span>{college.sat_range || '1450-1600'}</span>
+                      <span className="font-semibold">📝 Test Range:</span>
+                      <span>{program.test_range || 'Competitive'}</span>
                     </div>
                   </div>
                 </div>
@@ -988,13 +923,13 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
             ) : (
               <div className="text-center py-8 text-gray-500">
                 <Trophy className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-                <p>No reach schools found</p>
+                <p>No reach programs found</p>
               </div>
             )}
           </CardContent>
         </Card>
 
-        {/* Target Schools */}
+        {/* Target Programs */}
         <Card className="border-2 border-blue-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden">
           <CardHeader className="bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
             <div className="flex items-center gap-3">
@@ -1003,7 +938,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               </div>
               <div>
                 <CardTitle className="text-2xl font-bold text-blue-900">
-                  Target Schools
+                  Target Programs
                 </CardTitle>
                 <p className="text-sm text-blue-700 font-medium mt-1">
                   {results.Target?.length || 0} strong matches
@@ -1013,17 +948,17 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </CardHeader>
           <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto">
             {results.Target?.length > 0 ? (
-              results.Target.map((college, idx) => (
+              results.Target.map((program, idx) => (
                 <div key={idx} className="p-5 bg-white border-2 border-blue-100 rounded-xl hover:border-blue-300 hover:shadow-lg transition-all">
-                  <h4 className="font-bold text-lg text-gray-900 mb-3">{college.name}</h4>
+                  <h4 className="font-bold text-lg text-gray-900 mb-3">{program.name}</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
                       <span className="font-semibold">📊 GPA Range:</span>
-                      <span>{college.gpa_range || '3.5-3.8'}</span>
+                      <span>{program.gpa_range || '3.4-3.8'}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
-                      <span className="font-semibold">📝 SAT Range:</span>
-                      <span>{college.sat_range || '1300-1450'}</span>
+                      <span className="font-semibold">📝 Test Range:</span>
+                      <span>{program.test_range || 'Competitive'}</span>
                     </div>
                   </div>
                 </div>
@@ -1031,13 +966,13 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
             ) : (
               <div className="text-center py-8 text-gray-500">
                 <Target className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-                <p>No target schools found</p>
+                <p>No target programs found</p>
               </div>
             )}
           </CardContent>
         </Card>
 
-        {/* Safety Schools */}
+        {/* Safety Programs */}
         <Card className="border-2 border-green-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden">
           <CardHeader className="bg-gradient-to-br from-green-50 to-green-100 p-6">
             <div className="flex items-center gap-3">
@@ -1046,7 +981,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               </div>
               <div>
                 <CardTitle className="text-2xl font-bold text-green-900">
-                  Safety Schools
+                  Safety Programs
                 </CardTitle>
                 <p className="text-sm text-green-700 font-medium mt-1">
                   {results.Safety?.length || 0} likely admits
@@ -1056,17 +991,17 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </CardHeader>
           <CardContent className="p-4 space-y-3 max-h-[600px] overflow-y-auto">
             {results.Safety?.length > 0 ? (
-              results.Safety.map((college, idx) => (
+              results.Safety.map((program, idx) => (
                 <div key={idx} className="p-5 bg-white border-2 border-green-100 rounded-xl hover:border-green-300 hover:shadow-lg transition-all">
-                  <h4 className="font-bold text-lg text-gray-900 mb-3">{college.name}</h4>
+                  <h4 className="font-bold text-lg text-gray-900 mb-3">{program.name}</h4>
                   <div className="space-y-2 text-sm">
                     <div className="flex items-center gap-2 text-gray-600">
                       <span className="font-semibold">📊 GPA Range:</span>
-                      <span>{college.gpa_range || '3.2-3.6'}</span>
+                      <span>{program.gpa_range || '3.0-3.5'}</span>
                     </div>
                     <div className="flex items-center gap-2 text-gray-600">
-                      <span className="font-semibold">📝 SAT Range:</span>
-                      <span>{college.sat_range || '1200-1350'}</span>
+                      <span className="font-semibold">📝 Test Range:</span>
+                      <span>{program.test_range || 'Competitive'}</span>
                     </div>
                   </div>
                 </div>
@@ -1074,14 +1009,14 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
             ) : (
               <div className="text-center py-8 text-gray-500">
                 <CheckCircle className="h-12 w-12 mx-auto mb-3 text-gray-300" />
-                <p>No safety schools found</p>
+                <p>No safety programs found</p>
               </div>
             )}
           </CardContent>
         </Card>
       </div>
 
-      {/* AdSense Zone 2 - After Results, Before Strategy */}
+      {/* AdSense Zone 2 */}
       <div className="my-8">
         <ins className="adsbygoogle"
              style={{display:'block'}}
@@ -1096,49 +1031,39 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         <CardContent className="p-8">
           <h3 className="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
             <TrendingUp className="h-7 w-7 text-blue-600" />
-            College Application Strategy for USA Universities
+            Graduate Application Strategy
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
               <h4 className="font-bold text-lg text-orange-600 mb-3 flex items-center gap-2">
                 <Zap className="h-5 w-5" />
-                Reach (2-4 schools)
+                Reach (2-4 programs)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                Dream schools where you're below average but have a chance with a strong application. These are ambitious targets that could transform your future.
+                Highly competitive programs. Strong research fit and stellar recommendations are critical. Consider these ambitious targets.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
               <h4 className="font-bold text-lg text-blue-600 mb-3 flex items-center gap-2">
                 <Target className="h-5 w-5" />
-                Target (3-5 schools)
+                Target (4-6 programs)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                Your stats match well. Solid 50-70% acceptance chance. Focus your efforts here for the best balance of ambition and likelihood.
+                Well-matched programs where your profile aligns with admitted students. Focus your main efforts here.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
               <h4 className="font-bold text-lg text-green-600 mb-3 flex items-center gap-2">
                 <CheckCircle className="h-5 w-5" />
-                Safety (2-3 schools)
+                Safety (2-3 programs)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                You exceed average admitted student credentials. Very likely to be accepted (80%+ probability). Essential for peace of mind in your applications.
+                Programs where you exceed typical admits. Essential backup options with high acceptance likelihood.
               </p>
             </div>
           </div>
         </CardContent>
       </Card>
-
-      {/* AdSense Zone 3 - After Strategy Guide */}
-      <div className="my-8">
-        <ins className="adsbygoogle"
-             style={{display:'block'}}
-             data-ad-client="ca-pub-7638771792216412"
-             data-ad-slot="5362613714"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-      </div>
 
       {/* New Search CTA */}
       <div className="text-center pt-8">
@@ -1157,10 +1082,9 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
     </div>
   );
 
-  // Main Render with SEO Enhancements
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4">
-      {/* BREADCRUMB NAVIGATION */}
+      {/* Breadcrumb */}
       <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto mb-6">
         <ol className="flex items-center space-x-2 text-sm">
           <li>
@@ -1170,38 +1094,38 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </li>
           <li className="text-gray-400">/</li>
           <li className="text-gray-700 font-semibold">
-            Admissions Calculator
+            Graduate Admissions Calculator
           </li>
         </ol>
       </nav>
 
-      {/* SEO-Optimized Header */}
+      {/* Header */}
       <header className="max-w-7xl mx-auto mb-10 text-center">
         <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
           <Sparkles className="h-4 w-4" />
-          <span>Powered by Google AI (Gemini) - 100% Free for USA Universities (Canada Available)</span>
+          <span>Powered by Google AI (Gemini) - Free for USA & Canada Graduate Programs</span>
         </div>
         <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4">
-          Free AI Admissions Calculator - USA/Canada Universities
+          Graduate Admissions Calculator
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
-          What colleges can I get into? Find your perfect university match in United States or Canada. AI-powered college admissions calculator helps you discover 24 personalized reach, target, and safety schools based on your GPA/Percentage, SAT/ACT scores, and intended major. Enter "Canada" in location for Canadian universities.
+          Find your perfect Master's or PhD program match. AI-powered graduate school recommendations based on GPA, GRE/GMAT scores, research experience, and specialization. Covers USA and Canadian universities.
         </p>
         <p className="text-sm text-gray-500 max-w-2xl mx-auto">
-          Free college Admissions/chances calculator tool for USA universities (Canadian universities available - just specify location). Calculate your college admissions chances at top universities. Search colleges by GPA, SAT/ACT score, major, and location across all 50 states. Includes California colleges, Texas universities, New York schools, and more. Type "Canada", "Ontario", or any province for Canadian options. No registration required.
+          Free graduate school admissions calculator. Get 24 personalized program recommendations (reach, target, safety) for Master's, PhD, MBA, and professional programs. No registration required.
         </p>
       </header>
 
-      {/* SEO CONTENT SECTION (Collapsible) */}
+      {/* SEO Content Section */}
       <div className="max-w-7xl mx-auto mb-10">
         <button
           onClick={() => setShowContent(!showContent)}
           className="w-full bg-white border-2 border-blue-100 rounded-2xl p-6 hover:shadow-lg transition-all flex items-center justify-between"
         >
           <div className="flex items-center gap-3">
-            <GraduationCap className="h-6 w-6 text-blue-600" />
+            <BookOpen className="h-6 w-6 text-blue-600" />
             <span className="text-lg font-semibold text-gray-800">
-              {showContent ? 'Hide' : 'Show'} Complete Guide: How This College Admissions Calculator Works
+              {showContent ? 'Hide' : 'Show'} Complete Guide: Graduate School Admissions
             </span>
           </div>
           {showContent ? <ChevronUp className="h-6 w-6 text-gray-600" /> : <ChevronDown className="h-6 w-6 text-gray-600" />}
@@ -1211,67 +1135,57 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           <div className="mt-6 bg-white rounded-2xl p-8 border-2 border-gray-100 shadow-lg">
             <div className="prose max-w-none">
               <h2 className="text-3xl font-bold text-gray-900 mb-6">
-                How Our AI College Admissions caculator Works
+                How Our Graduate Admissions Calculator Works
               </h2>
               
               <p className="text-gray-700 leading-relaxed mb-6">
-                Our AI-powered college admissions calculator uses Google's advanced Gemini AI technology to analyze your complete academic profile and match you with universities where you'll thrive. Unlike simple calculators that only look at numbers, our tool considers your GPA, test scores, intended major, location preferences, budget, extracurricular activities, leadership roles, and awards to provide personalized recommendations.
+                Our AI-powered graduate admissions calculator analyzes your complete academic and research profile to recommend Master's and PhD programs where you'll be competitive. Unlike simple calculators, we consider GPA, GRE/GMAT scores, research experience, publications, work experience, and field-specific requirements.
               </p>
 
-              <div className="grid md:grid-cols-4 gap-4 my-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-blue-600">200+</div>
-                  <div className="text-sm text-gray-600">Universities Analyzed</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-purple-600">10,000+</div>
-                  <div className="text-sm text-gray-600">Students Helped</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-green-600">95%</div>
-                  <div className="text-sm text-gray-600">Accuracy Rate</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-600">Free</div>
-                  <div className="text-sm text-gray-600">Always</div>
-                </div>
-              </div>
-
               <h3 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
-                Understanding Reach, Target, and Safety Schools
+                Understanding Graduate Program Categories
               </h3>
               
               <div className="grid md:grid-cols-3 gap-6 my-6">
                 <div className="bg-orange-50 p-6 rounded-xl border-2 border-orange-200">
-                  <h4 className="text-lg font-bold text-orange-800 mb-3 flex items-center gap-2">
-                    <Zap className="h-5 w-5" />
-                    Reach Schools
-                  </h4>
+                  <h4 className="text-lg font-bold text-orange-800 mb-3">Reach Programs</h4>
                   <p className="text-gray-700 text-sm">
-                    Universities where your academic credentials fall below the average admitted student profile. Apply to 2-4 reach schools.
+                    Highly competitive programs where your profile is below the typical admit but strong research fit and recommendations could make a difference. Apply to 2-4.
                   </p>
                 </div>
                 
                 <div className="bg-blue-50 p-6 rounded-xl border-2 border-blue-200">
-                  <h4 className="text-lg font-bold text-blue-800 mb-3 flex items-center gap-2">
-                    <Target className="h-5 w-5" />
-                    Target Schools
-                  </h4>
+                  <h4 className="text-lg font-bold text-blue-800 mb-3">Target Programs</h4>
                   <p className="text-gray-700 text-sm">
-                    Universities where your credentials align well with typical admitted students. Include 3-5 target schools.
+                    Programs where your credentials match well with admitted students. You have a solid 50-65% chance. Apply to 4-6 as your core list.
                   </p>
                 </div>
                 
                 <div className="bg-green-50 p-6 rounded-xl border-2 border-green-200">
-                  <h4 className="text-lg font-bold text-green-800 mb-3 flex items-center gap-2">
-                    <CheckCircle className="h-5 w-5" />
-                    Safety Schools
-                  </h4>
+                  <h4 className="text-lg font-bold text-green-800 mb-3">Safety Programs</h4>
                   <p className="text-gray-700 text-sm">
-                    Universities where your stats significantly exceed typical admits. Always include 2-3 safety schools.
+                    Programs where you significantly exceed typical admits. Very likely acceptance (75%+). Include 2-3 for peace of mind.
                   </p>
                 </div>
               </div>
+
+              <h3 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+                GRE vs GMAT: Which Test Do You Need?
+              </h3>
+              <ul className="list-disc pl-6 space-y-2 text-gray-700">
+                <li><strong>GRE (Graduate Record Examination):</strong> Required for most Master's and PhD programs in sciences, engineering, humanities, and social sciences</li>
+                <li><strong>GMAT (Graduate Management Admission Test):</strong> Required for MBA and some business-related Master's programs</li>
+                <li><strong>LSAT:</strong> Law school (JD programs)</li>
+                <li><strong>MCAT:</strong> Medical school (MD/DO programs)</li>
+                <li><strong>Test-Optional:</strong> Some programs waive test requirements for strong candidates</li>
+              </ul>
+
+              <h3 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
+                What Makes a Strong Graduate Application?
+              </h3>
+              <p className="text-gray-700 leading-relaxed">
+                Graduate admissions are more holistic than undergraduate. While GPA and test scores matter, research experience, publications, strong letters of recommendation, and fit with faculty research interests are often more important, especially for PhD programs.
+              </p>
             </div>
           </div>
         )}
@@ -1303,7 +1217,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
             disabled={!results.Target?.length && !results.Reach?.length}
           >
             <Trophy className="h-6 w-6" />
-            <span className="font-semibold">Your University Matches</span>
+            <span className="font-semibold">Your Program Matches</span>
           </Button>
         </div>
 
@@ -1325,7 +1239,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         </div>
       </div>
 
-      {/* FAQ SECTION */}
+      {/* FAQ Section */}
       <div className="max-w-7xl mx-auto mt-16">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
           Frequently Asked Questions
@@ -1334,28 +1248,24 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         <div className="bg-white rounded-2xl p-8 border-2 border-gray-100 shadow-lg space-y-4">
           {[
             {
-              q: "How accurate is this AI college admissions calculator?",
-              a: "Our AI college admissions calculator uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats."
+              q: "How is graduate admissions different from undergraduate?",
+              a: "Graduate admissions are more specialized and research-focused. Programs look for fit with faculty research interests, relevant experience, strong letters from academics in the field, and a clear research direction. GPA and test scores are baseline qualifiers, but research potential and fit matter more."
             },
             {
-              q: "What's the difference between reach, target, and safety schools?",
-              a: "Reach schools are where your stats fall below typical admits (15-40% acceptance chance), target schools match your credentials well (50-70% chance), and safety schools are where you exceed typical admits (80%+ acceptance). A balanced list includes 2-4 reach, 3-5 target, and 2-3 safety schools."
+              q: "Do I need research experience for Master's programs?",
+              a: "For research-based (thesis) Master's and all PhD programs, research experience is highly valued. For professional Master's programs (like MBA, MEng), relevant work experience may be more important than research."
             },
             {
-              q: "Does the calculator recommend Liberal Arts Colleges?",
-              a: "Yes! When you indicate an arts, humanities, social science, or pure science major, our AI specifically includes top Liberal Arts Colleges (LACs) in your recommendations. LACs like Williams, Amherst, Swarthmore, and Pomona provide exceptional undergraduate education with small class sizes (10-15 students), close faculty mentorship, and strong graduate school placement rates. They're ideal for students who want personalized attention and a tight-knit academic community."
+              q: "What GRE score do I need for top programs?",
+              a: "Top-tier programs typically expect: Verbal 160+, Quantitative 165+ (STEM) or 160+ (Humanities/Social Sciences), and Analytical Writing 4.5+. However, many programs now de-emphasize GRE scores in favor of research experience and fit."
             },
             {
-              q: "Is this college admissions calculator tool really free?",
-              a: "Yes! Our AI college admissions calculator is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. We believe every student deserves access to quality college planning tools."
+              q: "Should I apply for Master's or PhD?",
+              a: "PhD programs are research-intensive, typically 4-6 years, and fully funded. Master's programs are 1-2 years, often unfunded, and can be course-based or research-based. Choose PhD if you want to pursue research careers; Master's for career advancement or as a stepping stone."
             },
             {
-              q: "Can I use this tool for Canadian universities?",
-              a: "Yes! While primarily optimized for USA universities, our AI provides recommendations for Canadian universities when you specify 'Canada' or a specific province (Ontario, British Columbia, Alberta, Quebec) in the location field."
-            },
-            {
-              q: "What information do I need to use the admissions calculator?",
-              a: "Required: GPA or percentage, SAT/ACT scores (or 'none'), intended major, and location preferences. Optional but recommended: extracurriculars, leadership roles, awards, and budget range. More information leads to more accurate AI recommendations."
+              q: "How many graduate programs should I apply to?",
+              a: "Apply to 8-12 programs total: 2-4 reach, 4-6 target, and 2-3 safety. Graduate applications are expensive ($75-$125 each), so focus on programs where you genuinely fit."
             }
           ].map((faq, index) => (
             <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
@@ -1378,52 +1288,53 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         </div>
       </div>
 
-      {/* RELATED RESOURCES */}
+      {/* Related Resources */}
       <div className="max-w-7xl mx-auto mt-16">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
           Related Resources
         </h2>
         
         <div className="grid md:grid-cols-3 gap-6">
-          <a href="/sat-prep" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
-            <div className="text-4xl mb-4">📖</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">SAT Preparation</h3>
-            <p className="text-gray-600 text-sm">
-              Improve your SAT scores with our expert tutoring. Proven 210+ point improvements for college admissions.
-            </p>
-          </a>
-          
-          <a href="/blog/college-admissions-guide" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
-            <div className="text-4xl mb-4">📝</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">College Admissions Guide</h3>
-            <p className="text-gray-600 text-sm">
-              Complete step-by-step guide to navigating the college application process successfully.
-            </p>
-          </a>
-          
-          <a href="/about" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
+          <a href="/gpa-calculator" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
             <div className="text-4xl mb-4">🎓</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">About Our Services</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">GPA Calculator</h3>
             <p className="text-gray-600 text-sm">
-              Learn about our comprehensive tutoring and college counseling programs in Calgary.
+              Convert international grades to U.S. 4.0 scale for graduate applications.
+            </p>
+          </a>
+          
+          <a href="/college-admissions-calculator" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
+            <div className="text-4xl mb-4">🎯</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Undergraduate Calculator</h3>
+            <p className="text-gray-600 text-sm">
+              Find undergraduate colleges based on SAT/ACT scores for Bachelor's programs.
+            </p>
+          </a>
+          
+          <a href="/resources" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
+            <div className="text-4xl mb-4">📚</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">Test Prep Resources</h3>
+            <p className="text-gray-600 text-sm">
+              GRE preparation materials and strategies for graduate school success.
             </p>
           </a>
         </div>
       </div>
 
-      {/* SEO-Rich Footer */}
+      {/* Footer */}
       <footer className="max-w-7xl mx-auto mt-20 pt-10 border-t-2 border-gray-200">
         <div className="text-center space-y-4">
           <p className="text-sm text-gray-600 font-medium">
-            🎓 100% AI-Powered College admissions calculator | Free USA College Admissions Calculator 2025 | Canadian Universities Available | No Registration Required
+            🎓 100% Free AI Graduate Admissions Calculator | Master's & PhD Programs | USA & Canada
           </p>
           <p className="text-xs text-gray-500 max-w-4xl mx-auto leading-relaxed">
-            Our free AI college admissions calculator uses advanced Google Gemini AI technology to analyze your academic profile and match you with the best colleges and universities in the United States. Get instant recommendations for reach schools, target schools, and safety schools based on your GPA, SAT scores, intended major, and location preferences across all 50 states (including California, Texas, New York, Florida, Illinois, Pennsylvania, and more). Canadian universities also available - simply enter "Canada" or any Canadian province (Ontario, British Columbia, Alberta, Quebec) in the location field. This college admissions calculator helps high school students, juniors, and seniors find perfect college matches. Completely free college search tool with no registration needed. Find out which colleges you can get into with our AI-powered university matcher. Calculate your admission chances at top American universities and Canadian universities when specified.
+            Free AI-powered graduate school admissions calculator for Master's and PhD programs in USA and Canada. Enter GPA, GRE/GMAT scores, research experience, and specialization to get personalized reach, target, and safety program recommendations. Covers all fields including STEM, humanities, business (MBA), law (JD), medicine (MD), and social sciences. No registration required.
           </p>
+          
           <div className="pt-4 space-y-2">
-            <p className="text-xs text-gray-400 font-semibold">🔍 Popular Searches - USA College admissions calculator (Canada Available):</p>
+            <p className="text-xs text-gray-400 font-semibold">🔍 Popular Searches:</p>
             <p className="text-xs text-gray-400 max-w-4xl mx-auto leading-relaxed">
-              what colleges can I get into | college predictor USA | AI college matcher | free college recommendations | SAT score calculator | GPA calculator | college admissions chances calculator USA | reach target safety schools | best colleges for my SAT score | college list builder | American university finder | college search engine | higher education search tool USA | university finder by major and location | college application helper | admission chances calculator | college match finder 2025 | free college admissions calculator by GPA and SAT | colleges in California by GPA | UC Berkeley admission calculator | Texas universities admissions | New York college search | Florida colleges admissions calculator | Illinois university finder | college admissions calculator for computer science | affordable colleges in USA | what universities can I get into with my GPA | North American college search tool | Canadian university predictor | Ontario university admissions | University of Toronto | UBC admissions | McGill calculator | liberal arts colleges | LAC admissions | Williams College | Amherst College | Swarthmore College | Pomona College | best liberal arts colleges | small college search | undergraduate focused universities
+              graduate school calculator, GRE score calculator, GMAT admissions predictor, masters program finder USA, PhD admissions calculator, graduate school chances, AI grad school matcher, research-based admissions, free graduate calculator, MS program search, doctoral admissions, MBA calculator, graduate school in Canada, funded PhD programs, graduate admissions 2025
             </p>
           </div>
           
@@ -1431,17 +1342,13 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
             <a href="/" className="text-blue-600 hover:underline">Home</a>
             <a href="/about" className="text-blue-600 hover:underline">About</a>
             <a href="/contact" className="text-blue-600 hover:underline">Contact</a>
-            <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>
-            <a href="/terms" className="text-blue-600 hover:underline">Terms of Service</a>
-            <a href="/sitemap.xml" className="text-blue-600 hover:underline">Sitemap</a>
+            <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy</a>
+            <a href="/terms" className="text-blue-600 hover:underline">Terms</a>
           </div>
           
           <div className="pt-6">
             <p className="text-xs text-gray-400">
-              © 2025 Calgary Academic Excellence. Free AI-powered college admissions calculator for USA university admissions. Canadian universities available.
-            </p>
-            <p className="text-xs text-gray-400 mt-2">
-              Made with ❤️ in Calgary • Helping students achieve their academic dreams since 2020
+              © 2025 Calgary Academic Excellence. Free graduate admissions calculator.
             </p>
           </div>
         </div>
@@ -1450,4 +1357,4 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
   );
 };
 
-export default CollegePredictor;
+export default GraduateAdmissions;

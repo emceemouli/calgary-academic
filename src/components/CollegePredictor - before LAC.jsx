@@ -89,7 +89,7 @@ const CollegePredictor = () => {
       metaKeywords.name = 'keywords';
       document.head.appendChild(metaKeywords);
     }
-    metaKeywords.content = 'college predictor USA, what colleges can I get into, American college admissions calculator, AI college matcher, free college recommendations, SAT score calculator, GPA calculator, college search tool USA, reach target safety schools, university finder, college admissions chances, best colleges for my SAT score, college list builder, college match finder 2025, free college predictor by GPA and SAT, university search by major and location, college application helper, admission chances calculator, higher education search tool, California colleges, Texas universities, New York college search, Florida college predictor, Canadian university predictor, Ontario university admissions, liberal arts colleges, LAC admissions, Williams College, Amherst College, Swarthmore, Pomona College, best liberal arts colleges, small college search, undergraduate focused colleges';
+    metaKeywords.content = 'college predictor USA, what colleges can I get into, American college admissions calculator, AI college matcher, free college recommendations, SAT score calculator, GPA calculator, college search tool USA, reach target safety schools, university finder, college admissions chances, best colleges for my SAT score, college list builder, college match finder 2025, free college predictor by GPA and SAT, university search by major and location, college application helper, admission chances calculator, higher education search tool, California colleges, Texas universities, New York college search, Florida college predictor, Canadian university predictor, Ontario university admissions';
     
     const additionalMeta = {
       'author': 'Calgary Academic Excellence',
@@ -226,14 +226,6 @@ const CollegePredictor = () => {
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Yes! While primarily optimized for USA universities, our AI provides recommendations for Canadian universities when you specify 'Canada' or a specific province (Ontario, British Columbia, Alberta, Quebec) in the location field."
-            }
-          },
-          {
-            "@type": "Question",
-            "name": "Does the calculator recommend Liberal Arts Colleges?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes! When you indicate an arts, humanities, social science, or pure science major, our AI specifically includes top Liberal Arts Colleges (LACs) like Williams, Amherst, Swarthmore, and Pomona. LACs provide exceptional undergraduate education with small class sizes and close faculty mentorship."
             }
           },
           {
@@ -400,55 +392,26 @@ ${studentProfile.extracurriculars ? `- Extracurriculars: ${studentProfile.extrac
 ${studentProfile.leadership ? `- Leadership: ${studentProfile.leadership}` : ''}
 ${studentProfile.awards ? `- Awards/Honors: ${studentProfile.awards}` : ''}
 
-CRITICAL LOCATION FILTERING:
-${(() => {
-  const loc = (studentProfile.location || '').toLowerCase();
-  const isCanada = loc.includes('canada') || loc.includes('ontario') || loc.includes('british columbia') || 
-                   loc.includes('bc') || loc.includes('alberta') || loc.includes('quebec') || 
-                   loc.includes('manitoba') || loc.includes('saskatchewan') || loc.includes('nova scotia') ||
-                   loc.includes('toronto') || loc.includes('vancouver') || loc.includes('montreal');
-  
-  if (isCanada) {
-    return `⚠️ CANADIAN LOCATION - STRICT FILTERING:
-- ONLY recommend Canadian universities (University of Toronto, UBC, McGill, McMaster, Waterloo, Queen's, Western, Alberta, Calgary, Dalhousie, SFU, York, Carleton)
-- DO NOT include ANY U.S. universities
-- All 24 recommendations MUST be Canadian institutions`;
-  }
-  return `- USA universities across all 50 states
-- Ensure geographic diversity unless specific state mentioned`;
-})()}
-
-MAJOR-SPECIFIC (LIBERAL ARTS COLLEGES):
-${(() => {
-  const major = (studentProfile.desiredMajor || '').toLowerCase();
-  const isLAC = major.includes('art') || major.includes('humanities') || major.includes('liberal') || major.includes('english') || 
-                major.includes('history') || major.includes('philosophy') || major.includes('literature') || major.includes('social') ||
-                major.includes('psychology') || major.includes('sociology') || major.includes('anthropology') || major.includes('political') ||
-                major.includes('biology') || major.includes('chemistry') || major.includes('physics') || major.includes('environmental') ||
-                major.includes('science') || major.includes('economics');
-  
-  if (isLAC) {
-    return `🎓 INCLUDE LIBERAL ARTS COLLEGES:
-- Major benefits from LACs (Williams, Amherst, Swarthmore, Pomona, Claremont McKenna, Wellesley, Bowdoin, Carleton, Middlebury, Grinnell, Hamilton, Colby, Bates, Vassar, Haverford, Davidson, Wesleyan)
-- LACs offer: small classes, close faculty relationships, strong grad school placement
-- Balance LACs with research universities`;
-  }
-  return '';
-})()}
+LOCATION INSTRUCTIONS:
+- If location mentions "Canada" or any Canadian province (Ontario, British Columbia, Alberta, Quebec, etc.), suggest Canadian universities
+- If location is USA state or no location specified, suggest USA universities
+- Consider the student's location preference carefully
 
 INSTRUCTIONS:
-1. Suggest EXACTLY 8 colleges for EACH category (Reach, Target, Safety) = 24 TOTAL
-2. Ensure variety: Mix public/private, large/small, different regions (within correct country)
-3. Match recommendations to major's program strength
-4. Consider budget if specified
-5. Factor in extracurriculars, leadership, awards for holistic evaluation
+1. Suggest EXACTLY 8 colleges for EACH category (Reach, Target, Safety) = 24 TOTAL recommendations
+2. For USA: Consider universities across all 50 states, focusing on areas matching the student's location preference
+3. For Canada: If specified, focus on Canadian universities in mentioned provinces
+4. Ensure variety: Mix public/private, large/small, different geographic regions
+5. Match recommendations to their intended major's program strength
+6. Consider budget if specified
+7. Factor in extracurriculars, leadership, and awards if provided for holistic evaluation
 
 CATEGORIES:
-- **Reach (8 schools)**: Stats below average (15-40% chance)
-- **Target (8 schools)**: Stats match well (50-70% chance)
-- **Safety (8 schools)**: Stats exceed typical admits (80%+ chance)
+- **Reach (8 schools)**: Student's stats are below average, but possible with exceptional application (15-40% acceptance chance)
+- **Target (8 schools)**: Student's stats match well with admitted students (50-70% acceptance chance)
+- **Safety (8 schools)**: Student exceeds typical admits, very likely acceptance (80%+ acceptance chance)
 
-FORMAT EXACTLY AS SHOWN:
+FORMAT YOUR RESPONSE EXACTLY AS SHOWN BELOW (this is CRITICAL for parsing):
 
 **REACH SCHOOLS:**
 1. [University Name] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
@@ -466,7 +429,7 @@ FORMAT EXACTLY AS SHOWN:
 
 ANALYSIS
 
-Profile Strength: [2-3 sentences]
+Profile Strength: [2-3 sentences about overall academic standing]
 
 Key Strengths:
 - [Strength 1]
@@ -478,9 +441,15 @@ Recommendations:
 - [Recommendation 2]
 - [Recommendation 3]
 
-Strategy: [2-3 sentences]
+Strategy: [2-3 sentences about application approach]
 
-CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA: X.X-X.X | SAT: XXXX-XXXX`;
+CRITICAL REQUIREMENTS:
+- You MUST provide EXACTLY 8 schools in each category
+- Format MUST be: University Name | GPA: X.X-X.X | SAT: XXXX-XXXX
+- GPA ranges should reflect typical admitted student profiles (on 4.0 scale)
+- SAT ranges should reflect middle 50% of admitted students
+- Keep GPA and SAT ranges realistic and accurate for each university
+- Provide actual university names, not generic descriptions`;
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent?key=${API_KEY}`,
@@ -1342,10 +1311,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               a: "Reach schools are where your stats fall below typical admits (15-40% acceptance chance), target schools match your credentials well (50-70% chance), and safety schools are where you exceed typical admits (80%+ acceptance). A balanced list includes 2-4 reach, 3-5 target, and 2-3 safety schools."
             },
             {
-              q: "Does the calculator recommend Liberal Arts Colleges?",
-              a: "Yes! When you indicate an arts, humanities, social science, or pure science major, our AI specifically includes top Liberal Arts Colleges (LACs) in your recommendations. LACs like Williams, Amherst, Swarthmore, and Pomona provide exceptional undergraduate education with small class sizes (10-15 students), close faculty mentorship, and strong graduate school placement rates. They're ideal for students who want personalized attention and a tight-knit academic community."
-            },
-            {
               q: "Is this college admissions calculator tool really free?",
               a: "Yes! Our AI college admissions calculator is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. We believe every student deserves access to quality college planning tools."
             },
@@ -1423,7 +1388,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           <div className="pt-4 space-y-2">
             <p className="text-xs text-gray-400 font-semibold">🔍 Popular Searches - USA College admissions calculator (Canada Available):</p>
             <p className="text-xs text-gray-400 max-w-4xl mx-auto leading-relaxed">
-              what colleges can I get into | college predictor USA | AI college matcher | free college recommendations | SAT score calculator | GPA calculator | college admissions chances calculator USA | reach target safety schools | best colleges for my SAT score | college list builder | American university finder | college search engine | higher education search tool USA | university finder by major and location | college application helper | admission chances calculator | college match finder 2025 | free college admissions calculator by GPA and SAT | colleges in California by GPA | UC Berkeley admission calculator | Texas universities admissions | New York college search | Florida colleges admissions calculator | Illinois university finder | college admissions calculator for computer science | affordable colleges in USA | what universities can I get into with my GPA | North American college search tool | Canadian university predictor | Ontario university admissions | University of Toronto | UBC admissions | McGill calculator | liberal arts colleges | LAC admissions | Williams College | Amherst College | Swarthmore College | Pomona College | best liberal arts colleges | small college search | undergraduate focused universities
+              what colleges can I get into | college predictor USA | AI college matcher | free college recommendations | SAT score calculator | GPA calculator | college admissions chances calculator USA | reach target safety schools | best colleges for my SAT score | college list builder | American university finder | college search engine | higher education search tool USA | university finder by major and location | college application helper | admission chances calculator | college match finder 2025 | free college admissions calculator by GPA and SAT | colleges in California by GPA | UC Berkeley admission calculator | Texas universities admissions | New York college search | Florida colleges admissions calculator | Illinois university finder | college admissions calculator for computer science | affordable colleges in USA | what universities can I get into with my GPA | North American college search tool | Canadian university predictor | Ontario university admissions | University of Toronto | UBC admissions | McGill calculator
             </p>
           </div>
           

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from './ui/button';
 import { Card, CardHeader, CardTitle, CardContent, CardFooter } from './ui/card';
-import { ArrowRight, CheckCircle, Mail, Phone, MapPin, Calculator, GraduationCap, Award } from 'lucide-react';
+import { ArrowRight, CheckCircle, Mail, Phone, MapPin, Calculator, GraduationCap } from 'lucide-react';
 
 const ServiceCard = ({ service, setSelectedService, setIsModalOpen, handleConsultationRequest }) => (
   <Card className="hover:shadow-lg transition-all duration-300 h-full flex flex-col">
@@ -112,20 +112,17 @@ const Home = ({ services, setSelectedService, setIsModalOpen, handleConsultation
           ))}
         </div>
 
-        {/* ✅ ENHANCED: Free Tools Section with Graduate Calculator */}
+        {/* ✅ NEW: Free Tools Section */}
         <div className="mt-16 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8 border-2 border-blue-100">
-          <div className="max-w-5xl mx-auto">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 mb-3">
-                🎓 Free AI-Powered Admissions Calculators
-              </h2>
-              <p className="text-gray-600 text-lg">
-                Use our advanced AI tools to find your perfect college match - completely free, no registration required
-              </p>
-            </div>
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-3xl font-bold text-gray-900 mb-3">
+              🎓 Free Tools for College Admissions
+            </h2>
+            <p className="text-gray-600 mb-8 text-lg">
+              Take advantage of our free calculators to strengthen your college applications
+            </p>
             
-            <div className="grid md:grid-cols-3 gap-6">
-              {/* GPA Calculator */}
+            <div className="grid md:grid-cols-2 gap-6">
               <a 
                 href="/gpa-calculator"
                 className="block p-6 bg-white rounded-xl hover:shadow-xl transition-all duration-300 border-2 border-blue-200 hover:border-blue-400 group"
@@ -134,65 +131,37 @@ const Home = ({ services, setSelectedService, setIsModalOpen, handleConsultation
                 <h3 className="font-bold text-xl text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
                   GPA Calculator
                 </h3>
-                <p className="text-gray-600 leading-relaxed text-sm">
-                  Convert international grades to U.S. 4.0 scale using AACRAO EDGE standards. Supports Indian, Canadian, UK, and IB systems.
+                <p className="text-gray-600 leading-relaxed">
+                  Convert your Indian, Canadian, or IB grades to U.S. 4.0 scale using AACRAO EDGE standards
                 </p>
-                <div className="mt-4 text-blue-600 font-semibold flex items-center justify-center gap-2 text-sm">
-                  Convert Now <ArrowRight className="h-4 w-4" />
+                <div className="mt-4 text-blue-600 font-semibold flex items-center justify-center gap-2">
+                  Try it free <ArrowRight className="h-4 w-4" />
                 </div>
               </a>
               
-              {/* Undergraduate Calculator */}
               <a 
                 href="/college-admissions-calculator"
                 className="block p-6 bg-white rounded-xl hover:shadow-xl transition-all duration-300 border-2 border-purple-200 hover:border-purple-400 group"
               >
                 <GraduationCap className="h-10 w-10 text-purple-600 mx-auto mb-4 group-hover:scale-110 transition-transform" />
                 <h3 className="font-bold text-xl text-gray-900 mb-2 group-hover:text-purple-600 transition-colors">
-                  Undergraduate Admissions
+                  College Matcher
                 </h3>
-                <p className="text-gray-600 leading-relaxed text-sm">
-                  Find Bachelor's programs using SAT/ACT scores, GPA, and intended major. Get 24 AI-powered reach, target, and safety recommendations.
+                <p className="text-gray-600 leading-relaxed">
+                  Get AI-powered recommendations for reach, target, and safety schools based on your profile
                 </p>
-                <div className="mt-4 text-purple-600 font-semibold flex items-center justify-center gap-2 text-sm">
-                  Find Colleges <ArrowRight className="h-4 w-4" />
-                </div>
-              </a>
-
-              {/* NEW: Graduate Calculator */}
-              <a 
-                href="/graduate-admissions-calculator"
-                className="block p-6 bg-white rounded-xl hover:shadow-xl transition-all duration-300 border-2 border-green-200 hover:border-green-400 group relative overflow-hidden"
-              >
-                {/* NEW badge */}
-                <div className="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">
-                  NEW
-                </div>
-                <Award className="h-10 w-10 text-green-600 mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                <h3 className="font-bold text-xl text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
-                  Graduate Admissions
-                </h3>
-                <p className="text-gray-600 leading-relaxed text-sm">
-                  Find Master's & PhD programs using GRE/GMAT scores, research experience, and specialization. Covers USA and Canadian universities.
-                </p>
-                <div className="mt-4 text-green-600 font-semibold flex items-center justify-center gap-2 text-sm">
-                  Find Programs <ArrowRight className="h-4 w-4" />
+                <div className="mt-4 text-purple-600 font-semibold flex items-center justify-center gap-2">
+                  Find your match <ArrowRight className="h-4 w-4" />
                 </div>
               </a>
             </div>
 
-            <div className="mt-8 text-center">
-              <p className="text-sm text-gray-500">
-                ✨ 100% free • Powered by Google AI (Gemini) • No registration required • Instant results
-              </p>
-              <p className="text-xs text-gray-400 mt-2">
-                All calculators use advanced AI to provide personalized recommendations for USA and Canadian universities
-              </p>
-            </div>
+            <p className="mt-6 text-sm text-gray-500">
+              100% free • No registration required • Instant results
+            </p>
           </div>
         </div>
 
-        {/* Contact Section */}
         <div id="contact" className="mt-20 max-w-lg mx-auto">
           <Card className="border-t-4 border-blue-500 shadow-lg">
             <CardHeader>

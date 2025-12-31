@@ -21,9 +21,17 @@ export default function handler(req, res) {
     <priority>1.0</priority>
   </url>
   
-  <!-- College Admissions Calculator - High Priority -->
+  <!-- Undergraduate College Admissions Calculator - High Priority -->
   <url>
     <loc>https://calgaryacademicexcellence.vercel.app/college-admissions-calculator</loc>
+    <lastmod>2025-12-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+  </url>
+  
+  <!-- NEW: Graduate Admissions Calculator - High Priority -->
+  <url>
+    <loc>https://calgaryacademicexcellence.vercel.app/graduate-admissions-calculator</loc>
     <lastmod>2025-12-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.95</priority>

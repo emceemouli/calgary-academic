@@ -9,7 +9,6 @@ import Blog from './components/Blog';
 import Home from './components/Home';
 import CollegePredictor from './components/CollegePredictor';
 import GPACalculator from './components/GPACalculator';
-import GraduateAdmissions from './components/GraduateAdmissions';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import ContactUs from './components/ContactUs';
@@ -25,8 +24,7 @@ import {
   X,
   Menu,
   Info,
-  Home as HomeIcon,
-  Award
+  Home as HomeIcon
 } from 'lucide-react';
 
 // Service Modal Component
@@ -123,9 +121,8 @@ const Navigation = ({ isScrolled, setIsMenuOpen }) => {
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" />, path: '/about' },
     { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" />, path: '/resources' },
     { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
-    { id: 'college-calculator', label: 'Undergraduate', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' },
-    { id: 'graduate-calculator', label: 'Graduate', icon: <Award className="h-4 w-4" />, path: '/graduate-admissions-calculator' },
-    { id: 'gpa-calculator', label: 'GPA Calc', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' }
+    { id: 'college-calculator', label: 'Admissions Calculator', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' },
+    { id: 'gpa-calculator', label: 'GPA Calculator', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' }
   ];
 
   return (
@@ -148,12 +145,12 @@ const Navigation = ({ isScrolled, setIsMenuOpen }) => {
           </div>
           
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-3">
             {navigationItems.map(item => (
               <Link
                 key={item.id}
                 to={item.path}
-                className={`px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 flex items-center gap-2 text-sm
+                className={`px-6 py-2 rounded-xl transition-all duration-200 hover:scale-105 flex items-center gap-2
                   ${location.pathname === item.path
                     ? `${isScrolled ? 'bg-blue-600 text-white shadow-md' : 'bg-white/20 text-white'}`
                     : `${isScrolled 
@@ -334,10 +331,7 @@ const Footer = () => {
                 SAT Resources
               </Link>
               <Link to="/college-admissions-calculator" className="block hover:text-white transition-colors">
-                Undergraduate Admissions
-              </Link>
-              <Link to="/graduate-admissions-calculator" className="block hover:text-white transition-colors">
-                Graduate Admissions
+                Admissions Calculator
               </Link>
               <Link to="/gpa-calculator" className="block hover:text-white transition-colors">
                 GPA Calculator
@@ -524,8 +518,7 @@ const App = () => {
     { id: 'about', label: 'About Us', icon: <Info className="h-4 w-4" />, path: '/about' },
     { id: 'resources', label: 'SAT Resources', icon: <BookOpen className="h-4 w-4" />, path: '/resources' },
     { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
-    { id: 'college-predictor', label: 'Undergraduate', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' },
-    { id: 'graduate-predictor', label: 'Graduate', icon: <Award className="h-4 w-4" />, path: '/graduate-admissions-calculator' },
+    { id: 'college-predictor', label: 'College Predictor', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' },
     { id: 'gpa-calculator', label: 'GPA Calculator', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' }
   ];
 
@@ -561,7 +554,6 @@ const App = () => {
           <Route path="/resources" element={<Resources />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/college-admissions-calculator" element={<CollegePredictor />} />
-          <Route path="/graduate-admissions-calculator" element={<GraduateAdmissions />} />
           <Route path="/gpa-calculator" element={<GPACalculator />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
