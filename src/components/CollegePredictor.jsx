@@ -114,13 +114,13 @@ const CollegePredictor = () => {
       linkCanonical.setAttribute('rel', 'canonical');
       document.head.appendChild(linkCanonical);
     }
-    linkCanonical.setAttribute('href', 'https://calgaryacademicexcellence.vercel.app/college-admissions-calculator');
+    linkCanonical.setAttribute('href', 'https://calgaryacademicexcellence.com/college-admissions-calculator');
     
     const ogTags = [
       { property: 'og:title', content: document.title },
       { property: 'og:description', content: metaDescription.content },
       { property: 'og:type', content: 'website' },
-      { property: 'og:url', content: 'https://calgaryacademicexcellence.vercel.app/college-admissions-calculator' },
+      { property: 'og:url', content: 'https://calgaryacademicexcellence.com/college-admissions-calculator' },
       { property: 'og:site_name', content: 'AI College Admissions Calculator - USA/Canada Universities' },
       { property: 'og:locale', content: 'en_US' }
     ];
@@ -184,7 +184,7 @@ const CollegePredictor = () => {
         "provider": {
           "@type": "EducationalOrganization",
           "name": "Calgary Academic Excellence",
-          "url": "https://calgaryacademicexcellence.vercel.app"
+          "url": "https://calgaryacademicexcellence.com"
         },
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript",
@@ -254,13 +254,13 @@ const CollegePredictor = () => {
             "@type": "ListItem",
             "position": 1,
             "name": "Home",
-            "item": "https://calgaryacademicexcellence.vercel.app/"
+            "item": "https://calgaryacademicexcellence.com/"
           },
           {
             "@type": "ListItem",
             "position": 2,
             "name": "Admissions Calculator",
-            "item": "https://calgaryacademicexcellence.vercel.app/college-admissions-calculator"
+            "item": "https://calgaryacademicexcellence.com/college-admissions-calculator"
           }
         ]
       }
