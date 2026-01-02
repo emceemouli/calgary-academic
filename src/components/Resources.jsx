@@ -345,7 +345,7 @@ const Resources = () => {
                   </div>
 
                   <a 
-                    href="https://www.khanacademy.org/SAT" 
+                    href="https://www.khanacademy.org/test-prep/digital-sat" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors w-full justify-center"
