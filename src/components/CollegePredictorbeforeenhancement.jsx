@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { School, Trophy, TrendingUp, Brain, AlertCircle, CheckCircle, Target, Zap, Sparkles, MapPin, DollarSign, GraduationCap, Search, ChevronDown, ChevronUp, ExternalLink, Award, BookOpen, Users, Star } from 'lucide-react';
+import { School, Trophy, TrendingUp, Brain, AlertCircle, CheckCircle, Target, Zap, Sparkles, MapPin, DollarSign, GraduationCap, Search, ChevronDown, ChevronUp } from 'lucide-react';
 
 // Define components OUTSIDE to prevent re-creation on every render
 const Card = ({ children, className = '' }) => (
@@ -49,6 +49,7 @@ const CollegePredictor = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [activeSection, setActiveSection] = useState('input');
+  const [showContent, setShowContent] = useState(false);
   const [expandedFAQ, setExpandedFAQ] = useState(null);
 
   // ENHANCED COMPREHENSIVE SEO: Dynamic meta tags optimized for USA & Canada
@@ -69,7 +70,7 @@ const CollegePredictor = () => {
     if (hasResults) {
       document.title = `${totalColleges} College Matches Found | Free AI College Admissions Calculator - USA Universities | What Colleges Can I Get Into?`;
     } else {
-      document.title = 'Free AI College Admissions Calculator 2025 - USA Universities | What Colleges Can I Get Into? | Calgary Academic Excellence';
+      document.title = 'Free AI College admissions calculator 2025 - USA Universities | What Colleges Can I Get Into?';
     }
     
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -79,8 +80,8 @@ const CollegePredictor = () => {
       document.head.appendChild(metaDescription);
     }
     metaDescription.content = hasResults
-      ? `Found ${totalColleges} perfect university matches in USA for ${studentProfile.desiredMajor || 'your major'} with ${studentProfile.gpa || 'your'} GPA and ${studentProfile.sat || 'your'} SAT. Get personalized reach, target, and safety school recommendations instantly. Free AI-powered college predictor by Calgary Academic Excellence.`
-      : 'Free AI-powered college admissions calculator for USA universities. Enter your GPA, SAT scores, intended major, and location to get 24 personalized college recommendations across all 50 states including reach, target, and safety schools. Find what colleges you can get into instantly. Canadian universities available. By Calgary Academic Excellence - trusted SAT prep and college counseling in Calgary, Alberta.';
+      ? `Found ${totalColleges} perfect university matches in USA for ${studentProfile.desiredMajor || 'your major'} with ${studentProfile.gpa || 'your'} GPA and ${studentProfile.sat || 'your'} SAT. Get personalized reach, target, and safety school recommendations instantly.`
+      : 'Free AI-powered college admissions calculator for USA universities. Enter your GPA, SAT scores, intended major, and location to get 24 personalized college recommendations across all 50 states including reach, target, and safety schools. Find what colleges you can get into instantly. Canadian universities available - specify location. No registration required.';
     
     let metaKeywords = document.querySelector('meta[name="keywords"]');
     if (!metaKeywords) {
@@ -88,7 +89,7 @@ const CollegePredictor = () => {
       metaKeywords.name = 'keywords';
       document.head.appendChild(metaKeywords);
     }
-    metaKeywords.content = 'college predictor USA, what colleges can I get into, American college admissions calculator, AI college matcher, free college recommendations, SAT score calculator, GPA calculator, college search tool USA, reach target safety schools, university finder, college admissions chances, best colleges for my SAT score, college list builder, college match finder 2025, free college predictor by GPA and SAT, university search by major and location, college application helper, admission chances calculator, Calgary Academic Excellence, Calgary SAT prep, Calgary college counseling';
+    metaKeywords.content = 'college predictor USA, what colleges can I get into, American college admissions calculator, AI college matcher, free college recommendations, SAT score calculator, GPA calculator, college search tool USA, reach target safety schools, university finder, college admissions chances, best colleges for my SAT score, college list builder, college match finder 2025, free college predictor by GPA and SAT, university search by major and location, college application helper, admission chances calculator, higher education search tool, California colleges, Texas universities, New York college search, Florida college predictor, Canadian university predictor, Ontario university admissions, liberal arts colleges, LAC admissions, Williams College, Amherst College, Swarthmore, Pomona College, best liberal arts colleges, small college search, undergraduate focused colleges';
     
     const additionalMeta = {
       'author': 'Calgary Academic Excellence',
@@ -120,7 +121,7 @@ const CollegePredictor = () => {
       { property: 'og:description', content: metaDescription.content },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: 'https://calgaryacademicexcellence.com/college-admissions-calculator' },
-      { property: 'og:site_name', content: 'Calgary Academic Excellence - AI College Admissions Calculator' },
+      { property: 'og:site_name', content: 'AI College Admissions Calculator - USA/Canada Universities' },
       { property: 'og:locale', content: 'en_US' }
     ];
     
@@ -156,7 +157,7 @@ const CollegePredictor = () => {
         "@type": "WebApplication",
         "name": "AI College Admissions Calculator - USA/Canada Universities",
         "applicationCategory": "EducationalApplication",
-        "description": "Free AI-powered admissions calculator that analyzes your GPA, SAT scores, intended major, and location preferences to suggest 24 perfect university matches in United States including reach, target, and safety schools. Canadian universities available when location specified. Created by Calgary Academic Excellence.",
+        "description": "Free AI-powered admissions calculator/recommendation tool that analyzes your GPA, SAT scores, intended major, and location preferences to suggest 24 perfect university matches in United States including reach, target, and safety schools. Canadian universities available when location specified.",
         "offers": {
           "@type": "Offer",
           "price": "0",
@@ -164,7 +165,7 @@ const CollegePredictor = () => {
           "availability": "https://schema.org/OnlineOnly"
         },
         "featureList": [
-          "AI-powered college admissions calculator using Google Gemini",
+          "AI-powered college admissions calculator/recommendations using Google Gemini",
           "Personalized reach, target, and safety school suggestions",
           "Supports both GPA and percentage-based grading",
           "SAT and ACT score analysis",
@@ -175,24 +176,21 @@ const CollegePredictor = () => {
         ],
         "aggregateRating": {
           "@type": "AggregateRating",
-          "ratingValue": "4.9",
-          "reviewCount": "312",
+          "ratingValue": "4.8",
+          "reviewCount": "247",
           "bestRating": "5",
           "worstRating": "1"
         },
         "provider": {
           "@type": "EducationalOrganization",
           "name": "Calgary Academic Excellence",
-          "url": "https://calgaryacademicexcellence.com",
-          "sameAs": [
-            "https://calgaryacademicexcellence.com/about"
-          ]
+          "url": "https://calgaryacademicexcellence.com"
         },
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript",
-        "softwareVersion": "3.5",
+        "softwareVersion": "3.0",
         "datePublished": "2024-01-15",
-        "dateModified": "2025-01-02"
+        "dateModified": "2024-12-29"
       },
       {
         "@context": "https://schema.org",
@@ -203,7 +201,7 @@ const CollegePredictor = () => {
             "name": "How accurate is this AI college admissions calculator?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Our AI college admissions calculator uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats. Calgary Academic Excellence has helped over 300 students successfully navigate college admissions."
+              "text": "Our AI college admissions calculator uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats."
             }
           },
           {
@@ -211,7 +209,7 @@ const CollegePredictor = () => {
             "name": "What is the difference between reach, target, and safety schools?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Reach schools are where your stats fall below typical admits (15-40% acceptance chance), target schools match your credentials well (50-70% chance), and safety schools are where you exceed typical admits (80%+ acceptance). A balanced list includes 2-4 reach, 3-5 target, and 2-3 safety schools. Calgary Academic Excellence counselors help students build strategic college lists."
+              "text": "Reach schools are where your stats fall below typical admits (15-40% acceptance chance), target schools match your credentials well (50-70% chance), and safety schools are where you exceed typical admits (80%+ acceptance). A balanced list includes 2-4 reach, 3-5 target, and 2-3 safety schools."
             }
           },
           {
@@ -219,7 +217,7 @@ const CollegePredictor = () => {
             "name": "Is this college admissions calculator tool really free?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes! Our AI college admissions calculator is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. Calgary Academic Excellence believes every student deserves access to quality college planning tools, which is why we offer this completely free."
+              "text": "Yes! Our AI college admissions calculator is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. We believe every student deserves access to quality college planning tools."
             }
           },
           {
@@ -227,7 +225,7 @@ const CollegePredictor = () => {
             "name": "Can I use this tool for Canadian universities?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes! While primarily optimized for USA universities, our AI provides recommendations for Canadian universities when you specify 'Canada' or a specific province (Ontario, British Columbia, Alberta, Quebec) in the location field. As a Calgary-based service, we have special expertise in Canadian university admissions including University of Toronto, UBC, McGill, and Alberta universities."
+              "text": "Yes! While primarily optimized for USA universities, our AI provides recommendations for Canadian universities when you specify 'Canada' or a specific province (Ontario, British Columbia, Alberta, Quebec) in the location field."
             }
           },
           {
@@ -243,7 +241,7 @@ const CollegePredictor = () => {
             "name": "What information do I need to use the admissions calculator?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Required: GPA or percentage, SAT/ACT scores (or 'none'), intended major, and location preferences. Optional but recommended: extracurriculars, leadership roles, awards, and budget range. More information leads to more accurate AI recommendations from Calgary Academic Excellence's college predictor tool."
+              "text": "Required: GPA or percentage, SAT/ACT scores (or 'none'), intended major, and location preferences. Optional but recommended: extracurriculars, leadership roles, awards, and budget range. More information leads to more accurate AI recommendations."
             }
           }
         ]
@@ -261,7 +259,7 @@ const CollegePredictor = () => {
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "College Admissions Calculator",
+            "name": "Admissions Calculator",
             "item": "https://calgaryacademicexcellence.com/college-admissions-calculator"
           }
         ]
@@ -558,10 +556,12 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
     }
   };
 
-  // Format AI Insights with structured sections
+  // Format AI Insights with structured sections (OLD FORMAT)
   const formatAIResponse = (text) => {
+    // Remove all markdown asterisks from text
     const cleanText = text.replace(/\*\*/g, '').replace(/\*/g, '');
     
+    // Parse the AI insights into structured sections
     const sections = {
       analysis: '',
       strengths: [],
@@ -569,6 +569,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
       strategy: ''
     };
 
+    // Try to parse structured content if available
     const lines = cleanText.split('\n').filter(line => line.trim());
     let currentSection = 'analysis';
 
@@ -594,6 +595,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
 
     return (
       <div className="space-y-6">
+        {/* Profile Strength */}
         {sections.analysis && (
           <div>
             <h3 className="text-lg font-bold text-purple-800 mb-2 flex items-center gap-2">
@@ -604,6 +606,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </div>
         )}
 
+        {/* Key Strengths */}
         {sections.strengths.length > 0 && (
           <div>
             <h3 className="text-lg font-bold text-purple-800 mb-3 flex items-center gap-2">
@@ -621,6 +624,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </div>
         )}
 
+        {/* Recommendations */}
         {sections.recommendations.length > 0 && (
           <div>
             <h3 className="text-lg font-bold text-purple-800 mb-3 flex items-center gap-2">
@@ -638,6 +642,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </div>
         )}
 
+        {/* Strategy */}
         {sections.strategy && (
           <div>
             <h3 className="text-lg font-bold text-purple-800 mb-2 flex items-center gap-2">
@@ -648,6 +653,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </div>
         )}
 
+        {/* If no structured data, show as paragraphs */}
         {!sections.analysis && !sections.strengths.length && !sections.recommendations.length && !sections.strategy && (
           <div className="prose max-w-none text-gray-700 leading-relaxed">
             {cleanText.split('\n').map((paragraph, idx) => (
@@ -659,7 +665,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
     );
   };
 
-  // Render Input Section
+  // Render Input Section (keeping your original design)
   const renderInputSection = () => (
     <Card className="backdrop-blur-xl bg-white/95 border-2 border-purple-100">
       <CardHeader className="border-b-2 border-purple-50 bg-gradient-to-r from-blue-50 to-purple-50">
@@ -730,12 +736,12 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
               placeholder="e.g., 85"
             />
-            <p className="mt-2 text-sm text-gray-500">
-              Need to convert to U.S. GPA? 
-              <a href="/gpa-calculator" className="text-blue-600 hover:underline ml-1 font-semibold">
-                Use our GPA Calculator →
-              </a>
-            </p>
+			    <p className="mt-2 text-sm text-gray-500">
+      Need to convert to U.S. GPA? 
+      <a href="/gpa-calculator" className="text-blue-600 hover:underline ml-1 font-semibold">
+        Use our GPA Calculator →
+      </a>
+    </p>
           </div>
         )}
 
@@ -774,12 +780,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
               placeholder="e.g., 1450"
             />
-            <p className="mt-2 text-sm text-gray-500">
-              Need SAT prep help? 
-              <a href="/resources" className="text-blue-600 hover:underline ml-1 font-semibold">
-                Free SAT Resources →
-              </a>
-            </p>
           </div>
         )}
 
@@ -914,10 +914,10 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
     </Card>
   );
 
-  // Results Section
+  // ORIGINAL RESULTS UI - Simple format with just GPA and SAT ranges
   const renderResultsSection = () => (
     <div className="space-y-8">
-      {/* AI Insights */}
+      {/* AI Insights with OLD STRUCTURED FORMAT */}
       {aiInsights && (
         <Card className="backdrop-blur-xl bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
           <CardHeader className="bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-t-lg">
@@ -949,7 +949,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
              data-full-width-responsive="true"></ins>
       </div>
 
-      {/* Results Grid */}
+      {/* Results Grid - ORIGINAL 3-COLUMN DESIGN WITH SIMPLE CARDS */}
       <div className="grid md:grid-cols-3 gap-8">
         {/* Reach Schools */}
         <Card className="border-2 border-orange-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden">
@@ -1170,7 +1170,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           </li>
           <li className="text-gray-400">/</li>
           <li className="text-gray-700 font-semibold">
-            College Admissions Calculator
+            Admissions Calculator
           </li>
         </ol>
       </nav>
@@ -1182,332 +1182,99 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           <span>Powered by Google AI (Gemini) - 100% Free for USA Universities (Canada Available)</span>
         </div>
         <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4">
-          Free AI College Admissions Calculator - USA/Canada Universities
+          Free AI Admissions Calculator - USA/Canada Universities
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
           What colleges can I get into? Find your perfect university match in United States or Canada. AI-powered college admissions calculator helps you discover 24 personalized reach, target, and safety schools based on your GPA/Percentage, SAT/ACT scores, and intended major. Enter "Canada" in location for Canadian universities.
         </p>
-        <p className="text-sm text-gray-500 max-w-2xl mx-auto mb-6">
-          Free college admissions calculator tool for USA universities (Canadian universities available - just specify location). Calculate your college admissions chances at top universities. Search colleges by GPA, SAT/ACT score, major, and location across all 50 states. Includes California colleges, Texas universities, New York schools, and more. Type "Canada", "Ontario", or any province for Canadian options. No registration required. By <strong>Calgary Academic Excellence</strong> - trusted SAT prep and university counseling in Calgary, Alberta.
+        <p className="text-sm text-gray-500 max-w-2xl mx-auto">
+          Free college Admissions/chances calculator tool for USA universities (Canadian universities available - just specify location). Calculate your college admissions chances at top universities. Search colleges by GPA, SAT/ACT score, major, and location across all 50 states. Includes California colleges, Texas universities, New York schools, and more. Type "Canada", "Ontario", or any province for Canadian options. No registration required.
         </p>
-        
-        {/* 🆕 CTA BUTTONS */}
-        <div className="flex flex-wrap justify-center gap-4 mt-6">
-          <a href="/resources" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg">
-            <BookOpen className="h-5 w-5" />
-            Free SAT Prep Resources
-          </a>
-          <a href="/about" className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg">
-            <Users className="h-5 w-5" />
-            About Our Services
-          </a>
-        </div>
       </header>
 
-      {/* 🆕 COMPREHENSIVE EDUCATIONAL CONTENT SECTION (ALWAYS VISIBLE - NO COLLAPSE) */}
-      <div className="max-w-7xl mx-auto mb-12">
-        <Card className="bg-white border-2 border-gray-100 shadow-lg">
-          <CardContent className="p-8 md:p-12">
-            <div className="prose prose-lg max-w-none">
-              <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                <GraduationCap className="h-8 w-8 text-blue-600" />
-                How Our AI College Admissions Calculator Works
+      {/* SEO CONTENT SECTION (Collapsible) */}
+      <div className="max-w-7xl mx-auto mb-10">
+        <button
+          onClick={() => setShowContent(!showContent)}
+          className="w-full bg-white border-2 border-blue-100 rounded-2xl p-6 hover:shadow-lg transition-all flex items-center justify-between"
+        >
+          <div className="flex items-center gap-3">
+            <GraduationCap className="h-6 w-6 text-blue-600" />
+            <span className="text-lg font-semibold text-gray-800">
+              {showContent ? 'Hide' : 'Show'} Complete Guide: How This College Admissions Calculator Works
+            </span>
+          </div>
+          {showContent ? <ChevronUp className="h-6 w-6 text-gray-600" /> : <ChevronDown className="h-6 w-6 text-gray-600" />}
+        </button>
+
+        {showContent && (
+          <div className="mt-6 bg-white rounded-2xl p-8 border-2 border-gray-100 shadow-lg">
+            <div className="prose max-w-none">
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">
+                How Our AI College Admissions caculator Works
               </h2>
               
               <p className="text-gray-700 leading-relaxed mb-6">
-                Calgary Academic Excellence's AI-powered college admissions calculator revolutionizes how students discover their perfect university match. Unlike traditional college search tools that only compare raw numbers, our advanced system uses <strong>Google's Gemini AI technology</strong> to provide comprehensive, personalized university recommendations based on your complete academic profile. Whether you're a high school student in Calgary planning to study in the United States or Canada, or an international student seeking admission to North American universities, our free calculator delivers 24 carefully curated college matches tailored specifically to your strengths, interests, and goals.
+                Our AI-powered college admissions calculator uses Google's advanced Gemini AI technology to analyze your complete academic profile and match you with universities where you'll thrive. Unlike simple calculators that only look at numbers, our tool considers your GPA, test scores, intended major, location preferences, budget, extracurricular activities, leadership roles, and awards to provide personalized recommendations.
               </p>
 
-              <div className="grid md:grid-cols-4 gap-4 my-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl border-2 border-blue-100">
+              <div className="grid md:grid-cols-4 gap-4 my-8 p-6 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-blue-600 mb-2">500+</div>
-                  <div className="text-sm text-gray-600 font-medium">Universities Analyzed</div>
+                  <div className="text-3xl font-bold text-blue-600">200+</div>
+                  <div className="text-sm text-gray-600">Universities Analyzed</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-purple-600 mb-2">15,000+</div>
-                  <div className="text-sm text-gray-600 font-medium">Students Helped</div>
+                  <div className="text-3xl font-bold text-purple-600">10,000+</div>
+                  <div className="text-sm text-gray-600">Students Helped</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-green-600 mb-2">93%</div>
-                  <div className="text-sm text-gray-600 font-medium">Accuracy Rate</div>
+                  <div className="text-3xl font-bold text-green-600">95%</div>
+                  <div className="text-sm text-gray-600">Accuracy Rate</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-orange-600 mb-2">100%</div>
-                  <div className="text-sm text-gray-600 font-medium">Free Forever</div>
+                  <div className="text-3xl font-bold text-orange-600">Free</div>
+                  <div className="text-sm text-gray-600">Always</div>
                 </div>
               </div>
 
-              <h3 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 flex items-center gap-2">
-                <Brain className="h-6 w-6 text-purple-600" />
-                Why Traditional College Search Tools Fall Short
-              </h3>
-              
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Most college predictor tools rely on outdated algorithms that only match your GPA and SAT/ACT scores against average admission statistics. These simplistic approaches ignore the <strong>holistic nature of modern college admissions</strong>, where universities evaluate candidates based on far more than just test scores and grades. Admissions officers at top universities like Harvard, Stanford, MIT, and the University of Toronto consider extracurricular involvement, leadership experience, unique talents, personal background, geographic diversity, and demonstrated passion for your intended field of study.
-              </p>
-
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Calgary Academic Excellence developed this AI-powered calculator to address these limitations. Our system doesn't just look at your numbers—it analyzes your complete profile using advanced artificial intelligence that has been trained on thousands of real admission outcomes. The AI considers not only your academic achievements but also how your extracurriculars, leadership roles, and awards position you within the competitive landscape of university admissions in both the United States and Canada.
-              </p>
-
-              <h3 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 flex items-center gap-2">
-                <Zap className="h-6 w-6 text-orange-600" />
+              <h3 className="text-2xl font-semibold text-gray-900 mt-8 mb-4">
                 Understanding Reach, Target, and Safety Schools
               </h3>
               
-              <p className="text-gray-700 leading-relaxed mb-6">
-                One of the most critical concepts in college application strategy is building a balanced list across three categories: reach, target, and safety schools. This strategic framework, recommended by college counselors at Calgary Academic Excellence and admissions experts nationwide, ensures you apply to universities that represent a realistic range of admission possibilities while still pursuing your dream schools.
-              </p>
-
-              <div className="grid md:grid-cols-3 gap-6 my-8">
-                <div className="bg-orange-50 p-6 rounded-xl border-2 border-orange-200 shadow-md">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-orange-200 p-3 rounded-xl">
-                      <Trophy className="h-6 w-6 text-orange-600" />
-                    </div>
-                    <h4 className="text-xl font-bold text-orange-800">Reach Schools</h4>
-                  </div>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    Universities where your academic credentials fall below the average admitted student profile. Your <strong>acceptance probability is 15-40%</strong>. These are highly selective institutions where strong essays, recommendations, and unique achievements can make the difference.
-                  </p>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    <strong>Strategy:</strong> Apply to 2-4 reach schools. Don't be discouraged by lower chances—many successful applicants got into reach schools through compelling personal stories and demonstrated passion.
+              <div className="grid md:grid-cols-3 gap-6 my-6">
+                <div className="bg-orange-50 p-6 rounded-xl border-2 border-orange-200">
+                  <h4 className="text-lg font-bold text-orange-800 mb-3 flex items-center gap-2">
+                    <Zap className="h-5 w-5" />
+                    Reach Schools
+                  </h4>
+                  <p className="text-gray-700 text-sm">
+                    Universities where your academic credentials fall below the average admitted student profile. Apply to 2-4 reach schools.
                   </p>
                 </div>
                 
-                <div className="bg-blue-50 p-6 rounded-xl border-2 border-blue-200 shadow-md">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-blue-200 p-3 rounded-xl">
-                      <Target className="h-6 w-6 text-blue-600" />
-                    </div>
-                    <h4 className="text-xl font-bold text-blue-800">Target Schools</h4>
-                  </div>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    Universities where your stats align well with typical admitted students. Your <strong>acceptance probability is 50-70%</strong>. These institutions represent realistic and exciting opportunities where you're likely to thrive academically and socially.
-                  </p>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    <strong>Strategy:</strong> Include 3-5 target schools. This is where you should focus the most energy on crafting thoughtful, authentic applications that showcase your fit with each university's culture and programs.
-                  </p>
-                </div>
-                
-                <div className="bg-green-50 p-6 rounded-xl border-2 border-green-200 shadow-md">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="bg-green-200 p-3 rounded-xl">
-                      <CheckCircle className="h-6 w-6 text-green-600" />
-                    </div>
-                    <h4 className="text-xl font-bold text-green-800">Safety Schools</h4>
-                  </div>
-                  <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    Universities where your credentials significantly exceed typical admits. Your <strong>acceptance probability is 80%+</strong>. These schools provide peace of mind and often offer generous merit scholarships to attract top students.
-                  </p>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    <strong>Strategy:</strong> Always include 2-3 safety schools. Never skip this step—many students regret not having guaranteed options if unexpected rejections occur at target and reach schools.
-                  </p>
-                </div>
-              </div>
-
-              <h3 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 flex items-center gap-2">
-                <Award className="h-6 w-6 text-purple-600" />
-                Why Liberal Arts Colleges Matter
-              </h3>
-              
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Many students overlook <strong>Liberal Arts Colleges (LACs)</strong> during their college search, focusing exclusively on large research universities. However, LACs like Williams College, Amherst College, Swarthmore College, Pomona College, and Bowdoin College offer unique advantages that can significantly enhance your undergraduate experience, particularly if you're interested in humanities, social sciences, pure sciences, or pre-professional programs like pre-med and pre-law.
-              </p>
-
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Our AI calculator specifically recommends Liberal Arts Colleges when your intended major aligns with their strengths. LACs typically feature <strong>small class sizes (10-15 students)</strong>, allowing for close mentorship relationships with professors who focus primarily on teaching rather than research. This intimate learning environment leads to exceptional outcomes: LAC graduates have some of the highest acceptance rates to top graduate programs and professional schools, including medical schools, law schools, and PhD programs.
-              </p>
-
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Students from Calgary and across Canada often find LACs particularly appealing because they offer a more personalized educational experience similar to smaller Canadian universities but with the resources and prestige of elite American institutions. LACs also provide generous financial aid to international students and actively seek geographic diversity, which can work in favor of Canadian applicants.
-              </p>
-
-              <h3 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 flex items-center gap-2">
-                <MapPin className="h-6 w-6 text-red-600" />
-                USA vs. Canadian University Admissions: Key Differences
-              </h3>
-              
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Calgary Academic Excellence serves students applying to universities in both the United States and Canada, and understanding the fundamental differences between these two systems is crucial for developing an effective application strategy. Our AI calculator adapts its recommendations based on whether you specify a USA or Canadian location preference.
-              </p>
-
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-xl border-2 border-blue-200 my-8">
-                <h4 className="text-xl font-bold text-gray-900 mb-4">🇺🇸 USA University Admissions</h4>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-2">
-                    <span className="text-blue-600 font-bold mt-1">•</span>
-                    <span><strong>Holistic Review:</strong> American universities conduct comprehensive evaluations considering GPA, SAT/ACT scores, essays, recommendations, extracurriculars, leadership, and personal background. This means students with strong non-academic profiles can overcome slightly lower test scores.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blue-600 font-bold mt-1">•</span>
-                    <span><strong>Multiple Deadlines:</strong> Most universities offer Early Decision (binding), Early Action (non-binding), and Regular Decision options. Strategic use of these deadlines can significantly impact admission chances.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blue-600 font-bold mt-1">•</span>
-                    <span><strong>Test Optional Trend:</strong> Many top universities (including Ivy League schools) have adopted test-optional policies, allowing students to apply without SAT/ACT scores if they choose. However, submitting strong scores still provides an advantage.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-blue-600 font-bold mt-1">•</span>
-                    <span><strong>Essay Importance:</strong> Personal statements and supplemental essays are critically important. They provide opportunities to showcase personality, overcome adversity, and demonstrate fit with the university's values.</span>
-                  </li>
-                </ul>
-
-                <h4 className="text-xl font-bold text-gray-900 mb-4 mt-8">🇨🇦 Canadian University Admissions</h4>
-                <ul className="space-y-3 text-gray-700">
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600 font-bold mt-1">•</span>
-                    <span><strong>Grade-Focused:</strong> Canadian universities primarily evaluate applicants based on academic performance (grades in specific courses relevant to your program). Extracurriculars and essays play a much smaller role except for highly competitive programs.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600 font-bold mt-1">•</span>
-                    <span><strong>Program-Specific Admissions:</strong> Unlike American universities where you apply to the institution, Canadian universities require you to apply to specific programs. Admission requirements vary significantly between programs at the same university.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600 font-bold mt-1">•</span>
-                    <span><strong>Transparent Cutoffs:</strong> Many Canadian universities publish minimum grade requirements or averages for admission, making the process more predictable. For example, University of Toronto Engineering might require a 90%+ average.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-purple-600 font-bold mt-1">•</span>
-                    <span><strong>Earlier Decisions:</strong> Canadian universities typically release decisions earlier (February-April) compared to American universities (late March-early April for Regular Decision).</span>
-                  </li>
-                </ul>
-              </div>
-
-              <h3 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 flex items-center gap-2">
-                <Users className="h-6 w-6 text-green-600" />
-                How Calgary Academic Excellence Supports Your College Journey
-              </h3>
-              
-              <p className="text-gray-700 leading-relaxed mb-6">
-                While our free AI college calculator provides an excellent starting point for your college search, Calgary Academic Excellence offers comprehensive support throughout your entire university application journey. Our experienced counselors in Calgary have helped hundreds of students gain admission to top universities in both the United States and Canada, including:
-              </p>
-
-              <div className="grid md:grid-cols-2 gap-6 my-8">
                 <div className="bg-blue-50 p-6 rounded-xl border-2 border-blue-200">
-                  <h4 className="font-bold text-lg text-blue-900 mb-3">🎯 USA University Acceptances</h4>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    Our students have been accepted to Harvard, MIT, Stanford, Yale, Princeton, Columbia, UPenn, Duke, Northwestern, UC Berkeley, UCLA, University of Michigan, Carnegie Mellon, and many other top American universities across all 50 states.
+                  <h4 className="text-lg font-bold text-blue-800 mb-3 flex items-center gap-2">
+                    <Target className="h-5 w-5" />
+                    Target Schools
+                  </h4>
+                  <p className="text-gray-700 text-sm">
+                    Universities where your credentials align well with typical admitted students. Include 3-5 target schools.
                   </p>
                 </div>
                 
-                <div className="bg-purple-50 p-6 rounded-xl border-2 border-purple-200">
-                  <h4 className="font-bold text-lg text-purple-900 mb-3">🍁 Canadian University Acceptances</h4>
-                  <p className="text-gray-700 text-sm leading-relaxed">
-                    We've helped Calgary students gain admission to University of Toronto, UBC, McGill, University of Waterloo, McMaster, Western University, Queen's University, and University of Alberta, including competitive programs like Engineering and Computer Science.
+                <div className="bg-green-50 p-6 rounded-xl border-2 border-green-200">
+                  <h4 className="text-lg font-bold text-green-800 mb-3 flex items-center gap-2">
+                    <CheckCircle className="h-5 w-5" />
+                    Safety Schools
+                  </h4>
+                  <p className="text-gray-700 text-sm">
+                    Universities where your stats significantly exceed typical admits. Always include 2-3 safety schools.
                   </p>
-                </div>
-              </div>
-
-              <h4 className="text-xl font-semibold text-gray-900 mt-8 mb-4">Our Comprehensive Services Include:</h4>
-              
-              <ul className="space-y-3 text-gray-700 mb-8">
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                  <span><strong>SAT Preparation:</strong> Proven test prep strategies that have helped our students achieve 210+ point score improvements. We offer both individual and small group classes for the Digital SAT, covering all sections including Math, Reading, and Writing.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                  <span><strong>Personalized College Counseling:</strong> One-on-one guidance to build your college list, develop application strategies, and navigate complex decisions like Early Decision vs. Early Action.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                  <span><strong>Essay Coaching:</strong> Expert feedback and revision support for Common App personal statements and university-specific supplemental essays. Our counselors help you craft authentic, compelling narratives that stand out to admissions committees.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                  <span><strong>Extracurricular Planning:</strong> Advice on building a meaningful extracurricular profile that demonstrates leadership, passion, and impact—key factors in competitive admissions.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                  <span><strong>Interview Preparation:</strong> Mock interviews and coaching for universities that require or offer optional alumni interviews.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-1 flex-shrink-0" />
-                  <span><strong>Financial Aid Guidance:</strong> Support with CSS Profile, FAFSA, and scholarship applications to make your dream schools financially accessible.</span>
-                </li>
-              </ul>
-
-              <div className="bg-gradient-to-r from-green-50 to-blue-50 p-8 rounded-xl border-2 border-green-200 my-8 text-center">
-                <h4 className="text-2xl font-bold text-gray-900 mb-4">Ready to Take the Next Step?</h4>
-                <p className="text-gray-700 mb-6 max-w-3xl mx-auto">
-                  Book a free consultation with our experienced college counselors to discuss your goals and create a personalized action plan for university admissions success.
-                </p>
-                <div className="flex flex-wrap justify-center gap-4">
-                  <a href="/contact-us" className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-xl">
-                    <Users className="h-6 w-6" />
-                    Schedule Free Consultation
-                  </a>
-                  <a href="/resources" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-xl font-bold text-lg transition-all shadow-xl">
-                    <BookOpen className="h-6 w-6" />
-                    Free SAT Resources
-                  </a>
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* 🆕 TESTIMONIALS SECTION */}
-      <div className="max-w-7xl mx-auto mb-12">
-        <h2 className="text-3xl font-bold text-center text-gray-900 mb-8 flex items-center justify-center gap-3">
-          <Star className="h-8 w-8 text-yellow-500" />
-          Success Stories from Calgary Students
-        </h2>
-        
-        <div className="grid md:grid-cols-3 gap-6">
-          <Card className="border-2 border-blue-100 hover:shadow-xl transition-all">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-              </div>
-              <p className="text-gray-700 italic mb-4">
-                "The AI calculator helped me discover Liberal Arts Colleges I'd never heard of. With Calgary Academic Excellence's counseling, I got into Amherst with significant financial aid!"
-              </p>
-              <p className="font-semibold text-gray-900">— Sarah M., Calgary</p>
-              <p className="text-sm text-gray-600">Accepted: Amherst College, Swarthmore</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 border-purple-100 hover:shadow-xl transition-all">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-              </div>
-              <p className="text-gray-700 italic mb-4">
-                "Used the calculator to build my list, then worked with their SAT prep. My score went from 1180 to 1420! Got into University of Michigan Engineering."
-              </p>
-              <p className="font-semibold text-gray-900">— David L., Calgary</p>
-              <p className="text-sm text-gray-600">Accepted: UMich, Georgia Tech, UIUC</p>
-            </CardContent>
-          </Card>
-
-          <Card className="border-2 border-green-100 hover:shadow-xl transition-all">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-              </div>
-              <p className="text-gray-700 italic mb-4">
-                "As an international student, I appreciated how the calculator helped me understand reach vs. safety schools. Their essay coaching was invaluable!"
-              </p>
-              <p className="font-semibold text-gray-900">— Priya K., India (studying in Calgary)</p>
-              <p className="text-sm text-gray-600">Accepted: UC Berkeley, NYU, BU</p>
-            </CardContent>
-          </Card>
-        </div>
+          </div>
+        )}
       </div>
 
       {/* Main Container */}
@@ -1561,42 +1328,34 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
       {/* FAQ SECTION */}
       <div className="max-w-7xl mx-auto mt-16">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-          Frequently Asked Questions About College Admissions Calculator
+          Frequently Asked Questions
         </h2>
         
         <div className="bg-white rounded-2xl p-8 border-2 border-gray-100 shadow-lg space-y-4">
           {[
             {
               q: "How accurate is this AI college admissions calculator?",
-              a: "Calgary Academic Excellence's AI college admissions calculator uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats. Our counselors in Calgary have used this tool to help over 300 students successfully navigate college admissions to USA and Canadian universities."
+              a: "Our AI college admissions calculator uses Google's advanced Gemini AI technology trained on thousands of admission outcomes, achieving approximately 90-95% accuracy in categorizing schools into reach, target, and safety categories. However, college admissions are holistic and consider essays, recommendations, and other factors beyond stats."
             },
             {
               q: "What's the difference between reach, target, and safety schools?",
-              a: "Reach schools are where your stats fall below typical admits (15-40% acceptance chance), target schools match your credentials well (50-70% chance), and safety schools are where you exceed typical admits (80%+ acceptance). A balanced list recommended by Calgary Academic Excellence counselors includes 2-4 reach, 3-5 target, and 2-3 safety schools. This strategy ensures you have exciting possibilities while maintaining realistic options."
+              a: "Reach schools are where your stats fall below typical admits (15-40% acceptance chance), target schools match your credentials well (50-70% chance), and safety schools are where you exceed typical admits (80%+ acceptance). A balanced list includes 2-4 reach, 3-5 target, and 2-3 safety schools."
             },
             {
               q: "Does the calculator recommend Liberal Arts Colleges?",
-              a: "Yes! When you indicate an arts, humanities, social science, or pure science major, our AI specifically includes top Liberal Arts Colleges (LACs) in your recommendations. LACs like Williams, Amherst, Swarthmore, and Pomona provide exceptional undergraduate education with small class sizes (10-15 students), close faculty mentorship, and strong graduate school placement rates. They're ideal for students who want personalized attention and a tight-knit academic community. Many Calgary students have thrived at LACs with support from our counseling team."
+              a: "Yes! When you indicate an arts, humanities, social science, or pure science major, our AI specifically includes top Liberal Arts Colleges (LACs) in your recommendations. LACs like Williams, Amherst, Swarthmore, and Pomona provide exceptional undergraduate education with small class sizes (10-15 students), close faculty mentorship, and strong graduate school placement rates. They're ideal for students who want personalized attention and a tight-knit academic community."
             },
             {
               q: "Is this college admissions calculator tool really free?",
-              a: "Yes! Our AI college admissions calculator is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. Calgary Academic Excellence believes every student deserves access to quality college planning tools, which is why we offer this completely free. We also offer free SAT resources and study materials to support your college prep journey."
+              a: "Yes! Our AI college admissions calculator is 100% free with no hidden costs, no credit card required, and no email registration. You can use it unlimited times to explore different scenarios. We believe every student deserves access to quality college planning tools."
             },
             {
               q: "Can I use this tool for Canadian universities?",
-              a: "Absolutely! While primarily optimized for USA universities, our AI provides tailored recommendations for Canadian universities when you specify 'Canada' or a specific province (Ontario, British Columbia, Alberta, Quebec) in the location field. As a Calgary-based service, Calgary Academic Excellence has special expertise in Canadian university admissions including University of Toronto, UBC, McGill, Waterloo, and Alberta universities. Our counselors understand both USA and Canadian admissions processes thoroughly."
+              a: "Yes! While primarily optimized for USA universities, our AI provides recommendations for Canadian universities when you specify 'Canada' or a specific province (Ontario, British Columbia, Alberta, Quebec) in the location field."
             },
             {
               q: "What information do I need to use the admissions calculator?",
-              a: "Required: GPA or percentage, SAT/ACT scores (or 'none'), intended major, and location preferences. Optional but recommended: extracurriculars, leadership roles, awards, and budget range. More information leads to more accurate AI recommendations from Calgary Academic Excellence's college predictor tool. The calculator supports both USA 4.0 GPA scale and percentage-based grading systems used internationally."
-            },
-            {
-              q: "How does this calculator help students in Calgary specifically?",
-              a: "Calgary Academic Excellence designed this calculator with Alberta students in mind. We understand that Calgary high school students often have questions about converting Alberta percentage grades to USA 4.0 GPA scale, understanding SAT requirements for American universities, and comparing opportunities between Canadian and USA institutions. Our AI calculator seamlessly handles these conversions and provides recommendations for both countries. Calgary students can also book in-person consultations at our Calgary location for personalized guidance."
-            },
-            {
-              q: "What should I do after getting my college list from the calculator?",
-              a: "After receiving your 24 AI-generated college matches, we recommend: (1) Research each university thoroughly to understand their programs, culture, and requirements. (2) Start working on improving areas identified in your AI insights. (3) If you need SAT prep, check out our free resources or enroll in Calgary Academic Excellence's proven SAT preparation program. (4) Schedule a consultation with our experienced college counselors to develop a comprehensive application strategy, get essay coaching, and receive personalized guidance for your specific situation. Many Calgary students use our calculator as their first step, then work with our team for complete admissions support."
+              a: "Required: GPA or percentage, SAT/ACT scores (or 'none'), intended major, and location preferences. Optional but recommended: extracurriculars, leadership roles, awards, and budget range. More information leads to more accurate AI recommendations."
             }
           ].map((faq, index) => (
             <div key={index} className="border-b border-gray-200 pb-4 last:border-b-0">
@@ -1606,9 +1365,9 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               >
                 <h3 className="text-lg font-semibold text-gray-900">{faq.q}</h3>
                 {expandedFAQ === index ? (
-                  <ChevronUp className="h-5 w-5 text-gray-600 flex-shrink-0" />
+                  <ChevronUp className="h-5 w-5 text-gray-600" />
                 ) : (
-                  <ChevronDown className="h-5 w-5 text-gray-600 flex-shrink-0" />
+                  <ChevronDown className="h-5 w-5 text-gray-600" />
                 )}
               </button>
               {expandedFAQ === index && (
@@ -1622,41 +1381,32 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
       {/* RELATED RESOURCES */}
       <div className="max-w-7xl mx-auto mt-16">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
-          Related Resources from Calgary Academic Excellence
+          Related Resources
         </h2>
         
         <div className="grid md:grid-cols-3 gap-6">
-          <a href="/resources" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
+          <a href="/sat-prep" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
             <div className="text-4xl mb-4">📖</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Free SAT Preparation Resources</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Improve your SAT scores with our comprehensive free resources including Khan Academy links, practice tests, and study guides. Calgary Academic Excellence also offers expert SAT tutoring with proven 210+ point improvements.
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">SAT Preparation</h3>
+            <p className="text-gray-600 text-sm">
+              Improve your SAT scores with our expert tutoring. Proven 210+ point improvements for college admissions.
             </p>
-            <span className="text-blue-600 font-semibold flex items-center gap-2">
-              Access Free Resources <ExternalLink className="h-4 w-4" />
-            </span>
           </a>
           
-          <a href="/gpa-calculator" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
-            <div className="text-4xl mb-4">🧮</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">GPA Calculator - AACRAO EDGE Compliant</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Convert international grades to U.S. 4.0 GPA scale using our AACRAO EDGE compliant calculator. Supports Indian percentage, Canadian grades, UK A-Levels, and IB Diploma scores. Essential for Calgary students applying to American universities.
+          <a href="/blog/college-admissions-guide" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
+            <div className="text-4xl mb-4">📝</div>
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">College Admissions Guide</h3>
+            <p className="text-gray-600 text-sm">
+              Complete step-by-step guide to navigating the college application process successfully.
             </p>
-            <span className="text-blue-600 font-semibold flex items-center gap-2">
-              Convert Your Grades <ExternalLink className="h-4 w-4" />
-            </span>
           </a>
           
           <a href="/about" className="block p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl border-2 border-gray-100 transition-all transform hover:-translate-y-1">
             <div className="text-4xl mb-4">🎓</div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">About Calgary Academic Excellence</h3>
-            <p className="text-gray-600 text-sm mb-4">
-              Learn about our comprehensive tutoring and college counseling programs in Calgary. We offer Digital SAT preparation, Alberta curriculum tutoring (Grades 4-10), and expert university admissions guidance for USA and Canadian institutions.
+            <h3 className="text-xl font-semibold text-gray-900 mb-2">About Our Services</h3>
+            <p className="text-gray-600 text-sm">
+              Learn about our comprehensive tutoring and college counseling programs in Calgary.
             </p>
-            <span className="text-blue-600 font-semibold flex items-center gap-2">
-              Learn More About Us <ExternalLink className="h-4 w-4" />
-            </span>
           </a>
         </div>
       </div>
@@ -1665,37 +1415,33 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
       <footer className="max-w-7xl mx-auto mt-20 pt-10 border-t-2 border-gray-200">
         <div className="text-center space-y-4">
           <p className="text-sm text-gray-600 font-medium">
-            🎓 100% Free AI-Powered College Admissions Calculator | USA & Canadian Universities | By Calgary Academic Excellence | No Registration Required
+            🎓 100% AI-Powered College admissions calculator | Free USA College Admissions Calculator 2025 | Canadian Universities Available | No Registration Required
           </p>
           <p className="text-xs text-gray-500 max-w-4xl mx-auto leading-relaxed">
-            Calgary Academic Excellence's free AI college admissions calculator uses advanced Google Gemini AI technology to analyze your academic profile and match you with the best colleges and universities in the United States and Canada. Get instant recommendations for reach schools, target schools, and safety schools based on your GPA, SAT/ACT scores, intended major, and location preferences across all 50 USA states (including California, Texas, New York, Florida, Illinois, Pennsylvania, and more) plus all Canadian provinces. This college admissions calculator helps high school students in Calgary, Alberta and across Canada find perfect college matches. Completely free college search tool with no registration needed. Find out which colleges you can get into with our AI-powered university matcher. Calculate your admission chances at top American and Canadian universities. Trusted by over 15,000 students. Services include SAT preparation, college counseling, and university application support in Calgary.
+            Our free AI college admissions calculator uses advanced Google Gemini AI technology to analyze your academic profile and match you with the best colleges and universities in the United States. Get instant recommendations for reach schools, target schools, and safety schools based on your GPA, SAT scores, intended major, and location preferences across all 50 states (including California, Texas, New York, Florida, Illinois, Pennsylvania, and more). Canadian universities also available - simply enter "Canada" or any Canadian province (Ontario, British Columbia, Alberta, Quebec) in the location field. This college admissions calculator helps high school students, juniors, and seniors find perfect college matches. Completely free college search tool with no registration needed. Find out which colleges you can get into with our AI-powered university matcher. Calculate your admission chances at top American universities and Canadian universities when specified.
           </p>
           <div className="pt-4 space-y-2">
-            <p className="text-xs text-gray-400 font-semibold">🔍 Popular Searches - Free College Admissions Calculator (USA & Canada):</p>
+            <p className="text-xs text-gray-400 font-semibold">🔍 Popular Searches - USA College admissions calculator (Canada Available):</p>
             <p className="text-xs text-gray-400 max-w-4xl mx-auto leading-relaxed">
-              what colleges can I get into | college predictor USA | AI college matcher | free college recommendations | SAT score calculator | GPA calculator | college admissions chances calculator USA | reach target safety schools | best colleges for my SAT score | college list builder | American university finder | college search engine | higher education search tool USA | university finder by major and location | college application helper | admission chances calculator | college match finder 2025 | free college admissions calculator by GPA and SAT | colleges in California by GPA | UC Berkeley admission calculator | Texas universities admissions | New York college search | Florida colleges admissions calculator | Illinois university finder | college admissions calculator for computer science | affordable colleges in USA | what universities can I get into with my GPA | North American college search tool | Canadian university predictor | Ontario university admissions | University of Toronto | UBC admissions | McGill calculator | liberal arts colleges | LAC admissions | Williams College | Amherst College | Swarthmore College | best liberal arts colleges | Calgary SAT prep | Calgary college counseling | Calgary Academic Excellence | Alberta university admissions | Calgary tutoring services | SAT preparation Calgary
+              what colleges can I get into | college predictor USA | AI college matcher | free college recommendations | SAT score calculator | GPA calculator | college admissions chances calculator USA | reach target safety schools | best colleges for my SAT score | college list builder | American university finder | college search engine | higher education search tool USA | university finder by major and location | college application helper | admission chances calculator | college match finder 2025 | free college admissions calculator by GPA and SAT | colleges in California by GPA | UC Berkeley admission calculator | Texas universities admissions | New York college search | Florida colleges admissions calculator | Illinois university finder | college admissions calculator for computer science | affordable colleges in USA | what universities can I get into with my GPA | North American college search tool | Canadian university predictor | Ontario university admissions | University of Toronto | UBC admissions | McGill calculator | liberal arts colleges | LAC admissions | Williams College | Amherst College | Swarthmore College | Pomona College | best liberal arts colleges | small college search | undergraduate focused universities
             </p>
           </div>
           
           <div className="pt-8 flex flex-wrap justify-center gap-6 text-sm">
             <a href="/" className="text-blue-600 hover:underline">Home</a>
-            <a href="/about" className="text-blue-600 hover:underline">About Calgary Academic Excellence</a>
-            <a href="/resources" className="text-blue-600 hover:underline">Free SAT Resources</a>
-            <a href="/contact-us" className="text-blue-600 hover:underline">Contact Us (Calgary)</a>
+            <a href="/about" className="text-blue-600 hover:underline">About</a>
+            <a href="/contact" className="text-blue-600 hover:underline">Contact</a>
             <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>
-            <a href="/terms-of-service" className="text-blue-600 hover:underline">Terms of Service</a>
+            <a href="/terms" className="text-blue-600 hover:underline">Terms of Service</a>
             <a href="/sitemap.xml" className="text-blue-600 hover:underline">Sitemap</a>
           </div>
           
           <div className="pt-6">
             <p className="text-xs text-gray-400">
-              © 2025 Calgary Academic Excellence. Free AI-powered college admissions calculator for USA and Canadian university admissions.
+              © 2025 Calgary Academic Excellence. Free AI-powered college admissions calculator for USA university admissions. Canadian universities available.
             </p>
             <p className="text-xs text-gray-400 mt-2">
-              Made with ❤️ in Calgary, Alberta • Helping students achieve their academic dreams since 2020 • Trusted by 15,000+ students
-            </p>
-            <p className="text-xs text-gray-400 mt-2">
-              <strong>Calgary Academic Excellence</strong> | SAT Prep | College Counseling | GPA Calculator | University Admissions
+              Made with ❤️ in Calgary • Helping students achieve their academic dreams since 2020
             </p>
           </div>
         </div>

@@ -319,57 +319,79 @@ const GraduateAdmissions = () => {
         testScore = 'No standardized test scores';
       }
 
-      // Ultra-compact prompt for Gemma to maximize completion rate
-      const prompt = `List 24 graduate programs for: ${studentProfile.specialization} ${studentProfile.degreeType === 'masters' ? 'Masters' : studentProfile.degreeType === 'phd' ? 'PhD' : 'MD'}
-Student stats: ${academicScore}, ${testScore}
+      // Optimized prompt for Gemma model
+      const prompt = `You are a graduate admissions expert. Recommend exactly 24 programs: 8 reach, 8 target, 8 safety.
 
-REACH PROGRAMS (8 competitive schools):
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
+STUDENT INFO:
+Degree: ${studentProfile.degreeType === 'masters' ? 'Masters' : studentProfile.degreeType === 'phd' ? 'PhD' : 'MD'}
+${academicScore}
+${testScore}
+Field: ${studentProfile.specialization}
+Location: ${studentProfile.location || 'USA/Canada/UK/Australia/Global'}
+${studentProfile.workExperience ? `Work: ${studentProfile.workExperience}` : ''}
+${studentProfile.researchExperience ? `Research: ${studentProfile.researchExperience}` : ''}
 
-TARGET PROGRAMS (8 good-fit schools):
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
+OUTPUT FORMAT - EXACTLY THIS:
 
-SAFETY PROGRAMS (8 likely admits):
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
+**REACH PROGRAMS:**
+1. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+2. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+3. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+4. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+5. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+6. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+7. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+8. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
 
-Format: [University] ([Country]) - [Program] | GPA: X.X-X.X | Test: scores | Funding: info
+**TARGET PROGRAMS:**
+1. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+2. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+3. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+4. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+5. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+6. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+7. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+8. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
 
-Fill all 24 slots above.`;
+**SAFETY PROGRAMS:**
+1. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+2. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+3. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+4. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+5. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+6. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+7. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+8. [University Name] ([Country]) - [Program] | GPA: X.X-X.X | Test scores | Funding | Feature
+
+**AI INSIGHTS:**
+
+ANALYSIS
+Profile Strength: [2 sentences]
+
+Key Strengths:
+- [Point 1]
+- [Point 2]
+
+Areas to Strengthen:
+- [Point 1]
+- [Point 2]
+
+Application Strategy: [2 sentences]
+
+IMPORTANT: Complete ALL 24 programs. Use diverse universities. Safety schools should be high-quality where student is strong candidate.`;
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent?key=${API_KEY}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
-              temperature: 0.3,
+              temperature: 0.7,
               maxOutputTokens: 8192,
-              topK: 20,
-              topP: 0.9,
-              candidateCount: 1,
+              topK: 40,
+              topP: 0.95,
             }
           })
         }
@@ -394,57 +416,19 @@ Fill all 24 slots above.`;
       const aiResponse = data.candidates[0].content.parts[0].text;
       console.log('AI Text:', aiResponse);
 
-      // Parse AI response with flexible section matching
-      const reachMatch = aiResponse.match(/(?:REACH PROGRAMS?|Reach Programs?)[:\s\-]*(?:List ALL 8:?)?\s*([\s\S]*?)(?=(?:TARGET PROGRAMS?|Target Programs?)|(?:AI INSIGHTS)|$)/i);
-      const targetMatch = aiResponse.match(/(?:TARGET PROGRAMS?|Target Programs?)[:\s\-]*(?:List ALL 8:?)?\s*([\s\S]*?)(?=(?:SAFETY PROGRAMS?|Safety Programs?)|(?:AI INSIGHTS)|$)/i);
-      const safetyMatch = aiResponse.match(/(?:SAFETY PROGRAMS?|Safety Programs?)[:\s\-]*(?:List ALL 8:?)?\s*([\s\S]*?)(?=(?:Strengths?:|Improve:|Strategy:|AI INSIGHTS)|$)/i);
-      const insightsMatch = aiResponse.match(/(?:Strengths?:|AI INSIGHTS)([\s\S]*)/i);
+      // Parse AI response
+      const reachMatch = aiResponse.match(/\*\*REACH PROGRAMS:\*\*([\s\S]*?)(?=\*\*TARGET PROGRAMS:|\*\*AI INSIGHTS:|\Z)/i);
+      const targetMatch = aiResponse.match(/\*\*TARGET PROGRAMS:\*\*([\s\S]*?)(?=\*\*SAFETY PROGRAMS:|\*\*AI INSIGHTS:|\Z)/i);
+      const safetyMatch = aiResponse.match(/\*\*SAFETY PROGRAMS:\*\*([\s\S]*?)(?=\*\*AI INSIGHTS:|\Z)/i);
+      const insightsMatch = aiResponse.match(/\*\*AI INSIGHTS:\*\*([\s\S]*)/i);
 
       const parsePrograms = (text) => {
         if (!text) return [];
         const lines = text.trim().split('\n').filter(line => line.trim());
-        
-        // More flexible parsing - accept various formats
-        const programs = lines
-          .filter(line => {
-            const trimmed = line.trim();
-            // Match numbered lines OR lines with university names
-            return /^\d+[\.\):]/.test(trimmed) || 
-                   /university|college|institute|school/i.test(trimmed);
-          })
-          .map(line => {
-            // Remove number prefix if present
-            let cleaned = line.replace(/^\d+[\.\):\s]+/, '').trim();
-            // Remove leading dash or bullet
-            cleaned = cleaned.replace(/^[-•]\s*/, '').trim();
-            // Remove all asterisks (** before and after school names)
-            cleaned = cleaned.replace(/\*\*/g, '').trim();
-            // Remove single asterisks at the end
-            cleaned = cleaned.replace(/\*+$/g, '').trim();
-            return cleaned;
-          })
-          .filter(line => {
-            // Keep lines that have substantial content
-            const hasUniversity = line.includes('University') || 
-                                 line.includes('Institute') || 
-                                 line.includes('College') ||
-                                 line.includes('School');
-            
-            // Filter out informational/comment lines
-            const isComment = line.includes('Competitive Schools') ||
-                            line.includes('Good-Fit Schools') ||
-                            line.includes('Likely admits') ||
-                            line.includes('highly selective') ||
-                            line.includes('good chance of admission') ||
-                            line.includes('These are') ||
-                            line.includes('You have a') ||
-                            line.startsWith('(8 ') ||
-                            line.startsWith('(') && !hasUniversity;
-            
-            return line.length > 20 && hasUniversity && !isComment;
-          });
-        
-        return programs;
+        return lines
+          .filter(line => /^\d+\./.test(line.trim()))
+          .map(line => line.replace(/^\d+\.\s*/, '').trim())
+          .filter(line => line.length > 10); // Filter out incomplete/truncated entries
       };
 
       const reachPrograms = parsePrograms(reachMatch?.[1] || '');
@@ -460,20 +444,8 @@ Fill all 24 slots above.`;
           rawResponse: aiResponse.substring(0, 500) // Log first 500 chars
         });
         
-        const totalPrograms = reachPrograms.length + targetPrograms.length + safetyPrograms.length;
-        
-        // Show warning with actionable advice
-        setError(`Partial results: Found ${totalPrograms}/24 programs (Reach: ${reachPrograms.length}/8, Target: ${targetPrograms.length}/8, Safety: ${safetyPrograms.length}/8). 
-
-The Gemma model has output length limitations. Options:
-1. Click "Get Recommendations" again (may get different results)
-2. These ${totalPrograms} programs are still valid - you can use them as a starting point
-3. For complete 24-program lists, consider enabling Gemini models in your Google AI API settings
-
-Note: Gemma is great for general use but may struggle with very long structured outputs like this.`);
-      } else {
-        // Clear any previous errors if we got complete results
-        setError(null);
+        // Show warning but still display results
+        setError(`Note: AI returned incomplete results (Reach: ${reachPrograms.length}/8, Target: ${targetPrograms.length}/8, Safety: ${safetyPrograms.length}/8). This may be due to AI limitations. Try again or check browser console for details.`);
       }
 
       // If we got NO results at all, show the raw AI response for debugging
