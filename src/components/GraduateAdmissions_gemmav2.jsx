@@ -319,135 +319,8 @@ const GraduateAdmissions = () => {
         testScore = 'No standardized test scores';
       }
 
-      // Detect if user wants DO (osteopathic) programs specifically
-      const isDOProgram = studentProfile.specialization && 
-                         (studentProfile.specialization.toUpperCase().trim() === 'DO' || 
-                          studentProfile.specialization.toLowerCase().includes('osteopathic'));
-      
-      const degreeLabel = studentProfile.degreeType === 'masters' ? 'Masters' : 
-                          studentProfile.degreeType === 'phd' ? 'PhD' : 
-                          isDOProgram ? 'DO (Osteopathic Medicine)' : 'MD';
-
-      // Ultra-compact prompt for Gemma with STRONG location enforcement
-      const locationFilter = studentProfile.location ? (() => {
-        const loc = studentProfile.location.toLowerCase();
-        const isMedical = studentProfile.degreeType === 'md' || studentProfile.testType === 'mcat';
-        
-        if (loc.includes('australia')) {
-          const schools = isMedical 
-            ? 'ONLY Australian medical schools: University of Melbourne, University of Sydney, Monash University, University of Queensland, UNSW Sydney, ANU, University of Adelaide, University of Western Australia'
-            : 'ONLY Australian universities: University of Melbourne, University of Sydney, ANU, UNSW, University of Queensland, Monash, University of Western Australia, University of Adelaide';
-          
-          return {
-            instruction: '⚠️ AUSTRALIA ONLY - NO USA SCHOOLS ALLOWED ⚠️',
-            schools: schools,
-            country: 'Australia',
-            reminder: 'Every single school MUST be in Australia. Include (Australia) after each university name.'
-          };
-        } else if (loc.includes('uk') || loc.includes('united kingdom') || loc.includes('britain')) {
-          const schools = isMedical
-            ? 'ONLY UK medical schools: Oxford, Cambridge, Imperial College London, UCL, University of Edinburgh, King\'s College London, University of Manchester'
-            : 'ONLY UK universities: Oxford, Cambridge, Imperial College London, UCL, LSE, University of Edinburgh, King\'s College London, University of Manchester, University of Bristol, University of Warwick';
-          
-          return {
-            instruction: '⚠️ UK ONLY - NO USA SCHOOLS ALLOWED ⚠️',
-            schools: schools,
-            country: 'UK',
-            reminder: 'Every single school MUST be in UK. Include (UK) after each university name.'
-          };
-        } else if (loc.includes('canada')) {
-          const schools = isMedical
-            ? 'ONLY Canadian medical schools: University of Toronto, UBC, McGill, McMaster, University of Alberta, University of Calgary, University of Ottawa, Dalhousie'
-            : 'ONLY Canadian universities: University of Toronto, UBC, McGill, University of Waterloo, University of Alberta, McMaster, University of Calgary, Western University, Queen\'s University, Simon Fraser University';
-          
-          return {
-            instruction: '⚠️ CANADA ONLY - NO USA SCHOOLS ALLOWED ⚠️',
-            schools: schools,
-            country: 'Canada',
-            reminder: 'Every single school MUST be in Canada. Include (Canada) after each university name.'
-          };
-        } else if (loc.includes('germany')) {
-          return {
-            instruction: '⚠️ GERMANY ONLY - NO USA SCHOOLS ALLOWED ⚠️',
-            schools: 'ONLY German universities: Technical University of Munich (TUM), LMU Munich, Heidelberg University, Humboldt University Berlin, RWTH Aachen, University of Freiburg, Free University Berlin, University of Tübingen',
-            country: 'Germany',
-            reminder: 'Every single school MUST be in Germany. Include (Germany) after each university name. Note low/no tuition fees.'
-          };
-        } else if (loc.includes('usa') || loc.includes('america') || loc.includes('states')) {
-          // Special handling for DO programs in USA
-          const schoolsInstruction = isDOProgram 
-            ? 'ONLY USA DO/Osteopathic medical schools: Des Moines University, Touro University, Rocky Vista University, Arizona College of Osteopathic Medicine, Western University COMP, Midwestern University, Liberty University, Lake Erie College of Osteopathic Medicine'
-            : isMedical
-            ? 'Focus on USA MD/DO medical programs'
-            : 'Focus on USA universities across all regions (East Coast, West Coast, Midwest, South)';
-          
-          return {
-            instruction: isDOProgram ? '⚠️ USA DO (OSTEOPATHIC) PROGRAMS ONLY - NO MD PROGRAMS ⚠️' : 'USA schools only',
-            schools: schoolsInstruction,
-            country: 'USA',
-            reminder: isDOProgram 
-              ? 'Every single school MUST be DO/Osteopathic program. Include "- DO" in each entry. DO NOT include MD programs.'
-              : 'Include (USA) after each university name.'
-          };
-        } else {
-          return {
-            instruction: `LOCATION: ${studentProfile.location}`,
-            schools: `Focus on universities in ${studentProfile.location}`,
-            country: studentProfile.location,
-            reminder: `Include (${studentProfile.location}) after each university name.`
-          };
-        }
-      })() : isDOProgram ? {
-        instruction: '⚠️ DO (OSTEOPATHIC) PROGRAMS ONLY - NO MD PROGRAMS ⚠️',
-        schools: 'ONLY DO/Osteopathic medical schools: Des Moines University, Touro University California, Rocky Vista University, Arizona College of Osteopathic Medicine, Western University COMP-Northwest, Midwestern University, Liberty University, Lake Erie College of Osteopathic Medicine, Kansas City University, Oklahoma State University',
-        country: 'USA',
-        reminder: 'Every program MUST be DO (Doctor of Osteopathic Medicine). Include "- DO" in each entry. NO MD programs allowed.'
-      } : null;
-
-      const prompt = locationFilter ? 
-`${locationFilter.instruction}
-
-List 24 ${isDOProgram ? 'DO (Osteopathic Medicine)' : studentProfile.specialization} ${degreeLabel} programs in ${locationFilter.country}.
-Student: ${academicScore}, ${testScore}
-
-${locationFilter.schools}
-
-REACH PROGRAMS (8 competitive schools in ${locationFilter.country}):
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-
-TARGET PROGRAMS (8 good-fit schools in ${locationFilter.country}):
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-
-SAFETY PROGRAMS (8 likely admits in ${locationFilter.country}):
-1.
-2.
-3.
-4.
-5.
-6.
-7.
-8.
-
-Format: [University Name] (${locationFilter.country}) - ${isDOProgram ? 'DO' : degreeLabel} | GPA: X.X-X.X | Test: scores | Funding: info
-
-IMPORTANT: ${locationFilter.reminder}
-Fill all 24 slots with ${locationFilter.country} schools ONLY.`
-:
-`List 24 graduate programs for: ${isDOProgram ? 'DO (Osteopathic Medicine)' : studentProfile.specialization} ${degreeLabel}
+      // Ultra-compact prompt for Gemma to maximize completion rate
+      const prompt = `List 24 graduate programs for: ${studentProfile.specialization} ${studentProfile.degreeType === 'masters' ? 'Masters' : studentProfile.degreeType === 'phd' ? 'PhD' : 'MD'}
 Student stats: ${academicScore}, ${testScore}
 
 REACH PROGRAMS (8 competitive schools):
@@ -480,28 +353,12 @@ SAFETY PROGRAMS (8 likely admits):
 7.
 8.
 
-Format: [University] ([Country]) - ${isDOProgram ? 'DO' : degreeLabel} | GPA: X.X-X.X | Test: scores | Funding: info
+Format: [University] ([Country]) - [Program] | GPA: X.X-X.X | Test: scores | Funding: info
 
 Fill all 24 slots above.`;
 
-      // Debug logging
-      console.log('=== DEBUG: Prompt Being Sent ===');
-      console.log('Student Profile:', {
-        degreeType: studentProfile.degreeType,
-        location: studentProfile.location,
-        specialization: studentProfile.specialization,
-        gpa: studentProfile.gpa,
-        mcatTotal: studentProfile.mcatTotal,
-        isDOProgram: isDOProgram
-      });
-      console.log('Degree Label:', degreeLabel);
-      console.log('Academic Score:', academicScore);
-      console.log('Test Score:', testScore);
-      console.log('Full Prompt:', prompt);
-      console.log('================================');
-
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-27b-it:generateContent?key=${API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent?key=${API_KEY}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -547,18 +404,6 @@ Fill all 24 slots above.`;
         if (!text) return [];
         const lines = text.trim().split('\n').filter(line => line.trim());
         
-        // Determine expected location/country from user input
-        const expectedLocation = studentProfile.location ? studentProfile.location.toLowerCase() : null;
-        let requiredCountry = null;
-        
-        if (expectedLocation) {
-          if (expectedLocation.includes('australia')) requiredCountry = 'australia';
-          else if (expectedLocation.includes('uk') || expectedLocation.includes('united kingdom') || expectedLocation.includes('britain')) requiredCountry = 'uk';
-          else if (expectedLocation.includes('canada')) requiredCountry = 'canada';
-          else if (expectedLocation.includes('germany')) requiredCountry = 'germany';
-          else if (expectedLocation.includes('usa') || expectedLocation.includes('america') || expectedLocation.includes('states')) requiredCountry = 'usa';
-        }
-        
         // More flexible parsing - accept various formats
         const programs = lines
           .filter(line => {
@@ -576,8 +421,6 @@ Fill all 24 slots above.`;
             cleaned = cleaned.replace(/\*\*/g, '').trim();
             // Remove single asterisks at the end
             cleaned = cleaned.replace(/\*+$/g, '').trim();
-            // Remove leading asterisk with space
-            cleaned = cleaned.replace(/^\*\s+/, '').trim();
             return cleaned;
           })
           .filter(line => {
@@ -587,7 +430,7 @@ Fill all 24 slots above.`;
                                  line.includes('College') ||
                                  line.includes('School');
             
-            // Filter out informational/comment/disclaimer lines
+            // Filter out informational/comment lines
             const isComment = line.includes('Competitive Schools') ||
                             line.includes('Good-Fit Schools') ||
                             line.includes('Likely admits') ||
@@ -595,99 +438,11 @@ Fill all 24 slots above.`;
                             line.includes('good chance of admission') ||
                             line.includes('These are') ||
                             line.includes('You have a') ||
-                            line.includes('admission is not guaranteed') ||
-                            line.includes('not a certainty') ||
-                            line.includes('Your stats are') ||
-                            line.includes('Remember') ||
-                            line.includes('Important:') ||
-                            line.includes('Note:') ||
-                            line.includes('Disclaimer:') ||
-                            line.includes('Scores are a factor') ||
-                            line.includes('GMAT Scores') ||
-                            line.includes('GRE Scores') ||
-                            line.includes('not the only one') ||
-                            line.includes('holistic in their review') ||
-                            line.includes('increasingly holistic') ||
-                            line.includes('Schools are increasingly') ||
                             line.startsWith('(8 ') ||
                             line.startsWith('(') && !hasUniversity;
             
-            // Must have university name AND have GPA or Test scores to be valid program
-            const hasDetails = line.includes('GPA:') || line.includes('Test:') || line.includes('GMAT:') || line.includes('GRE:') || line.includes('MCAT:');
-            
-            // LOCATION VALIDATION - Filter out wrong country schools
-            let locationValid = true;
-            if (requiredCountry) {
-              const lineLower = line.toLowerCase();
-              
-              if (requiredCountry === 'australia') {
-                // Must contain (Australia) or Australian university names, NOT (USA)
-                locationValid = (lineLower.includes('(australia)') || 
-                               lineLower.includes('melbourne') || 
-                               lineLower.includes('sydney') || 
-                               lineLower.includes('monash') ||
-                               lineLower.includes('queensland') ||
-                               lineLower.includes('unsw') ||
-                               lineLower.includes('anu')) && 
-                               !lineLower.includes('(usa)');
-              } else if (requiredCountry === 'canada') {
-                locationValid = (lineLower.includes('(canada)') || 
-                               lineLower.includes('toronto') || 
-                               lineLower.includes('ubc') || 
-                               lineLower.includes('mcgill') ||
-                               lineLower.includes('mcmaster') ||
-                               lineLower.includes('calgary') ||
-                               lineLower.includes('ottawa')) && 
-                               !lineLower.includes('(usa)');
-              } else if (requiredCountry === 'uk') {
-                locationValid = (lineLower.includes('(uk)') || 
-                               lineLower.includes('oxford') || 
-                               lineLower.includes('cambridge') || 
-                               lineLower.includes('imperial') ||
-                               lineLower.includes('ucl') ||
-                               lineLower.includes('edinburgh') ||
-                               lineLower.includes('lse') ||
-                               lineLower.includes('warwick')) && 
-                               !lineLower.includes('(usa)');
-              } else if (requiredCountry === 'germany') {
-                locationValid = (lineLower.includes('(germany)') || 
-                               lineLower.includes('munich') || 
-                               lineLower.includes('tum') ||
-                               lineLower.includes('lmu') || 
-                               lineLower.includes('heidelberg') ||
-                               lineLower.includes('humboldt') ||
-                               lineLower.includes('rwth aachen') ||
-                               lineLower.includes('freiburg')) && 
-                               !lineLower.includes('(usa)');
-              } else if (requiredCountry === 'usa') {
-                locationValid = lineLower.includes('(usa)') || !lineLower.includes('(australia)') && !lineLower.includes('(canada)') && !lineLower.includes('(uk)');
-              }
-            }
-            
-            // DO vs MD VALIDATION - Filter based on specialization
-            let programTypeValid = true;
-            const lineLower = line.toLowerCase();
-            const specLower = (studentProfile.specialization || '').toLowerCase().trim();
-            
-            if (specLower === 'do' || specLower.includes('osteopathic')) {
-              // User wants DO programs only
-              // Must contain "- DO" or "DO Program" or osteopathic school names
-              const hasDOMarker = lineLower.includes('- do |') || 
-                                 lineLower.includes('- do program') ||
-                                 lineLower.includes('osteopathic') ||
-                                 lineLower.includes('des moines') ||
-                                 lineLower.includes('touro') ||
-                                 lineLower.includes('rocky vista');
-              
-              // Must NOT contain "- MD |" if it's marked as DO program
-              const hasMDMarker = lineLower.includes('- md |') && !hasDOMarker;
-              
-              programTypeValid = hasDOMarker && !hasMDMarker;
-            }
-            
-            return line.length > 30 && hasUniversity && !isComment && hasDetails && locationValid && programTypeValid;
-          })
-          .slice(0, 8); // CRITICAL: Limit to exactly 8 programs maximum
+            return line.length > 20 && hasUniversity && !isComment;
+          });
         
         return programs;
       };
@@ -702,44 +457,20 @@ Fill all 24 slots above.`;
           reach: reachPrograms.length,
           target: targetPrograms.length,
           safety: safetyPrograms.length,
-          location: studentProfile.location,
-          isDOProgram: isDOProgram,
           rawResponse: aiResponse.substring(0, 500) // Log first 500 chars
         });
         
         const totalPrograms = reachPrograms.length + targetPrograms.length + safetyPrograms.length;
         
-        // Check if location or DO filtering might be the issue
-        const locationSpecified = studentProfile.location && studentProfile.location.trim().length > 0;
-        const doSpecified = isDOProgram;
-        
         // Show warning with actionable advice
-        if ((locationSpecified || doSpecified) && totalPrograms < 10) {
-          let filterMsg = '';
-          if (doSpecified && locationSpecified) {
-            filterMsg = `DO programs in ${studentProfile.location}`;
-          } else if (doSpecified) {
-            filterMsg = 'DO (osteopathic) programs';
-          } else {
-            filterMsg = studentProfile.location;
-          }
-          
-          setError(`Found ${totalPrograms}/24 programs for ${filterMsg} (Reach: ${reachPrograms.length}/8, Target: ${targetPrograms.length}/8, Safety: ${safetyPrograms.length}/8). 
+        setError(`Partial results: Found ${totalPrograms}/24 programs (Reach: ${reachPrograms.length}/8, Target: ${targetPrograms.length}/8, Safety: ${safetyPrograms.length}/8). 
 
-The AI may have included ${doSpecified ? 'MD programs' : 'wrong-country schools'} that were filtered out. Options:
-1. Click "Get Recommendations" again - AI should provide correct ${filterMsg} programs
-2. Check results - any ${filterMsg} programs shown are accurate
-3. ${doSpecified ? 'For both MD and DO options, enter "Medicine" instead of "DO"' : 'If you want global options, clear the location field'}`);
-        } else {
-          setError(`Partial results: Found ${totalPrograms}/24 programs (Reach: ${reachPrograms.length}/8, Target: ${targetPrograms.length}/8, Safety: ${safetyPrograms.length}/8). 
-
-Options:
+The Gemma model has output length limitations. Options:
 1. Click "Get Recommendations" again (may get different results)
-2. These ${totalPrograms} programs are still valid recommendations
-3. For consistently complete results, Gemini models are recommended over Gemma
+2. These ${totalPrograms} programs are still valid - you can use them as a starting point
+3. For complete 24-program lists, consider enabling Gemini models in your Google AI API settings
 
-Note: Gemma has output length limitations for very long structured responses.`);
-        }
+Note: Gemma is great for general use but may struggle with very long structured outputs like this.`);
       } else {
         // Clear any previous errors if we got complete results
         setError(null);
@@ -761,24 +492,8 @@ Note: Gemma has output length limitations for very long structured responses.`);
       setActiveSection('results');
 
     } catch (err) {
-      console.error('Full Error Details:', err);
-      console.error('Error message:', err.message);
-      console.error('Error stack:', err.stack);
-      
-      // Show more helpful error message
-      let errorMsg = 'Failed to generate recommendations. ';
-      
-      if (err.message.includes('API Error')) {
-        errorMsg += `API returned error: ${err.message}. `;
-      } else if (err.message.includes('Invalid response')) {
-        errorMsg += 'AI response was invalid. ';
-      } else if (err.message) {
-        errorMsg += `Error: ${err.message}. `;
-      }
-      
-      errorMsg += 'Please check browser console (F12) for details and try again.';
-      
-      setError(errorMsg);
+      console.error('Error:', err);
+      setError('Failed to generate recommendations. Please try again.');
     } finally {
       setLoading(false);
     }
