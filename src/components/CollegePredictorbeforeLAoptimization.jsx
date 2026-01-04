@@ -190,9 +190,9 @@ const CollegePredictor = () => {
         },
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript",
-        "softwareVersion": "3.6",
+        "softwareVersion": "3.5",
         "datePublished": "2024-01-15",
-        "dateModified": "2025-01-04"
+        "dateModified": "2025-01-02"
       },
       {
         "@context": "https://schema.org",
@@ -235,7 +235,7 @@ const CollegePredictor = () => {
             "name": "Does the calculator recommend Liberal Arts Colleges?",
             "acceptedAnswer": {
               "@type": "Answer",
-              "text": "Yes! When you indicate an arts, humanities, social science, or pure science major (excluding engineering and technical fields), our AI specifically includes top Liberal Arts Colleges (LACs) like Williams, Amherst, Swarthmore, and Pomona. LACs provide exceptional undergraduate education with small class sizes and close faculty mentorship."
+              "text": "Yes! When you indicate an arts, humanities, social science, or pure science major, our AI specifically includes top Liberal Arts Colleges (LACs) like Williams, Amherst, Swarthmore, and Pomona. LACs provide exceptional undergraduate education with small class sizes and close faculty mentorship."
             }
           },
           {
@@ -305,168 +305,145 @@ const CollegePredictor = () => {
     setError(null);
   };
 
-  // ENHANCED PREDICTION with FIXED LAC LOGIC and IMPROVED LOCATION FILTERING
-  const handlePrediction = async () => {
-    // Validation
-    const gradeValue = studentProfile.gradeType === 'gpa' ? studentProfile.gpa : studentProfile.percentage;
-    const testScore = studentProfile.testType === 'sat' ? studentProfile.sat : studentProfile.act;
+  const convertGPAtoPercentage = (gpa) => {
+    const gpaNum = parseFloat(gpa);
+    if (gpaNum >= 3.7) return 90;
+    if (gpaNum >= 3.3) return 85;
+    if (gpaNum >= 3.0) return 80;
+    if (gpaNum >= 2.7) return 75;
+    if (gpaNum >= 2.3) return 70;
+    return 65;
+  };
 
-    if (!gradeValue || !testScore || !studentProfile.desiredMajor) {
-      setError('Please fill in all required fields: GPA/Percentage, SAT/ACT score, and Intended Major.');
-      return;
+  const convertSATtoPercentage = (sat) => {
+    const satNum = parseInt(sat);
+    if (satNum >= 1500) return 98;
+    if (satNum >= 1400) return 92;
+    if (satNum >= 1300) return 85;
+    if (satNum >= 1200) return 78;
+    if (satNum >= 1100) return 70;
+    return 60;
+  };
+
+  const convertACTtoPercentage = (act) => {
+    const actNum = parseInt(act);
+    if (actNum >= 34) return 98;
+    if (actNum >= 31) return 92;
+    if (actNum >= 28) return 85;
+    if (actNum >= 25) return 78;
+    if (actNum >= 22) return 70;
+    return 60;
+  };
+
+  const validateProfile = () => {
+    if (studentProfile.gradeType === 'gpa' && !studentProfile.gpa) {
+      setError('Please enter your GPA');
+      return false;
     }
+    if (studentProfile.gradeType === 'percentage' && !studentProfile.percentage) {
+      setError('Please enter your percentage');
+      return false;
+    }
+    if (studentProfile.testType === 'sat' && !studentProfile.sat) {
+      setError('Please enter your SAT score');
+      return false;
+    }
+    if (studentProfile.testType === 'act' && !studentProfile.act) {
+      setError('Please enter your ACT score');
+      return false;
+    }
+    if (!studentProfile.desiredMajor) {
+      setError('Please enter your desired major');
+      return false;
+    }
+    return true;
+  };
+
+  const handlePrediction = async () => {
+    if (!validateProfile()) return;
 
     setLoading(true);
     setError(null);
 
     try {
       const API_KEY = import.meta.env.VITE_GOOGLE_AI_KEY;
+      
       if (!API_KEY) {
-        throw new Error('API key not configured');
+        setError('Configuration error: API key not found. Please check environment variables.');
+        setLoading(false);
+        return;
       }
 
-      // Convert percentage to GPA if needed
-      let gpaValue = studentProfile.gradeType === 'gpa' 
-        ? parseFloat(studentProfile.gpa)
-        : (parseFloat(studentProfile.percentage) / 100) * 4.0;
+      let academicScore = '';
+      if (studentProfile.gradeType === 'gpa') {
+        academicScore = `GPA: ${studentProfile.gpa}/4.0 (Percentage equivalent: ${convertGPAtoPercentage(studentProfile.gpa)}%)`;
+      } else {
+        academicScore = `Percentage: ${studentProfile.percentage}%`;
+      }
 
-      // Convert ACT to SAT equivalent if needed
-      let satEquivalent = studentProfile.testType === 'sat'
-        ? parseInt(studentProfile.sat)
-        : Math.round((parseInt(studentProfile.act) - 9) * 45.45 + 690);
+      let testScore = '';
+      if (studentProfile.testType === 'sat') {
+        testScore = `SAT: ${studentProfile.sat}/1600 (Percentile: ${convertSATtoPercentage(studentProfile.sat)}%)`;
+      } else if (studentProfile.testType === 'act') {
+        testScore = `ACT: ${studentProfile.act}/36 (Percentile: ${convertACTtoPercentage(studentProfile.act)}%)`;
+      } else {
+        testScore = 'No standardized test scores';
+      }
 
-      const prompt = `You are an expert college admissions counselor specializing in USA and Canadian university admissions. Provide EXACTLY 8 colleges for EACH category (Reach, Target, Safety) = 24 TOTAL.
+      const prompt = `You are an expert college admissions counselor with 20+ years of experience helping students get into top universities. 
 
 STUDENT PROFILE:
-- GPA: ${gpaValue.toFixed(2)} / 4.0
-- SAT: ${satEquivalent}
-- Major: ${studentProfile.desiredMajor}
-- Location: ${studentProfile.location || 'No preference - all USA states'}
-- Budget: ${studentProfile.budget || 'Not specified'}
-- Extracurriculars: ${studentProfile.extracurriculars || 'Not provided'}
-- Leadership: ${studentProfile.leadership || 'Not provided'}
-- Awards: ${studentProfile.awards || 'Not provided'}
+- Academic Performance: ${academicScore}
+- Test Scores: ${testScore}
+- Intended Major: ${studentProfile.desiredMajor}
+- Preferred Location: ${studentProfile.location || 'No preference (consider all USA states)'}
+- Budget: ${studentProfile.budget || 'No specific budget mentioned'}
+${studentProfile.extracurriculars ? `- Extracurriculars: ${studentProfile.extracurriculars}` : ''}
+${studentProfile.leadership ? `- Leadership: ${studentProfile.leadership}` : ''}
+${studentProfile.awards ? `- Awards/Honors: ${studentProfile.awards}` : ''}
 
+CRITICAL LOCATION FILTERING:
 ${(() => {
-  const loc = (studentProfile.location || '').toLowerCase().trim();
+  const loc = (studentProfile.location || '').toLowerCase();
   const isCanada = loc.includes('canada') || loc.includes('ontario') || loc.includes('british columbia') || 
-                   loc.includes('alberta') || loc.includes('quebec') || loc.includes('bc') || 
-                   loc.includes('toronto') || loc.includes('vancouver') || loc.includes('calgary') ||
-                   loc.includes('montreal') || loc.includes('ottawa');
+                   loc.includes('bc') || loc.includes('alberta') || loc.includes('quebec') || 
+                   loc.includes('manitoba') || loc.includes('saskatchewan') || loc.includes('nova scotia') ||
+                   loc.includes('toronto') || loc.includes('vancouver') || loc.includes('montreal');
   
   if (isCanada) {
-    return `⚠️ CANADIAN LOCATION DETECTED - MANDATORY FILTERING:
-- ONLY recommend Canadian universities (University of Toronto, UBC, McGill, McMaster, Waterloo, Queen's, Western, Alberta, Calgary, Dalhousie, SFU, York, Carleton, Simon Fraser, Victoria, Ottawa, Concordia)
-- DO NOT include ANY U.S. universities in your recommendations
-- All 24 recommendations MUST be Canadian institutions
-- Respect the specific province if mentioned (e.g., if "Ontario" specified, focus on Ontario universities)`;
+    return `⚠️ CANADIAN LOCATION - STRICT FILTERING:
+- ONLY recommend Canadian universities (University of Toronto, UBC, McGill, McMaster, Waterloo, Queen's, Western, Alberta, Calgary, Dalhousie, SFU, York, Carleton)
+- DO NOT include ANY U.S. universities
+- All 24 recommendations MUST be Canadian institutions`;
   }
-  
-  // Check for specific USA locations
-  const usStates = ['california', 'texas', 'new york', 'florida', 'illinois', 'pennsylvania', 'ohio', 'michigan', 
-                    'georgia', 'north carolina', 'virginia', 'washington', 'arizona', 'massachusetts', 'tennessee',
-                    'indiana', 'missouri', 'maryland', 'wisconsin', 'minnesota', 'colorado', 'south carolina',
-                    'alabama', 'louisiana', 'kentucky', 'oregon', 'oklahoma', 'connecticut', 'iowa', 'utah',
-                    'nevada', 'arkansas', 'mississippi', 'kansas', 'new mexico', 'nebraska', 'west virginia',
-                    'idaho', 'hawaii', 'new hampshire', 'maine', 'montana', 'rhode island', 'delaware',
-                    'south dakota', 'north dakota', 'alaska', 'vermont', 'wyoming'];
-  
-  const usRegions = ['northeast', 'mid-atlantic', 'south', 'southeast', 'midwest', 'southwest', 'west', 'west coast', 'east coast', 'pacific'];
-  
-  const specificState = usStates.find(state => loc.includes(state));
-  const specificRegion = usRegions.find(region => loc.includes(region));
-  
-  if (specificState) {
-    return `- USA LOCATION: Focus recommendations on ${specificState.toUpperCase()} universities
-- Include strong ${specificState} public and private institutions
-- Also include nearby states for geographic diversity
-- DO NOT include Canadian universities`;
-  }
-  
-  if (specificRegion) {
-    return `- USA LOCATION: Focus recommendations on ${specificRegion.toUpperCase()} region
-- Ensure geographic diversity within the ${specificRegion}
-- DO NOT include Canadian universities`;
-  }
-  
   return `- USA universities across all 50 states
-- Ensure geographic diversity (East Coast, West Coast, Midwest, South)
-- DO NOT include Canadian universities unless explicitly mentioned`;
+- Ensure geographic diversity unless specific state mentioned`;
 })()}
 
-MAJOR-SPECIFIC RECOMMENDATIONS (CRITICAL - LIBERAL ARTS COLLEGES):
+MAJOR-SPECIFIC (LIBERAL ARTS COLLEGES):
 ${(() => {
   const major = (studentProfile.desiredMajor || '').toLowerCase();
+  const isLAC = major.includes('art') || major.includes('humanities') || major.includes('liberal') || major.includes('english') || 
+                major.includes('history') || major.includes('philosophy') || major.includes('literature') || major.includes('social') ||
+                major.includes('psychology') || major.includes('sociology') || major.includes('anthropology') || major.includes('political') ||
+                major.includes('biology') || major.includes('chemistry') || major.includes('physics') || major.includes('environmental') ||
+                major.includes('science') || major.includes('economics');
   
-  // FIXED: Exclude engineering and technical majors explicitly
-  const isEngineering = major.includes('engineering') || major.includes('computer science') || 
-                        major.includes('cs') || major.includes('comp sci') || major.includes('software') ||
-                        major.includes('data science') || major.includes('information technology') ||
-                        major.includes('it ') || major.includes('mechanical') || major.includes('electrical') ||
-                        major.includes('civil') || major.includes('chemical engineering') || major.includes('aerospace') ||
-                        major.includes('biomedical engineering') || major.includes('industrial') || major.includes('robotics');
-  
-  const isBusiness = major.includes('business') || major.includes('finance') || major.includes('accounting') ||
-                     major.includes('marketing') || major.includes('management');
-  
-  // Only recommend LACs for true liberal arts fields
-  const isLACFriendly = (major.includes('art') && !major.includes('martial')) || major.includes('humanities') || 
-                        major.includes('liberal') || major.includes('english') || major.includes('literature') ||
-                        major.includes('history') || major.includes('philosophy') || major.includes('languages') ||
-                        major.includes('classics') || major.includes('religion') || major.includes('sociology') ||
-                        major.includes('anthropology') || major.includes('political science') || major.includes('psychology') ||
-                        major.includes('gender studies') || major.includes('ethnic studies') || major.includes('international relations');
-  
-  // Pure sciences (not engineering/applied) can benefit from LACs
-  const isPureScience = (major.includes('biology') || major.includes('chemistry') || major.includes('physics') ||
-                        major.includes('mathematics') || major.includes('math ') || major.includes('environmental studies')) &&
-                        !isEngineering;
-  
-  const isEconomics = major.includes('economics') || major.includes('econ');
-  
-  if (isEngineering) {
-    return `🔧 ENGINEERING/TECHNICAL MAJOR DETECTED:
-- Focus on universities with STRONG engineering programs (MIT, Stanford, CalTech, Georgia Tech, Carnegie Mellon, UIUC, Purdue, Michigan, Berkeley, UT Austin)
-- DO NOT recommend Liberal Arts Colleges (LACs don't typically have engineering programs)
-- Include technical institutes and research universities
-- Consider co-op programs and industry partnerships`;
+  if (isLAC) {
+    return `🎓 INCLUDE LIBERAL ARTS COLLEGES:
+- Major benefits from LACs (Williams, Amherst, Swarthmore, Pomona, Claremont McKenna, Wellesley, Bowdoin, Carleton, Middlebury, Grinnell, Hamilton, Colby, Bates, Vassar, Haverford, Davidson, Wesleyan)
+- LACs offer: small classes, close faculty relationships, strong grad school placement
+- Balance LACs with research universities`;
   }
-  
-  if (isBusiness) {
-    return `💼 BUSINESS MAJOR DETECTED:
-- Focus on universities with accredited business schools (Wharton, Ross, Stern, Haas, McCombs)
-- Include universities with strong undergraduate business programs
-- Consider location for internship opportunities (NYC, Chicago, San Francisco, etc.)
-- Liberal Arts Colleges can be included for Economics focus, but avoid for pure Business/Finance`;
-  }
-  
-  if (isLACFriendly || isPureScience) {
-    return `🎓 LIBERAL ARTS / PURE SCIENCES MAJOR - INCLUDE LACs:
-- This major greatly benefits from Liberal Arts Colleges
-- INCLUDE top LACs: Williams, Amherst, Swarthmore, Pomona, Claremont McKenna, Wellesley, Bowdoin, Carleton, Middlebury, Grinnell, Hamilton, Colby, Bates, Vassar, Haverford, Davidson, Wesleyan, Colgate
-- LACs offer: small classes (8-15 students), close faculty mentorship, personalized attention, strong graduate school placement
-- Balance: Include mix of LACs (40%) and research universities (60%)
-- LACs are particularly strong for pre-med, pre-law, and graduate school preparation`;
-  }
-  
-  if (isEconomics) {
-    return `📊 ECONOMICS MAJOR:
-- Include both LACs (excellent for theoretical economics) and research universities (better for applied/quantitative)
-- Top programs: Chicago, MIT, Stanford, Princeton, Northwestern, Williams, Amherst
-- Consider access to financial centers if interested in finance career path`;
-  }
-  
-  return `- Match universities to major's program strength
-- Consider both research universities and appropriate college types for this field`;
+  return '';
 })()}
 
 INSTRUCTIONS:
 1. Suggest EXACTLY 8 colleges for EACH category (Reach, Target, Safety) = 24 TOTAL
 2. Ensure variety: Mix public/private, large/small, different regions (within correct country)
-3. Match recommendations to major's program strength and institutional type
+3. Match recommendations to major's program strength
 4. Consider budget if specified
 5. Factor in extracurriculars, leadership, awards for holistic evaluation
-6. RESPECT location filter - if Canada specified, ONLY Canadian universities; if USA state/region specified, focus there
 
 CATEGORIES:
 - **Reach (8 schools)**: Stats below average (15-40% chance)
@@ -529,15 +506,9 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
       const data = await response.json();
       const aiResponse = data.candidates[0].content.parts[0].text;
 
-      // ENHANCED: Parse colleges with better filtering
       const parseColleges = (section) => {
         const colleges = [];
         const lines = section.split('\n').filter(line => line.trim());
-        
-        const loc = (studentProfile.location || '').toLowerCase().trim();
-        const isCanadaRequest = loc.includes('canada') || loc.includes('ontario') || loc.includes('british columbia') || 
-                               loc.includes('alberta') || loc.includes('quebec') || loc.includes('bc') || 
-                               loc.includes('toronto') || loc.includes('vancouver') || loc.includes('calgary');
         
         for (const line of lines) {
           if (/^\d+\./.test(line)) {
@@ -546,23 +517,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               const name = parts[0].replace(/^\d+\.\s*/, '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
               const gpa_range = parts[1].replace('GPA:', '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
               const sat_range = parts[2].replace('SAT:', '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
-              
-              // ENHANCED LOCATION FILTERING
-              const isCanadianUni = name.includes('Toronto') || name.includes('UBC') || name.includes('British Columbia') ||
-                                   name.includes('McGill') || name.includes('Waterloo') || name.includes('McMaster') ||
-                                   name.includes("Queen's") || name.includes('Alberta') || name.includes('Calgary') ||
-                                   name.includes('Dalhousie') || name.includes('SFU') || name.includes('Simon Fraser') ||
-                                   name.includes('York') || name.includes('Carleton') || name.includes('Ottawa') ||
-                                   name.includes('Victoria') || name.includes('Concordia') || name.includes('Western');
-              
-              // Apply location filter
-              if (isCanadaRequest && !isCanadianUni) {
-                continue; // Skip non-Canadian universities
-              }
-              if (!isCanadaRequest && isCanadianUni) {
-                continue; // Skip Canadian universities for USA searches
-              }
-              
               colleges.push({ name, gpa_range, sat_range });
             }
           }
@@ -644,7 +598,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
           <div>
             <h3 className="text-lg font-bold text-purple-800 mb-2 flex items-center gap-2">
               <Sparkles className="h-5 w-5" />
-              Profile Analysis
+              Profile Strength
             </h3>
             <p className="text-gray-700 leading-relaxed">{sections.analysis}</p>
           </div>
@@ -652,14 +606,14 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
 
         {sections.strengths.length > 0 && (
           <div>
-            <h3 className="text-lg font-bold text-green-800 mb-2 flex items-center gap-2">
-              <Award className="h-5 w-5" />
+            <h3 className="text-lg font-bold text-purple-800 mb-3 flex items-center gap-2">
+              <CheckCircle className="h-5 w-5" />
               Key Strengths
             </h3>
             <ul className="space-y-2">
               {sections.strengths.map((strength, idx) => (
                 <li key={idx} className="flex items-start gap-2 text-gray-700">
-                  <CheckCircle className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-purple-600 mt-1">•</span>
                   <span>{strength}</span>
                 </li>
               ))}
@@ -669,14 +623,14 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
 
         {sections.recommendations.length > 0 && (
           <div>
-            <h3 className="text-lg font-bold text-blue-800 mb-2 flex items-center gap-2">
-              <Target className="h-5 w-5" />
+            <h3 className="text-lg font-bold text-purple-800 mb-3 flex items-center gap-2">
+              <Brain className="h-5 w-5" />
               Recommendations
             </h3>
             <ul className="space-y-2">
               {sections.recommendations.map((rec, idx) => (
                 <li key={idx} className="flex items-start gap-2 text-gray-700">
-                  <Zap className="h-5 w-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <span className="text-purple-600 mt-1">•</span>
                   <span>{rec}</span>
                 </li>
               ))}
@@ -686,56 +640,62 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
 
         {sections.strategy && (
           <div>
-            <h3 className="text-lg font-bold text-orange-800 mb-2 flex items-center gap-2">
+            <h3 className="text-lg font-bold text-purple-800 mb-2 flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              Application Strategy
+              Strategy
             </h3>
             <p className="text-gray-700 leading-relaxed">{sections.strategy}</p>
+          </div>
+        )}
+
+        {!sections.analysis && !sections.strengths.length && !sections.recommendations.length && !sections.strategy && (
+          <div className="prose max-w-none text-gray-700 leading-relaxed">
+            {cleanText.split('\n').map((paragraph, idx) => (
+              <p key={idx} className="mb-4">{paragraph}</p>
+            ))}
           </div>
         )}
       </div>
     );
   };
 
-  // Input Section
+  // Render Input Section
   const renderInputSection = () => (
-    <Card className="backdrop-blur-xl bg-white/90 border-2 border-purple-100 shadow-2xl">
-      <CardHeader className="bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 text-white rounded-t-lg">
-        <CardTitle className="text-3xl flex items-center gap-3">
-          <School className="h-8 w-8" />
+    <Card className="backdrop-blur-xl bg-white/95 border-2 border-purple-100">
+      <CardHeader className="border-b-2 border-purple-50 bg-gradient-to-r from-blue-50 to-purple-50">
+        <CardTitle className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600 flex items-center gap-3">
+          <GraduationCap className="h-8 w-8 text-purple-600" />
           Enter Your Academic Profile
         </CardTitle>
-        <p className="text-purple-100 text-sm mt-2">Get 24 AI-powered college recommendations in USA (or Canada if location specified)</p>
+        <p className="text-gray-600 mt-2">
+          AI will analyze your profile and suggest 24 perfectly matched colleges (8 reach, 8 target, 8 safety)
+        </p>
       </CardHeader>
-      <CardContent className="p-8 space-y-6">
+      <CardContent className="p-8 space-y-8">
         {/* Grade Type Selection */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
-            Select Your Grading System *
-          </label>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Grade Type *</label>
           <div className="flex gap-4">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="gradeType"
-                value="gpa"
-                checked={studentProfile.gradeType === 'gpa'}
-                onChange={(e) => handleInputChange('gradeType', e.target.value)}
-                className="w-5 h-5 text-blue-600"
-              />
-              <span className="text-gray-700 font-medium">GPA (4.0 scale - USA standard)</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="gradeType"
-                value="percentage"
-                checked={studentProfile.gradeType === 'percentage'}
-                onChange={(e) => handleInputChange('gradeType', e.target.value)}
-                className="w-5 h-5 text-blue-600"
-              />
-              <span className="text-gray-700 font-medium">Percentage (International)</span>
-            </label>
+            <Button
+              onClick={() => handleInputChange('gradeType', 'gpa')}
+              className={`flex-1 py-3 px-6 rounded-xl font-semibold transition-all ${
+                studentProfile.gradeType === 'gpa'
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              GPA (4.0 scale)
+            </Button>
+            <Button
+              onClick={() => handleInputChange('gradeType', 'percentage')}
+              className={`flex-1 py-3 px-6 rounded-xl font-semibold transition-all ${
+                studentProfile.gradeType === 'percentage'
+                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              }`}
+            >
+              Percentage
+            </Button>
           </div>
         </div>
 
@@ -743,7 +703,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         {studentProfile.gradeType === 'gpa' ? (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Unweighted GPA (out of 4.0) *
+              GPA (on 4.0 scale) *
             </label>
             <input
               type="number"
@@ -752,63 +712,55 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               max="4.0"
               value={studentProfile.gpa}
               onChange={(e) => handleInputChange('gpa', e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
               placeholder="e.g., 3.75"
             />
-            <p className="text-xs text-gray-500 mt-1">Enter your GPA on 4.0 scale (USA standard)</p>
           </div>
         ) : (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Percentage (%) *
+              Percentage *
             </label>
             <input
               type="number"
-              step="0.1"
               min="0"
               max="100"
               value={studentProfile.percentage}
               onChange={(e) => handleInputChange('percentage', e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
               placeholder="e.g., 85"
             />
-            <p className="text-xs text-gray-500 mt-1">Enter your overall percentage (will be converted to 4.0 GPA scale)</p>
+            <p className="mt-2 text-sm text-gray-500">
+              Need to convert to U.S. GPA? 
+              <a href="/gpa-calculator" className="text-blue-600 hover:underline ml-1 font-semibold">
+                Use our GPA Calculator →
+              </a>
+            </p>
           </div>
         )}
 
         {/* Test Type Selection */}
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-3">
-            Select Your Test Type *
-          </label>
-          <div className="flex gap-4">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="testType"
-                value="sat"
-                checked={studentProfile.testType === 'sat'}
-                onChange={(e) => handleInputChange('testType', e.target.value)}
-                className="w-5 h-5 text-blue-600"
-              />
-              <span className="text-gray-700 font-medium">SAT (out of 1600)</span>
-            </label>
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="radio"
-                name="testType"
-                value="act"
-                checked={studentProfile.testType === 'act'}
-                onChange={(e) => handleInputChange('testType', e.target.value)}
-                className="w-5 h-5 text-blue-600"
-              />
-              <span className="text-gray-700 font-medium">ACT (out of 36)</span>
-            </label>
+          <label className="block text-sm font-semibold text-gray-700 mb-3">Standardized Test *</label>
+          <div className="flex gap-3">
+            {['sat', 'act', 'none'].map(type => (
+              <Button
+                key={type}
+                onClick={() => handleInputChange('testType', type)}
+                className={`flex-1 py-3 px-4 rounded-xl font-semibold transition-all ${
+                  studentProfile.testType === type
+                    ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                {type.toUpperCase()}
+              </Button>
+            ))}
           </div>
         </div>
 
-        {/* SAT or ACT Input */}
-        {studentProfile.testType === 'sat' ? (
+        {/* SAT/ACT Score Input */}
+        {studentProfile.testType === 'sat' && (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               SAT Score (out of 1600) *
@@ -819,12 +771,19 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               max="1600"
               value={studentProfile.sat}
               onChange={(e) => handleInputChange('sat', e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
               placeholder="e.g., 1450"
             />
-            <p className="text-xs text-gray-500 mt-1">Enter your best SAT score (400-1600) or type 'none' if not taken</p>
+            <p className="mt-2 text-sm text-gray-500">
+              Need SAT prep help? 
+              <a href="/resources" className="text-blue-600 hover:underline ml-1 font-semibold">
+                Free SAT Resources →
+              </a>
+            </p>
           </div>
-        ) : (
+        )}
+
+        {studentProfile.testType === 'act' && (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               ACT Score (out of 36) *
@@ -835,10 +794,9 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               max="36"
               value={studentProfile.act}
               onChange={(e) => handleInputChange('act', e.target.value)}
-              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
+              className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition text-lg"
               placeholder="e.g., 32"
             />
-            <p className="text-xs text-gray-500 mt-1">Enter your best ACT composite score (1-36) or type 'none' if not taken</p>
           </div>
         )}
 
@@ -853,7 +811,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               value={studentProfile.desiredMajor}
               onChange={(e) => handleInputChange('desiredMajor', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-              placeholder="e.g., Computer Science, Biology, Economics"
+              placeholder="e.g., Computer Science"
             />
           </div>
 
@@ -866,9 +824,8 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               value={studentProfile.location}
               onChange={(e) => handleInputChange('location', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-              placeholder="e.g., California, Northeast, Canada, Ontario"
+              placeholder="e.g., California, Northeast, Canada"
             />
-            <p className="text-xs text-gray-500 mt-1">Type 'Canada' or province name for Canadian universities</p>
           </div>
         </div>
 
@@ -1039,7 +996,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
 
         {/* Target Schools */}
         <Card className="border-2 border-blue-200 hover:shadow-2xl transition-all duration-300 rounded-2xl overflow-hidden">
-          <CardHeader className="bg-gradient-to-br from-blue-50 to-blue-100 p-6">
+          <CardHeader className="bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-blue-200 rounded-xl">
                 <Target className="h-6 w-6 text-blue-600" />
@@ -1049,7 +1006,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
                   Target Schools
                 </CardTitle>
                 <p className="text-sm text-blue-700 font-medium mt-1">
-                  {results.Target?.length || 0} solid matches
+                  {results.Target?.length || 0} strong matches
                 </p>
               </div>
             </div>
@@ -1341,13 +1298,30 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
                     <h4 className="text-xl font-bold text-green-800">Safety Schools</h4>
                   </div>
                   <p className="text-gray-700 text-sm leading-relaxed mb-3">
-                    Universities where you significantly exceed typical admitted student stats. Your <strong>acceptance probability is 80%+</strong>. These are schools you're very likely to get into based on your credentials.
+                    Universities where your credentials significantly exceed typical admits. Your <strong>acceptance probability is 80%+</strong>. These schools provide peace of mind and often offer generous merit scholarships to attract top students.
                   </p>
                   <p className="text-gray-700 text-sm leading-relaxed">
-                    <strong>Strategy:</strong> Apply to 2-3 safety schools that you would genuinely be happy attending. Never underestimate a safety—many offer excellent education, scholarships, and opportunities for top students.
+                    <strong>Strategy:</strong> Always include 2-3 safety schools. Never skip this step—many students regret not having guaranteed options if unexpected rejections occur at target and reach schools.
                   </p>
                 </div>
               </div>
+
+              <h3 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 flex items-center gap-2">
+                <Award className="h-6 w-6 text-purple-600" />
+                Why Liberal Arts Colleges Matter
+              </h3>
+              
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Many students overlook <strong>Liberal Arts Colleges (LACs)</strong> during their college search, focusing exclusively on large research universities. However, LACs like Williams College, Amherst College, Swarthmore College, Pomona College, and Bowdoin College offer unique advantages that can significantly enhance your undergraduate experience, particularly if you're interested in humanities, social sciences, pure sciences, or pre-professional programs like pre-med and pre-law.
+              </p>
+
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Our AI calculator specifically recommends Liberal Arts Colleges when your intended major aligns with their strengths. LACs typically feature <strong>small class sizes (10-15 students)</strong>, allowing for close mentorship relationships with professors who focus primarily on teaching rather than research. This intimate learning environment leads to exceptional outcomes: LAC graduates have some of the highest acceptance rates to top graduate programs and professional schools, including medical schools, law schools, and PhD programs.
+              </p>
+
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Students from Calgary and across Canada often find LACs particularly appealing because they offer a more personalized educational experience similar to smaller Canadian universities but with the resources and prestige of elite American institutions. LACs also provide generous financial aid to international students and actively seek geographic diversity, which can work in favor of Canadian applicants.
+              </p>
 
               <h3 className="text-2xl font-semibold text-gray-900 mt-10 mb-4 flex items-center gap-2">
                 <MapPin className="h-6 w-6 text-red-600" />
@@ -1355,27 +1329,27 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               </h3>
               
               <p className="text-gray-700 leading-relaxed mb-6">
-                As a Calgary-based service, we understand that many Alberta students are weighing options between staying in Canada or pursuing education in the United States. These two systems have fundamentally different approaches to admissions, and understanding these differences is crucial for building an appropriate college list and application strategy.
+                Calgary Academic Excellence serves students applying to universities in both the United States and Canada, and understanding the fundamental differences between these two systems is crucial for developing an effective application strategy. Our AI calculator adapts its recommendations based on whether you specify a USA or Canadian location preference.
               </p>
 
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border-2 border-blue-100 my-6">
+              <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-8 rounded-xl border-2 border-blue-200 my-8">
                 <h4 className="text-xl font-bold text-gray-900 mb-4">🇺🇸 USA University Admissions</h4>
                 <ul className="space-y-3 text-gray-700">
                   <li className="flex items-start gap-2">
                     <span className="text-blue-600 font-bold mt-1">•</span>
-                    <span><strong>Holistic Review:</strong> USA universities evaluate your entire application—grades, standardized tests, essays, extracurriculars, recommendations, and demonstrated interest. Strong essays and unique experiences can significantly boost your chances even if your GPA isn't perfect.</span>
+                    <span><strong>Holistic Review:</strong> American universities conduct comprehensive evaluations considering GPA, SAT/ACT scores, essays, recommendations, extracurriculars, leadership, and personal background. This means students with strong non-academic profiles can overcome slightly lower test scores.</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-blue-600 font-bold mt-1">•</span>
-                    <span><strong>Standardized Testing:</strong> Most competitive USA universities require SAT or ACT scores. Calgary Academic Excellence offers comprehensive SAT preparation to help students maximize their scores. Our students average 210+ point improvements.</span>
+                    <span><strong>Multiple Deadlines:</strong> Most universities offer Early Decision (binding), Early Action (non-binding), and Regular Decision options. Strategic use of these deadlines can significantly impact admission chances.</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-blue-600 font-bold mt-1">•</span>
-                    <span><strong>Flexible Major Selection:</strong> Many USA universities admit students to the college/university first, not to a specific program. You can often explore different fields before declaring a major in your sophomore year.</span>
+                    <span><strong>Test Optional Trend:</strong> Many top universities (including Ivy League schools) have adopted test-optional policies, allowing students to apply without SAT/ACT scores if they choose. However, submitting strong scores still provides an advantage.</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-blue-600 font-bold mt-1">•</span>
-                    <span><strong>Application Complexity:</strong> USA applications require personal essays (Common App essay, supplemental essays), letters of recommendation from teachers and counselors, demonstrated interest through campus visits or virtual events, and careful attention to deadlines (Early Decision, Early Action, Regular Decision).</span>
+                    <span><strong>Essay Importance:</strong> Personal statements and supplemental essays are critically important. They provide opportunities to showcase personality, overcome adversity, and demonstrate fit with the university's values.</span>
                   </li>
                 </ul>
 
@@ -1475,7 +1449,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         </Card>
       </div>
 
-      {/* 🆕 TESTIMONIALS SECTION - ADDED NEW REVIEW */}
+      {/* 🆕 TESTIMONIALS SECTION */}
       <div className="max-w-7xl mx-auto mb-12">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-8 flex items-center justify-center gap-3">
           <Star className="h-8 w-8 text-yellow-500" />
@@ -1483,24 +1457,6 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         </h2>
         
         <div className="grid md:grid-cols-3 gap-6">
-          {/* NEW TESTIMONIAL - Requested by user */}
-          <Card className="border-2 border-yellow-100 hover:shadow-xl transition-all">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
-              </div>
-              <p className="text-gray-700 italic mb-4">
-                "Calgary Academic Excellence helped me improve my SAT score by 200 points to 1490! Their personalized approach and practice tests made all the difference. I got into University of Richmond for my premed track!"
-              </p>
-              <p className="font-semibold text-gray-900">— Anonymous Student, Calgary</p>
-              <p className="text-sm text-gray-600">Accepted: University of Richmond (Premed)</p>
-            </CardContent>
-          </Card>
-
           <Card className="border-2 border-blue-100 hover:shadow-xl transition-all">
             <CardContent className="p-6">
               <div className="flex items-center gap-2 mb-4">
@@ -1532,6 +1488,23 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               </p>
               <p className="font-semibold text-gray-900">— David L., Calgary</p>
               <p className="text-sm text-gray-600">Accepted: UMich, Georgia Tech, UIUC</p>
+            </CardContent>
+          </Card>
+
+          <Card className="border-2 border-green-100 hover:shadow-xl transition-all">
+            <CardContent className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+                <Star className="h-5 w-5 text-yellow-500 fill-yellow-500" />
+              </div>
+              <p className="text-gray-700 italic mb-4">
+                "As an international student, I appreciated how the calculator helped me understand reach vs. safety schools. Their essay coaching was invaluable!"
+              </p>
+              <p className="font-semibold text-gray-900">— Priya K., India (studying in Calgary)</p>
+              <p className="text-sm text-gray-600">Accepted: UC Berkeley, NYU, BU</p>
             </CardContent>
           </Card>
         </div>
@@ -1603,7 +1576,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
             },
             {
               q: "Does the calculator recommend Liberal Arts Colleges?",
-              a: "Yes! When you indicate an arts, humanities, social science, or pure science major (excluding engineering and technical fields like Computer Science), our AI specifically includes top Liberal Arts Colleges (LACs) in your recommendations. LACs like Williams, Amherst, Swarthmore, and Pomona provide exceptional undergraduate education with small class sizes (10-15 students), close faculty mentorship, and strong graduate school placement rates. They're ideal for students who want personalized attention and a tight-knit academic community. For engineering, computer science, or business majors, the calculator focuses on research universities and technical institutes with strong programs in those fields."
+              a: "Yes! When you indicate an arts, humanities, social science, or pure science major, our AI specifically includes top Liberal Arts Colleges (LACs) in your recommendations. LACs like Williams, Amherst, Swarthmore, and Pomona provide exceptional undergraduate education with small class sizes (10-15 students), close faculty mentorship, and strong graduate school placement rates. They're ideal for students who want personalized attention and a tight-knit academic community. Many Calgary students have thrived at LACs with support from our counseling team."
             },
             {
               q: "Is this college admissions calculator tool really free?",
