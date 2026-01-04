@@ -307,12 +307,12 @@ const CollegePredictor = () => {
 
   // ENHANCED PREDICTION with FIXED LAC LOGIC and IMPROVED LOCATION FILTERING
   const handlePrediction = async () => {
-    // Validation
+    // Validation - SAT/ACT is optional (not required for Canadian universities)
     const gradeValue = studentProfile.gradeType === 'gpa' ? studentProfile.gpa : studentProfile.percentage;
     const testScore = studentProfile.testType === 'sat' ? studentProfile.sat : studentProfile.act;
 
-    if (!gradeValue || !testScore || !studentProfile.desiredMajor) {
-      setError('Please fill in all required fields: GPA/Percentage, SAT/ACT score, and Intended Major.');
+    if (!gradeValue || !studentProfile.desiredMajor) {
+      setError('Please fill in all required fields: GPA/Percentage and Intended Major.');
       return;
     }
 
@@ -330,22 +330,36 @@ const CollegePredictor = () => {
         ? parseFloat(studentProfile.gpa)
         : (parseFloat(studentProfile.percentage) / 100) * 4.0;
 
-      // Convert ACT to SAT equivalent if needed
-      let satEquivalent = studentProfile.testType === 'sat'
-        ? parseInt(studentProfile.sat)
-        : Math.round((parseInt(studentProfile.act) - 9) * 45.45 + 690);
+      // Convert ACT to SAT equivalent if needed (SAT/ACT optional for Canadian universities)
+      let satEquivalent = 'Not provided';
+      const testScore = studentProfile.testType === 'sat' ? studentProfile.sat : studentProfile.act;
+      
+      if (testScore && testScore.toLowerCase() !== 'none' && !isNaN(testScore)) {
+        satEquivalent = studentProfile.testType === 'sat'
+          ? parseInt(studentProfile.sat)
+          : Math.round((parseInt(studentProfile.act) - 9) * 45.45 + 690);
+      }
 
       const prompt = `You are an expert college admissions counselor specializing in USA and Canadian university admissions. Provide EXACTLY 8 colleges for EACH category (Reach, Target, Safety) = 24 TOTAL.
 
 STUDENT PROFILE:
 - GPA: ${gpaValue.toFixed(2)} / 4.0
-- SAT: ${satEquivalent}
+- SAT: ${satEquivalent}${satEquivalent === 'Not provided' ? ' (Note: Student applying test-optional - many USA universities and all Canadian universities accept applications without test scores. Focus primarily on GPA, extracurriculars, and holistic factors)' : ''}
 - Major: ${studentProfile.desiredMajor}
 - Location: ${studentProfile.location || 'No preference - all USA states'}
 - Budget: ${studentProfile.budget || 'Not specified'}
 - Extracurriculars: ${studentProfile.extracurriculars || 'Not provided'}
 - Leadership: ${studentProfile.leadership || 'Not provided'}
 - Awards: ${studentProfile.awards || 'Not provided'}
+
+${satEquivalent === 'Not provided' ? `
+TEST-OPTIONAL ADMISSIONS CONTEXT:
+- Many top USA universities are test-optional (MIT, Harvard, Stanford, Yale, Princeton, Columbia, Brown, Cornell, Dartmouth, UPenn, Duke, Northwestern, Johns Hopkins, Vanderbilt, Rice, Emory, Georgetown, and 1,800+ others)
+- Canadian universities NEVER require SAT/ACT and use grade-based admissions exclusively
+- For test-optional USA schools: Focus on GPA, course rigor, extracurriculars, leadership, awards, and essays
+- Students without test scores can still be competitive at top universities with strong grades and holistic profile
+- Include test-optional USA universities in recommendations if location permits
+` : ''}
 
 ${(() => {
   const loc = (studentProfile.location || '').toLowerCase().trim();
@@ -356,10 +370,76 @@ ${(() => {
   
   if (isCanada) {
     return `⚠️ CANADIAN LOCATION DETECTED - MANDATORY FILTERING:
-- ONLY recommend Canadian universities (University of Toronto, UBC, McGill, McMaster, Waterloo, Queen's, Western, Alberta, Calgary, Dalhousie, SFU, York, Carleton, Simon Fraser, Victoria, Ottawa, Concordia)
+- ONLY recommend Canadian universities
 - DO NOT include ANY U.S. universities in your recommendations
 - All 24 recommendations MUST be Canadian institutions
-- Respect the specific province if mentioned (e.g., if "Ontario" specified, focus on Ontario universities)`;
+- Respect the specific province if mentioned (e.g., if "Ontario" specified, focus on Ontario universities)
+
+CANADIAN ADMISSIONS CONTEXT:
+- Canadian universities use GRADE-BASED admissions EXCLUSIVELY
+- SAT/ACT scores are NEVER required and NEVER considered for admission (even if provided)
+- This is different from USA test-optional policies - Canadian schools don't even look at test scores
+- Base ALL recommendations SOLELY on GPA/percentage grades
+- If SAT/ACT score is "Not provided", this is completely NORMAL and EXPECTED for Canadian applications
+- Published admission cutoffs are based on grade percentages (e.g., "85% average for engineering")
+- No advantage to submitting test scores - they are simply not part of the admissions process
+
+🚨 CRITICAL - MANDATORY 8 SAFETY SCHOOLS REQUIREMENT:
+This is NON-NEGOTIABLE and THE MOST IMPORTANT part of your response.
+
+You MUST provide EXACTLY 8 safety schools. Not 1, not 3, not 5 - EXACTLY 8.
+Even for students with 90%+ GPA and strong profiles, there are MANY Canadian safety schools.
+
+FOR THIS STUDENT'S PROFILE, SAFETY SCHOOLS MUST INCLUDE universities where:
+- Student's GPA is SIGNIFICANTLY ABOVE the published admission average (student has 80%+ chance)
+- Typical admission average is 75-85% for engineering programs
+- These are LEGITIMATE universities with CEAB-accredited engineering programs
+- Student would be VERY LIKELY to gain admission
+
+MANDATORY: You MUST include AT LEAST 6 of these safety schools in your list:
+1. University of Manitoba (Winnipeg) - Engineering admission avg: ~82%
+2. University of Saskatchewan (Saskatoon) - Engineering admission avg: ~82%
+3. Dalhousie University (Halifax) - Engineering admission avg: ~83%
+4. Memorial University (St. John's, NL) - Engineering admission avg: ~80%
+5. Ontario Tech University (Oshawa) - Engineering admission avg: ~81%
+6. Lakehead University (Thunder Bay) - Engineering admission avg: ~78%
+7. University of Regina (Saskatchewan) - Engineering admission avg: ~80%
+8. Laurentian University (Sudbury) - Engineering admission avg: ~78%
+9. University of Northern British Columbia (Prince George) - Engineering avg: ~78%
+10. Cape Breton University (Sydney, NS) - Engineering admission avg: ~75%
+11. University of New Brunswick (Fredericton) - Engineering admission avg: ~80%
+12. Université de Moncton (NB) - Engineering programs
+
+Additional safety options for non-engineering OR to supplement above:
+- York University (Toronto) - Certain engineering programs
+- Brock University (St. Catharines) - STEM programs
+- Trent University (Peterborough) - Science programs
+- Thompson Rivers University (Kamloops, BC)
+- Vancouver Island University (Nanaimo, BC)
+- University of Winnipeg - Applied science programs
+- Mount Allison University (Sackville, NB) - Sciences
+- Acadia University (Wolfville, NS) - Sciences
+
+EXAMPLE SAFETY SCHOOLS LIST FORMAT (YOU MUST PRODUCE 8):
+1. University of Manitoba (Engineering) | GPA: 3.0-3.4 | SAT: N/A
+2. University of Saskatchewan (Engineering) | GPA: 3.0-3.3 | SAT: N/A
+3. Dalhousie University (Engineering) | GPA: 3.0-3.4 | SAT: N/A
+4. Memorial University (Engineering) | GPA: 2.8-3.2 | SAT: N/A
+5. Ontario Tech University (Engineering) | GPA: 3.0-3.3 | SAT: N/A
+6. Lakehead University (Engineering) | GPA: 2.8-3.2 | SAT: N/A
+7. University of Regina (Engineering) | GPA: 2.9-3.3 | SAT: N/A
+8. Laurentian University (Engineering) | GPA: 2.8-3.1 | SAT: N/A
+
+SELECT safety schools that genuinely make sense for THIS specific student's profile and goals based on:
+- Student's academic profile (GPA/percentage) and intended major
+- Geographic preferences (province mentioned, cost of living)
+- Program strength in their specific field (CEAB accreditation for engineering)
+- Published admission cutoffs and requirements (GRADE-BASED ONLY, never test scores)
+- Budget considerations if mentioned (Memorial has lowest tuition ~$3-4K/year)
+- Co-op opportunities and industry connections
+- Research options and facilities
+
+REMINDER: Safety schools = 80%+ probability of admission based on published GRADE cutoffs ONLY (test scores completely irrelevant). Even students with 95% GPA need genuine safety options where admission is virtually certain.`;
   }
   
   // Check for specific USA locations
@@ -505,7 +585,20 @@ Recommendations:
 
 Strategy: [2-3 sentences]
 
-CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA: X.X-X.X | SAT: XXXX-XXXX`;
+🚨 CRITICAL REQUIREMENTS - NON-NEGOTIABLE:
+1. MUST provide EXACTLY 8 schools per category (Reach, Target, Safety) = 24 TOTAL
+2. SAFETY SCHOOLS: If you provide fewer than 8 safety schools, your response is INCOMPLETE and FAILS
+3. PRIORITY: Complete all 24 universities BEFORE providing detailed insights
+4. Keep insights concise to ensure all 24 schools fit within response
+5. If running low on space, shorten insights but NEVER reduce number of universities
+6. Format: University Name | GPA: X.X-X.X | SAT: XXXX-XXXX (or N/A for Canadian schools)
+7. COUNT YOUR SCHOOLS: Verify you have exactly 8 Reach + 8 Target + 8 Safety = 24 total
+
+For Canadian engineering students with 90% GPA, safety schools might include: Manitoba, Saskatchewan, Dalhousie, Memorial, Ontario Tech, Lakehead, Regina, Laurentian, UNBC, Cape Breton, UNB, etc.
+
+⚠️ DO NOT submit response without verifying you have 8 safety schools listed.
+⚠️ DO NOT STOP until all 24 universities are listed!`;
+
 
       const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent?key=${API_KEY}`,
@@ -516,7 +609,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
               temperature: 0.7,
-              maxOutputTokens: 8000,
+              maxOutputTokens: 16000, // Increased from 8000 to ensure all 24 universities are provided
             }
           })
         }
@@ -547,17 +640,38 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               const gpa_range = parts[1].replace('GPA:', '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
               const sat_range = parts[2].replace('SAT:', '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
               
-              // ENHANCED LOCATION FILTERING
+              // ENHANCED LOCATION FILTERING - Comprehensive Canadian university detection
               const isCanadianUni = name.includes('Toronto') || name.includes('UBC') || name.includes('British Columbia') ||
                                    name.includes('McGill') || name.includes('Waterloo') || name.includes('McMaster') ||
                                    name.includes("Queen's") || name.includes('Alberta') || name.includes('Calgary') ||
                                    name.includes('Dalhousie') || name.includes('SFU') || name.includes('Simon Fraser') ||
                                    name.includes('York') || name.includes('Carleton') || name.includes('Ottawa') ||
-                                   name.includes('Victoria') || name.includes('Concordia') || name.includes('Western');
+                                   name.includes('Victoria') || name.includes('Concordia') || name.includes('Western') ||
+                                   name.includes('Manitoba') || name.includes('Saskatchewan') || name.includes('Regina') ||
+                                   name.includes('Memorial') || name.includes('Lakehead') || name.includes('Laurentian') ||
+                                   name.includes('UNBC') || name.includes('Northern British Columbia') ||
+                                   name.includes('Ontario Tech') || name.includes('Brock') || name.includes('Trent') ||
+                                   name.includes('Mount Allison') || name.includes('Acadia') || name.includes('St. Francis Xavier') ||
+                                   name.includes('Brandon') || name.includes('Winnipeg') || name.includes('Lethbridge') ||
+                                   name.includes('Ryerson') || name.includes('TMU') || name.includes('Guelph') ||
+                                   name.includes('Windsor') || name.includes('Laurier') || name.includes('Nipissing') ||
+                                   name.includes('Thompson Rivers') || name.includes('Vancouver Island') ||
+                                   name.includes('Cape Breton') || name.includes('UPEI') || name.includes('New Brunswick') ||
+                                   name.includes('Moncton') || name.includes("Bishop's") || name.includes('UQAM') ||
+                                   // Catch-all: If AI was instructed to only recommend Canadian and it's not obviously USA
+                                   (isCanadaRequest && !name.includes('University of') && !name.includes('Institute of Technology'));
               
-              // Apply location filter
+              // Apply location filter ONLY if explicitly requested
               if (isCanadaRequest && !isCanadianUni) {
-                continue; // Skip non-Canadian universities
+                // Only filter out if it's clearly a USA university
+                const isClearlyUSA = name.includes('MIT') || name.includes('Stanford') || name.includes('Harvard') ||
+                                    name.includes('Yale') || name.includes('Princeton') || name.includes('Columbia') ||
+                                    name.includes('Duke') || name.includes('Northwestern') || name.includes('Caltech') ||
+                                    name.includes('Georgia Tech') || name.includes('Carnegie Mellon') ||
+                                    name.includes('Berkeley') || name.includes('UCLA') || name.includes('USC');
+                if (isClearlyUSA) {
+                  continue; // Skip USA universities for Canadian searches
+                }
               }
               if (!isCanadaRequest && isCanadianUni) {
                 continue; // Skip Canadian universities for USA searches
@@ -779,7 +893,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         {/* Test Type Selection */}
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-3">
-            Select Your Test Type *
+            Select Your Test Type (Optional - Many universities are test-optional)
           </label>
           <div className="flex gap-4">
             <label className="flex items-center gap-2 cursor-pointer">
@@ -805,40 +919,39 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               <span className="text-gray-700 font-medium">ACT (out of 36)</span>
             </label>
           </div>
+          <p className="text-xs text-gray-500 mt-2">
+            ℹ️ <strong>Test-optional admissions:</strong> Many USA universities (MIT, Harvard, Stanford, etc.) and all Canadian universities don't require SAT/ACT. However, strong test scores can still strengthen your USA application. Leave blank if not taken or if applying test-optional.
+          </p>
         </div>
 
         {/* SAT or ACT Input */}
         {studentProfile.testType === 'sat' ? (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              SAT Score (out of 1600) *
+              SAT Score (out of 1600) - Optional
             </label>
             <input
-              type="number"
-              min="400"
-              max="1600"
+              type="text"
               value={studentProfile.sat}
               onChange={(e) => handleInputChange('sat', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-              placeholder="e.g., 1450"
+              placeholder="e.g., 1450 or leave blank if not taken"
             />
-            <p className="text-xs text-gray-500 mt-1">Enter your best SAT score (400-1600) or type 'none' if not taken</p>
+            <p className="text-xs text-gray-500 mt-1">Many universities are test-optional. Strong scores can strengthen your application, but leaving blank is acceptable for test-optional schools.</p>
           </div>
         ) : (
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              ACT Score (out of 36) *
+              ACT Score (out of 36) - Optional
             </label>
             <input
-              type="number"
-              min="1"
-              max="36"
+              type="text"
               value={studentProfile.act}
               onChange={(e) => handleInputChange('act', e.target.value)}
               className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-              placeholder="e.g., 32"
+              placeholder="e.g., 32 or leave blank if not taken"
             />
-            <p className="text-xs text-gray-500 mt-1">Enter your best ACT composite score (1-36) or type 'none' if not taken</p>
+            <p className="text-xs text-gray-500 mt-1">Many universities are test-optional. Strong scores can strengthen your application, but leaving blank is acceptable for test-optional schools.</p>
           </div>
         )}
 
@@ -951,7 +1064,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
         </Button>
 
         <p className="text-center text-sm text-gray-500">
-          * Required fields • Your information is private and never stored
+          * Required: GPA/Percentage and Intended Major • SAT/ACT optional (many universities are test-optional) • Your information is private and never stored
         </p>
       </CardContent>
     </Card>
@@ -1513,7 +1626,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               <p className="text-gray-700 italic mb-4">
                 "The AI calculator helped me discover Liberal Arts Colleges I'd never heard of. With Calgary Academic Excellence's counseling, I got into Amherst with significant financial aid!"
               </p>
-              <p className="font-semibold text-gray-900">— Sarah M., Calgary</p>
+              <p className="font-semibold text-gray-900">— Anonymous Student, Calgary</p>
               <p className="text-sm text-gray-600">Accepted: Amherst College, Swarthmore</p>
             </CardContent>
           </Card>
@@ -1530,7 +1643,7 @@ CRITICAL: Provide EXACTLY 8 schools per category. Format: University Name | GPA:
               <p className="text-gray-700 italic mb-4">
                 "Used the calculator to build my list, then worked with their SAT prep. My score went from 1180 to 1420! Got into University of Michigan Engineering."
               </p>
-              <p className="font-semibold text-gray-900">— David L., Calgary</p>
+              <p className="font-semibold text-gray-900">— Anonymous Student, Calgary</p>
               <p className="text-sm text-gray-600">Accepted: UMich, Georgia Tech, UIUC</p>
             </CardContent>
           </Card>
