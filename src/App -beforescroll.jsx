@@ -10,7 +10,6 @@ import Home from './components/Home';
 import CollegePredictor from './components/CollegePredictor';
 import GPACalculator from './components/GPACalculator';
 import GraduateAdmissions from './components/GraduateAdmissions';
-import ScrollToTop from './components/ScrollToTop';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import ContactUs from './components/ContactUs';
@@ -532,7 +531,6 @@ const App = () => {
 
   return (
     <BrowserRouter>
-      <ScrollToTop />
       <div className="min-h-screen bg-gray-50 overflow-x-hidden">
         <Navigation 
           isScrolled={scrollPosition > 50} 

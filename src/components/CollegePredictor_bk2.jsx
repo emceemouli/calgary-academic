@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { School, Trophy, TrendingUp, Brain, AlertCircle, CheckCircle, Target, Zap, Sparkles, MapPin, DollarSign, GraduationCap, Search, ChevronDown, ChevronUp, ExternalLink, Award, BookOpen, Users, Star, Loader } from 'lucide-react';
+import { School, Trophy, TrendingUp, Brain, AlertCircle, CheckCircle, Target, Zap, Sparkles, MapPin, DollarSign, GraduationCap, Search, ChevronDown, ChevronUp, ExternalLink, Award, BookOpen, Users, Star } from 'lucide-react';
 
 // Define components OUTSIDE to prevent re-creation on every render
 const Card = ({ children, className = '' }) => (
@@ -160,9 +160,9 @@ const CollegePredictor = () => {
     setError(null);
   };
 
-  // ENHANCED PREDICTION with REGIONAL FILTERING FIX
+  // ENHANCED PREDICTION with FIXED LAC LOGIC, IMPROVED LOCATION FILTERING, and ACCELERATED MEDICAL/DENTAL PROGRAMS
   const handlePrediction = async () => {
-    // Validation
+    // Validation - SAT/ACT is optional (not required for Canadian universities)
     const gradeValue = studentProfile.gradeType === 'gpa' ? studentProfile.gpa : studentProfile.percentage;
     const testScore = studentProfile.testType === 'sat' ? studentProfile.sat : studentProfile.act;
 
@@ -185,7 +185,7 @@ const CollegePredictor = () => {
         ? parseFloat(studentProfile.gpa)
         : (parseFloat(studentProfile.percentage) / 100) * 4.0;
 
-      // Convert ACT to SAT equivalent if needed
+      // Convert ACT to SAT equivalent if needed (SAT/ACT optional for Canadian universities)
       let satEquivalent = 'Not provided';
       const testScore = studentProfile.testType === 'sat' ? studentProfile.sat : studentProfile.act;
       
@@ -257,11 +257,23 @@ VERIFIED ACCELERATED MEDICAL PROGRAMS TO INCLUDE:
 - University of South Florida (SELECT - 7 years)
 
 DO NOT recommend regular pre-med programs - student wants GUARANTEED medical school admission programs.
+DO NOT include universities that only offer traditional 4-year pre-med (like Harvard pre-med, Stanford pre-med, etc.) unless they have actual accelerated programs.
+
+Additional guidance:
+- These programs are HIGHLY competitive (often 1-5% acceptance rate)
+- Require exceptional GPA (typically 3.7+), SAT (1450+), extensive clinical volunteering, shadowing, research
+- Include interview components and early application deadlines
+- Sort by competitiveness: Reach (top-tier like Brown PLME, Northwestern HPME), Target (mid-tier programs), Safety (less competitive programs like University of Toledo, Wayne State)
 ` : ''}
 
 ${isAcceleratedDental ? `
 🦷 ACCELERATED/DIRECT DENTAL PROGRAM DETECTED (BS/DDS, BS/DMD):
-CRITICAL: This student is specifically interested in ACCELERATED DENTAL PROGRAMS.
+CRITICAL: This student is specifically interested in ACCELERATED DENTAL PROGRAMS (also called BS/DDS, BS/DMD, or combined degree programs).
+
+MANDATORY REQUIREMENTS FOR RECOMMENDATIONS:
+1. ONLY recommend universities that offer ACTUAL accelerated/direct dental programs
+2. These programs guarantee dental school admission upon meeting specific criteria
+3. Programs typically range from 6-8 years (vs traditional 8+ years)
 
 VERIFIED ACCELERATED DENTAL PROGRAMS TO INCLUDE:
 - University of the Pacific (Arthur A. Dugoni School - 5 or 7 year programs)
@@ -276,14 +288,23 @@ VERIFIED ACCELERATED DENTAL PROGRAMS TO INCLUDE:
 - University of Detroit Mercy (Pre-Dental Scholars - 7 years)
 - Wilkes University (Guaranteed Dental Program - 8 years)
 
-DO NOT recommend regular pre-dental programs.
+DO NOT recommend regular pre-dental programs - student wants GUARANTEED dental school admission programs.
+DO NOT include universities that only offer traditional 4-year pre-dental tracks unless they have actual accelerated programs.
+
+Additional guidance:
+- These programs are HIGHLY competitive (similar to medical programs)
+- Require exceptional GPA (typically 3.6+), SAT (1400+), dental shadowing/volunteering
+- Include interview components and early application deadlines
+- Sort by competitiveness appropriately
 ` : ''}
 
 ${satEquivalent === 'Not provided' ? `
 TEST-OPTIONAL ADMISSIONS CONTEXT:
-- Many top USA universities are test-optional
-- Canadian universities NEVER require SAT/ACT
-- Focus on GPA, course rigor, extracurriculars, leadership, awards, and essays
+- Many top USA universities are test-optional (MIT, Harvard, Stanford, Yale, Princeton, Columbia, Brown, Cornell, Dartmouth, UPenn, Duke, Northwestern, Johns Hopkins, Vanderbilt, Rice, Emory, Georgetown, and 1,800+ others)
+- Canadian universities NEVER require SAT/ACT and use grade-based admissions exclusively
+- For test-optional USA schools: Focus on GPA, course rigor, extracurriculars, leadership, awards, and essays
+- Students without test scores can still be competitive at top universities with strong grades and holistic profile
+- Include test-optional USA universities in recommendations if location permits
 ` : ''}
 
 ${(() => {
@@ -296,21 +317,78 @@ ${(() => {
   if (isCanada) {
     return `⚠️ CANADIAN LOCATION DETECTED - MANDATORY FILTERING:
 - ONLY recommend Canadian universities
-- DO NOT include ANY U.S. universities
+- DO NOT include ANY U.S. universities in your recommendations
 - All 24 recommendations MUST be Canadian institutions
-- Canadian universities use GRADE-BASED admissions EXCLUSIVELY (no SAT/ACT required)
+- Respect the specific province if mentioned (e.g., if "Ontario" specified, focus on Ontario universities)
 
-🚨 CRITICAL - MANDATORY 8 SAFETY SCHOOLS:
-You MUST include AT LEAST 6 of these safety schools:
-1. University of Manitoba | 2. University of Saskatchewan | 3. Dalhousie University
-4. Memorial University | 5. Ontario Tech University | 6. Lakehead University
-7. University of Regina | 8. Laurentian University | 9. UNBC | 10. Cape Breton University
-11. University of New Brunswick | 12. Université de Moncton
+CANADIAN ADMISSIONS CONTEXT:
+- Canadian universities use GRADE-BASED admissions EXCLUSIVELY
+- SAT/ACT scores are NEVER required and NEVER considered for admission (even if provided)
+- This is different from USA test-optional policies - Canadian schools don't even look at test scores
+- Base ALL recommendations SOLELY on GPA/percentage grades
+- If SAT/ACT score is "Not provided", this is completely NORMAL and EXPECTED for Canadian applications
+- Published admission cutoffs are based on grade percentages (e.g., "85% average for engineering")
+- No advantage to submitting test scores - they are simply not part of the admissions process
 
-SELECT based on student's profile, province, and program.`;
+🚨 CRITICAL - MANDATORY 8 SAFETY SCHOOLS REQUIREMENT:
+This is NON-NEGOTIABLE and THE MOST IMPORTANT part of your response.
+
+You MUST provide EXACTLY 8 safety schools. Not 1, not 3, not 5 - EXACTLY 8.
+Even for students with 90%+ GPA and strong profiles, there are MANY Canadian safety schools.
+
+FOR THIS STUDENT'S PROFILE, SAFETY SCHOOLS MUST INCLUDE universities where:
+- Student's GPA is SIGNIFICANTLY ABOVE the published admission average (student has 80%+ chance)
+- Typical admission average is 75-85% for engineering programs
+- These are LEGITIMATE universities with CEAB-accredited engineering programs
+- Student would be VERY LIKELY to gain admission
+
+MANDATORY: You MUST include AT LEAST 6 of these safety schools in your list:
+1. University of Manitoba (Winnipeg) - Engineering admission avg: ~82%
+2. University of Saskatchewan (Saskatoon) - Engineering admission avg: ~82%
+3. Dalhousie University (Halifax) - Engineering admission avg: ~83%
+4. Memorial University (St. John's, NL) - Engineering admission avg: ~80%
+5. Ontario Tech University (Oshawa) - Engineering admission avg: ~81%
+6. Lakehead University (Thunder Bay) - Engineering admission avg: ~78%
+7. University of Regina (Saskatchewan) - Engineering admission avg: ~80%
+8. Laurentian University (Sudbury) - Engineering admission avg: ~78%
+9. University of Northern British Columbia (Prince George) - Engineering avg: ~78%
+10. Cape Breton University (Sydney, NS) - Engineering admission avg: ~75%
+11. University of New Brunswick (Fredericton) - Engineering admission avg: ~80%
+12. Université de Moncton (NB) - Engineering programs
+
+Additional safety options for non-engineering OR to supplement above:
+- York University (Toronto) - Certain engineering programs
+- Brock University (St. Catharines) - STEM programs
+- Trent University (Peterborough) - Science programs
+- Thompson Rivers University (Kamloops, BC)
+- Vancouver Island University (Nanaimo, BC)
+- University of Winnipeg - Applied science programs
+- Mount Allison University (Sackville, NB) - Sciences
+- Acadia University (Wolfville, NS) - Sciences
+
+EXAMPLE SAFETY SCHOOLS LIST FORMAT (YOU MUST PRODUCE 8):
+1. University of Manitoba (Engineering) | GPA: 3.0-3.4 | SAT: N/A
+2. University of Saskatchewan (Engineering) | GPA: 3.0-3.3 | SAT: N/A
+3. Dalhousie University (Engineering) | GPA: 3.0-3.4 | SAT: N/A
+4. Memorial University (Engineering) | GPA: 2.8-3.2 | SAT: N/A
+5. Ontario Tech University (Engineering) | GPA: 3.0-3.3 | SAT: N/A
+6. Lakehead University (Engineering) | GPA: 2.8-3.2 | SAT: N/A
+7. University of Regina (Engineering) | GPA: 2.9-3.3 | SAT: N/A
+8. Laurentian University (Engineering) | GPA: 2.8-3.1 | SAT: N/A
+
+SELECT safety schools that genuinely make sense for THIS specific student's profile and goals based on:
+- Student's academic profile (GPA/percentage) and intended major
+- Geographic preferences (province mentioned, cost of living)
+- Program strength in their specific field (CEAB accreditation for engineering)
+- Published admission cutoffs and requirements (GRADE-BASED ONLY, never test scores)
+- Budget considerations if mentioned (Memorial has lowest tuition ~$3-4K/year)
+- Co-op opportunities and industry connections
+- Research options and facilities
+
+REMINDER: Safety schools = 80%+ probability of admission based on published GRADE cutoffs ONLY (test scores completely irrelevant). Even students with 95% GPA need genuine safety options where admission is virtually certain.`;
   }
   
-  // Check for specific USA states
+  // Check for specific USA states - ENHANCED WITH COMPREHENSIVE STATE LIST
   const usStates = {
     'california': 'California', 'texas': 'Texas', 'new york': 'New York', 'florida': 'Florida', 
     'illinois': 'Illinois', 'pennsylvania': 'Pennsylvania', 'ohio': 'Ohio', 'michigan': 'Michigan',
@@ -328,59 +406,7 @@ SELECT based on student's profile, province, and program.`;
     'vermont': 'Vermont', 'wyoming': 'Wyoming'
   };
   
-  // Check for USA regions with state mappings
-  const regionMappings = {
-    'northeast': {
-      name: 'NORTHEAST',
-      states: ['Connecticut', 'Maine', 'Massachusetts', 'New Hampshire', 'Rhode Island', 'Vermont', 'New Jersey', 'New York', 'Pennsylvania'],
-      examples: 'MIT, Harvard, Yale, Princeton, Columbia, Cornell, UPenn, Brown, Dartmouth, Williams, Amherst, Swarthmore, Vassar, Wesleyan, Haverford, Colgate, Hamilton'
-    },
-    'mid-atlantic': {
-      name: 'MID-ATLANTIC',
-      states: ['New York', 'New Jersey', 'Pennsylvania', 'Delaware', 'Maryland', 'Virginia', 'West Virginia', 'Washington DC'],
-      examples: 'Columbia, NYU, Cornell, Princeton, UPenn, Carnegie Mellon, Johns Hopkins, Georgetown, UVA, Virginia Tech, William & Mary'
-    },
-    'southeast': {
-      name: 'SOUTHEAST',
-      states: ['North Carolina', 'South Carolina', 'Georgia', 'Florida', 'Alabama', 'Mississippi', 'Louisiana', 'Tennessee', 'Kentucky', 'Arkansas'],
-      examples: 'Duke, UNC Chapel Hill, Emory, Georgia Tech, Vanderbilt, University of Florida, University of Miami, Wake Forest, Davidson'
-    },
-    'south': {
-      name: 'SOUTH',
-      states: ['Texas', 'Oklahoma', 'North Carolina', 'South Carolina', 'Georgia', 'Florida', 'Alabama', 'Mississippi', 'Louisiana', 'Tennessee', 'Kentucky', 'Arkansas', 'Virginia', 'West Virginia'],
-      examples: 'Duke, UNC Chapel Hill, Emory, Georgia Tech, Vanderbilt, Rice, UT Austin, Texas A&M, University of Florida, UVA'
-    },
-    'midwest': {
-      name: 'MIDWEST',
-      states: ['Ohio', 'Michigan', 'Indiana', 'Illinois', 'Wisconsin', 'Minnesota', 'Iowa', 'Missouri', 'Kansas', 'Nebraska', 'South Dakota', 'North Dakota'],
-      examples: 'Northwestern, University of Chicago, UIUC, Purdue, University of Michigan, Wisconsin-Madison, Washington University in St. Louis, Carleton, Grinnell, Oberlin, Kenyon'
-    },
-    'southwest': {
-      name: 'SOUTHWEST',
-      states: ['Texas', 'Oklahoma', 'New Mexico', 'Arizona'],
-      examples: 'UT Austin, Rice, Texas A&M, SMU, Arizona State, University of Arizona'
-    },
-    'west': {
-      name: 'WEST',
-      states: ['California', 'Oregon', 'Washington', 'Nevada', 'Idaho', 'Montana', 'Wyoming', 'Colorado', 'Utah', 'Arizona', 'New Mexico', 'Alaska', 'Hawaii'],
-      examples: 'Stanford, Caltech, UC Berkeley, UCLA, USC, University of Washington, Colorado School of Mines, Pomona, Harvey Mudd'
-    },
-    'west coast': {
-      name: 'WEST COAST',
-      states: ['California', 'Oregon', 'Washington'],
-      examples: 'Stanford, Caltech, UC Berkeley, UCLA, USC, University of Washington, Reed College, Willamette'
-    },
-    'east coast': {
-      name: 'EAST COAST',
-      states: ['Maine', 'New Hampshire', 'Massachusetts', 'Rhode Island', 'Connecticut', 'New York', 'New Jersey', 'Pennsylvania', 'Delaware', 'Maryland', 'Virginia', 'North Carolina', 'South Carolina', 'Georgia', 'Florida'],
-      examples: 'Harvard, MIT, Yale, Princeton, Columbia, Duke, UNC Chapel Hill, Emory, University of Florida, Boston College'
-    },
-    'pacific': {
-      name: 'PACIFIC',
-      states: ['California', 'Oregon', 'Washington', 'Hawaii', 'Alaska'],
-      examples: 'Stanford, Caltech, UC Berkeley, UCLA, University of Washington, University of Hawaii'
-    }
-  };
+  const usRegions = ['northeast', 'mid-atlantic', 'south', 'southeast', 'midwest', 'southwest', 'west', 'west coast', 'east coast', 'pacific'];
   
   // Check if location matches any US state
   let specificState = null;
@@ -391,125 +417,206 @@ SELECT based on student's profile, province, and program.`;
     }
   }
   
-  // Check if location matches any region
-  let specificRegion = null;
-  for (const [searchTerm, regionData] of Object.entries(regionMappings)) {
-    if (loc.includes(searchTerm)) {
-      specificRegion = regionData;
-      break;
-    }
-  }
+  const specificRegion = usRegions.find(region => loc.includes(region));
   
   if (specificState) {
     return `🗺️ USA STATE LOCATION DETECTED: ${specificState.toUpperCase()}
 
 ⚠️ CRITICAL - STRICT STATE FILTERING REQUIREMENTS:
-1. PRIMARY FOCUS: At least 18 out of 24 recommendations (75%) MUST be universities physically located in ${specificState}
-2. SECONDARY OPTIONS: Remaining 6 can be from nearby/neighboring states for diversity
-3. ABSOLUTELY NO CANADIAN universities
+1. PRIMARY FOCUS: At least 75% of recommendations MUST be universities physically located in ${specificState}
+2. SECONDARY OPTIONS: Remaining 25% can be from nearby/neighboring states for diversity
+3. ABSOLUTELY NO CANADIAN universities in the recommendations
 4. Verify each university's actual physical location before including
-5. In university names, include the state: "University Name (${specificState})"`;
+
+${specificState} UNIVERSITIES TO PRIORITIZE:
+${specificState === 'California' ? `
+- UC System: Berkeley, UCLA, UC San Diego, UC Santa Barbara, UC Irvine, UC Davis, UC Riverside, UC Santa Cruz, UC Merced
+- Private: Stanford, Caltech, USC, Pomona College, Claremont McKenna, Harvey Mudd, Occidental, Pepperdine
+- CSU System: San Diego State, Cal Poly SLO, San Jose State, Long Beach State, Fullerton, Northridge
+` : ''}
+${specificState === 'Texas' ? `
+- UT System: UT Austin, UT Dallas, UT Arlington, UT San Antonio
+- Texas A&M System: Texas A&M College Station, Texas A&M Commerce
+- Private: Rice University, SMU, TCU, Baylor University
+- Other Public: University of Houston, Texas Tech, University of North Texas
+` : ''}
+${specificState === 'New York' ? `
+- SUNY System: Stony Brook, Binghamton, Buffalo, Albany
+- CUNY System: Hunter College, City College, Queens College, Baruch
+- Private: Columbia, Cornell, NYU, Rochester, Syracuse, RPI, Fordham, Hofstra
+- Liberal Arts: Vassar, Colgate, Hamilton, Barnard
+` : ''}
+${specificState === 'Massachusetts' ? `
+- Boston Area: Harvard, MIT, Boston University, Boston College, Tufts, Northeastern, Brandeis
+- Worcester: Clark University, WPI, Holy Cross
+- Amherst: UMass Amherst, Amherst College, Hampshire College
+- Liberal Arts: Williams, Smith, Mount Holyoke, Wellesley
+` : ''}
+${specificState === 'Pennsylvania' ? `
+- Philadelphia: UPenn, Drexel, Temple, Villanova, Swarthmore, Haverford, Bryn Mawr
+- Pittsburgh: Carnegie Mellon, University of Pittsburgh, Duquesne
+- Other: Penn State (State College), Lehigh, Lafayette, Bucknell, Dickinson
+` : ''}
+${specificState === 'Illinois' ? `
+- Chicago Area: University of Chicago, Northwestern, UIC, Loyola Chicago, DePaul
+- Urbana-Champaign: UIUC (flagship)
+- Other: Illinois State, Southern Illinois University, Northern Illinois
+` : ''}
+${specificState === 'North Carolina' ? `
+- Research Triangle: Duke, UNC Chapel Hill, NC State
+- Other: Wake Forest, Davidson College, Elon University, UNC Charlotte, UNC Greensboro, Appalachian State
+` : ''}
+${specificState === 'Georgia' ? `
+- Atlanta: Georgia Tech, Emory, Georgia State, Morehouse, Spelman
+- Athens: University of Georgia
+- Other: Mercer University, Kennesaw State, Georgia Southern
+` : ''}
+${specificState === 'Virginia' ? `
+- UVA (Charlottesville), Virginia Tech (Blacksburg), William & Mary (Williamsburg)
+- George Mason, VCU, James Madison University
+- Washington & Lee, University of Richmond, Hampden-Sydney
+` : ''}
+${specificState === 'Washington' ? `
+- Seattle: University of Washington, Seattle University, Seattle Pacific
+- Pullman: Washington State University
+- Other: Western Washington University, Gonzaga University (Spokane)
+` : ''}
+${specificState === 'Florida' ? `
+- UF (Gainesville), FSU (Tallahassee), UM (Miami), UCF (Orlando)
+- USF (Tampa), Florida Atlantic, Florida International, Florida Gulf Coast
+- Private: University of Miami, Rollins College, Stetson University
+` : ''}
+${specificState === 'Michigan' ? `
+- Ann Arbor: University of Michigan
+- East Lansing: Michigan State
+- Other: Wayne State, Western Michigan, Central Michigan, Michigan Tech
+` : ''}
+${specificState === 'Ohio' ? `
+- Columbus: Ohio State
+- Other: Case Western (Cleveland), University of Cincinnati, Ohio University (Athens), Miami University (Oxford), Kent State, Bowling Green
+- Private: Oberlin, Kenyon, Denison
+` : ''}
+
+FORMATTING INSTRUCTIONS:
+- In university names, include the state in parentheses: "University Name (${specificState})"
+- Example: "UCLA (California)" or "UT Austin (Texas)" or "UNC Chapel Hill (North Carolina)"
+- For nearby state schools (if included), clearly mark state: "Boston University (Massachusetts)" if recommending to NY student
+
+VERIFICATION CHECKLIST:
+✓ Are 18+ out of 24 universities from ${specificState}?
+✓ Are ALL universities USA institutions (no Canadian schools)?
+✓ Does each listing clearly show the state location?
+`;
   }
   
   if (specificRegion) {
-    return `🗺️ USA REGION DETECTED: ${specificRegion.name}
-
-⚠️ CRITICAL - STRICT REGIONAL FILTERING REQUIREMENTS:
-1. PRIMARY FOCUS: At least 18 out of 24 recommendations (75%) MUST be from these states ONLY:
-   ${specificRegion.states.join(', ')}
-   
-2. SECONDARY OPTIONS: Remaining 6 can be from adjacent regions for diversity
-3. ABSOLUTELY NO universities outside the ${specificRegion.name} region (and adjacent areas)
-4. ABSOLUTELY NO CANADIAN universities
-5. Verify each university's actual state location before including
-
-EXAMPLE ${specificRegion.name} UNIVERSITIES TO PRIORITIZE:
-${specificRegion.examples}
-
-VERIFICATION CHECKLIST:
-✓ Are 18+ out of 24 universities from ${specificRegion.name} states (${specificRegion.states.join(', ')})?
-✓ Are ALL universities USA institutions (no Canadian schools)?
-✓ Does each listing clearly show the state location?
-
-FORMAT: Include state in parentheses: "University Name (State)"`;
+    return `- USA LOCATION: Focus recommendations on ${specificRegion.toUpperCase()} region
+- Ensure geographic diversity within the ${specificRegion}
+- DO NOT include Canadian universities`;
   }
   
   return `- USA universities across all 50 states
 - Ensure geographic diversity (East Coast, West Coast, Midwest, South)
-- DO NOT include Canadian universities`;
+- DO NOT include Canadian universities unless explicitly mentioned`;
 })()}
 
-MAJOR-SPECIFIC RECOMMENDATIONS:
+MAJOR-SPECIFIC RECOMMENDATIONS (CRITICAL - LIBERAL ARTS COLLEGES):
 ${(() => {
   const major = (studentProfile.desiredMajor || '').toLowerCase();
   
+  // FIXED: Exclude engineering and technical majors explicitly
   const isEngineering = major.includes('engineering') || major.includes('computer science') || 
                         major.includes('cs') || major.includes('comp sci') || major.includes('software') ||
-                        major.includes('data science') || major.includes('information technology');
+                        major.includes('data science') || major.includes('information technology') ||
+                        major.includes('it ') || major.includes('mechanical') || major.includes('electrical') ||
+                        major.includes('civil') || major.includes('chemical engineering') || major.includes('aerospace') ||
+                        major.includes('biomedical engineering') || major.includes('industrial') || major.includes('robotics');
   
   const isBusiness = major.includes('business') || major.includes('finance') || major.includes('accounting') ||
                      major.includes('marketing') || major.includes('management');
   
+  // Only recommend LACs for true liberal arts fields
   const isLACFriendly = (major.includes('art') && !major.includes('martial')) || major.includes('humanities') || 
                         major.includes('liberal') || major.includes('english') || major.includes('literature') ||
-                        major.includes('history') || major.includes('philosophy') || major.includes('political science') ||
-                        major.includes('psychology') || major.includes('sociology') || major.includes('anthropology');
+                        major.includes('history') || major.includes('philosophy') || major.includes('languages') ||
+                        major.includes('classics') || major.includes('religion') || major.includes('sociology') ||
+                        major.includes('anthropology') || major.includes('political science') || major.includes('psychology') ||
+                        major.includes('gender studies') || major.includes('ethnic studies') || major.includes('international relations');
   
-  const isPureScience = (major.includes('biology') || major.includes('chemistry') || major.includes('physics') ||
-                        major.includes('mathematics') || major.includes('math ')) && !isEngineering;
+  // Pure sciences (not engineering/applied) can benefit from LACs
+  const isPureScience = (major.includes('biology') || major.includes('chemistry') || major.includes('physics') || major.includes('molecular biology') ||
+                        major.includes('mathematics') || major.includes('math ') || major.includes('environmental studies')) &&
+                        !isEngineering;
+  
+  const isEconomics = major.includes('economics') || major.includes('econ');
   
   if (isEngineering) {
-    return `🔧 ENGINEERING/TECHNICAL MAJOR:
-- Focus on universities with strong engineering programs
-- DO NOT recommend Liberal Arts Colleges
-- Include technical institutes and research universities`;
+    return `🔧 ENGINEERING/TECHNICAL MAJOR DETECTED:
+- Focus on universities with STRONG engineering programs (MIT, Stanford, CalTech, Georgia Tech, Carnegie Mellon, UIUC, Purdue, Michigan, Berkeley, UT Austin)
+- DO NOT recommend Liberal Arts Colleges (LACs don't typically have engineering programs)
+- Include technical institutes and research universities
+- Consider co-op programs and industry partnerships`;
   }
   
   if (isBusiness) {
-    return `💼 BUSINESS MAJOR:
-- Focus on universities with accredited business schools
-- Consider location for internship opportunities`;
+    return `💼 BUSINESS MAJOR DETECTED:
+- Focus on universities with accredited business schools (Wharton, Ross, Stern, Haas, McCombs)
+- Include universities with strong undergraduate business programs
+- Consider location for internship opportunities (NYC, Chicago, San Francisco, etc.)
+- Liberal Arts Colleges can be included for Economics focus, but avoid for pure Business/Finance`;
   }
   
   if (isLACFriendly || isPureScience) {
-    return `🎓 LIBERAL ARTS / PURE SCIENCES MAJOR:
-- INCLUDE top LACs: Williams, Amherst, Swarthmore, Pomona, Wellesley, Bowdoin, Carleton, Middlebury, Washington and Lee University, Colgate, University of Richmond, Wesleyan University, Smith, Hamilton, Grinnell
-- LACs offer small classes, faculty mentorship, strong graduate school placement
-- Balance: 40% LACs, 60% research universities`;
+    return `🎓 LIBERAL ARTS / PURE SCIENCES MAJOR - INCLUDE LACs:
+- This major greatly benefits from Liberal Arts Colleges
+- INCLUDE top LACs: Williams, Amherst, Swarthmore, Pomona, Claremont McKenna, Wellesley, Bowdoin, Carleton, Middlebury, Grinnell, Hamilton, Colby, Bates, Vassar, Haverford, Davidson, Wesleyan, Colgate, University of Richmond
+- LACs offer: small classes (8-15 students), close faculty mentorship, personalized attention, strong graduate school placement
+- Balance: Include mix of LACs (40%) and research universities (60%)
+- LACs are particularly strong for pre-med, pre-law, and graduate school preparation`;
   }
   
-  return `- Match universities to major's program strength`;
+  if (isEconomics) {
+    return `📊 ECONOMICS MAJOR:
+- Include both LACs (excellent for theoretical economics) and research universities (better for applied/quantitative)
+- Top programs: Chicago, MIT, Stanford, Princeton, Northwestern, Williams, Amherst
+- Consider access to financial centers if interested in finance career path`;
+  }
+  
+  return `- Match universities to major's program strength
+- Consider both research universities and appropriate college types for this field`;
 })()}
 
 INSTRUCTIONS:
 1. Suggest EXACTLY 8 colleges for EACH category (Reach, Target, Safety) = 24 TOTAL
-2. Ensure variety: Mix public/private, large/small, different locations (within correct region/state/country)
-3. Match recommendations to major's program strength
-4. RESPECT location filter - verify universities are from the correct state/region
-5. For regions: At least 18 out of 24 from the specified region's states
+2. Ensure variety: Mix public/private, large/small, different regions (within correct country/state)
+3. Match recommendations to major's program strength and institutional type
+4. Consider budget if specified
+5. Factor in extracurriculars, leadership, awards for holistic evaluation
+6. RESPECT location filter - if Canada specified, ONLY Canadian universities; if USA state/region specified, focus there with at least 75% from that state
+7. For accelerated medical/dental programs: ONLY recommend schools with verified accelerated programs, NOT regular pre-med/pre-dental
 
 CATEGORIES:
-- **Reach (8 schools)**: 15-40% admission chance
-- **Target (8 schools)**: 50-70% admission chance
-- **Safety (8 schools)**: 80%+ admission chance
+- **Reach (8 schools)**: Stats below average (15-40% chance)
+- **Target (8 schools)**: Stats match well (50-70% chance)
+- **Safety (8 schools)**: Stats exceed typical admits (80%+ chance)
 
-FORMAT EXACTLY:
+FORMAT EXACTLY AS SHOWN:
 
 **REACH SCHOOLS:**
-1. [University Name (State)] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
+1. [University Name] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
 2. [Continue for all 8...]
 
 **TARGET SCHOOLS:**
-1. [University Name (State)] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
+1. [University Name] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
 2. [Continue for all 8...]
 
 **SAFETY SCHOOLS:**
-1. [University Name (State)] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
+1. [University Name] | GPA: [X.X-X.X] | SAT: [XXXX-XXXX]
 2. [Continue for all 8...]
 
 **AI INSIGHTS:**
 
-ANALYSIS [2-3 sentences]
+ANALYSIS [2-3 sentences about profile strength]
 
 Key Strengths:
 - [Strength 1]
@@ -521,18 +628,27 @@ Recommendations:
 - [Recommendation 2]
 - [Recommendation 3]
 
-Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
+Strategy: [2-3 sentences about application approach - DO NOT include any prompt instructions, requirements, or formatting guidelines here. Only provide strategic advice for the student.]
 
-🚨 CRITICAL REQUIREMENTS:
-1. MUST provide EXACTLY 8 schools per category = 24 TOTAL
-2. VERIFY location filtering: If Northeast specified, 18+ schools must be from Northeast states
-3. COUNT YOUR SCHOOLS before submitting
-4. Strategy section: ONLY student-facing advice
-5. Include state in parentheses for each university`;
+🚨 CRITICAL REQUIREMENTS - NON-NEGOTIABLE:
+1. MUST provide EXACTLY 8 schools per category (Reach, Target, Safety) = 24 TOTAL
+2. SAFETY SCHOOLS: If you provide fewer than 8 safety schools, your response is INCOMPLETE and FAILS
+3. PRIORITY: Complete all 24 universities BEFORE providing detailed insights
+4. Keep insights concise to ensure all 24 schools fit within response
+5. If running low on space, shorten insights but NEVER reduce number of universities
+6. Format: University Name | GPA: X.X-X.X | SAT: XXXX-XXXX (or N/A for Canadian schools)
+7. COUNT YOUR SCHOOLS: Verify you have exactly 8 Reach + 8 Target + 8 Safety = 24 total
+8. CRITICAL: In the "Strategy" section, ONLY provide advice for the student. DO NOT include formatting instructions, requirements, or any prompting-related text. The Strategy section should read like natural advice.
+
+For Canadian engineering students with 90% GPA, safety schools might include: Manitoba, Saskatchewan, Dalhousie, Memorial, Ontario Tech, Lakehead, Regina, Laurentian, UNBC, Cape Breton, UNB, etc.
+
+⚠️ DO NOT submit response without verifying you have 8 safety schools listed.
+⚠️ DO NOT STOP until all 24 universities are listed!
+⚠️ STRATEGY SECTION: Only student-facing advice - no prompting instructions!`;
 
 
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-27b-it:generateContent?key=${API_KEY}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemma-3-12b-it:generateContent?key=${API_KEY}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -540,7 +656,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
             contents: [{ parts: [{ text: prompt }] }],
             generationConfig: {
               temperature: 0.7,
-              maxOutputTokens: 16000,
+              maxOutputTokens: 16000, // Increased from 8000 to ensure all 24 universities are provided
             }
           })
         }
@@ -553,7 +669,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
       const data = await response.json();
       const aiResponse = data.candidates[0].content.parts[0].text;
 
-      // ENHANCED: Parse colleges with REGIONAL filtering
+      // ENHANCED: Parse colleges with better filtering and US state verification
       const parseColleges = (section) => {
         const colleges = [];
         const lines = section.split('\n').filter(line => line.trim());
@@ -563,34 +679,18 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
                                loc.includes('alberta') || loc.includes('quebec') || loc.includes('bc') || 
                                loc.includes('toronto') || loc.includes('vancouver') || loc.includes('calgary');
         
-        // Detect requested US state
+        // Detect if a specific US state was requested
         const usStates = [
           'california', 'texas', 'new york', 'florida', 'illinois', 'pennsylvania', 'ohio', 'michigan',
-          'georgia', 'north carolina', 'virginia', 'washington', 'arizona', 'massachusetts', 'tennessee'
+          'georgia', 'north carolina', 'virginia', 'washington', 'arizona', 'massachusetts', 'tennessee',
+          'indiana', 'missouri', 'maryland', 'wisconsin', 'minnesota', 'colorado', 'alabama',
+          'south carolina', 'louisiana', 'kentucky', 'oregon', 'oklahoma', 'connecticut', 'utah',
+          'iowa', 'nevada', 'arkansas', 'mississippi', 'kansas', 'new mexico', 'nebraska', 'idaho',
+          'west virginia', 'hawaii', 'new hampshire', 'maine', 'rhode island', 'montana', 'delaware',
+          'south dakota', 'north dakota', 'alaska', 'vermont', 'wyoming'
         ];
+        
         const requestedState = usStates.find(state => loc.includes(state));
-        
-        // NEW: Detect requested US region and map to states
-        const regionStates = {
-          'northeast': ['connecticut', 'maine', 'massachusetts', 'new hampshire', 'rhode island', 'vermont', 'new jersey', 'new york', 'pennsylvania'],
-          'mid-atlantic': ['new york', 'new jersey', 'pennsylvania', 'delaware', 'maryland', 'virginia', 'west virginia'],
-          'southeast': ['north carolina', 'south carolina', 'georgia', 'florida', 'alabama', 'mississippi', 'louisiana', 'tennessee', 'kentucky', 'arkansas'],
-          'south': ['texas', 'oklahoma', 'north carolina', 'south carolina', 'georgia', 'florida', 'alabama', 'mississippi', 'louisiana', 'tennessee', 'kentucky', 'arkansas', 'virginia'],
-          'midwest': ['ohio', 'michigan', 'indiana', 'illinois', 'wisconsin', 'minnesota', 'iowa', 'missouri', 'kansas', 'nebraska'],
-          'southwest': ['texas', 'oklahoma', 'new mexico', 'arizona'],
-          'west': ['california', 'oregon', 'washington', 'nevada', 'idaho', 'montana', 'wyoming', 'colorado', 'utah', 'arizona', 'new mexico'],
-          'west coast': ['california', 'oregon', 'washington'],
-          'east coast': ['maine', 'new hampshire', 'massachusetts', 'rhode island', 'connecticut', 'new york', 'new jersey', 'pennsylvania', 'delaware', 'maryland', 'virginia', 'north carolina', 'south carolina', 'georgia', 'florida'],
-          'pacific': ['california', 'oregon', 'washington', 'hawaii', 'alaska']
-        };
-        
-        let requestedRegionStates = null;
-        for (const [region, states] of Object.entries(regionStates)) {
-          if (loc.includes(region)) {
-            requestedRegionStates = states;
-            break;
-          }
-        }
         
         for (const line of lines) {
           if (/^\d+\./.test(line)) {
@@ -600,7 +700,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
               const gpa_range = parts[1].replace('GPA:', '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
               const sat_range = parts[2].replace('SAT:', '').replace(/\*\*/g, '').replace(/\*/g, '').trim();
               
-              // Canadian university detection
+              // ENHANCED LOCATION FILTERING - Comprehensive Canadian university detection
               const isCanadianUni = name.includes('Toronto') || name.includes('UBC') || name.includes('British Columbia') ||
                                    name.includes('McGill') || name.includes('Waterloo') || name.includes('McMaster') ||
                                    name.includes("Queen's") || name.includes('Alberta') || name.includes('Calgary') ||
@@ -609,75 +709,53 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
                                    name.includes('Victoria') || name.includes('Concordia') || name.includes('Western') ||
                                    name.includes('Manitoba') || name.includes('Saskatchewan') || name.includes('Regina') ||
                                    name.includes('Memorial') || name.includes('Lakehead') || name.includes('Laurentian') ||
-                                   name.includes('UNBC') || name.includes('Ontario Tech') || name.includes('Brock') ||
-                                   name.includes('Trent') || name.includes('Mount Allison') || name.includes('Acadia');
+                                   name.includes('UNBC') || name.includes('Northern British Columbia') ||
+                                   name.includes('Ontario Tech') || name.includes('Brock') || name.includes('Trent') ||
+                                   name.includes('Mount Allison') || name.includes('Acadia') || name.includes('St. Francis Xavier') ||
+                                   name.includes('Brandon') || name.includes('Winnipeg') || name.includes('Lethbridge') ||
+                                   name.includes('Ryerson') || name.includes('TMU') || name.includes('Guelph') ||
+                                   name.includes('Windsor') || name.includes('Laurier') || name.includes('Nipissing') ||
+                                   name.includes('Thompson Rivers') || name.includes('Vancouver Island') ||
+                                   name.includes('Cape Breton') || name.includes('UPEI') || name.includes('New Brunswick') ||
+                                   name.includes('Moncton') || name.includes("Bishop's") || name.includes('UQAM') ||
+                                   // Catch-all: If AI was instructed to only recommend Canadian and it's not obviously USA
+                                   (isCanadaRequest && !name.includes('University of') && !name.includes('Institute of Technology'));
               
-              // NEW: Enhanced state/region verification
+              // NEW: Enhanced US state filtering - check if university is from requested state
               if (requestedState && !isCanadianUni) {
                 const nameLower = name.toLowerCase();
+                // Skip universities that are clearly not from the requested state
+                // Allow if university name contains the state OR is a well-known university from that state
                 const stateInName = nameLower.includes(requestedState);
                 
-                // State-specific matching
+                // Define state-specific universities for better filtering
                 const isFromRequestedState = stateInName || 
                   (requestedState === 'california' && (nameLower.includes('uc ') || nameLower.includes('stanford') || nameLower.includes('caltech') || nameLower.includes('usc') || nameLower.includes('pomona') || nameLower.includes('csu'))) ||
                   (requestedState === 'texas' && (nameLower.includes('ut ') || nameLower.includes('texas a&m') || nameLower.includes('rice') || nameLower.includes('smu') || nameLower.includes('tcu') || nameLower.includes('baylor'))) ||
-                  (requestedState === 'new york' && (nameLower.includes('columbia') || nameLower.includes('cornell') || nameLower.includes('nyu') || nameLower.includes('rochester') || nameLower.includes('syracuse') || nameLower.includes('suny') || nameLower.includes('cuny'))) ||
-                  (requestedState === 'massachusetts' && (nameLower.includes('harvard') || nameLower.includes('mit') || nameLower.includes('boston') || nameLower.includes('tufts') || nameLower.includes('brandeis') || nameLower.includes('umass') || nameLower.includes('williams') || nameLower.includes('amherst'))) ||
-                  (requestedState === 'pennsylvania' && (nameLower.includes('upenn') || nameLower.includes('carnegie mellon') || nameLower.includes('penn state') || nameLower.includes('drexel') || nameLower.includes('temple') || nameLower.includes('villanova') || nameLower.includes('swarthmore') || nameLower.includes('pitt')));
+                  (requestedState === 'new york' && (nameLower.includes('columbia') || nameLower.includes('cornell') || nameLower.includes('nyu') || nameLower.includes('rochester') || nameLower.includes('syracuse') || nameLower.includes('suny') || nameLower.includes('cuny') || nameLower.includes('rpi') || nameLower.includes('fordham') || nameLower.includes('vassar') || nameLower.includes('colgate') || nameLower.includes('hamilton'))) ||
+                  (requestedState === 'massachusetts' && (nameLower.includes('harvard') || nameLower.includes('mit') || nameLower.includes('boston') || nameLower.includes('tufts') || nameLower.includes('brandeis') || nameLower.includes('umass') || nameLower.includes('williams') || nameLower.includes('amherst') || nameLower.includes('smith') || nameLower.includes('wellesley') || nameLower.includes('holy cross') || nameLower.includes('wpi') || nameLower.includes('northeastern'))) ||
+                  (requestedState === 'pennsylvania' && (nameLower.includes('upenn') || nameLower.includes('carnegie mellon') || nameLower.includes('penn state') || nameLower.includes('drexel') || nameLower.includes('temple') || nameLower.includes('villanova') || nameLower.includes('swarthmore') || nameLower.includes('haverford') || nameLower.includes('bryn mawr') || nameLower.includes('lehigh') || nameLower.includes('bucknell') || nameLower.includes('lafayette') || nameLower.includes('dickinson') || nameLower.includes('pitt')));
                 
+                // If state was requested but this university isn't from that state, skip it
                 if (!isFromRequestedState) {
-                  continue; // Skip universities not from requested state
-                }
-              }
-              
-              // NEW: Regional filtering verification
-              if (requestedRegionStates && !isCanadianUni && !requestedState) {
-                const nameLower = name.toLowerCase();
-                let isFromRequestedRegion = false;
-                
-                // Check if university name contains any state from the region
-                for (const state of requestedRegionStates) {
-                  if (nameLower.includes(state)) {
-                    isFromRequestedRegion = true;
-                    break;
-                  }
-                }
-                
-                // Additional specific university checks for regions
-                const northeastSchools = ['harvard', 'mit', 'yale', 'princeton', 'columbia', 'cornell', 'upenn', 'brown', 'dartmouth', 'williams', 'amherst', 'swarthmore', 'vassar', 'wesleyan', 'haverford', 'colgate', 'hamilton', 'boston', 'tufts', 'brandeis', 'umass', 'rutgers', 'rochester', 'syracuse', 'suny', 'cuny'];
-                const midAtlanticSchools = ['columbia', 'nyu', 'cornell', 'princeton', 'upenn', 'carnegie mellon', 'johns hopkins', 'georgetown', 'virginia', 'william & mary'];
-                const southeastSchools = ['duke', 'unc', 'emory', 'georgia tech', 'vanderbilt', 'florida', 'miami', 'wake forest', 'davidson'];
-                const midwestSchools = ['northwestern', 'chicago', 'uiuc', 'purdue', 'michigan', 'wisconsin', 'washington university', 'carleton', 'grinnell', 'oberlin', 'kenyon'];
-                const westSchools = ['stanford', 'caltech', 'berkeley', 'ucla', 'usc', 'washington', 'colorado', 'pomona', 'harvey mudd'];
-                
-                if (loc.includes('northeast')) {
-                  isFromRequestedRegion = isFromRequestedRegion || northeastSchools.some(school => nameLower.includes(school));
-                } else if (loc.includes('mid-atlantic')) {
-                  isFromRequestedRegion = isFromRequestedRegion || midAtlanticSchools.some(school => nameLower.includes(school));
-                } else if (loc.includes('southeast') || loc.includes('south')) {
-                  isFromRequestedRegion = isFromRequestedRegion || southeastSchools.some(school => nameLower.includes(school));
-                } else if (loc.includes('midwest')) {
-                  isFromRequestedRegion = isFromRequestedRegion || midwestSchools.some(school => nameLower.includes(school));
-                } else if (loc.includes('west')) {
-                  isFromRequestedRegion = isFromRequestedRegion || westSchools.some(school => nameLower.includes(school));
-                }
-                
-                if (!isFromRequestedRegion) {
-                  continue; // Skip universities not from requested region
-                }
-              }
-              
-              // Apply Canada filter
-              if (isCanadaRequest && !isCanadianUni) {
-                const isClearlyUSA = name.includes('MIT') || name.includes('Stanford') || name.includes('Harvard') ||
-                                    name.includes('Yale') || name.includes('Princeton') || name.includes('Columbia') ||
-                                    name.includes('Duke') || name.includes('Northwestern') || name.includes('Caltech');
-                if (isClearlyUSA) {
                   continue;
                 }
               }
+              
+              // Apply location filter ONLY if explicitly requested
+              if (isCanadaRequest && !isCanadianUni) {
+                // Only filter out if it's clearly a USA university
+                const isClearlyUSA = name.includes('MIT') || name.includes('Stanford') || name.includes('Harvard') ||
+                                    name.includes('Yale') || name.includes('Princeton') || name.includes('Columbia') ||
+                                    name.includes('Duke') || name.includes('Northwestern') || name.includes('Caltech') ||
+                                    name.includes('Georgia Tech') || name.includes('Carnegie Mellon') ||
+                                    name.includes('Berkeley') || name.includes('UCLA') || name.includes('USC');
+                if (isClearlyUSA) {
+                  continue; // Skip USA universities for Canadian searches
+                }
+              }
               if (!isCanadaRequest && isCanadianUni) {
-                continue;
+                continue; // Skip Canadian universities for USA searches
               }
               
               colleges.push({ name, gpa_range, sat_range });
@@ -721,26 +799,43 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
     }
   };
 
-  // ENHANCED: Format AI Insights with BETTER filtering
+  // ENHANCED: Format AI Insights with structured sections and FILTER OUT PROMPT LEAKAGE
   const formatAIResponse = (text) => {
+    // Remove markdown formatting
     let cleanText = text.replace(/\*\*/g, '').replace(/\*/g, '');
     
+    // CRITICAL FIX: Remove any prompt-related instructions that might have leaked into the response
+    // This prevents the "CRITICAL REQUIREMENTS - NON-NEGOTIABLE" text from appearing in Application Strategy
     const promptKeywords = [
-      'CRITICAL REQUIREMENTS', 'NON-NEGOTIABLE', 'MUST provide EXACTLY', 'FORMAT EXACTLY AS SHOWN',
-      'DO NOT submit response', 'DO NOT STOP until', 'MANDATORY', 'verify you have exactly',
-      'COUNT YOUR SCHOOLS', 'If running low on space', 'shorten insights but NEVER',
-      'INSTRUCTIONS:', 'CATEGORIES:', 'Format:', '🚨', '⚠️', 'VERIFICATION CHECKLIST'
+      'CRITICAL REQUIREMENTS',
+      'NON-NEGOTIABLE',
+      'MUST provide EXACTLY',
+      'FORMAT EXACTLY AS SHOWN',
+      'DO NOT submit response',
+      'DO NOT STOP until',
+      'MANDATORY',
+      'verify you have exactly',
+      'COUNT YOUR SCHOOLS',
+      'If running low on space',
+      'shorten insights but NEVER',
+      'INSTRUCTIONS:',
+      'CATEGORIES:',
+      'Format:',
+      '🚨',
+      '⚠️'
     ];
     
+    // Split into lines and filter out any lines containing prompt keywords
     const lines = cleanText.split('\n').map(line => {
       const lineLower = line.toLowerCase();
+      // Check if this line contains any prompt keywords
       for (const keyword of promptKeywords) {
         if (lineLower.includes(keyword.toLowerCase())) {
-          return null;
+          return null; // Mark this line for removal
         }
       }
       return line;
-    }).filter(line => line !== null && line.trim());
+    }).filter(line => line !== null && line.trim()); // Remove null and empty lines
     
     const sections = {
       analysis: '',
@@ -766,13 +861,16 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
         } else if (currentSection === 'recommendations' && line.trim().startsWith('-')) {
           sections.recommendations.push(line.replace(/^[-•*]\s*/, ''));
         } else if (currentSection === 'strategy') {
-          if (!line.trim().match(/^\d+\./)) {
+          // Additional filtering for strategy section to ensure no prompt leakage
+          const lineClean = line.trim();
+          if (!lineClean.match(/^\d+\./)) { // Don't include numbered list items (likely from prompt)
             sections.strategy += line + ' ';
           }
         }
       }
     });
 
+    // Final cleanup: Remove any remaining prompt artifacts from strategy
     sections.strategy = sections.strategy
       .replace(/CRITICAL.*/gi, '')
       .replace(/MUST provide.*/gi, '')
@@ -993,10 +1091,10 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
             value={studentProfile.desiredMajor}
             onChange={(e) => handleInputChange('desiredMajor', e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-            placeholder="e.g., Engineering, Computer Science, Biology, BS/MD, accelerated dental"
+            placeholder="e.g., Computer Science, Biology, Business, Engineering, BS/MD (accelerated medical), BS/DDS (accelerated dental)"
           />
           <p className="text-xs text-gray-500 mt-1">
-            For accelerated programs, include "BS/MD", "BS/DO", "accelerated medical", "direct dental", etc.
+            Enter your intended major. For accelerated programs, include "BS/MD", "BS/DO", "accelerated medical", "direct dental", etc.
           </p>
         </div>
 
@@ -1010,10 +1108,10 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
             value={studentProfile.location}
             onChange={(e) => handleInputChange('location', e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-            placeholder='e.g., California, Texas, Northeast, Midwest, Canada, Ontario'
+            placeholder='e.g., California, Texas, Northeast, Canada, Ontario, etc. (Leave blank for all USA states)'
           />
           <p className="text-xs text-gray-500 mt-1">
-            Specify USA state, region (Northeast, Midwest, South, West), or "Canada" for Canadian universities
+            Specify USA state (e.g., "California", "Texas"), region (e.g., "Northeast"), or "Canada"/"Ontario" for Canadian universities. Leave blank for all USA states.
           </p>
         </div>
 
@@ -1027,8 +1125,9 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
             value={studentProfile.budget}
             onChange={(e) => handleInputChange('budget', e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-            placeholder="e.g., $30,000/year, Need financial aid"
+            placeholder="e.g., $30,000/year, Need financial aid, Full tuition"
           />
+          <p className="text-xs text-gray-500 mt-1">Optional - helps find affordable options with financial aid</p>
         </div>
 
         {/* Extracurriculars */}
@@ -1040,8 +1139,8 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
             value={studentProfile.extracurriculars}
             onChange={(e) => handleInputChange('extracurriculars', e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-            placeholder="e.g., Robotics Club, Debate Team, Volunteering"
-            rows={2}
+            placeholder="e.g., Robotics Club, Debate Team, Volunteering, Sports..."
+            rows={3}
           />
         </div>
 
@@ -1054,7 +1153,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
             value={studentProfile.leadership}
             onChange={(e) => handleInputChange('leadership', e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-            placeholder="e.g., Student Government President, Club Founder"
+            placeholder="e.g., Student Government President, Club Founder, Team Captain..."
             rows={2}
           />
         </div>
@@ -1068,7 +1167,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
             value={studentProfile.awards}
             onChange={(e) => handleInputChange('awards', e.target.value)}
             className="w-full px-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 transition"
-            placeholder="e.g., National Merit Finalist, Science Olympiad Gold"
+            placeholder="e.g., National Merit Finalist, Science Olympiad Gold, AP Scholar..."
             rows={2}
           />
         </div>
@@ -1087,7 +1186,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
         >
           {loading ? (
             <>
-              <Loader className="h-7 w-7 animate-spin" />
+              <Brain className="h-7 w-7 animate-pulse" />
               AI is Analyzing Your Profile...
             </>
           ) : (
@@ -1099,13 +1198,13 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
         </Button>
 
         <p className="text-center text-sm text-gray-500">
-          * Required: GPA/Percentage and Intended Major • SAT/ACT optional • Your information is never stored
+          * Required: GPA/Percentage and Intended Major • SAT/ACT optional (many universities are test-optional) • Your information is private and never stored
         </p>
       </CardContent>
     </Card>
   );
 
-  // Results Section (same as before, keeping all existing functionality)
+  // Results Section
   const renderResultsSection = () => (
     <div className="space-y-8">
       {/* AI Insights */}
@@ -1130,7 +1229,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
         </Card>
       )}
 
-      {/* AdSense Zone 1 */}
+      {/* AdSense Zone 1 - After AI Insights, Before Results */}
       <div className="my-8">
         <ins className="adsbygoogle"
              style={{display:'block'}}
@@ -1272,7 +1371,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
         </Card>
       </div>
 
-      {/* AdSense Zone 2 */}
+      {/* AdSense Zone 2 - After Results, Before Strategy */}
       <div className="my-8">
         <ins className="adsbygoogle"
              style={{display:'block'}}
@@ -1287,7 +1386,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
         <CardContent className="p-8">
           <h3 className="text-2xl font-bold text-blue-900 mb-6 flex items-center gap-3">
             <TrendingUp className="h-7 w-7 text-blue-600" />
-            College Application Strategy
+            College Application Strategy for USA Universities
           </h3>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-orange-500">
@@ -1296,7 +1395,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
                 Reach (2-4 schools)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                Dream schools where you're below average but have a chance with strong application.
+                Dream schools where you're below average but have a chance with a strong application. These are ambitious targets that could transform your future.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-blue-500">
@@ -1305,7 +1404,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
                 Target (3-5 schools)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                Your stats match well. Solid 50-70% acceptance chance.
+                Your stats match well. Solid 50-70% acceptance chance. Focus your efforts here for the best balance of ambition and likelihood.
               </p>
             </div>
             <div className="bg-white p-6 rounded-xl shadow-md border-l-4 border-green-500">
@@ -1314,14 +1413,14 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
                 Safety (2-3 schools)
               </h4>
               <p className="text-gray-700 text-sm leading-relaxed">
-                You exceed average credentials. Very likely to be accepted (80%+).
+                You exceed average admitted student credentials. Very likely to be accepted (80%+ probability). Essential for peace of mind in your applications.
               </p>
             </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* AdSense Zone 3 */}
+      {/* AdSense Zone 3 - After Strategy Guide */}
       <div className="my-8">
         <ins className="adsbygoogle"
              style={{display:'block'}}
@@ -1348,10 +1447,10 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
     </div>
   );
 
-  // Main Render with TAB NAVIGATION
+  // Main Render with SEO Enhancements
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 py-12 px-4">
-      {/* Breadcrumb */}
+      {/* BREADCRUMB NAVIGATION */}
       <nav aria-label="Breadcrumb" className="max-w-7xl mx-auto mb-6">
         <ol className="flex items-center space-x-2 text-sm">
           <li>
@@ -1366,67 +1465,34 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
         </ol>
       </nav>
 
-      {/* Header */}
+      {/* SEO-Optimized Header */}
       <header className="max-w-7xl mx-auto mb-10 text-center">
         <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
           <Sparkles className="h-4 w-4" />
-          <span>Powered by Google AI - 100% Free</span>
+          <span>Powered by Google AI (Gemini) - 100% Free for USA Universities (Canada Available)</span>
         </div>
         <h1 className="text-5xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 mb-4">
-          Free AI College Admissions Calculator
+          Free AI College Admissions Calculator - USA/Canada Universities
         </h1>
         <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-4">
-          Find your perfect university match in United States or Canada. Get 24 personalized reach, target, and safety schools.
+          What colleges can I get into? Find your perfect university match in United States or Canada. AI-powered college admissions calculator helps you discover 24 personalized reach, target, and safety schools based on your GPA/Percentage, SAT/ACT scores, and intended major. Enter "Canada" in location for Canadian universities.
         </p>
+        <p className="text-sm text-gray-500 max-w-2xl mx-auto mb-6">
+          Free college admissions calculator tool for USA universities (Canadian universities available - just specify location). Calculate your college admissions chances at top universities. Search colleges by GPA, SAT/ACT score, major, and location across all 50 states. Includes California colleges, Texas universities, New York schools, and more. Type "Canada", "Ontario", or any province for Canadian options. Supports BS/MD and BS/DO accelerated medical programs. No registration required. By <strong>Calgary Academic Excellence</strong> - trusted SAT prep and university counseling in Calgary, Alberta.
+        </p>
+        
+        {/* 🆕 CTA BUTTONS */}
+        <div className="flex flex-wrap justify-center gap-4 mt-6">
+          <a href="/resources" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg">
+            <BookOpen className="h-5 w-5" />
+            Free SAT Prep Resources
+          </a>
+          <a href="/about" className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-semibold transition-all shadow-lg">
+            <Users className="h-5 w-5" />
+            About Our Services
+          </a>
+        </div>
       </header>
-
-      {/* TAB NAVIGATION - NEW! */}
-      {results.Reach?.length > 0 && (
-        <div className="max-w-7xl mx-auto mb-8">
-          <div className="flex items-center justify-center gap-4">
-            <button
-              onClick={() => setActiveSection('input')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
-                activeSection === 'input'
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 border-2 border-gray-200'
-              }`}
-            >
-              <School className="h-5 w-5" />
-              Enter Your Profile
-            </button>
-            <button
-              onClick={() => setActiveSection('results')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-all ${
-                activeSection === 'results'
-                  ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                  : 'bg-white text-gray-600 hover:bg-gray-50 border-2 border-gray-200'
-              }`}
-            >
-              <Trophy className="h-5 w-5" />
-              Your University Matches
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* LOADING OVERLAY - ENHANCED! */}
-      {loading && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center">
-          <div className="bg-white rounded-2xl p-8 shadow-2xl max-w-md mx-4">
-            <div className="flex flex-col items-center gap-4">
-              <Loader className="h-16 w-16 text-purple-600 animate-spin" />
-              <h3 className="text-2xl font-bold text-gray-900">AI is Analyzing...</h3>
-              <p className="text-gray-600 text-center">
-                Processing your profile and matching with 500+ universities
-              </p>
-              <div className="w-full bg-gray-200 rounded-full h-2 mt-4">
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full animate-pulse" style={{width: '75%'}}></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 🆕 COMPREHENSIVE EDUCATIONAL CONTENT SECTION (ALWAYS VISIBLE - NO COLLAPSE) */}
       <div className="max-w-7xl mx-auto mb-12">
@@ -1589,7 +1655,6 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
         {activeSection === 'input' ? renderInputSection() : renderResultsSection()}
       </div>
 
-      {/* Main Content */}
       {/* COMPREHENSIVE FAQ SECTION */}
       <div className="max-w-7xl mx-auto mt-16 mb-12">
         <h2 className="text-3xl font-bold text-center text-gray-900 mb-8">
@@ -1608,20 +1673,7 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
             },
             {
               q: "How do I convert my international grades (percentage, A-Levels, IB) to USA GPA?",
-              a: (
-  <>
-    If you're using a percentage-based grading system (common in Indian CBSE/ICSE boards, UK systems, and many international curricula), use our{' '}
-    <a 
-      href="https://calgaryacademicexcellence.com/gpa-calculator" 
-      target="_blank"
-      rel="noopener noreferrer"
-      className="text-blue-600 hover:text-blue-800 underline font-semibold"
-    >
-      percentage to GPA calculator
-    </a>
-    {' '}and then use the GPA obtained from the GPA calculator.
-  </>
-)
+              a: "If you're using a percentage-based grading system (common in Indian CBSE/ICSE boards, UK systems, and many international curricula), select 'Percentage' in our calculator and enter your overall percentage. Our system automatically converts your percentage to the USA 4.0 GPA scale using AACRAO EDGE compliant methodology - the same standard used by USA university admissions offices for international credential evaluation. For UK A-Level students: A*A*A* typically converts to ~3.9-4.0 GPA, AAA to ~3.7-3.9, AAB to ~3.5-3.7, etc. IB Diploma students: 42-45 points = ~4.0 GPA, 38-41 = ~3.8-3.9, 34-37 = ~3.5-3.7, etc. The calculator handles these conversions internally. For more detailed international grade conversion, visit our dedicated AACRAO EDGE compliant GPA Calculator tool. Canadian students using provincial grading systems (Alberta percentage, Ontario percentage, BC percentage) can also use the percentage option - our AI understands how Canadian grading differs from USA systems and makes appropriate recommendations for both Canadian and USA university applications."
             },
             {
               q: "What's the difference between applying to USA universities versus Canadian universities?",
