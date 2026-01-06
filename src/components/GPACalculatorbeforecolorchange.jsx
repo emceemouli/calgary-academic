@@ -1631,37 +1631,8 @@ const GPACalculatorGlobal = () => {
     return { valid: true, message: '' };
   };
 
-  // SEO Meta Tags using useEffect
-  useEffect(() => {
-    // Set page title
-    document.title = `Free International GPA Calculator | ${TOTAL_COUNTRIES}+ Countries | AACRAO Compliant | Calgary Academic Excellence`;
-    
-    // Set meta description
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', `Convert your grades to US 4.0 GPA from ${TOTAL_COUNTRIES}+ countries. Supports India (CBSE, ICSE, ${INDIAN_BOARDS_COUNT}+ state boards), Canada, USA, UK A-Levels, IB Diploma, and ${TOTAL_SCALES}+ grading systems. AACRAO EDGE compliant, WES-compatible GPA conversion for university admissions.`);
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = 'description';
-      meta.content = `Convert your grades to US 4.0 GPA from ${TOTAL_COUNTRIES}+ countries. Supports India (CBSE, ICSE, ${INDIAN_BOARDS_COUNT}+ state boards), Canada, USA, UK A-Levels, IB Diploma, and ${TOTAL_SCALES}+ grading systems.`;
-      document.head.appendChild(meta);
-    }
-    
-    // Set keywords
-    const metaKeywords = document.querySelector('meta[name="keywords"]');
-    if (metaKeywords) {
-      metaKeywords.setAttribute('content', 'GPA calculator, international GPA converter, CBSE to GPA, ICSE to GPA, Indian GPA calculator, Canadian GPA, UK A-level to GPA, IB to GPA, AACRAO EDGE, WES GPA conversion');
-    } else {
-      const meta = document.createElement('meta');
-      meta.name = 'keywords';
-      meta.content = 'GPA calculator, international GPA converter, CBSE to GPA, ICSE to GPA, Indian GPA calculator, Canadian GPA, UK A-level to GPA, IB to GPA, AACRAO EDGE, WES GPA conversion';
-      document.head.appendChild(meta);
-    }
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gray-50">
-
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 via-cyan-50 to-blue-50">
       {/* Schema Markup */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{
         __html: JSON.stringify({
@@ -1690,42 +1661,18 @@ const GPACalculatorGlobal = () => {
         })
       }} />
       
-      {/* Breadcrumb Schema */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{
-        __html: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            {
-              "@type": "ListItem",
-              "position": 1,
-              "name": "Home",
-              "item": "https://calgaryacademicexcellence.com"
-            },
-            {
-              "@type": "ListItem",
-              "position": 2,
-              "name": "GPA Calculator",
-              "item": "https://calgaryacademicexcellence.com/gpa-calculator"
-            }
-          ]
-        })
-      }} />
-      
-      {/* Header - Matching Homepage Style */}
-      <div className="bg-gradient-to-r from-blue-900 via-blue-800 to-blue-900 text-white py-8 md:py-12 shadow-2xl" style={{
-        backgroundImage: 'linear-gradient(135deg, rgba(30, 58, 138, 0.98) 0%, rgba(37, 99, 235, 0.95) 50%, rgba(30, 58, 138, 0.98) 100%)',
-      }}>
+      {/* Header */}
+      <div className="bg-gradient-to-r from-teal-600 via-cyan-600 to-blue-600 text-white py-8 md:py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-4">
-            <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm">
+            <div className="p-3 bg-white/20 rounded-xl">
               <Globe className="w-8 h-8" />
             </div>
             <div>
               <h1 className="text-2xl md:text-4xl font-bold">
                 International GPA Calculator
               </h1>
-              <p className="text-blue-100 text-sm md:text-base">
+              <p className="text-teal-100 text-sm md:text-base">
                 Convert grades from {TOTAL_COUNTRIES}+ countries to US 4.0 scale
               </p>
             </div>
@@ -1733,16 +1680,16 @@ const GPACalculatorGlobal = () => {
           
           {/* Stats badges */}
           <div className="flex flex-wrap gap-2 mt-4">
-            <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm flex items-center gap-1">
+            <span className="px-3 py-1 bg-white/20 rounded-full text-sm flex items-center gap-1">
               <Globe className="w-4 h-4" /> {TOTAL_COUNTRIES}+ Countries
             </span>
-            <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm flex items-center gap-1">
+            <span className="px-3 py-1 bg-white/20 rounded-full text-sm flex items-center gap-1">
               <Calculator className="w-4 h-4" /> {TOTAL_SCALES}+ Scales
             </span>
-            <span className="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm flex items-center gap-1">
+            <span className="px-3 py-1 bg-white/20 rounded-full text-sm flex items-center gap-1">
               <Flag className="w-4 h-4" /> {INDIAN_BOARDS_COUNT}+ Indian Boards
             </span>
-            <span className="px-3 py-1 bg-yellow-400/30 backdrop-blur-sm rounded-full text-sm flex items-center gap-1">
+            <span className="px-3 py-1 bg-yellow-400/30 rounded-full text-sm flex items-center gap-1">
               <Award className="w-4 h-4" /> AACRAO EDGE Certified
             </span>
           </div>
@@ -1751,7 +1698,7 @@ const GPACalculatorGlobal = () => {
 
       {/* AdSense Top */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+        <div className="bg-gray-100 rounded-lg p-4 text-center text-gray-500 text-sm">
           <ins className="adsbygoogle"
             style={{ display: 'block' }}
             data-ad-client="ca-pub-7638771792216412"
@@ -1769,9 +1716,9 @@ const GPACalculatorGlobal = () => {
           <div className="lg:col-span-2 space-y-6">
             
             {/* Mode Selection */}
-            <div className="bg-white rounded-2xl shadow-2xl p-6">
+            <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                <Calculator className="w-5 h-5 text-blue-700" />
+                <Calculator className="w-5 h-5 text-teal-600" />
                 Calculation Mode
               </h2>
               <div className="grid grid-cols-2 gap-3">
@@ -1779,8 +1726,8 @@ const GPACalculatorGlobal = () => {
                   onClick={() => setMode('course')}
                   className={`p-4 rounded-xl border-2 transition-all ${
                     mode === 'course' 
-                      ? 'border-blue-600 bg-blue-50 text-blue-800' 
-                      : 'border-gray-200 hover:border-blue-300'
+                      ? 'border-teal-500 bg-teal-50 text-teal-700' 
+                      : 'border-gray-200 hover:border-teal-300'
                   }`}
                 >
                   <BookOpen className="w-6 h-6 mx-auto mb-2" />
@@ -1791,8 +1738,8 @@ const GPACalculatorGlobal = () => {
                   onClick={() => setMode('quick')}
                   className={`p-4 rounded-xl border-2 transition-all ${
                     mode === 'quick' 
-                      ? 'border-blue-600 bg-blue-50 text-blue-800' 
-                      : 'border-gray-200 hover:border-blue-300'
+                      ? 'border-teal-500 bg-teal-50 text-teal-700' 
+                      : 'border-gray-200 hover:border-teal-300'
                   }`}
                 >
                   <Zap className="w-6 h-6 mx-auto mb-2" />
@@ -1803,9 +1750,9 @@ const GPACalculatorGlobal = () => {
             </div>
 
             {/* Country & Scale Selection */}
-            <div className="bg-white rounded-2xl shadow-2xl p-6">
+            <div className="bg-white rounded-2xl shadow-lg p-6">
               <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                <Globe className="w-5 h-5 text-blue-700" />
+                <Globe className="w-5 h-5 text-teal-600" />
                 Select Your Grading System
               </h2>
               
@@ -1819,7 +1766,7 @@ const GPACalculatorGlobal = () => {
                     className="relative cursor-pointer"
                     onClick={() => setShowCountryDropdown(!showCountryDropdown)}
                   >
-                    <div className="w-full p-3 border rounded-xl bg-white flex items-center justify-between hover:border-blue-400 transition-colors">
+                    <div className="w-full p-3 border rounded-xl bg-white flex items-center justify-between hover:border-teal-400 transition-colors">
                       <span className={selectedCountry ? 'text-gray-900' : 'text-gray-400'}>
                         {selectedCountry || 'Select country...'}
                       </span>
@@ -1837,7 +1784,7 @@ const GPACalculatorGlobal = () => {
                             placeholder="Search countries..."
                             value={countrySearch}
                             onChange={(e) => setCountrySearch(e.target.value)}
-                            className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full pl-9 pr-3 py-2 border rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                             onClick={(e) => e.stopPropagation()}
                           />
                         </div>
@@ -1852,13 +1799,13 @@ const GPACalculatorGlobal = () => {
                               setShowCountryDropdown(false);
                               setCountrySearch('');
                             }}
-                            className={`w-full px-4 py-2 text-left hover:bg-blue-50 transition-colors ${
-                              selectedCountry === country ? 'bg-blue-100 text-blue-800' : ''
+                            className={`w-full px-4 py-2 text-left hover:bg-teal-50 transition-colors ${
+                              selectedCountry === country ? 'bg-teal-100 text-teal-700' : ''
                             }`}
                           >
                             {country}
                             {country === 'India' && (
-                              <span className="ml-2 text-xs text-blue-700">({INDIAN_BOARDS_COUNT} boards)</span>
+                              <span className="ml-2 text-xs text-teal-600">({INDIAN_BOARDS_COUNT} boards)</span>
                             )}
                           </button>
                         ))}
@@ -1876,7 +1823,7 @@ const GPACalculatorGlobal = () => {
                     value={selectedScale}
                     onChange={(e) => setSelectedScale(e.target.value)}
                     disabled={!selectedCountry}
-                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
+                    className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 disabled:bg-gray-100 disabled:cursor-not-allowed"
                   >
                     <option value="">Select scale...</option>
                     {availableScales.map(scale => (
@@ -1891,9 +1838,9 @@ const GPACalculatorGlobal = () => {
 
               {/* Scale Info */}
               {currentScale && (
-                <div className={`mt-4 p-4 rounded-xl border ${currentScale.inverted ? 'bg-amber-50 border-amber-200' : 'bg-blue-50 border-blue-200'}`}>
+                <div className={`mt-4 p-4 rounded-xl border ${currentScale.inverted ? 'bg-amber-50 border-amber-200' : 'bg-teal-50 border-teal-200'}`}>
                   <div className="flex items-start gap-2">
-                    <Info className={`w-5 h-5 mt-0.5 flex-shrink-0 ${currentScale.inverted ? 'text-amber-600' : 'text-blue-700'}`} />
+                    <Info className={`w-5 h-5 mt-0.5 flex-shrink-0 ${currentScale.inverted ? 'text-amber-600' : 'text-teal-600'}`} />
                     <div>
                       <div className="font-medium text-gray-800">
                         {currentScale.name}
@@ -1912,13 +1859,13 @@ const GPACalculatorGlobal = () => {
 
             {/* Calculator Input Section */}
             {currentScale && (
-              <div className="bg-white rounded-2xl shadow-2xl p-6">
+              <div className="bg-white rounded-2xl shadow-lg p-6">
                 
                 {/* Quick Convert Mode */}
                 {mode === 'quick' && (
                   <div>
                     <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                      <Zap className="w-5 h-5 text-blue-700" />
+                      <Zap className="w-5 h-5 text-teal-600" />
                       Quick Grade Conversion
                     </h2>
                     
@@ -1931,7 +1878,7 @@ const GPACalculatorGlobal = () => {
                           <select
                             value={quickGrade}
                             onChange={(e) => setQuickGrade(e.target.value)}
-                            className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                           >
                             <option value="">Select grade...</option>
                             {currentScale.options?.map(opt => (
@@ -1949,7 +1896,7 @@ const GPACalculatorGlobal = () => {
                             min={currentScale.min}
                             max={currentScale.max}
                             step="0.01"
-                            className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            className="w-full p-3 border rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                           />
                         )}
                       </div>
@@ -1957,7 +1904,7 @@ const GPACalculatorGlobal = () => {
                       <button
                         onClick={handleQuickConvert}
                         disabled={quickGrade === ''}
-                        className="px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-500 text-white rounded-xl font-medium hover:from-blue-700 hover:to-blue-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 self-end"
+                        className="px-6 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl font-medium hover:from-teal-600 hover:to-cyan-600 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 self-end"
                       >
                         <ArrowRight className="w-5 h-5" />
                         Convert
@@ -1989,12 +1936,12 @@ const GPACalculatorGlobal = () => {
                   <div>
                     <div className="flex items-center justify-between mb-4">
                       <h2 className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                        <BookOpen className="w-5 h-5 text-blue-700" />
+                        <BookOpen className="w-5 h-5 text-teal-600" />
                         Enter Your Courses
                       </h2>
                       <button
                         onClick={addSemester}
-                        className="px-4 py-2 bg-blue-100 text-blue-800 rounded-lg hover:bg-blue-200 transition-colors flex items-center gap-1 text-sm font-medium"
+                        className="px-4 py-2 bg-teal-100 text-teal-700 rounded-lg hover:bg-teal-200 transition-colors flex items-center gap-1 text-sm font-medium"
                       >
                         <Plus className="w-4 h-4" /> Add Semester
                       </button>
@@ -2020,7 +1967,7 @@ const GPACalculatorGlobal = () => {
                                 value={semester.name}
                                 onChange={(e) => updateSemesterName(semester.id, e.target.value)}
                                 onClick={(e) => e.stopPropagation()}
-                                className="font-medium bg-transparent border-b border-transparent hover:border-gray-300 focus:border-blue-500 focus:outline-none px-1"
+                                className="font-medium bg-transparent border-b border-transparent hover:border-gray-300 focus:border-teal-500 focus:outline-none px-1"
                               />
                               <span className="text-sm text-gray-500">
                                 ({semester.courses.length} course{semester.courses.length !== 1 ? 's' : ''})
@@ -2055,7 +2002,7 @@ const GPACalculatorGlobal = () => {
                                       placeholder="e.g., Calculus I"
                                       value={course.name}
                                       onChange={(e) => updateCourse(semester.id, course.id, 'name', e.target.value)}
-                                      className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                      className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                     />
                                   </div>
                                   <div className="col-span-4">
@@ -2063,7 +2010,7 @@ const GPACalculatorGlobal = () => {
                                       <select
                                         value={course.grade}
                                         onChange={(e) => updateCourse(semester.id, course.id, 'grade', e.target.value)}
-                                        className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                       >
                                         <option value="">Grade</option>
                                         {currentScale.options?.map(opt => (
@@ -2079,7 +2026,7 @@ const GPACalculatorGlobal = () => {
                                         min={currentScale.min}
                                         max={currentScale.max}
                                         step="0.01"
-                                        className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                        className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                       />
                                     )}
                                   </div>
@@ -2090,7 +2037,7 @@ const GPACalculatorGlobal = () => {
                                       onChange={(e) => updateCourse(semester.id, course.id, 'credits', e.target.value)}
                                       min="0"
                                       max="12"
-                                      className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                      className="w-full p-2 border rounded-lg text-sm focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
                                     />
                                   </div>
                                   <div className="col-span-1 text-center">
@@ -2108,7 +2055,7 @@ const GPACalculatorGlobal = () => {
 
                               <button
                                 onClick={() => addCourse(semester.id)}
-                                className="w-full p-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-blue-400 hover:text-blue-700 transition-colors flex items-center justify-center gap-1 text-sm"
+                                className="w-full p-2 border-2 border-dashed border-gray-300 rounded-lg text-gray-500 hover:border-teal-400 hover:text-teal-600 transition-colors flex items-center justify-center gap-1 text-sm"
                               >
                                 <Plus className="w-4 h-4" /> Add Course
                               </button>
@@ -2122,7 +2069,7 @@ const GPACalculatorGlobal = () => {
                     <div className="flex flex-wrap gap-3 mt-6">
                       <button
                         onClick={calculateGPA}
-                        className="flex-1 py-3 bg-gradient-to-r from-blue-500 to-blue-500 text-white rounded-xl font-medium hover:from-blue-700 hover:to-blue-600 transition-all flex items-center justify-center gap-2"
+                        className="flex-1 py-3 bg-gradient-to-r from-teal-500 to-cyan-500 text-white rounded-xl font-medium hover:from-teal-600 hover:to-cyan-600 transition-all flex items-center justify-center gap-2"
                       >
                         <Calculator className="w-5 h-5" /> Calculate GPA
                       </button>
@@ -2166,7 +2113,7 @@ const GPACalculatorGlobal = () => {
 
             {/* Popular Scales Quick Access */}
             {!selectedCountry && (
-              <div className="bg-white rounded-2xl shadow-2xl p-6">
+              <div className="bg-white rounded-2xl shadow-lg p-6">
                 <h2 className="text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
                   <Star className="w-5 h-5 text-yellow-500" />
                   Popular Grading Scales
@@ -2179,7 +2126,7 @@ const GPACalculatorGlobal = () => {
                         setSelectedCountry(scale.country);
                         setSelectedScale(scale.key);
                       }}
-                      className="p-3 border rounded-xl hover:border-blue-400 hover:bg-blue-50 transition-all text-left"
+                      className="p-3 border rounded-xl hover:border-teal-400 hover:bg-teal-50 transition-all text-left"
                     >
                       <div className="font-medium text-gray-800 text-sm">{scale.name}</div>
                       <div className="text-xs text-gray-500">{scale.country}</div>
@@ -2195,10 +2142,10 @@ const GPACalculatorGlobal = () => {
             
             {/* Results Card */}
             {results && (
-              <div ref={resultsRef} className={`bg-white rounded-2xl shadow-2xl p-6 sticky top-4 print:static ${getGPABg(results.cumulativeGPA)} border-2`}>
+              <div ref={resultsRef} className={`bg-white rounded-2xl shadow-lg p-6 sticky top-4 print:static ${getGPABg(results.cumulativeGPA)} border-2`}>
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="font-semibold text-gray-800 flex items-center gap-2">
-                    <Award className="w-5 h-5 text-blue-700" />
+                    <Award className="w-5 h-5 text-teal-600" />
                     Your GPA Results
                   </h3>
                   <div className="flex gap-1">
@@ -2270,7 +2217,7 @@ const GPACalculatorGlobal = () => {
             )}
 
             {/* AdSense Sidebar */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+            <div className="bg-gray-100 rounded-lg p-4 text-center text-gray-500 text-sm">
               <ins className="adsbygoogle"
                 style={{ display: 'block' }}
                 data-ad-client="ca-pub-7638771792216412"
@@ -2279,9 +2226,9 @@ const GPACalculatorGlobal = () => {
             </div>
 
             {/* Info Cards */}
-            <div className="bg-white rounded-2xl shadow-2xl p-6">
+            <div className="bg-white rounded-2xl shadow-lg p-6">
               <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                <Info className="w-5 h-5 text-blue-700" />
+                <Info className="w-5 h-5 text-teal-600" />
                 Why Use This Calculator?
               </h3>
               <div className="space-y-3 text-sm text-gray-600">
@@ -2305,25 +2252,25 @@ const GPACalculatorGlobal = () => {
             </div>
 
             {/* Related Tools */}
-            <div className="bg-gradient-to-br from-blue-50 to-blue-50 rounded-2xl p-6 border border-blue-100">
+            <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 border border-teal-100">
               <h3 className="font-semibold text-gray-800 mb-4">Related Tools</h3>
               <div className="space-y-2">
                 <a href="/college-admissions-calculator" className="flex items-center gap-2 p-3 bg-white rounded-lg hover:shadow-md transition-all">
-                  <GraduationCap className="w-5 h-5 text-blue-700" />
+                  <GraduationCap className="w-5 h-5 text-teal-600" />
                   <div>
                     <div className="font-medium text-gray-800">College Predictor</div>
                     <div className="text-xs text-gray-500">Find your best-fit universities</div>
                   </div>
                 </a>
                 <a href="/graduate-admissions-calculator" className="flex items-center gap-2 p-3 bg-white rounded-lg hover:shadow-md transition-all">
-                  <Award className="w-5 h-5 text-blue-700" />
+                  <Award className="w-5 h-5 text-teal-600" />
                   <div>
                     <div className="font-medium text-gray-800">Graduate Admissions</div>
                     <div className="text-xs text-gray-500">MS/PhD program chances</div>
                   </div>
                 </a>
                 <a href="/resources" className="flex items-center gap-2 p-3 bg-white rounded-lg hover:shadow-md transition-all">
-                  <BookOpen className="w-5 h-5 text-blue-700" />
+                  <BookOpen className="w-5 h-5 text-teal-600" />
                   <div>
                     <div className="font-medium text-gray-800">SAT Resources</div>
                     <div className="text-xs text-gray-500">Free practice materials</div>
@@ -2335,9 +2282,9 @@ const GPACalculatorGlobal = () => {
         </div>
 
         {/* SEO Content Section */}
-        <div className="mt-12 bg-white rounded-2xl shadow-2xl p-8">
+        <div className="mt-12 bg-white rounded-2xl shadow-lg p-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-2">
-            <BookMarked className="w-6 h-6 text-blue-700" />
+            <BookMarked className="w-6 h-6 text-teal-600" />
             Complete Guide to International GPA Conversion
           </h2>
 
@@ -2501,10 +2448,10 @@ const GPACalculatorGlobal = () => {
           <div className="mt-12">
             <button
               onClick={() => setShowFAQ(!showFAQ)}
-              className="w-full flex items-center justify-between p-4 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors"
+              className="w-full flex items-center justify-between p-4 bg-teal-50 rounded-xl hover:bg-teal-100 transition-colors"
             >
               <span className="text-lg font-semibold text-gray-800 flex items-center gap-2">
-                <HelpCircle className="w-5 h-5 text-blue-700" />
+                <HelpCircle className="w-5 h-5 text-teal-600" />
                 Frequently Asked Questions
               </span>
               {showFAQ ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
@@ -2512,37 +2459,37 @@ const GPACalculatorGlobal = () => {
 
             {showFAQ && (
               <div className="mt-4 space-y-4">
-                <div className="border-l-4 border-blue-500 pl-4 py-2">
+                <div className="border-l-4 border-teal-500 pl-4 py-2">
                   <h4 className="font-semibold text-gray-800">How accurate is this GPA calculator?</h4>
                   <p className="text-gray-600 text-sm mt-1">
                     Our conversions follow AACRAO EDGE guidelines used by US universities for official credential evaluation. While individual institutions may have slight variations, our calculations align with industry standards used by WES, ECE, and university admissions offices worldwide.
                   </p>
                 </div>
-                <div className="border-l-4 border-blue-500 pl-4 py-2">
+                <div className="border-l-4 border-teal-500 pl-4 py-2">
                   <h4 className="font-semibold text-gray-800">Why does my Indian 75% convert to 3.7+ GPA?</h4>
                   <p className="text-gray-600 text-sm mt-1">
                     AACRAO recognizes that Indian grading is more stringent than US grading. A 75% (First Division with Distinction) in India represents top-tier academic achievement comparable to A grades in the US system. Indian exams emphasize conceptual understanding with genuinely difficult questions.
                   </p>
                 </div>
-                <div className="border-l-4 border-blue-500 pl-4 py-2">
+                <div className="border-l-4 border-teal-500 pl-4 py-2">
                   <h4 className="font-semibold text-gray-800">Should I use this GPA or get official WES evaluation?</h4>
                   <p className="text-gray-600 text-sm mt-1">
                     For applications, always check university requirements. Many accept self-reported GPAs with official transcripts, while some require WES/ECE evaluation. Use this calculator for planning and preliminary applications—it follows the same methodology as official evaluators.
                   </p>
                 </div>
-                <div className="border-l-4 border-blue-500 pl-4 py-2">
+                <div className="border-l-4 border-teal-500 pl-4 py-2">
                   <h4 className="font-semibold text-gray-800">What if my state board isn't listed?</h4>
                   <p className="text-gray-600 text-sm mt-1">
                     We support all 28+ major Indian state boards. If your specific board uses a standard percentage system, select "India" then "Tier 2/3 University (Percentage)" which works for most state board results. Contact us to add additional boards.
                   </p>
                 </div>
-                <div className="border-l-4 border-blue-500 pl-4 py-2">
+                <div className="border-l-4 border-teal-500 pl-4 py-2">
                   <h4 className="font-semibold text-gray-800">How do inverted scales (German, Filipino) work?</h4>
                   <p className="text-gray-600 text-sm mt-1">
                     Some countries use inverted scales where lower numbers are better (German 1.0 = best, Filipino 1.0 = best). Our calculator automatically handles these conversions—just enter your grade as shown on your transcript. Look for the "⚠️ Lower = Better" warning.
                   </p>
                 </div>
-                <div className="border-l-4 border-blue-500 pl-4 py-2">
+                <div className="border-l-4 border-teal-500 pl-4 py-2">
                   <h4 className="font-semibold text-gray-800">Is this calculator suitable for graduate school applications?</h4>
                   <p className="text-gray-600 text-sm mt-1">
                     Yes! Graduate programs use the same AACRAO standards. For PhD applications, note that a 3.0+ GPA is typically minimum for admission, with competitive programs expecting 3.5+. Use our Graduate Admissions Calculator for program-specific predictions.
@@ -2612,7 +2559,7 @@ const GPACalculatorGlobal = () => {
         </div>
 
         {/* AdSense Bottom */}
-        <div className="mt-8 bg-white/10 backdrop-blur-sm rounded-lg p-4 text-center">
+        <div className="mt-8 bg-gray-100 rounded-lg p-4 text-center text-gray-500 text-sm">
           <ins className="adsbygoogle"
             style={{ display: 'block' }}
             data-ad-client="ca-pub-7638771792216412"
@@ -2623,7 +2570,7 @@ const GPACalculatorGlobal = () => {
       </div>
 
       {/* Footer */}
-      <footer className="bg-gray-900 text-gray-300 py-8 mt-12 border-t border-blue-800">
+      <footer className="bg-gray-800 text-gray-300 py-8 mt-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center">
             <p className="text-sm">

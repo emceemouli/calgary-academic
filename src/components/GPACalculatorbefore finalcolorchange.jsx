@@ -1660,7 +1660,11 @@ const GPACalculatorGlobal = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900" style={{
+      backgroundImage: 'linear-gradient(135deg, rgba(30, 58, 138, 0.95) 0%, rgba(37, 99, 235, 0.90) 50%, rgba(30, 58, 138, 0.95) 100%)',
+      backgroundSize: 'cover',
+      backgroundAttachment: 'fixed'
+    }}>
 
       {/* Schema Markup */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{
