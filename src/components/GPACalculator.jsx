@@ -2255,21 +2255,21 @@ const GPACalculatorGlobal = () => {
             <div className="bg-gradient-to-br from-teal-50 to-cyan-50 rounded-2xl p-6 border border-teal-100">
               <h3 className="font-semibold text-gray-800 mb-4">Related Tools</h3>
               <div className="space-y-2">
-                <a href="/college-predictor" className="flex items-center gap-2 p-3 bg-white rounded-lg hover:shadow-md transition-all">
+                <a href="/college-admissions-calculator" className="flex items-center gap-2 p-3 bg-white rounded-lg hover:shadow-md transition-all">
                   <GraduationCap className="w-5 h-5 text-teal-600" />
                   <div>
                     <div className="font-medium text-gray-800">College Predictor</div>
                     <div className="text-xs text-gray-500">Find your best-fit universities</div>
                   </div>
                 </a>
-                <a href="/graduate-calculator" className="flex items-center gap-2 p-3 bg-white rounded-lg hover:shadow-md transition-all">
+                <a href="/graduate-admissions-calculator" className="flex items-center gap-2 p-3 bg-white rounded-lg hover:shadow-md transition-all">
                   <Award className="w-5 h-5 text-teal-600" />
                   <div>
                     <div className="font-medium text-gray-800">Graduate Admissions</div>
                     <div className="text-xs text-gray-500">MS/PhD program chances</div>
                   </div>
                 </a>
-                <a href="/sat-resources" className="flex items-center gap-2 p-3 bg-white rounded-lg hover:shadow-md transition-all">
+                <a href="/resources" className="flex items-center gap-2 p-3 bg-white rounded-lg hover:shadow-md transition-all">
                   <BookOpen className="w-5 h-5 text-teal-600" />
                   <div>
                     <div className="font-medium text-gray-800">SAT Resources</div>
