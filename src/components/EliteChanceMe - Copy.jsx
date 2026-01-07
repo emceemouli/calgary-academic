@@ -431,7 +431,7 @@ MODEL OUTPUT (already computed):
 
   if (loadingDb) {
     return (
-      <div className="min-h-screen bg-white pt-24">
+      <div className="min-h-screen bg-white">
         <div className="mx-auto max-w-7xl px-6 py-14">
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow">
@@ -453,7 +453,7 @@ MODEL OUTPUT (already computed):
 
   if (dbError) {
     return (
-      <div className="min-h-screen bg-white pt-24">
+      <div className="min-h-screen bg-white">
         <div className="mx-auto max-w-7xl px-6 py-14">
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow">
@@ -482,7 +482,7 @@ MODEL OUTPUT (already computed):
   if (!school || !computed) return null;
 
   return (
-    <div className="min-h-screen bg-white pt-24">
+    <div className="min-h-screen bg-white">
       {/* Sticky school selector */}
       <div className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-slate-100">
         <div className="mx-auto max-w-7xl px-6 py-4 flex flex-col md:flex-row md:items-center gap-3">
