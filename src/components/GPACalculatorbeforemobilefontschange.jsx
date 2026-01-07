@@ -1828,7 +1828,7 @@ const GPACalculatorGlobal = () => {
                   </div>
                   
                   {showCountryDropdown && (
-                    <div className="absolute z-50 w-full mt-1 bg-white border rounded-xl shadow-xl max-h-64 overflow-hidden text-gray-900">
+                    <div className="absolute z-50 w-full mt-1 bg-white border rounded-xl shadow-xl max-h-64 overflow-hidden">
                       <div className="p-2 border-b sticky top-0 bg-white">
                         <div className="relative">
                           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -1852,7 +1852,9 @@ const GPACalculatorGlobal = () => {
                               setShowCountryDropdown(false);
                               setCountrySearch('');
                             }}
-                            className={`w-full px-4 py-2 text-left hover:bg-blue-50 transition-colors text-gray-900 text-gray-900 ${selectedCountry === country ? 'bg-blue-100 text-blue-800' : ''}`}
+                            className={`w-full px-4 py-2 text-left hover:bg-blue-50 transition-colors ${
+                              selectedCountry === country ? 'bg-blue-100 text-blue-800' : ''
+                            }`}
                           >
                             {country}
                             {country === 'India' && (
