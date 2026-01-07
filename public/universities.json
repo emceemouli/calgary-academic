@@ -1,0 +1,1052 @@
+[
+  {
+    "id": 3,
+    "name": "Harvard University",
+    "type": "Research",
+    "tier": "Ivy League",
+    "select": 4
+  },
+  {
+    "id": 4,
+    "name": "Stanford University",
+    "type": "Research",
+    "tier": "Top 10",
+    "select": 4
+  },
+  {
+    "id": 5,
+    "name": "Yale University",
+    "type": "Research",
+    "tier": "Ivy League",
+    "select": 5
+  },
+  {
+    "id": 6,
+    "name": "University of Pennsylvania",
+    "type": "Research",
+    "tier": "Ivy League",
+    "select": 7
+  },
+  {
+    "id": 7,
+    "name": "California Institute of Technology",
+    "type": "Research",
+    "tier": "Top 10",
+    "select": 6
+  },
+  {
+    "id": 8,
+    "name": "Duke University",
+    "type": "Research",
+    "tier": "Top 15",
+    "select": 6
+  },
+  {
+    "id": 9,
+    "name": "Brown University",
+    "type": "Research",
+    "tier": "Ivy League",
+    "select": 6
+  },
+  {
+    "id": 10,
+    "name": "Northwestern University",
+    "type": "Research",
+    "tier": "Top 15",
+    "select": 7
+  },
+  {
+    "id": 11,
+    "name": "Johns Hopkins University",
+    "type": "Research",
+    "tier": "Top 15",
+    "select": 9
+  },
+  {
+    "id": 12,
+    "name": "Columbia University",
+    "type": "Research",
+    "tier": "Ivy League",
+    "select": 5
+  },
+  {
+    "id": 13,
+    "name": "University of Chicago",
+    "type": "Research",
+    "tier": "Top 15",
+    "select": 6
+  },
+  {
+    "id": 14,
+    "name": "UC Berkeley",
+    "type": "Research",
+    "tier": "Public Elite",
+    "select": 15
+  },
+  {
+    "id": 15,
+    "name": "UCLA",
+    "type": "Research",
+    "tier": "Public Elite",
+    "select": 11
+  },
+  {
+    "id": 16,
+    "name": "Carnegie Mellon University",
+    "type": "Research",
+    "tier": "Top 25",
+    "select": 15
+  },
+  {
+    "id": 17,
+    "name": "Vanderbilt University",
+    "type": "Research",
+    "tier": "Top 25",
+    "select": 7
+  },
+  {
+    "id": 18,
+    "name": "Rice University",
+    "type": "Research",
+    "tier": "Top 25",
+    "select": 9
+  },
+  {
+    "id": 19,
+    "name": "Washington University in St. Louis",
+    "type": "Research",
+    "tier": "Top 25",
+    "select": 13
+  },
+  {
+    "id": 20,
+    "name": "Cornell University",
+    "type": "Research",
+    "tier": "Ivy League",
+    "select": 11
+  },
+  {
+    "id": 21,
+    "name": "University of Michigan",
+    "type": "Research",
+    "tier": "Public Elite",
+    "select": 20
+  },
+  {
+    "id": 22,
+    "name": "USC",
+    "type": "Research",
+    "tier": "Top 25",
+    "select": 11
+  },
+  {
+    "id": 23,
+    "name": "Georgetown University",
+    "type": "Research",
+    "tier": "Top 25",
+    "select": 14
+  },
+  {
+    "id": 24,
+    "name": "University of Virginia",
+    "type": "Research",
+    "tier": "Public Elite",
+    "select": 21
+  },
+  {
+    "id": 25,
+    "name": "UC San Diego",
+    "type": "Research",
+    "tier": "Public Elite",
+    "select": 30
+  },
+  {
+    "id": 26,
+    "name": "UC Davis",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 35
+  },
+  {
+    "id": 27,
+    "name": "University of Florida",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 31
+  },
+  {
+    "id": 28,
+    "name": "Wake Forest University",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 25
+  },
+  {
+    "id": 29,
+    "name": "UNC Chapel Hill",
+    "type": "Research",
+    "tier": "Public Elite",
+    "select": 20
+  },
+  {
+    "id": 30,
+    "name": "Tufts University",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 11
+  },
+  {
+    "id": 31,
+    "name": "NYU",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 13
+  },
+  {
+    "id": 32,
+    "name": "UC Santa Barbara",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 30
+  },
+  {
+    "id": 33,
+    "name": "University of Rochester",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 30
+  },
+  {
+    "id": 34,
+    "name": "Boston College",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 27
+  },
+  {
+    "id": 35,
+    "name": "University of Wisconsin-Madison",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 54
+  },
+  {
+    "id": 36,
+    "name": "UIUC",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 59
+  },
+  {
+    "id": 37,
+    "name": "Georgia Tech",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 21
+  },
+  {
+    "id": 38,
+    "name": "Boston University",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 19
+  },
+  {
+    "id": 39,
+    "name": "Brandeis University",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 30
+  },
+  {
+    "id": 40,
+    "name": "Case Western Reserve",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 27
+  },
+  {
+    "id": 41,
+    "name": "William & Mary",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 37
+  },
+  {
+    "id": 42,
+    "name": "Northeastern University",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 18
+  },
+  {
+    "id": 43,
+    "name": "Tulane University",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 10
+  },
+  {
+    "id": 44,
+    "name": "University of Georgia",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 45
+  },
+  {
+    "id": 45,
+    "name": "University of Illinois-Chicago",
+    "type": "Research",
+    "tier": "National",
+    "select": 73
+  },
+  {
+    "id": 46,
+    "name": "UT Austin",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 32
+  },
+  {
+    "id": 47,
+    "name": "University of Washington",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 56
+  },
+  {
+    "id": 48,
+    "name": "Lehigh University",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 32
+  },
+  {
+    "id": 49,
+    "name": "Pepperdine University",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 42
+  },
+  {
+    "id": 50,
+    "name": "Villanova University",
+    "type": "Research",
+    "tier": "Top 50",
+    "select": 31
+  },
+  {
+    "id": 51,
+    "name": "Rensselaer Polytechnic",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 47
+  },
+  {
+    "id": 52,
+    "name": "University of Miami",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 27
+  },
+  {
+    "id": 53,
+    "name": "Ohio State University",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 54
+  },
+  {
+    "id": 54,
+    "name": "Penn State University",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 56
+  },
+  {
+    "id": 55,
+    "name": "Purdue University",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 60
+  },
+  {
+    "id": 56,
+    "name": "Rutgers University",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 61
+  },
+  {
+    "id": 57,
+    "name": "Syracuse University",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 44
+  },
+  {
+    "id": 58,
+    "name": "University of Pittsburgh",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 57
+  },
+  {
+    "id": 59,
+    "name": "University of Maryland",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 44
+  },
+  {
+    "id": 60,
+    "name": "Worcester Polytechnic",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 49
+  },
+  {
+    "id": 61,
+    "name": "George Washington Univ",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 41
+  },
+  {
+    "id": 62,
+    "name": "Southern Methodist Univ",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 47
+  },
+  {
+    "id": 63,
+    "name": "University of Connecticut",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 49
+  },
+  {
+    "id": 64,
+    "name": "UMass Amherst",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 64
+  },
+  {
+    "id": 65,
+    "name": "Clemson University",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 51
+  },
+  {
+    "id": 66,
+    "name": "Fordham University",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 46
+  },
+  {
+    "id": 67,
+    "name": "University of Minnesota",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 57
+  },
+  {
+    "id": 68,
+    "name": "Texas A&M University",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 63
+  },
+  {
+    "id": 69,
+    "name": "Stevens Institute",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 40
+  },
+  {
+    "id": 70,
+    "name": "Virginia Tech",
+    "type": "Research",
+    "tier": "Top 75",
+    "select": 70
+  },
+  {
+    "id": 71,
+    "name": "American University",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 36
+  },
+  {
+    "id": 72,
+    "name": "Baylor University",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 45
+  },
+  {
+    "id": 73,
+    "name": "Indiana University",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 78
+  },
+  {
+    "id": 74,
+    "name": "Marquette University",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 83
+  },
+  {
+    "id": 75,
+    "name": "Miami University-Oxford",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 80
+  },
+  {
+    "id": 76,
+    "name": "University of Delaware",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 71
+  },
+  {
+    "id": 77,
+    "name": "University of Iowa",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 83
+  },
+  {
+    "id": 78,
+    "name": "Clark University",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 62
+  },
+  {
+    "id": 79,
+    "name": "Michigan State Univ",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 76
+  },
+  {
+    "id": 80,
+    "name": "Texas Christian Univ",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 47
+  },
+  {
+    "id": 81,
+    "name": "UC Irvine",
+    "type": "Research",
+    "tier": "Public Elite",
+    "select": 29
+  },
+  {
+    "id": 82,
+    "name": "University of Denver",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 59
+  },
+  {
+    "id": 83,
+    "name": "University of San Diego",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 49
+  },
+  {
+    "id": 84,
+    "name": "Yeshiva University",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 55
+  },
+  {
+    "id": 85,
+    "name": "Creighton University",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 74
+  },
+  {
+    "id": 86,
+    "name": "Loyola Marymount Univ",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 44
+  },
+  {
+    "id": 87,
+    "name": "University of Kansas",
+    "type": "Research",
+    "tier": "National",
+    "select": 91
+  },
+  {
+    "id": 88,
+    "name": "Univ of New Hampshire",
+    "type": "Research",
+    "tier": "National",
+    "select": 85
+  },
+  {
+    "id": 89,
+    "name": "University of Oregon",
+    "type": "Research",
+    "tier": "National",
+    "select": 82
+  },
+  {
+    "id": 90,
+    "name": "Univ of South Carolina",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 68
+  },
+  {
+    "id": 91,
+    "name": "University of Vermont",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 71
+  },
+  {
+    "id": 92,
+    "name": "Gonzaga University",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 62
+  },
+  {
+    "id": 93,
+    "name": "Illinois Tech",
+    "type": "Research",
+    "tier": "National",
+    "select": 58
+  },
+  {
+    "id": 94,
+    "name": "Loyola Univ Chicago",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 67
+  },
+  {
+    "id": 95,
+    "name": "Univ at Buffalo-SUNY",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 67
+  },
+  {
+    "id": 96,
+    "name": "University of Oklahoma",
+    "type": "Research",
+    "tier": "National",
+    "select": 80
+  },
+  {
+    "id": 97,
+    "name": "Univ of San Francisco",
+    "type": "Research",
+    "tier": "National",
+    "select": 64
+  },
+  {
+    "id": 98,
+    "name": "Univ of St. Thomas",
+    "type": "Research",
+    "tier": "National",
+    "select": 82
+  },
+  {
+    "id": 99,
+    "name": "Univ of Tennessee",
+    "type": "Research",
+    "tier": "Top 100",
+    "select": 78
+  },
+  {
+    "id": 100,
+    "name": "University of Utah",
+    "type": "Research",
+    "tier": "National",
+    "select": 79
+  },
+  {
+    "id": 150,
+    "name": "Ohio University",
+    "type": "Research",
+    "tier": "National",
+    "select": 82
+  },
+  {
+    "id": 200,
+    "name": "Texas State University",
+    "type": "Research",
+    "tier": "National",
+    "select": 81
+  },
+  {
+    "id": 201,
+    "name": "Williams College",
+    "type": "LAC",
+    "tier": "Top 5 LAC",
+    "select": 8
+  },
+  {
+    "id": 202,
+    "name": "Amherst College",
+    "type": "LAC",
+    "tier": "Top 5 LAC",
+    "select": 9
+  },
+  {
+    "id": 203,
+    "name": "Swarthmore College",
+    "type": "LAC",
+    "tier": "Top 5 LAC",
+    "select": 7
+  },
+  {
+    "id": 204,
+    "name": "Pomona College",
+    "type": "LAC",
+    "tier": "Top 5 LAC",
+    "select": 7
+  },
+  {
+    "id": 205,
+    "name": "Bowdoin College",
+    "type": "LAC",
+    "tier": "Top 5 LAC",
+    "select": 7
+  },
+  {
+    "id": 206,
+    "name": "Wellesley College",
+    "type": "LAC",
+    "tier": "Top 10 LAC",
+    "select": 14
+  },
+  {
+    "id": 207,
+    "name": "Claremont McKenna",
+    "type": "LAC",
+    "tier": "Top 10 LAC",
+    "select": 11
+  },
+  {
+    "id": 208,
+    "name": "Middlebury College",
+    "type": "LAC",
+    "tier": "Top 10 LAC",
+    "select": 11
+  },
+  {
+    "id": 209,
+    "name": "Carleton College",
+    "type": "LAC",
+    "tier": "Top 10 LAC",
+    "select": 17
+  },
+  {
+    "id": 210,
+    "name": "Barnard College",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 8
+  },
+  {
+    "id": 211,
+    "name": "Harvey Mudd College",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 13
+  },
+  {
+    "id": 212,
+    "name": "Davidson College",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 18
+  },
+  {
+    "id": 213,
+    "name": "Haverford College",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 12
+  },
+  {
+    "id": 214,
+    "name": "Wesleyan University",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 16
+  },
+  {
+    "id": 215,
+    "name": "Hamilton College",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 14
+  },
+  {
+    "id": 216,
+    "name": "Vassar College",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 19
+  },
+  {
+    "id": 217,
+    "name": "Colby College",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 9
+  },
+  {
+    "id": 218,
+    "name": "Smith College",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 22
+  },
+  {
+    "id": 219,
+    "name": "Grinnell College",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 11
+  },
+  {
+    "id": 220,
+    "name": "Washington and Lee",
+    "type": "LAC",
+    "tier": "Top 20 LAC",
+    "select": 14
+  },
+  {
+    "id": 221,
+    "name": "Colgate University",
+    "type": "LAC",
+    "tier": "Top 25 LAC",
+    "select": 12
+  },
+  {
+    "id": 222,
+    "name": "Bates College",
+    "type": "LAC",
+    "tier": "Top 25 LAC",
+    "select": 13
+  },
+  {
+    "id": 223,
+    "name": "Richmond University",
+    "type": "LAC",
+    "tier": "Top 30 LAC",
+    "select": 22
+  },
+  {
+    "id": 224,
+    "name": "Macalester College",
+    "type": "LAC",
+    "tier": "Top 30 LAC",
+    "select": 28
+  },
+  {
+    "id": 225,
+    "name": "Holy Cross",
+    "type": "LAC",
+    "tier": "Top 30 LAC",
+    "select": 36
+  },
+  {
+    "id": 226,
+    "name": "Bryn Mawr College",
+    "type": "LAC",
+    "tier": "Top 30 LAC",
+    "select": 30
+  },
+  {
+    "id": 227,
+    "name": "Bucknell University",
+    "type": "LAC",
+    "tier": "Top 30 LAC",
+    "select": 30
+  },
+  {
+    "id": 228,
+    "name": "Lafayette College",
+    "type": "LAC",
+    "tier": "Top 30 LAC",
+    "select": 30
+  },
+  {
+    "id": 229,
+    "name": "Colorado College",
+    "type": "LAC",
+    "tier": "Top 30 LAC",
+    "select": 18
+  },
+  {
+    "id": 230,
+    "name": "Kenyon College",
+    "type": "LAC",
+    "tier": "Top 30 LAC",
+    "select": 34
+  },
+  {
+    "id": 231,
+    "name": "Oberlin College",
+    "type": "LAC",
+    "tier": "Top 40 LAC",
+    "select": 34
+  },
+  {
+    "id": 232,
+    "name": "Scripps College",
+    "type": "LAC",
+    "tier": "Top 40 LAC",
+    "select": 30
+  },
+  {
+    "id": 233,
+    "name": "Skidmore College",
+    "type": "LAC",
+    "tier": "Top 40 LAC",
+    "select": 26
+  },
+  {
+    "id": 234,
+    "name": "Denison University",
+    "type": "LAC",
+    "tier": "Top 40 LAC",
+    "select": 22
+  },
+  {
+    "id": 235,
+    "name": "Occidental College",
+    "type": "LAC",
+    "tier": "Top 40 LAC",
+    "select": 38
+  },
+  {
+    "id": 236,
+    "name": "Pitzer College",
+    "type": "LAC",
+    "tier": "Top 40 LAC",
+    "select": 18
+  },
+  {
+    "id": 237,
+    "name": "Trinity College",
+    "type": "LAC",
+    "tier": "Top 40 LAC",
+    "select": 36
+  },
+  {
+    "id": 238,
+    "name": "Union College",
+    "type": "LAC",
+    "tier": "Top 45 LAC",
+    "select": 41
+  },
+  {
+    "id": 239,
+    "name": "Whitman College",
+    "type": "LAC",
+    "tier": "Top 45 LAC",
+    "select": 48
+  },
+  {
+    "id": 240,
+    "name": "Franklin & Marshall",
+    "type": "LAC",
+    "tier": "Top 45 LAC",
+    "select": 36
+  },
+  {
+    "id": 241,
+    "name": "Gettysburg College",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 56
+  },
+  {
+    "id": 242,
+    "name": "Sewanee",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 52
+  },
+  {
+    "id": 243,
+    "name": "Dickinson College",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 35
+  },
+  {
+    "id": 244,
+    "name": "Rhodes College",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 56
+  },
+  {
+    "id": 245,
+    "name": "Reed College",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 31
+  },
+  {
+    "id": 246,
+    "name": "Centre College",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 60
+  },
+  {
+    "id": 247,
+    "name": "Bard College",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 52
+  },
+  {
+    "id": 248,
+    "name": "Connecticut College",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 38
+  },
+  {
+    "id": 249,
+    "name": "DePauw University",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 65
+  },
+  {
+    "id": 250,
+    "name": "St. Olaf College",
+    "type": "LAC",
+    "tier": "Top 50 LAC",
+    "select": 48
+  }
+]

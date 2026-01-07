@@ -14,7 +14,6 @@ import ScrollToTop from './components/ScrollToTop';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import ContactUs from './components/ContactUs';
-import EliteChanceMe from './components/EliteChanceMe';
 import {
   BookOpen,
   GraduationCap,
@@ -127,8 +126,7 @@ const Navigation = ({ isScrolled, setIsMenuOpen }) => {
     { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
     { id: 'college-calculator', label: 'Undergraduate', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' },
     { id: 'graduate-calculator', label: 'Graduate', icon: <Award className="h-4 w-4" />, path: '/graduate-admissions-calculator' },
-    { id: 'gpa-calculator', label: 'GPA Calc', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' },
-	{ id: 'elite-chance-me', label: 'Elite ChanceMe', icon: <GraduationCap />, path: '/elite-chance-me' }
+    { id: 'gpa-calculator', label: 'GPA Calc', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' }
   ];
 
   return (
@@ -345,9 +343,6 @@ const Footer = () => {
               <Link to="/gpa-calculator" className="block hover:text-white transition-colors">
                 GPA Calculator
               </Link>
-			  <Link to="/elite-chance-me" className="block hover:text-white transition-colors">
-                Elite Chance Me
-              </Link>
             </div>
           </div>
 
@@ -532,8 +527,7 @@ const App = () => {
     { id: 'blog', label: 'Blog', icon: <BookOpen className="h-4 w-4" />, path: '/blog' },
     { id: 'college-predictor', label: 'Undergraduate', icon: <GraduationCap className="h-4 w-4" />, path: '/college-admissions-calculator' },
     { id: 'graduate-predictor', label: 'Graduate', icon: <Award className="h-4 w-4" />, path: '/graduate-admissions-calculator' },
-    { id: 'gpa-calculator', label: 'GPA Calculator', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' },
-	{ id: 'elite-chance-me', label: 'Elite ChanceMe', icon: <GraduationCap />, path: '/elite-chance-me' }
+    { id: 'gpa-calculator', label: 'GPA Calculator', icon: <Calculator className="h-4 w-4" />, path: '/gpa-calculator' }
   ];
 
   return (
@@ -571,7 +565,6 @@ const App = () => {
           <Route path="/college-admissions-calculator" element={<CollegePredictor />} />
           <Route path="/graduate-admissions-calculator" element={<GraduateAdmissions />} />
           <Route path="/gpa-calculator" element={<GPACalculator />} />
-		  <Route path="/elite-chance-me" element={<EliteChanceMe />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/contact-us" element={<ContactUs />} />
