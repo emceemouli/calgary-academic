@@ -1784,7 +1784,7 @@ const GPACalculatorGlobal = () => {
                   }`}
                 >
                   <BookOpen className="w-6 h-6 mx-auto mb-2" />
-                  <div className="font-medium">Course by Course</div>
+                  <div className={mode === 'course' ? 'font-medium text-blue-800' : 'font-medium text-gray-900'}>Course by Course</div>
                   <div className="text-xs text-gray-500">Multiple courses & semesters</div>
                 </button>
                 <button
@@ -1796,7 +1796,7 @@ const GPACalculatorGlobal = () => {
                   }`}
                 >
                   <Zap className="w-6 h-6 mx-auto mb-2" />
-                  <div className="font-medium">Quick Convert</div>
+                  <div className={mode === 'quick' ? 'font-medium text-blue-800' : 'font-medium text-gray-900'}>Quick Convert</div>
                   <div className="text-xs text-gray-500">Single grade conversion</div>
                 </button>
               </div>
