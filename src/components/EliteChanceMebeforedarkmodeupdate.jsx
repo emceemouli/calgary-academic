@@ -418,20 +418,20 @@ MODEL OUTPUT (already computed):
 
   if (loadingDb) {
     return (
-      <div className="min-h-screen bg-white dark:bg-slate-900 pt-24">
+      <div className="min-h-screen bg-white pt-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-14">
           <div className="flex items-center gap-3">
             <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow">
               <GraduationCap size={20} />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 dark:text-white">Elite ChanceMe</h1>
-              <p className="text-slate-600 dark:text-slate-400 font-medium text-sm">Loading schools…</p>
+              <h1 className="text-2xl sm:text-3xl font-black tracking-tight">Elite ChanceMe</h1>
+              <p className="text-slate-600 font-medium text-sm">Loading schools…</p>
             </div>
           </div>
-          <div className="mt-10 rounded-2xl sm:rounded-3xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 p-6 flex items-center gap-4">
+          <div className="mt-10 rounded-2xl sm:rounded-3xl border border-slate-100 bg-slate-50 p-6 flex items-center gap-4">
             <div className="h-3 w-3 rounded-full bg-indigo-600 animate-pulse" />
-            <div className="font-black text-sm text-slate-700 dark:text-slate-300">Reading CSV database...</div>
+            <div className="font-black text-sm">Reading CSV database...</div>
           </div>
         </div>
       </div>
@@ -440,22 +440,22 @@ MODEL OUTPUT (already computed):
 
   if (dbError) {
     return (
-      <div className="min-h-screen bg-white dark:bg-slate-900 pt-24">
+      <div className="min-h-screen bg-white pt-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-14">
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow">
               <GraduationCap />
             </div>
             <div>
-              <h1 className="text-3xl font-black tracking-tight text-slate-900 dark:text-white">Elite ChanceMe</h1>
-              <p className="text-slate-600 dark:text-slate-400 font-medium">Error</p>
+              <h1 className="text-3xl font-black tracking-tight">Elite ChanceMe</h1>
+              <p className="text-slate-600 font-medium">Error</p>
             </div>
           </div>
-          <div className="mt-10 rounded-3xl border border-red-100 dark:border-red-900 bg-red-50 dark:bg-red-900/20 p-6 flex items-start gap-4">
-            <AlertTriangle className="text-red-600 dark:text-red-400 mt-1" />
+          <div className="mt-10 rounded-3xl border border-red-100 bg-red-50 p-6 flex items-start gap-4">
+            <AlertTriangle className="text-red-600 mt-1" />
             <div className="text-sm">
-              <div className="font-black text-red-900 dark:text-red-200">Could not load CSV</div>
-              <div className="text-red-700 dark:text-red-300 mt-1">{dbError}</div>
+              <div className="font-black text-red-900">Could not load CSV</div>
+              <div className="text-red-700 mt-1">{dbError}</div>
             </div>
           </div>
         </div>
@@ -466,17 +466,17 @@ MODEL OUTPUT (already computed):
   if (!school || !computed) return null;
 
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900 pt-16 sm:pt-24 transition-colors">
-      {/* Sticky school selector */}
-      <div className="sticky top-0 z-30 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm border-b border-slate-100 dark:border-slate-800 shadow-sm transition-colors">
+    <div className="min-h-screen bg-white pt-16 sm:pt-24">
+      {/* Sticky school selector - Refined for mobile height/overlap */}
+      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-sm border-b border-slate-100 shadow-sm">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-3 flex flex-col md:flex-row md:items-center gap-2 sm:gap-3">
           <div className="flex items-center gap-2">
-            <School className="text-indigo-600 dark:text-indigo-400 shrink-0" size={16} />
-            <span className="font-black text-xs sm:text-base uppercase tracking-tight text-slate-700 dark:text-slate-200">Select School</span>
+            <School className="text-indigo-600 shrink-0" size={16} />
+            <span className="font-black text-xs sm:text-base uppercase tracking-tight">Select School</span>
           </div>
 
           <div className="md:ml-auto w-full md:w-[500px] relative">
-            <Search className="absolute left-3.5 top-2.5 sm:top-3.5 text-slate-400 dark:text-slate-500" size={16} />
+            <Search className="absolute left-3.5 top-2.5 sm:top-3.5 text-slate-400" size={16} />
             <input
               list="school-list"
               value={selectedName}
@@ -486,7 +486,7 @@ MODEL OUTPUT (already computed):
                 const found = db.find((s) => s.name.toLowerCase() === val.toLowerCase());
                 if (found) setSchool(found);
               }}
-              className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-10 pr-4 py-2 sm:py-3 text-sm sm:text-base font-black text-slate-900 dark:text-white outline-none focus:ring-4 ring-indigo-50 dark:ring-indigo-900/20 transition-colors"
+              className="w-full rounded-xl bg-slate-50 border border-slate-200 pl-10 pr-4 py-2 sm:py-3 text-sm sm:text-base font-black outline-none focus:ring-4 ring-indigo-50"
               placeholder="Type school name..."
             />
             <datalist id="school-list">
@@ -496,7 +496,7 @@ MODEL OUTPUT (already computed):
             </datalist>
           </div>
 
-          <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 font-bold uppercase tracking-widest text-center sm:text-left">
+          <div className="text-[10px] sm:text-xs text-slate-500 font-bold uppercase tracking-widest text-center sm:text-left">
             {school.type} #{school.rank} • {(school.acceptanceRate * 100).toFixed(1)}% admit
           </div>
         </div>
@@ -509,22 +509,22 @@ MODEL OUTPUT (already computed):
             <GraduationCap size={20} />
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight text-slate-900 dark:text-white">Chance Me: {school.name}</h1>
-            <p className="text-slate-600 dark:text-slate-400 font-medium mt-1 text-xs sm:text-base">Probability based on historical data and AI analysis.</p>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">Chance Me: {school.name}</h1>
+            <p className="text-slate-600 font-medium mt-1 text-xs sm:text-base">Probability based on historical data and AI analysis.</p>
           </div>
         </div>
 
         <div className="mt-8 grid lg:grid-cols-12 gap-6 sm:gap-8">
           {/* Inputs Panel */}
-          <div className="lg:col-span-5 rounded-3xl md:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-8 shadow-sm h-fit transition-colors">
-            <div className="font-black text-lg sm:text-xl text-slate-900 dark:text-white">Your profile</div>
-            <div className="text-slate-500 dark:text-slate-400 font-medium mt-1 text-xs sm:text-sm">Adjust parameters below.</div>
+          <div className="lg:col-span-5 rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm h-fit">
+            <div className="font-black text-lg sm:text-xl">Your profile</div>
+            <div className="text-slate-500 font-medium mt-1 text-xs sm:text-sm">Adjust parameters below.</div>
 
             {/* GPA Slider */}
             <div className="mt-6">
               <div className="flex justify-between items-end">
-                <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">Unweighted GPA</label>
-                <div className="font-black text-sm sm:text-base text-slate-900 dark:text-white">{Number(profile.gpaUW).toFixed(2)}</div>
+                <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">Unweighted GPA</label>
+                <div className="font-black text-sm sm:text-base">{Number(profile.gpaUW).toFixed(2)}</div>
               </div>
               <input type="range" min="2.0" max="4.0" step="0.01" value={profile.gpaUW}
                 onChange={(e) => setProfile((p) => ({ ...p, gpaUW: Number(e.target.value) }))}
@@ -535,16 +535,16 @@ MODEL OUTPUT (already computed):
             <div className="mt-6">
               <div className="flex items-center gap-2">
                 <button onClick={() => setProfile((p) => ({ ...p, testType: "sat" }))}
-                  className={`flex-1 sm:flex-none px-4 py-2 rounded-full font-black text-[10px] sm:text-xs tracking-widest transition ${profile.testType === "sat" ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"}`}>SAT</button>
+                  className={`flex-1 sm:flex-none px-4 py-2 rounded-full font-black text-[10px] sm:text-xs tracking-widest ${profile.testType === "sat" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700"}`}>SAT</button>
                 <button onClick={() => setProfile((p) => ({ ...p, testType: "act" }))}
-                  className={`flex-1 sm:flex-none px-4 py-2 rounded-full font-black text-[10px] sm:text-xs tracking-widest transition ${profile.testType === "act" ? "bg-slate-900 dark:bg-white text-white dark:text-slate-900" : "bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300"}`}>ACT</button>
+                  className={`flex-1 sm:flex-none px-4 py-2 rounded-full font-black text-[10px] sm:text-xs tracking-widest ${profile.testType === "act" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700"}`}>ACT</button>
               </div>
 
               {profile.testType === "sat" ? (
                 <div className="mt-5">
                   <div className="flex justify-between items-end">
-                    <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">SAT total score</label>
-                    <div className="font-black text-sm sm:text-base text-slate-900 dark:text-white">{profile.sat}</div>
+                    <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">SAT total score</label>
+                    <div className="font-black text-sm sm:text-base">{profile.sat}</div>
                   </div>
                   <input type="range" min="800" max="1600" step="10" value={profile.sat}
                     onChange={(e) => setProfile((p) => ({ ...p, sat: Number(e.target.value) }))}
@@ -553,8 +553,8 @@ MODEL OUTPUT (already computed):
               ) : (
                 <div className="mt-5">
                   <div className="flex justify-between items-end">
-                    <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">ACT composite score</label>
-                    <div className="font-black text-sm sm:text-base text-slate-900 dark:text-white">{profile.act}</div>
+                    <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">ACT composite score</label>
+                    <div className="font-black text-sm sm:text-base">{profile.act}</div>
                   </div>
                   <input type="range" min="1" max="36" step="1" value={profile.act}
                     onChange={(e) => setProfile((p) => ({ ...p, act: Number(e.target.value) }))}
@@ -566,16 +566,16 @@ MODEL OUTPUT (already computed):
             {/* Holistic Data */}
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">AP/IB count</label>
+                <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">AP/IB count</label>
                 <input type="number" value={profile.apCount}
                   onChange={(e) => setProfile((p) => ({ ...p, apCount: Number(e.target.value) }))}
-                  className="mt-2 w-full rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2.5 font-black text-slate-900 dark:text-white outline-none text-sm transition-colors" />
+                  className="mt-2 w-full rounded-xl bg-slate-50 border border-slate-200 px-4 py-2.5 font-black outline-none text-sm" />
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">EC Tier</label>
+                <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">EC Tier</label>
                 <select value={profile.ecTier}
                   onChange={(e) => setProfile((p) => ({ ...p, ecTier: e.target.value }))}
-                  className="mt-2 w-full rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2.5 font-black text-slate-900 dark:text-white outline-none text-sm transition-colors" >
+                  className="mt-2 w-full rounded-xl bg-slate-50 border border-slate-200 px-4 py-2.5 font-black outline-none text-sm" >
                   <option value="1">Tier 1 (Rare)</option>
                   <option value="2">Tier 2</option>
                   <option value="3">Tier 3</option>
@@ -593,39 +593,39 @@ MODEL OUTPUT (already computed):
               ].map((x) => (
                 <button key={x.k}
                   onClick={() => setProfile((p) => ({ ...p, [x.k]: !p[x.k] }))}
-                  className={`rounded-xl border py-2.5 font-black text-[10px] sm:text-xs transition-all ${profile[x.k] ? "border-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 text-indigo-700 dark:text-indigo-300" : "border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300"}`}
+                  className={`rounded-xl border py-2.5 font-black text-[10px] sm:text-xs transition ${profile[x.k] ? "border-indigo-600 bg-indigo-50 text-indigo-700" : "border-slate-200 bg-white"}`}
                 >{x.label}</button>
               ))}
             </div>
 
             {/* Major & Income */}
             <div className="mt-6">
-              <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">Intended major</label>
+              <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">Intended major</label>
               <input value={profile.major}
                 onChange={(e) => setProfile((p) => ({ ...p, major: e.target.value }))}
-                className="mt-2 w-full rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-4 py-2.5 font-black text-slate-900 dark:text-white outline-none text-sm transition-colors"
+                className="mt-2 w-full rounded-xl bg-slate-50 border border-slate-200 px-4 py-2.5 font-black outline-none text-sm"
                 placeholder="e.g., Biology, CS..." />
             </div>
 
             <div className="mt-6">
-              <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">Family income (CAD)</label>
+              <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">Family income (CAD)</label>
               <div className="relative mt-2">
-                <DollarSign className="absolute left-4 top-2.5 text-indigo-600 dark:text-indigo-400" size={16} />
+                <DollarSign className="absolute left-4 top-2.5 text-indigo-600" size={16} />
                 <input type="number" value={profile.income}
                   onChange={(e) => setProfile((p) => ({ ...p, income: Number(e.target.value) }))}
-                  className="w-full rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 pl-10 pr-4 py-2.5 font-black text-slate-900 dark:text-white outline-none text-sm transition-colors" />
+                  className="w-full rounded-xl bg-slate-50 border border-slate-200 pl-10 pr-4 py-2.5 font-black outline-none text-sm" />
               </div>
             </div>
 
             <button onClick={generateAIExplanation}
               disabled={aiLoading}
-              className="mt-6 w-full rounded-xl bg-slate-900 dark:bg-indigo-600 text-white py-3.5 font-black text-sm sm:text-base hover:bg-indigo-700 dark:hover:bg-indigo-500 transition flex items-center justify-center gap-2 shadow-sm">
+              className="mt-6 w-full rounded-xl bg-slate-900 text-white py-3.5 font-black text-sm sm:text-base hover:bg-indigo-700 transition flex items-center justify-center gap-2">
               {aiLoading ? <Loader2 className="animate-spin" size={18} /> : <Sparkles size={18} />}
-              {aiLoading ? "Consulting Admissions Officer..." : "Get AI Explanation"}
+              {aiLoading ? "Consulting..." : "Get AI Explanation"}
             </button>
 
             {aiError && (
-              <div className="mt-4 rounded-xl border border-amber-200 dark:border-amber-900/50 bg-amber-50 dark:bg-amber-900/20 p-4 text-amber-900 dark:text-amber-200 text-[11px] font-bold leading-relaxed">
+              <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900 text-[11px] font-bold leading-relaxed">
                 {aiError}
               </div>
             )}
@@ -633,7 +633,7 @@ MODEL OUTPUT (already computed):
 
           {/* Results Side */}
           <div className="lg:col-span-7 space-y-6 sm:space-y-8">
-            {/* Probability Card */}
+            {/* Probability Card - Stacking logic for mobile */}
             <div className="rounded-3xl md:rounded-[2.5rem] bg-slate-900 text-white p-6 sm:p-8 shadow-lg">
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
                 <div className="text-center md:text-left">
@@ -654,38 +654,38 @@ MODEL OUTPUT (already computed):
               </div>
             </div>
 
-            {/* Comparison Table */}
-            <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-8 shadow-sm transition-colors">
-              <div className="font-black text-lg sm:text-xl text-slate-900 dark:text-white">Metric comparison</div>
-              <div className="text-slate-500 dark:text-slate-400 font-medium mt-1 text-xs">How you stack up against typical enrollees.</div>
+            {/* Comparison Table - Improved for Android small screens */}
+            <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm">
+              <div className="font-black text-lg sm:text-xl">Metric comparison</div>
+              <div className="text-slate-500 font-medium mt-1 text-xs">How you stack up against typical enrollees.</div>
 
               <div className="mt-6 overflow-x-auto -mx-1">
                 <table className="w-full text-left min-w-[320px]">
                   <thead>
-                    <tr className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-400">
+                    <tr className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-600">
                       <th className="py-2">Metric</th>
                       <th className="py-2">Typical</th>
                       <th className="py-2">You</th>
                     </tr>
                   </thead>
-                  <tbody className="text-[11px] sm:text-sm font-bold text-slate-900 dark:text-white">
-                    <tr className="border-t border-slate-50 dark:border-slate-800">
-                      <td className="py-3 pr-2 text-slate-700 dark:text-slate-300">GPA (UW)</td>
-                      <td className="text-slate-600 dark:text-slate-400">{computed.gpaMid?.toFixed?.(2) ?? "—"}</td>
-                      <td className="font-black text-indigo-600 dark:text-indigo-400">{Number(profile.gpaUW).toFixed(2)}</td>
+                  <tbody className="text-[11px] sm:text-sm font-bold">
+                    <tr className="border-t border-slate-50">
+                      <td className="py-3 pr-2 text-slate-700">GPA (UW)</td>
+                      <td className="text-slate-600">{computed.gpaMid?.toFixed?.(2) ?? "—"}</td>
+                      <td className="font-black text-indigo-600">{Number(profile.gpaUW).toFixed(2)}</td>
                     </tr>
-                    <tr className="border-t border-slate-50 dark:border-slate-800">
-                      <td className="py-3 pr-2 text-slate-700 dark:text-slate-300">{profile.testType.toUpperCase()}</td>
-                      <td className="text-slate-600 dark:text-slate-400">
+                    <tr className="border-t border-slate-50">
+                      <td className="py-3 pr-2 text-slate-700">{profile.testType.toUpperCase()}</td>
+                      <td className="text-slate-600">
                         {profile.testType === "act" ? (computed.actMid?.toFixed?.(0) ?? "—") : (computed.satMid?.toFixed?.(0) ?? "—")}
                       </td>
-                      <td className="font-black text-indigo-600 dark:text-indigo-400">
+                      <td className="font-black text-indigo-600">
                         {profile.testType === "act" ? profile.act : profile.sat}
                       </td>
                     </tr>
-                    <tr className="border-t border-slate-50 dark:border-slate-800">
-                      <td className="py-3 pr-2 text-slate-700 dark:text-slate-300">Admit Rate</td>
-                      <td colSpan={2} className="text-right font-black text-slate-900 dark:text-white">{(school.acceptanceRate * 100).toFixed(1)}%</td>
+                    <tr className="border-t border-slate-50">
+                      <td className="py-3 pr-2 text-slate-700">Admit Rate</td>
+                      <td colSpan={2} className="text-right font-black">{(school.acceptanceRate * 100).toFixed(1)}%</td>
                     </tr>
                   </tbody>
                 </table>
@@ -693,12 +693,12 @@ MODEL OUTPUT (already computed):
             </div>
 
             {/* Data-Driven Reasons */}
-            <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-8 shadow-sm transition-colors">
-              <div className="font-black text-lg sm:text-xl text-slate-900 dark:text-white">Key Factors</div>
-              <div className="text-slate-500 dark:text-slate-400 font-medium mt-1 text-xs">Primary drivers for this specific school.</div>
+            <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm">
+              <div className="font-black text-lg sm:text-xl">Key Factors</div>
+              <div className="text-slate-500 font-medium mt-1 text-xs">Primary drivers for this specific school.</div>
               <div className="mt-5 space-y-3">
                 {computed.reasons.map((r, idx) => (
-                  <div key={idx} className="rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 p-3.5 font-bold text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed transition-colors">
+                  <div key={idx} className="rounded-xl bg-slate-50 border border-slate-100 p-3.5 font-bold text-slate-700 text-xs sm:text-sm leading-relaxed">
                     {r}
                   </div>
                 ))}
@@ -707,27 +707,27 @@ MODEL OUTPUT (already computed):
 
             {/* AI Results Rendering */}
             {(aiLoading || aiData || aiRaw) && (
-              <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-8 shadow-sm transition-colors">
-                <div className="font-black text-lg sm:text-xl text-slate-900 dark:text-white">AI analysis</div>
-                <div className="text-slate-500 dark:text-slate-400 font-medium mt-1 text-xs">Personalized strategy for {school.name}.</div>
+              <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm">
+                <div className="font-black text-lg sm:text-xl">AI analysis</div>
+                <div className="text-slate-500 font-medium mt-1 text-xs">Personalized strategy for {school.name}.</div>
 
                 {aiLoading ? (
-                  <div className="mt-8 flex items-center gap-3 text-slate-700 dark:text-slate-300 font-bold text-sm">
+                  <div className="mt-8 flex items-center gap-3 text-slate-700 font-bold text-sm">
                     <Loader2 className="animate-spin" size={18} />
                     <span>Processing profile...</span>
                   </div>
                 ) : aiData ? (
                   <div className="mt-6 space-y-8">
                     <div>
-                      <div className="text-lg sm:text-2xl font-black text-slate-900 dark:text-white leading-tight">{aiData.headline}</div>
+                      <div className="text-lg sm:text-2xl font-black text-slate-900 leading-tight">{aiData.headline}</div>
                       {aiData.summary && (
-                        <div className="mt-2 text-slate-700 dark:text-slate-300 font-medium text-[13px] sm:text-base leading-relaxed">{aiData.summary}</div>
+                        <div className="mt-2 text-slate-700 font-medium text-[13px] sm:text-base leading-relaxed">{aiData.summary}</div>
                       )}
                     </div>
 
-                    <div className="bg-indigo-50/30 dark:bg-indigo-900/10 p-4 rounded-2xl transition-colors">
-                      <div className="text-[10px] font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">Contextual Reasons</div>
-                      <ul className="mt-3 space-y-2 list-disc pl-5 text-slate-700 dark:text-slate-300 font-semibold text-xs sm:text-sm">
+                    <div className="bg-indigo-50/30 p-4 rounded-2xl">
+                      <div className="text-[10px] font-black tracking-widest text-slate-600 uppercase">Contextual Reasons</div>
+                      <ul className="mt-3 space-y-2 list-disc pl-5 text-slate-700 font-semibold text-xs sm:text-sm">
                         {aiData.reasons.map((x, i) => (
                           <li key={i}>{x}</li>
                         ))}
@@ -735,8 +735,8 @@ MODEL OUTPUT (already computed):
                     </div>
 
                     <div>
-                      <div className="text-[10px] font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">Improvements</div>
-                      <ol className="mt-3 space-y-2 list-decimal pl-5 text-slate-700 dark:text-slate-300 font-semibold text-xs sm:text-sm">
+                      <div className="text-[10px] font-black tracking-widest text-slate-600 uppercase">Improvements</div>
+                      <ol className="mt-3 space-y-2 list-decimal pl-5 text-slate-700 font-semibold text-xs sm:text-sm">
                         {aiData.improvements.map((x, i) => (
                           <li key={i}>{x}</li>
                         ))}
@@ -744,10 +744,10 @@ MODEL OUTPUT (already computed):
                     </div>
 
                     <div>
-                      <div className="text-[10px] font-black tracking-widest text-slate-600 dark:text-slate-400 uppercase">Narrative spike ideas</div>
+                      <div className="text-[10px] font-black tracking-widest text-slate-600 uppercase">Narrative spike ideas</div>
                       <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
                         {aiData.spikeIdeas.map((x, i) => (
-                          <div key={i} className="rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 p-4 font-bold text-slate-800 dark:text-slate-200 text-xs sm:text-sm transition-colors">
+                          <div key={i} className="rounded-xl border border-slate-100 bg-slate-50 p-4 font-bold text-slate-800 text-xs sm:text-sm">
                             {x}
                           </div>
                         ))}
@@ -755,30 +755,30 @@ MODEL OUTPUT (already computed):
                     </div>
                   </div>
                 ) : (
-                  <pre className="mt-5 whitespace-pre-wrap text-slate-700 dark:text-slate-300 font-medium text-xs leading-relaxed overflow-x-auto bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl transition-colors">{aiRaw}</pre>
+                  <pre className="mt-5 whitespace-pre-wrap text-slate-700 font-medium text-xs leading-relaxed overflow-x-auto bg-slate-50 p-3 rounded-xl">{aiRaw}</pre>
                 )}
               </div>
             )}
 
             {/* Similar Schools Carousel/Grid */}
-            <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-8 shadow-sm transition-colors">
-              <div className="font-black text-lg sm:text-xl text-slate-900 dark:text-white">Explore similar</div>
-              <div className="text-slate-500 dark:text-slate-400 font-medium mt-1 text-xs">Schools with comparable admissions profiles.</div>
+            <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm">
+              <div className="font-black text-lg sm:text-xl">Explore similar</div>
+              <div className="text-slate-500 font-medium mt-1 text-xs">Schools with comparable admissions profiles.</div>
 
               <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 {computed.similar.map(({ s, r }) => (
                   <button key={s.id}
                     onClick={() => { setSchool(s); setSelectedName(s.name); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className="text-left rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-800 p-4 hover:shadow-md hover:border-indigo-200 dark:hover:border-indigo-800 transition-all duration-200 group">
-                    <div className="font-black text-sm text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400">{s.name}</div>
-                    <div className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-400 font-bold mt-1">
+                    className="text-left rounded-xl bg-slate-50 border border-slate-100 p-4 hover:shadow-md hover:border-indigo-200 transition-all duration-200 group">
+                    <div className="font-black text-sm group-hover:text-indigo-600">{s.name}</div>
+                    <div className="text-[10px] sm:text-xs text-slate-600 font-bold mt-1">
                       {formatPct(r.p)} • {r.label} • Rank #{s.rank}
                     </div>
                   </button>
                 ))}
               </div>
 
-              <div className="mt-6 text-[10px] text-slate-500 dark:text-slate-400 font-bold italic text-center sm:text-left">
+              <div className="mt-6 text-[10px] text-slate-500 font-bold italic text-center sm:text-left">
                 <Info className="inline-block mr-1 -mt-0.5" size={12} />
                 Switching schools will automatically refresh the analysis.
               </div>
