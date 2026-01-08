@@ -1428,11 +1428,6 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
         </div>
       )}
 
-      {/* Main Content - Input Form or Results */}
-      <div className="max-w-7xl mx-auto mb-12">
-        {activeSection === 'input' ? renderInputSection() : renderResultsSection()}
-      </div>
-
       {/* 🆕 COMPREHENSIVE EDUCATIONAL CONTENT SECTION (ALWAYS VISIBLE - NO COLLAPSE) */}
       <div className="max-w-7xl mx-auto mb-12">
         <Card className="bg-white border-2 border-gray-100 shadow-lg">
@@ -1587,6 +1582,11 @@ Strategy: [2-3 sentences - ONLY student advice, NO prompting instructions]
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto mb-12">
+        {activeSection === 'input' ? renderInputSection() : renderResultsSection()}
       </div>
 
       {/* Main Content */}
