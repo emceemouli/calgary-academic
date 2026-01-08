@@ -353,7 +353,7 @@ Schema:
   "spikeIdeas": [string]
 }
 Rules:
-- Do NOT mention any other universities.
+- DO NOT mention any other universities.
 - 4-6 reasons, 3 improvements, 2 spikeIdeas.
 - Keep it specific to this school.
 - Do not HTML-escape characters (use & not &amp;).
@@ -509,7 +509,7 @@ MODEL OUTPUT (already computed):
             <GraduationCap size={20} />
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">Chance Me: {school.name}</h1>
+            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">ChanceMe: {school.name}</h1>
             <p className="text-slate-600 font-medium mt-1 text-sm sm:text-base">One-school probability + data insights.</p>
           </div>
         </div>
