@@ -37,6 +37,15 @@ export default function handler(req, res) {
     <priority>0.9</priority>
   </url>
   
+  <!-- College Admissions ChanceMe Calculator - High Priority --> 
+  
+  <url>
+    <loc>https://calgaryacademicexcellence.com/elite-chance-me</loc>
+    <lastmod>2026-01-07</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.92</priority>
+  </url>
+  
   <!-- About & Info Pages -->
   <url>
     <loc>https://calgaryacademicexcellence.com/about</loc>
