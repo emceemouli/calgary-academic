@@ -1,3 +1,6 @@
+// sitemap.xml.js - Next.js API Route
+// Place this file in: /pages/api/sitemap.xml.js
+
 export default function handler(req, res) {
   // Add CORS headers
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -27,7 +30,6 @@ export default function handler(req, res) {
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <!-- International alternate pages -->
     <xhtml:link rel="alternate" hreflang="en-us" href="https://calgaryacademicexcellence.com/" />
     <xhtml:link rel="alternate" hreflang="en-ca" href="https://calgaryacademicexcellence.com/" />
     <xhtml:link rel="alternate" hreflang="en-gb" href="https://calgaryacademicexcellence.com/" />
@@ -37,15 +39,12 @@ export default function handler(req, res) {
   
   <!-- ========================================
        ELITE CHANCEME CALCULATOR - NEW STAR PAGE
-       Priority: 0.95 (Highest after homepage)
-       Target: Harvard, MIT, Stanford, Ivy League admissions
        ======================================== -->
   <url>
     <loc>https://calgaryacademicexcellence.com/elite-chance-me</loc>
     <lastmod>${currentDate}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
-    <!-- International alternate pages - Critical for global reach -->
     <xhtml:link rel="alternate" hreflang="en-us" href="https://calgaryacademicexcellence.com/elite-chance-me" />
     <xhtml:link rel="alternate" hreflang="en-ca" href="https://calgaryacademicexcellence.com/elite-chance-me" />
     <xhtml:link rel="alternate" hreflang="en-gb" href="https://calgaryacademicexcellence.com/elite-chance-me" />
@@ -55,7 +54,6 @@ export default function handler(req, res) {
   
   <!-- ========================================
        COLLEGE ADMISSIONS CALCULATOR
-       Priority: 0.92 (Main undergraduate tool)
        ======================================== -->
   <url>
     <loc>https://calgaryacademicexcellence.com/college-admissions-calculator</loc>
@@ -70,9 +68,7 @@ export default function handler(req, res) {
   </url>
   
   <!-- ========================================
-       GPA CALCULATOR - HIGH VALUE TOOL
-       Priority: 0.9 (Critical for international students)
-       Target: CBSE to GPA, percentage to GPA, IB to GPA
+       GPA CALCULATOR
        ======================================== -->
   <url>
     <loc>https://calgaryacademicexcellence.com/gpa-calculator</loc>
@@ -88,7 +84,6 @@ export default function handler(req, res) {
   
   <!-- ========================================
        GRADUATE ADMISSIONS CALCULATOR
-       Priority: 0.88 (Master's & PhD programs)
        ======================================== -->
   <url>
     <loc>https://calgaryacademicexcellence.com/graduate-admissions-calculator</loc>
@@ -101,8 +96,7 @@ export default function handler(req, res) {
   </url>
   
   <!-- ========================================
-       BLOG - HIGH UPDATE FREQUENCY
-       Priority: 0.85 (Content marketing hub)
+       BLOG
        ======================================== -->
   <url>
     <loc>https://calgaryacademicexcellence.com/blog</loc>
@@ -113,7 +107,6 @@ export default function handler(req, res) {
   
   <!-- ========================================
        RESOURCES PAGE
-       Priority: 0.82 (SAT/ACT prep resources)
        ======================================== -->
   <url>
     <loc>https://calgaryacademicexcellence.com/resources</loc>
@@ -124,7 +117,6 @@ export default function handler(req, res) {
   
   <!-- ========================================
        ABOUT PAGE
-       Priority: 0.75
        ======================================== -->
   <url>
     <loc>https://calgaryacademicexcellence.com/about</loc>
@@ -135,7 +127,6 @@ export default function handler(req, res) {
   
   <!-- ========================================
        CONTACT PAGE
-       Priority: 0.72
        ======================================== -->
   <url>
     <loc>https://calgaryacademicexcellence.com/contact-us</loc>
@@ -145,8 +136,7 @@ export default function handler(req, res) {
   </url>
   
   <!-- ========================================
-       LEGAL PAGES - REQUIRED FOR ADSENSE
-       Priority: 0.5 (Required but low traffic)
+       LEGAL PAGES
        ======================================== -->
   <url>
     <loc>https://calgaryacademicexcellence.com/privacy-policy</loc>
