@@ -112,6 +112,7 @@ function normalizeSchool(row, idx) {
 }
 
 function typePassesCap(s) {
+  // Requirement: Top 300 Research + Top 30 LAC
   if (String(s.type).toLowerCase() === "lac") return s.rank <= 30;
   return s.rank <= 300;
 }
@@ -131,12 +132,15 @@ function majorFitScore(major, strengths) {
   return 0.55;
 }
 
+// ROI formula from your design doc:
+// Projected_Net_Price = Sticker - (Avg_Aid * (120,000 / Income))
 function computeNetPriceEstimate(sticker, avgAid, income) {
   const inc = Math.max(1, toNum(income, 95000));
   const aidAdjusted = avgAid * (INCOME_REFERENCE / inc);
   return Math.max(0, sticker - aidAdjusted);
 }
 
+// Deterministic, transparent chance model (works without AI)
 function computeChance(profile, school) {
   const gpaUW = toNum(profile.gpaUW, NaN);
   const apCount = toNum(profile.apCount, 0);
@@ -147,6 +151,7 @@ function computeChance(profile, school) {
   const satMid = school.satLow && school.satHigh ? (school.satLow + school.satHigh) / 2 : 1450;
   const actMid = school.actLow && school.actHigh ? (school.actLow + school.actHigh) / 2 : 33;
 
+  // relative to mid-range
   const gpaDelta = Number.isFinite(gpaUW) ? (gpaUW - gpaMid) / 0.15 : 0;
   const testDelta =
     Number.isFinite(testScore)
@@ -171,6 +176,7 @@ function computeChance(profile, school) {
   const fitScore = clamp(fit, 0, 1);
   const overall = clamp(0.58 * academics + 0.24 * holistic + 0.18 * fitScore, 0, 1);
 
+  // anchor to acceptance rate
   const base = clamp(school.acceptanceRate, 0.005, 0.95);
   const adjustedLogit = logit(base) + 2.15 * (overall - 0.5) + leadershipBoost + firstGenBoost + legacyBoost;
   const p = clamp(sigmoid(adjustedLogit), 0.01, 0.95);
@@ -217,6 +223,7 @@ function formatMoney(n) {
   }
 }
 
+// Decode common HTML entities in model output (e.g., &amp; -> &)
 function decodeEntities(str) {
   if (!str) return "";
   try {
@@ -233,6 +240,7 @@ function decodeEntities(str) {
   }
 }
 
+// Extract the first JSON object from a string (robust to extra text/backticks)
 function extractJsonObject(raw) {
   if (!raw) return null;
   const s = raw
@@ -257,9 +265,11 @@ export default function EliteChanceMe() {
   const [dbError, setDbError] = useState("");
   const [db, setDb] = useState([]);
 
+  // dropdown selection
   const [selectedName, setSelectedName] = useState("");
   const [school, setSchool] = useState(null);
 
+  // inputs
   const [profile, setProfile] = useState({
     gpaUW: 3.8,
     testType: "sat",
@@ -274,9 +284,10 @@ export default function EliteChanceMe() {
     major: "",
   });
 
+  // AI explanation (structured)
   const [aiLoading, setAiLoading] = useState(false);
-  const [aiData, setAiData] = useState(null); 
-  const [aiRaw, setAiRaw] = useState("");   
+  const [aiData, setAiData] = useState(null); // structured JSON
+  const [aiRaw, setAiRaw] = useState("");   // fallback text
   const [aiError, setAiError] = useState("");
 
   useEffect(() => {
@@ -320,6 +331,7 @@ export default function EliteChanceMe() {
     return { ...c, roi, similar };
   }, [school, profile, db]);
 
+  // clear AI when switching schools
   useEffect(() => {
     setAiData(null);
     setAiRaw("");
@@ -400,6 +412,7 @@ MODEL OUTPUT (already computed):
         setAiError("AI did not return valid JSON. Showing raw output below.");
         setAiData(null);
       } else {
+        // normalize missing fields
         setAiData({
           headline: obj.headline || "AI Explanation",
           summary: obj.summary || "",
@@ -419,19 +432,19 @@ MODEL OUTPUT (already computed):
   if (loadingDb) {
     return (
       <div className="min-h-screen bg-white pt-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-14">
+        <div className="mx-auto max-w-7xl px-6 py-14">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow">
-              <GraduationCap size={20} />
+            <div className="h-12 w-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow">
+              <GraduationCap />
             </div>
             <div>
-              <h1 className="text-2xl sm:text-3xl font-black tracking-tight">Elite ChanceMe</h1>
-              <p className="text-slate-600 font-medium text-sm sm:text-base">Loading schools…</p>
+              <h1 className="text-3xl font-black tracking-tight">Elite ChanceMe</h1>
+              <p className="text-slate-600 font-medium">Loading schools…</p>
             </div>
           </div>
           <div className="mt-10 rounded-3xl border border-slate-100 bg-slate-50 p-6 sm:p-8 flex items-center gap-4">
             <div className="h-3 w-3 rounded-full bg-indigo-600 animate-pulse" />
-            <div className="font-black">Reading dataset...</div>
+            <div className="font-black">Reading {CSV_PATH}</div>
           </div>
         </div>
       </div>
@@ -441,7 +454,7 @@ MODEL OUTPUT (already computed):
   if (dbError) {
     return (
       <div className="min-h-screen bg-white pt-24">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-14">
+        <div className="mx-auto max-w-7xl px-6 py-14">
           <div className="flex items-center gap-3">
             <div className="h-12 w-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow">
               <GraduationCap />
@@ -456,6 +469,9 @@ MODEL OUTPUT (already computed):
             <div>
               <div className="font-black text-red-900">Could not load CSV</div>
               <div className="text-red-700 mt-1">{dbError}</div>
+              <div className="text-red-700 mt-2 text-sm">
+                Confirm your CSV is at <span className="font-black">public/excel/cleaned_collegerankings.csv</span>
+              </div>
             </div>
           </div>
         </div>
@@ -466,17 +482,17 @@ MODEL OUTPUT (already computed):
   if (!school || !computed) return null;
 
   return (
-    <div className="min-h-screen bg-white pt-20 sm:pt-24">
+    <div className="min-h-screen bg-white pt-24">
       {/* Sticky school selector */}
       <div className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-slate-100">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-3 sm:py-4 flex flex-col md:flex-row md:items-center gap-3">
+        <div className="mx-auto max-w-7xl px-6 py-3 sm:py-4 flex flex-col md:flex-row md:items-center gap-3">
           <div className="flex items-center gap-2">
-            <School className="text-indigo-600 shrink-0" size={18} />
-            <span className="font-black text-sm sm:text-base">Select School</span>
+            <School className="text-indigo-600" />
+            <span className="font-black">Select School</span>
           </div>
 
           <div className="md:ml-auto w-full md:w-[560px] relative">
-            <Search className="absolute left-4 top-3 text-slate-400" size={16} />
+            <Search className="absolute left-4 top-3.5 text-slate-400" size={18} />
             <input
               list="school-list"
               value={selectedName}
@@ -486,8 +502,8 @@ MODEL OUTPUT (already computed):
                 const found = db.find((s) => s.name.toLowerCase() === val.toLowerCase());
                 if (found) setSchool(found);
               }}
-              className="w-full rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 pl-11 pr-4 py-2 sm:py-3 font-black text-sm sm:text-base outline-none focus:ring-4 ring-indigo-50"
-              placeholder="Search (e.g., Harvard, UCLA)…"
+              className="w-full rounded-2xl bg-slate-50 border border-slate-200 pl-11 pr-4 py-3 font-black outline-none focus:ring-4 ring-indigo-50"
+              placeholder="Type to search (e.g., UC Berkeley, Harvard, Williams)…"
             />
             <datalist id="school-list">
               {db.map((s) => (
@@ -496,87 +512,87 @@ MODEL OUTPUT (already computed):
             </datalist>
           </div>
 
-          <div className="text-[10px] sm:text-xs text-slate-500 font-semibold uppercase tracking-wider">
+          <div className="text-xs text-slate-500 font-semibold">
             {school.type} #{school.rank} • {(school.acceptanceRate * 100).toFixed(1)}% admit
           </div>
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-6 sm:py-10">
+      <div className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
         {/* Title */}
         <div className="flex items-start gap-3">
-          <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-xl sm:rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow shrink-0">
-            <GraduationCap size={20} />
+          <div className="h-12 w-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow">
+            <GraduationCap />
           </div>
           <div>
-            <h1 className="text-2xl sm:text-3xl md:text-4xl font-black tracking-tight leading-tight">Chance Me: {school.name}</h1>
-            <p className="text-slate-600 font-medium mt-1 text-sm sm:text-base">One-school probability + data insights.</p>
+            <h1 className="text-3xl md:text-4xl font-black tracking-tight">Chance Me: {school.name}</h1>
+            <p className="text-slate-600 font-medium mt-1">One-school probability + reasons. AI rendered as structured cards.</p>
           </div>
         </div>
 
         <div className="mt-8 grid lg:grid-cols-12 gap-8">
           {/* Inputs */}
-          <div className="lg:col-span-5 rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm">
+          <div className="lg:col-span-5 rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
             <div className="font-black text-xl">Your profile</div>
-            <div className="text-slate-600 font-medium mt-1 text-sm">Adjust sliders and options.</div>
+            <div className="text-slate-600 font-medium mt-1">Adjust sliders and options.</div>
 
             {/* GPA */}
             <div className="mt-6">
               <div className="flex justify-between items-end">
-                <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">Unweighted GPA</label>
+                <label className="text-xs font-black tracking-widest text-slate-500 uppercase">Unweighted GPA</label>
                 <div className="font-black">{Number(profile.gpaUW).toFixed(2)}</div>
               </div>
               <input type="range" min="2.0" max="4.0" step="0.01" value={profile.gpaUW}
                 onChange={(e) => setProfile((p) => ({ ...p, gpaUW: Number(e.target.value) }))}
-                className="w-full mt-3 accent-indigo-600" />
+                className="w-full mt-2 accent-indigo-600" />
             </div>
 
             {/* Test */}
             <div className="mt-6">
               <div className="flex items-center gap-2">
                 <button onClick={() => setProfile((p) => ({ ...p, testType: "sat" }))}
-                  className={`px-4 py-2 rounded-full font-black text-[10px] tracking-widest uppercase ${profile.testType === "sat" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700"}`}>SAT</button>
+                  className={`px-4 py-2 rounded-full font-black text-xs tracking-widest ${profile.testType === "sat" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700"}`}>SAT</button>
                 <button onClick={() => setProfile((p) => ({ ...p, testType: "act" }))}
-                  className={`px-4 py-2 rounded-full font-black text-[10px] tracking-widest uppercase ${profile.testType === "act" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700"}`}>ACT</button>
+                  className={`px-4 py-2 rounded-full font-black text-xs tracking-widest ${profile.testType === "act" ? "bg-slate-900 text-white" : "bg-slate-100 text-slate-700"}`}>ACT</button>
               </div>
 
               {profile.testType === "sat" ? (
-                <div className="mt-5">
+                <div className="mt-4">
                   <div className="flex justify-between items-end">
-                    <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">SAT total score</label>
+                    <label className="text-xs font-black tracking-widest text-slate-500 uppercase">SAT total score</label>
                     <div className="font-black">{profile.sat}</div>
                   </div>
                   <input type="range" min="800" max="1600" step="10" value={profile.sat}
                     onChange={(e) => setProfile((p) => ({ ...p, sat: Number(e.target.value) }))}
-                    className="w-full mt-3 accent-indigo-600" />
+                    className="w-full mt-2 accent-indigo-600" />
                 </div>
               ) : (
-                <div className="mt-5">
+                <div className="mt-4">
                   <div className="flex justify-between items-end">
-                    <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">ACT composite score</label>
+                    <label className="text-xs font-black tracking-widest text-slate-500 uppercase">ACT composite score</label>
                     <div className="font-black">{profile.act}</div>
                   </div>
                   <input type="range" min="1" max="36" step="1" value={profile.act}
                     onChange={(e) => setProfile((p) => ({ ...p, act: Number(e.target.value) }))}
-                    className="w-full mt-3 accent-indigo-600" />
+                    className="w-full mt-2 accent-indigo-600" />
                 </div>
               )}
             </div>
 
             {/* Holistic */}
-            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="mt-6 grid md:grid-cols-2 gap-4">
               <div>
-                <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">AP/IB course count</label>
+                <label className="text-xs font-black tracking-widest text-slate-500 uppercase">AP/IB course count</label>
                 <input type="number" value={profile.apCount}
                   onChange={(e) => setProfile((p) => ({ ...p, apCount: Number(e.target.value) }))}
-                  className="mt-2 w-full rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 px-4 py-3 font-black outline-none" />
+                  className="mt-2 w-full rounded-2xl bg-slate-50 border border-slate-200 px-4 py-3 font-black outline-none" />
               </div>
               <div>
-                <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">Extracurricular Tier</label>
+                <label className="text-xs font-black tracking-widest text-slate-500 uppercase">Extracurricular Tier</label>
                 <select value={profile.ecTier}
                   onChange={(e) => setProfile((p) => ({ ...p, ecTier: e.target.value }))}
-                  className="mt-2 w-full rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 px-4 py-3 font-black outline-none" >
-                  <option value="1">Tier 1 (highest)</option>
+                  className="mt-2 w-full rounded-2xl bg-slate-50 border border-slate-200 px-4 py-3 font-black outline-none" >
+                  <option value="1">Tier 1 (best)</option>
                   <option value="2">Tier 2</option>
                   <option value="3">Tier 3</option>
                   <option value="4">Tier 4</option>
@@ -584,7 +600,7 @@ MODEL OUTPUT (already computed):
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
+            <div className="mt-4 grid sm:grid-cols-3 gap-3">
               {[
                 { k: "leadership", label: "Leadership" },
                 { k: "firstGen", label: "First-gen" },
@@ -592,74 +608,76 @@ MODEL OUTPUT (already computed):
               ].map((x) => (
                 <button key={x.k}
                   onClick={() => setProfile((p) => ({ ...p, [x.k]: !p[x.k] }))}
-                  className={`rounded-xl sm:rounded-2xl border px-3 py-3 font-black text-xs sm:text-sm transition ${profile[x.k] ? "border-indigo-600 bg-indigo-50 text-indigo-700" : "border-slate-200 bg-white hover:bg-slate-50"}`}
+                  className={`rounded-2xl border px-4 py-3 font-black transition ${profile[x.k] ? "border-indigo-600 bg-indigo-50 text-indigo-700" : "border-slate-200 bg-white hover:bg-slate-50"}`}
                 >{x.label}</button>
               ))}
             </div>
 
             <div className="mt-6">
-              <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">Intended major (optional)</label>
+              <label className="text-xs font-black tracking-widest text-slate-500 uppercase">Intended major (optional)</label>
               <input value={profile.major}
                 onChange={(e) => setProfile((p) => ({ ...p, major: e.target.value }))}
-                className="mt-2 w-full rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 px-4 py-3 font-black outline-none text-sm"
-                placeholder="e.g., Computer Science…" />
+                className="mt-2 w-full rounded-2xl bg-slate-50 border border-slate-200 px-4 py-3 font-black outline-none"
+                placeholder="e.g., Computer Science, Economics…" />
             </div>
 
             <div className="mt-6">
-              <label className="text-[10px] sm:text-xs font-black tracking-widest text-slate-600 uppercase">Family income</label>
+              <label className="text-xs font-black tracking-widest text-slate-500 uppercase">Family income</label>
               <div className="relative mt-2">
-                <DollarSign className="absolute left-4 top-3 text-indigo-600" size={16} />
+                <DollarSign className="absolute left-4 top-3.5 text-indigo-600" size={18} />
                 <input type="number" value={profile.income}
                   onChange={(e) => setProfile((p) => ({ ...p, income: Number(e.target.value) }))}
-                  className="w-full rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-200 pl-10 pr-4 py-3 font-black outline-none" />
+                  className="w-full rounded-2xl bg-slate-50 border border-slate-200 pl-10 pr-4 py-3 font-black outline-none" />
               </div>
             </div>
 
             <button onClick={generateAIExplanation}
-              className="mt-6 w-full rounded-xl sm:rounded-2xl bg-slate-900 text-white py-3 sm:py-4 font-black text-base sm:text-lg hover:bg-indigo-700 transition flex items-center justify-center gap-3">
-              {aiLoading ? <Loader2 className="animate-spin" size={20} /> : <Sparkles size={20} />}
-              {aiLoading ? "Generating…" : "AI Explanation"}
+              className="mt-6 w-full rounded-2xl bg-slate-900 text-white py-3 sm:py-4 font-black text-lg hover:bg-indigo-700 transition flex items-center justify-center gap-3">
+              {aiLoading ? <Loader2 className="animate-spin" /> : <Sparkles />}
+              {aiLoading ? "Generating…" : "AI Explanation (formatted, 1 school)"}
             </button>
 
             {aiError && (
-              <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 p-4 text-amber-900 text-xs font-bold leading-relaxed">
+              <div className="mt-4 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-amber-900 text-sm font-bold">
                 {aiError}
               </div>
             )}
+
+
           </div>
 
           {/* Results */}
-          <div className="lg:col-span-7 space-y-6 sm:space-y-8">
+          <div className="lg:col-span-7 space-y-8">
             {/* Big chance */}
-            <div className="rounded-3xl md:rounded-[2.5rem] bg-slate-900 text-white p-6 sm:p-8 shadow-lg">
-              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+            <div className="rounded-[2.5rem] bg-slate-900 text-white p-6 sm:p-8 shadow-lg">
+              <div className="flex items-start justify-between gap-6">
                 <div>
-                  <div className="text-[10px] sm:text-xs font-black tracking-widest text-indigo-300 uppercase">Estimated chance</div>
+                  <div className="text-xs font-black tracking-widest text-indigo-200 uppercase">Estimated chance</div>
                   <div className="mt-2 text-5xl sm:text-6xl font-black">{formatPct(computed.p)}</div>
-                  <div className="mt-4 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/10 font-black text-xs sm:text-sm">
-                    <ShieldCheck size={16} className="text-indigo-300" />
+                  <div className="mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/10 font-black text-sm">
+                    <ShieldCheck size={18} className="text-indigo-300" />
                     {computed.label}
                   </div>
                 </div>
 
-                <div className="rounded-2xl bg-white/10 p-5 w-full md:w-[260px]">
-                  <div className="text-[10px] sm:text-xs font-black tracking-widest text-indigo-300 uppercase">ROI estimate</div>
-                  <div className="text-xs text-slate-300 mt-1">Net price estimate</div>
+                <div className="rounded-2xl bg-white/10 p-5 w-[280px]">
+                  <div className="text-xs font-black tracking-widest text-indigo-200 uppercase">ROI estimate</div>
+                  <div className="text-sm text-slate-200 mt-1">Avg Aid + income formula</div>
                   <div className="mt-2 text-2xl font-black">{formatMoney(computed.roi)}</div>
-                  <div className="text-[10px] text-slate-400 mt-2">Adjusted by income and average aid.</div>
+                  <div className="text-[11px] text-slate-300 mt-2">Sticker uses placeholder {STICKER_PLACEHOLDER}.</div>
                 </div>
               </div>
             </div>
 
             {/* Percentile table */}
-            <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm">
+            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
               <div className="font-black text-xl">How you compare</div>
-              <div className="text-slate-600 font-medium mt-1 text-sm">Typical ranges from school data.</div>
+              <div className="text-slate-600 font-medium mt-1">25th / Typical(mid) / 75th from CSV ranges.</div>
 
-              <div className="mt-6 overflow-x-auto -mx-1 sm:mx-0">
-                <table className="w-full text-left min-w-[450px]">
+              <div className="mt-6 overflow-x-auto">
+                <table className="w-full text-left">
                   <thead>
-                    <tr className="text-[10px] font-black uppercase tracking-widest text-slate-600">
+                    <tr className="text-xs font-black uppercase tracking-widest text-slate-500">
                       <th className="py-2">Metric</th>
                       <th className="py-2">25th</th>
                       <th className="py-2">Typical</th>
@@ -667,24 +685,24 @@ MODEL OUTPUT (already computed):
                       <th className="py-2">You</th>
                     </tr>
                   </thead>
-                  <tbody className="text-xs sm:text-sm font-bold">
+                  <tbody className="text-sm font-bold">
                     <tr className="border-t border-slate-100">
-                      <td className="py-3">GPA</td>
+                      <td className="py-3">Unweighted GPA</td>
                       <td>{school.gpaLow?.toFixed?.(2) ?? "—"}</td>
                       <td>{computed.gpaMid?.toFixed?.(2) ?? "—"}</td>
                       <td>{school.gpaHigh?.toFixed?.(2) ?? "—"}</td>
-                      <td className="font-black text-indigo-600">{Number(profile.gpaUW).toFixed(2)}</td>
+                      <td className="font-black">{Number(profile.gpaUW).toFixed(2)}</td>
                     </tr>
                     <tr className="border-t border-slate-100">
                       <td className="py-3">{profile.testType.toUpperCase()}</td>
                       <td>{profile.testType === "act" ? (school.actLow ?? "—") : (school.satLow ?? "—")}</td>
                       <td>{profile.testType === "act" ? (computed.actMid?.toFixed?.(0) ?? "—") : (computed.satMid?.toFixed?.(0) ?? "—")}</td>
                       <td>{profile.testType === "act" ? (school.actHigh ?? "—") : (school.satHigh ?? "—")}</td>
-                      <td className="font-black text-indigo-600">{profile.testType === "act" ? profile.act : profile.sat}</td>
+                      <td className="font-black">{profile.testType === "act" ? profile.act : profile.sat}</td>
                     </tr>
                     <tr className="border-t border-slate-100">
-                      <td className="py-3">Admit Rate</td>
-                      <td colSpan={3} className="text-slate-500 font-medium">School baseline</td>
+                      <td className="py-3">Acceptance rate</td>
+                      <td colSpan={3} className="text-slate-600 font-semibold">School baseline</td>
                       <td className="font-black">{(school.acceptanceRate * 100).toFixed(1)}%</td>
                     </tr>
                   </tbody>
@@ -693,12 +711,12 @@ MODEL OUTPUT (already computed):
             </div>
 
             {/* Reasons */}
-            <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm">
-              <div className="font-black text-xl">Data reasons</div>
-              <div className="text-slate-600 font-medium mt-1 text-sm">Direct factors affecting your score.</div>
+            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
+              <div className="font-black text-xl">Why (data-driven)</div>
+              <div className="text-slate-600 font-medium mt-1">Transparent reasons tied to this school only.</div>
               <div className="mt-5 space-y-3">
                 {computed.reasons.map((r, idx) => (
-                  <div key={idx} className="rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 p-4 font-semibold text-slate-700 text-sm">
+                  <div key={idx} className="rounded-2xl bg-slate-50 border border-slate-100 p-4 font-semibold text-slate-700">
                     {r}
                   </div>
                 ))}
@@ -707,27 +725,24 @@ MODEL OUTPUT (already computed):
 
             {/* AI formatted */}
             {(aiLoading || aiData || aiRaw) && (
-              <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm">
-                <div className="font-black text-xl">AI analysis</div>
-                <div className="text-slate-600 font-medium mt-1 text-sm">Custom insights for {school.name}.</div>
+              <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
+                <div className="font-black text-xl">AI explanation (formatted)</div>
+                <div className="text-slate-600 font-medium mt-1">Generated specifically for {school.name}.</div>
 
                 {aiLoading ? (
-                  <div className="mt-8 flex items-center gap-3 text-slate-700 font-medium">
-                    <Loader2 className="animate-spin" size={18} />
-                    <span>Analyzing profile...</span>
-                  </div>
+                  <div className="mt-5 text-slate-700 font-medium">Generating…</div>
                 ) : aiData ? (
                   <div className="mt-6 space-y-8">
                     <div>
-                      <div className="text-xl sm:text-2xl font-black text-slate-900">{aiData.headline}</div>
+                      <div className="text-2xl font-black text-slate-900">{aiData.headline}</div>
                       {aiData.summary && (
-                        <div className="mt-2 text-slate-700 font-medium text-sm sm:text-base leading-relaxed">{aiData.summary}</div>
+                        <div className="mt-2 text-slate-700 font-medium">{aiData.summary}</div>
                       )}
                     </div>
 
                     <div>
-                      <div className="text-[10px] font-black tracking-widest text-slate-600 uppercase">Contextual Factors</div>
-                      <ul className="mt-3 space-y-2 list-disc pl-5 text-slate-700 font-medium text-sm sm:text-base">
+                      <div className="text-xs font-black tracking-widest text-slate-500 uppercase">Why</div>
+                      <ul className="mt-3 space-y-2 list-disc pl-5 text-slate-700 font-medium">
                         {aiData.reasons.map((x, i) => (
                           <li key={i}>{x}</li>
                         ))}
@@ -735,8 +750,8 @@ MODEL OUTPUT (already computed):
                     </div>
 
                     <div>
-                      <div className="text-[10px] font-black tracking-widest text-slate-600 uppercase">Action Plan</div>
-                      <ol className="mt-3 space-y-2 list-decimal pl-5 text-slate-700 font-medium text-sm sm:text-base">
+                      <div className="text-xs font-black tracking-widest text-slate-500 uppercase">Improvements</div>
+                      <ol className="mt-3 space-y-2 list-decimal pl-5 text-slate-700 font-medium">
                         {aiData.improvements.map((x, i) => (
                           <li key={i}>{x}</li>
                         ))}
@@ -744,10 +759,10 @@ MODEL OUTPUT (already computed):
                     </div>
 
                     <div>
-                      <div className="text-[10px] font-black tracking-widest text-slate-600 uppercase">Narrative spike ideas</div>
-                      <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="text-xs font-black tracking-widest text-slate-500 uppercase">Narrative spike ideas</div>
+                      <div className="mt-3 grid md:grid-cols-2 gap-3">
                         {aiData.spikeIdeas.map((x, i) => (
-                          <div key={i} className="rounded-xl border border-slate-100 bg-slate-50 p-4 font-semibold text-slate-800 text-sm">
+                          <div key={i} className="rounded-2xl border border-slate-100 bg-slate-50 p-4 font-semibold text-slate-800">
                             {x}
                           </div>
                         ))}
@@ -755,36 +770,36 @@ MODEL OUTPUT (already computed):
                     </div>
                   </div>
                 ) : (
-                  <pre className="mt-5 whitespace-pre-wrap text-slate-700 font-medium text-sm leading-relaxed">{aiRaw}</pre>
+                  <pre className="mt-5 whitespace-pre-wrap text-slate-700 font-medium leading-relaxed">{aiRaw}</pre>
                 )}
               </div>
             )}
 
             {/* Similar schools */}
-            <div className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 bg-white p-5 sm:p-8 shadow-sm">
+            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
               <div className="font-black text-xl">Similar schools</div>
-              <div className="text-slate-600 font-medium mt-1 text-sm">Other schools with comparable probabilities.</div>
+              <div className="text-slate-600 font-medium mt-1">Closest predicted chances from your dataset.</div>
 
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+              <div className="mt-6 grid md:grid-cols-2 gap-4">
                 {computed.similar.map(({ s, r }) => (
                   <button key={s.id}
-                    onClick={() => { setSchool(s); setSelectedName(s.name); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-                    className="text-left rounded-xl sm:rounded-2xl bg-slate-50 border border-slate-100 p-4 hover:shadow-sm hover:border-indigo-200 transition group">
-                    <div className="font-black text-sm sm:text-base group-hover:text-indigo-600">{s.name}</div>
-                    <div className="text-[11px] sm:text-xs text-slate-600 font-semibold mt-1">
-                      {formatPct(r.p)} • {r.label} • Rank #{s.rank}
-                    </div>
+                    onClick={() => { setSchool(s); setSelectedName(s.name); }}
+                    className="text-left rounded-2xl bg-slate-50 border border-slate-100 p-4 hover:shadow-sm transition">
+                    <div className="font-black">{s.name}</div>
+                    <div className="text-sm text-slate-600 font-semibold">{formatPct(r.p)} • {r.label} • {s.type} #{s.rank}</div>
                   </button>
                 ))}
               </div>
 
-              <div className="mt-6 text-[10px] sm:text-xs text-slate-500 font-medium">
-                <Info className="inline-block mr-1 -mt-0.5" size={14} />
-                Select a school to refresh your probability and AI explanation.
+              <div className="mt-6 text-xs text-slate-500">
+                <Info className="inline-block mr-1 -mt-1" size={14} />
+                Use the selector at the top to switch schools quickly.
               </div>
             </div>
           </div>
         </div>
+
+        
       </div>
     </div>
   );
