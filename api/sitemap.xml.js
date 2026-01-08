@@ -12,33 +12,21 @@ export default function handler(req, res) {
   
   // Send response with status and XML content
   res.status(200).send(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
-        xmlns:xhtml="http://www.w3.org/1999/xhtml">
-  
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Main Pages -->
   <url>
     <loc>https://calgaryacademicexcellence.com</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="en-us" href="https://calgaryacademicexcellence.com/" />
-    <xhtml:link rel="alternate" hreflang="en-ca" href="https://calgaryacademicexcellence.com/" />
-    <xhtml:link rel="alternate" hreflang="en-gb" href="https://calgaryacademicexcellence.com/" />
-    <xhtml:link rel="alternate" hreflang="en-in" href="https://calgaryacademicexcellence.com/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://calgaryacademicexcellence.com/" />
   </url>
   
-  <!-- Elite ChanceMe Calculator - NEW STAR PAGE (Priority boosted to 0.95) -->
+  <!-- Elite ChanceMe Calculator - NEW STAR PAGE (Priority: 0.95) -->
   <url>
     <loc>https://calgaryacademicexcellence.com/elite-chance-me</loc>
     <lastmod>2026-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.95</priority>
-    <xhtml:link rel="alternate" hreflang="en-us" href="https://calgaryacademicexcellence.com/elite-chance-me" />
-    <xhtml:link rel="alternate" hreflang="en-ca" href="https://calgaryacademicexcellence.com/elite-chance-me" />
-    <xhtml:link rel="alternate" hreflang="en-gb" href="https://calgaryacademicexcellence.com/elite-chance-me" />
-    <xhtml:link rel="alternate" hreflang="en-in" href="https://calgaryacademicexcellence.com/elite-chance-me" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://calgaryacademicexcellence.com/elite-chance-me" />
   </url>
   
   <!-- College Admissions Calculator - High Priority -->
@@ -47,11 +35,6 @@ export default function handler(req, res) {
     <lastmod>2026-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.92</priority>
-    <xhtml:link rel="alternate" hreflang="en-us" href="https://calgaryacademicexcellence.com/college-admissions-calculator" />
-    <xhtml:link rel="alternate" hreflang="en-ca" href="https://calgaryacademicexcellence.com/college-admissions-calculator" />
-    <xhtml:link rel="alternate" hreflang="en-gb" href="https://calgaryacademicexcellence.com/college-admissions-calculator" />
-    <xhtml:link rel="alternate" hreflang="en-in" href="https://calgaryacademicexcellence.com/college-admissions-calculator" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://calgaryacademicexcellence.com/college-admissions-calculator" />
   </url>
   
   <!-- GPA Calculator - High Priority Tool -->
@@ -60,11 +43,6 @@ export default function handler(req, res) {
     <lastmod>2026-01-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
-    <xhtml:link rel="alternate" hreflang="en-us" href="https://calgaryacademicexcellence.com/gpa-calculator" />
-    <xhtml:link rel="alternate" hreflang="en-ca" href="https://calgaryacademicexcellence.com/gpa-calculator" />
-    <xhtml:link rel="alternate" hreflang="en-gb" href="https://calgaryacademicexcellence.com/gpa-calculator" />
-    <xhtml:link rel="alternate" hreflang="en-in" href="https://calgaryacademicexcellence.com/gpa-calculator" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://calgaryacademicexcellence.com/gpa-calculator" />
   </url>
   
   <!-- Graduate Admissions Calculator - NEW PAGE ADDED -->
@@ -73,9 +51,6 @@ export default function handler(req, res) {
     <lastmod>2026-01-08</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.88</priority>
-    <xhtml:link rel="alternate" hreflang="en-us" href="https://calgaryacademicexcellence.com/graduate-admissions-calculator" />
-    <xhtml:link rel="alternate" hreflang="en-ca" href="https://calgaryacademicexcellence.com/graduate-admissions-calculator" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://calgaryacademicexcellence.com/graduate-admissions-calculator" />
   </url>
   
   <!-- Blog -->
