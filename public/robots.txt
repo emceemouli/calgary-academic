@@ -1,3 +1,131 @@
+# robots.txt for Calgary Academic Excellence
+# Elite ChanceMe Calculator - Optimized for global SEO
+# Last updated: 2026-01-08
+
+# ============================================
+# GLOBAL RULES - Allow all legitimate crawlers
+# ============================================
 User-agent: *
 Allow: /
+
+# ============================================
+# BLOCK PRIVATE/ADMIN AREAS
+# ============================================
+Disallow: /admin/
+Disallow: /api/auth/
+Disallow: /.env
+Disallow: /private/
+
+# ============================================
+# ALLOW HIGH-VALUE PAGES (Explicit for emphasis)
+# ============================================
+# Elite ChanceMe Calculator - NEW STAR PAGE
+Allow: /elite-chance-me
+Allow: /elite-chance-me/
+
+# Main calculators
+Allow: /college-admissions-calculator
+Allow: /gpa-calculator
+Allow: /graduate-admissions-calculator
+
+# Content pages
+Allow: /blog
+Allow: /resources
+Allow: /about
+Allow: /contact-us
+
+# ============================================
+# ALLOW STATIC ASSETS
+# ============================================
+Allow: /images/
+Allow: /excel/
+Allow: /assets/
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.png$
+Allow: /*.webp$
+Allow: /*.svg$
+
+# ============================================
+# SITEMAP LOCATION
+# ============================================
 Sitemap: https://calgaryacademicexcellence.com/sitemap.xml
+
+# ============================================
+# MAJOR SEARCH ENGINES (Explicit permissions)
+# ============================================
+User-agent: Googlebot
+Allow: /
+
+User-agent: Googlebot-Image
+Allow: /images/
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Slurp
+Allow: /
+
+User-agent: DuckDuckBot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: YandexBot
+Allow: /
+
+# ============================================
+# SOCIAL MEDIA BOTS (For rich link previews)
+# ============================================
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+# ============================================
+# SEO TOOLS (For site audits)
+# ============================================
+User-agent: AhrefsBot
+Allow: /
+
+User-agent: SemrushBot
+Allow: /
+
+User-agent: MJ12bot
+Allow: /
+
+User-agent: Screaming Frog SEO Spider
+Allow: /
+
+# ============================================
+# ACADEMIC/RESEARCH BOTS
+# ============================================
+User-agent: ia_archiver
+Allow: /
+
+# ============================================
+# CRAWL RATE (Optional - uncomment if needed)
+# ============================================
+# User-agent: *
+# Crawl-delay: 1
+
+# ============================================
+# NOTES
+# ============================================
+# This robots.txt is optimized for:
+# - Elite ChanceMe Calculator (Harvard, MIT, Stanford)
+# - International student reach (India, Canada, UK)
+# - Social media sharing
+# - SEO tool compatibility
+# 
+# Test this file at: https://www.google.com/webmasters/tools/robots-testing-tool
