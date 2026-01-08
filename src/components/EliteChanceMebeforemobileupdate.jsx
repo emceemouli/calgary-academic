@@ -185,9 +185,9 @@ function computeChance(profile, school) {
 
   const reasons = [];
   if (Number.isFinite(gpaUW) && school.gpaLow && gpaUW < school.gpaLow)
-    reasons.push(`Unweighted GPA is below typical range (${school.gpaLow.toFixed(2)}–${school.gpaHigh?.toFixed?.(2) ?? "?"}).`);
+    reasons.push(`UW GPA is below typical range (${school.gpaLow.toFixed(2)}–${school.gpaHigh?.toFixed?.(2) ?? "?"}).`);
   if (Number.isFinite(gpaUW) && school.gpaHigh && gpaUW >= school.gpaHigh)
-    reasons.push("Unweighted GPA is at/above the upper end of the typical range.");
+    reasons.push("UW GPA is at/above the upper end of the typical range.");
 
   if (Number.isFinite(testScore)) {
     const low = testType === "act" ? school.actLow : school.satLow;
@@ -380,7 +380,7 @@ SCHOOL:
 - Strengths: ${school.strengths || "N/A"}
 
 STUDENT:
-- Unweighted GPA: ${profile.gpaUW}
+- UW GPA: ${profile.gpaUW}
 - ${profile.testType.toUpperCase()}: ${profile.testType === "sat" ? profile.sat : profile.act}
 - AP/IB count: ${profile.apCount}
 - EC tier: ${profile.ecTier}
@@ -442,7 +442,7 @@ MODEL OUTPUT (already computed):
               <p className="text-slate-600 font-medium">Loading schools…</p>
             </div>
           </div>
-          <div className="mt-10 rounded-3xl border border-slate-100 bg-slate-50 p-6 sm:p-8 flex items-center gap-4">
+          <div className="mt-10 rounded-3xl border border-slate-100 bg-slate-50 p-8 flex items-center gap-4">
             <div className="h-3 w-3 rounded-full bg-indigo-600 animate-pulse" />
             <div className="font-black">Reading {CSV_PATH}</div>
           </div>
@@ -464,7 +464,7 @@ MODEL OUTPUT (already computed):
               <p className="text-slate-600 font-medium">Error</p>
             </div>
           </div>
-          <div className="mt-10 rounded-3xl border border-red-100 bg-red-50 p-6 sm:p-8 flex items-start gap-4">
+          <div className="mt-10 rounded-3xl border border-red-100 bg-red-50 p-8 flex items-start gap-4">
             <AlertTriangle className="text-red-600 mt-1" />
             <div>
               <div className="font-black text-red-900">Could not load CSV</div>
@@ -485,7 +485,7 @@ MODEL OUTPUT (already computed):
     <div className="min-h-screen bg-white pt-24">
       {/* Sticky school selector */}
       <div className="sticky top-0 z-20 bg-white/90 backdrop-blur border-b border-slate-100">
-        <div className="mx-auto max-w-7xl px-6 py-3 sm:py-4 flex flex-col md:flex-row md:items-center gap-3">
+        <div className="mx-auto max-w-7xl px-6 py-4 flex flex-col md:flex-row md:items-center gap-3">
           <div className="flex items-center gap-2">
             <School className="text-indigo-600" />
             <span className="font-black">Select School</span>
@@ -518,7 +518,7 @@ MODEL OUTPUT (already computed):
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-6 py-8 sm:py-10">
+      <div className="mx-auto max-w-7xl px-6 py-10">
         {/* Title */}
         <div className="flex items-start gap-3">
           <div className="h-12 w-12 rounded-2xl bg-indigo-600 text-white flex items-center justify-center shadow">
@@ -532,14 +532,14 @@ MODEL OUTPUT (already computed):
 
         <div className="mt-8 grid lg:grid-cols-12 gap-8">
           {/* Inputs */}
-          <div className="lg:col-span-5 rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
+          <div className="lg:col-span-5 rounded-[2.5rem] border border-slate-100 bg-white p-8 shadow-sm">
             <div className="font-black text-xl">Your profile</div>
             <div className="text-slate-600 font-medium mt-1">Adjust sliders and options.</div>
 
             {/* GPA */}
             <div className="mt-6">
               <div className="flex justify-between items-end">
-                <label className="text-xs font-black tracking-widest text-slate-500 uppercase">Unweighted GPA</label>
+                <label className="text-xs font-black tracking-widest text-slate-500 uppercase">UW GPA</label>
                 <div className="font-black">{Number(profile.gpaUW).toFixed(2)}</div>
               </div>
               <input type="range" min="2.0" max="4.0" step="0.01" value={profile.gpaUW}
@@ -559,7 +559,7 @@ MODEL OUTPUT (already computed):
               {profile.testType === "sat" ? (
                 <div className="mt-4">
                   <div className="flex justify-between items-end">
-                    <label className="text-xs font-black tracking-widest text-slate-500 uppercase">SAT total score</label>
+                    <label className="text-xs font-black tracking-widest text-slate-500 uppercase">SAT Total</label>
                     <div className="font-black">{profile.sat}</div>
                   </div>
                   <input type="range" min="800" max="1600" step="10" value={profile.sat}
@@ -569,7 +569,7 @@ MODEL OUTPUT (already computed):
               ) : (
                 <div className="mt-4">
                   <div className="flex justify-between items-end">
-                    <label className="text-xs font-black tracking-widest text-slate-500 uppercase">ACT composite score</label>
+                    <label className="text-xs font-black tracking-widest text-slate-500 uppercase">ACT Composite</label>
                     <div className="font-black">{profile.act}</div>
                   </div>
                   <input type="range" min="1" max="36" step="1" value={profile.act}
@@ -582,13 +582,13 @@ MODEL OUTPUT (already computed):
             {/* Holistic */}
             <div className="mt-6 grid md:grid-cols-2 gap-4">
               <div>
-                <label className="text-xs font-black tracking-widest text-slate-500 uppercase">AP/IB course count</label>
+                <label className="text-xs font-black tracking-widest text-slate-500 uppercase">AP/IB Count</label>
                 <input type="number" value={profile.apCount}
                   onChange={(e) => setProfile((p) => ({ ...p, apCount: Number(e.target.value) }))}
                   className="mt-2 w-full rounded-2xl bg-slate-50 border border-slate-200 px-4 py-3 font-black outline-none" />
               </div>
               <div>
-                <label className="text-xs font-black tracking-widest text-slate-500 uppercase">Extracurricular Tier</label>
+                <label className="text-xs font-black tracking-widest text-slate-500 uppercase">EC Tier</label>
                 <select value={profile.ecTier}
                   onChange={(e) => setProfile((p) => ({ ...p, ecTier: e.target.value }))}
                   className="mt-2 w-full rounded-2xl bg-slate-50 border border-slate-200 px-4 py-3 font-black outline-none" >
@@ -632,7 +632,7 @@ MODEL OUTPUT (already computed):
             </div>
 
             <button onClick={generateAIExplanation}
-              className="mt-6 w-full rounded-2xl bg-slate-900 text-white py-3 sm:py-4 font-black text-lg hover:bg-indigo-700 transition flex items-center justify-center gap-3">
+              className="mt-6 w-full rounded-2xl bg-slate-900 text-white py-4 font-black text-lg hover:bg-indigo-700 transition flex items-center justify-center gap-3">
               {aiLoading ? <Loader2 className="animate-spin" /> : <Sparkles />}
               {aiLoading ? "Generating…" : "AI Explanation (formatted, 1 school)"}
             </button>
@@ -643,17 +643,20 @@ MODEL OUTPUT (already computed):
               </div>
             )}
 
-
+            <div className="mt-4 text-xs text-slate-500 leading-relaxed">
+              <Info className="inline-block mr-1 -mt-1" size={14} />
+              No extra npm installs. AI requires <span className="font-black">VITE_GOOGLE_AI_KEY</span>.
+            </div>
           </div>
 
           {/* Results */}
           <div className="lg:col-span-7 space-y-8">
             {/* Big chance */}
-            <div className="rounded-[2.5rem] bg-slate-900 text-white p-6 sm:p-8 shadow-lg">
+            <div className="rounded-[2.5rem] bg-slate-900 text-white p-8 shadow-lg">
               <div className="flex items-start justify-between gap-6">
                 <div>
                   <div className="text-xs font-black tracking-widest text-indigo-200 uppercase">Estimated chance</div>
-                  <div className="mt-2 text-5xl sm:text-6xl font-black">{formatPct(computed.p)}</div>
+                  <div className="mt-2 text-6xl font-black">{formatPct(computed.p)}</div>
                   <div className="mt-3 inline-flex items-center gap-2 px-3 py-2 rounded-full bg-white/10 font-black text-sm">
                     <ShieldCheck size={18} className="text-indigo-300" />
                     {computed.label}
@@ -670,7 +673,7 @@ MODEL OUTPUT (already computed):
             </div>
 
             {/* Percentile table */}
-            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
+            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-8 shadow-sm">
               <div className="font-black text-xl">How you compare</div>
               <div className="text-slate-600 font-medium mt-1">25th / Typical(mid) / 75th from CSV ranges.</div>
 
@@ -687,7 +690,7 @@ MODEL OUTPUT (already computed):
                   </thead>
                   <tbody className="text-sm font-bold">
                     <tr className="border-t border-slate-100">
-                      <td className="py-3">Unweighted GPA</td>
+                      <td className="py-3">UW GPA</td>
                       <td>{school.gpaLow?.toFixed?.(2) ?? "—"}</td>
                       <td>{computed.gpaMid?.toFixed?.(2) ?? "—"}</td>
                       <td>{school.gpaHigh?.toFixed?.(2) ?? "—"}</td>
@@ -711,7 +714,7 @@ MODEL OUTPUT (already computed):
             </div>
 
             {/* Reasons */}
-            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
+            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-8 shadow-sm">
               <div className="font-black text-xl">Why (data-driven)</div>
               <div className="text-slate-600 font-medium mt-1">Transparent reasons tied to this school only.</div>
               <div className="mt-5 space-y-3">
@@ -725,7 +728,7 @@ MODEL OUTPUT (already computed):
 
             {/* AI formatted */}
             {(aiLoading || aiData || aiRaw) && (
-              <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
+              <div className="rounded-[2.5rem] border border-slate-100 bg-white p-8 shadow-sm">
                 <div className="font-black text-xl">AI explanation (formatted)</div>
                 <div className="text-slate-600 font-medium mt-1">Generated specifically for {school.name}.</div>
 
@@ -776,7 +779,7 @@ MODEL OUTPUT (already computed):
             )}
 
             {/* Similar schools */}
-            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-6 sm:p-8 shadow-sm">
+            <div className="rounded-[2.5rem] border border-slate-100 bg-white p-8 shadow-sm">
               <div className="font-black text-xl">Similar schools</div>
               <div className="text-slate-600 font-medium mt-1">Closest predicted chances from your dataset.</div>
 
@@ -799,7 +802,7 @@ MODEL OUTPUT (already computed):
           </div>
         </div>
 
-        
+        <div className="mt-10 text-xs text-slate-500">CSV source: <span className="font-black">{CSV_PATH}</span></div>
       </div>
     </div>
   );
