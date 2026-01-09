@@ -439,6 +439,8 @@ function FAQSection() {
   return (
     <section 
       className="rounded-3xl md:rounded-[2.5rem] border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 sm:p-8 shadow-sm transition-colors"
+      itemScope 
+      itemType="https://schema.org/FAQPage"
     >
       <h2 className="font-black text-lg sm:text-xl text-slate-900 dark:text-white">
         Frequently Asked Questions
@@ -451,14 +453,20 @@ function FAQSection() {
           <details
             key={idx}
             className="rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800 p-3.5"
+            itemScope 
+            itemProp="mainEntity" 
+            itemType="https://schema.org/Question"
           >
-            <summary className="font-bold text-slate-800 dark:text-slate-200 text-xs sm:text-sm cursor-pointer">
+            <summary className="font-bold text-slate-800 dark:text-slate-200 text-xs sm:text-sm cursor-pointer" itemProp="name">
               {item.q}
             </summary>
             <div 
-              className="mt-2 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed"
+              className="mt-2 font-semibold text-slate-700 dark:text-slate-300 text-xs sm:text-sm leading-relaxed" 
+              itemScope 
+              itemProp="acceptedAnswer" 
+              itemType="https://schema.org/Answer"
             >
-              <div>{item.a}</div>
+              <div itemProp="text">{item.a}</div>
             </div>
           </details>
         ))}
