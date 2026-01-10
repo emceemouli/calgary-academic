@@ -111,6 +111,13 @@ export default function handler(req, res) {
   <changefreq>monthly</changefreq>
   <priority>0.85</priority>
 </url>
+
+<url>
+  <loc>https://calgaryacademicexcellence.com/blog/cracking-ivy-league-admissions</loc>
+  <lastmod>2025-01-10</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
   
 </urlset>`);
 }

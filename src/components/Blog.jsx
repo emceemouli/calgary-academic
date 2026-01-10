@@ -24,6 +24,15 @@ const blogPosts = [
     readTime: "15 min read",
     category: "International Students"
   },
+  {
+  title: "Cracking the Code: Understanding Admissions to Ivy League and Top-Tier Universities (2026 Guide)",
+  slug: "cracking-ivy-league-admissions",  // Must match markdown filename
+  date: "January 10, 2025",
+  excerpt: "Complete guide to Ivy League admissions for US, Canadian, and international students. Learn requirements, strategies, and insider tips for Harvard, Yale, Princeton, MIT, and Stanford.",
+  image: "/images/stanford.jpg",
+  readTime: "22 min read",  // ~4,400 words ÷ 200 = 22 minutes
+  category: "Elite Universities"
+},
   // Add more blog posts here as you write them
 ];
 
