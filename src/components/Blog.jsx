@@ -1,249 +1,230 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card';
 import { Button } from './ui/button';
-import { ArrowRight, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
+import { ArrowRight, Calendar, Clock, Calculator, GraduationCap, TrendingUp } from 'lucide-react';
 
-const POSTS_PER_PAGE = 3;
-const BLOG_URL = 'https://calgaryacademicexcellence.blogspot.com';
-const DEFAULT_THUMBNAIL = '/images/default-blog-thumbnail.jpg';
-
-// Pagination Controls Component
-const PaginationControls = ({ currentPage, totalPages, handlePageChange }) => (
-  <div className="flex justify-between items-center mt-6">
-    <div className="flex space-x-4">
-      <Button
-        variant="outline"
-        onClick={() => handlePageChange(currentPage - 1)}
-        disabled={currentPage === 1}
-        className="text-sm px-4 py-2"
-      >
-        <ChevronLeft className="h-4 w-4 mr-2" />
-        Previous
-      </Button>
-      <span className="text-gray-600 text-sm flex items-center">
-        Page {currentPage} of {totalPages}
-      </span>
-      <Button
-        variant="outline"
-        onClick={() => handlePageChange(currentPage + 1)}
-        disabled={currentPage === totalPages}
-        className="text-sm px-4 py-2"
-      >
-        Next
-        <ChevronRight className="h-4 w-4 ml-2" />
-      </Button>
-    </div>
-    <Button
-      onClick={() => window.open(BLOG_URL, '_blank')}
-      className="bg-blue-700 text-white hover:bg-blue-800 text-sm px-4 py-2"
-    >
-      View More on Blogger <ExternalLink className="ml-2 h-4 w-4" />
-    </Button>
-  </div>
-);
-
-// Blog Post Card Component
-const BlogPostCard = ({ post }) => (
-  <Card className="shadow hover:shadow-md transition">
-    <img
-      src={post.thumbnail}
-      alt={post.title}
-      className="w-full h-32 object-cover rounded-t"
-      loading="lazy"
-      onError={(e) => {
-        e.target.src = DEFAULT_THUMBNAIL;
-      }}
-    />
-    <CardHeader className="p-3">
-      <div className="text-xs text-gray-500 mb-1">
-        {new Date(post.published).toLocaleDateString()}
-      </div>
-      <CardTitle className="text-sm font-semibold line-clamp-2">{post.title}</CardTitle>
-    </CardHeader>
-    <CardContent className="p-3">
-      <p className="text-xs text-gray-700 line-clamp-3 mb-2">{post.summary}</p>
-      <Button
-        onClick={() => window.open(post.link, '_blank')}
-        className="text-xs bg-blue-600 text-white w-full py-2 hover:bg-blue-700"
-      >
-        Read More <ArrowRight className="ml-2 h-4 w-4" />
-      </Button>
-    </CardContent>
-  </Card>
-);
-
-// Loading Skeleton
-const BlogSkeleton = () => (
-  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {[1, 2, 3].map((i) => (
-      <div key={i} className="animate-pulse">
-        <div className="bg-gray-200 h-32 w-full rounded-t"></div>
-        <div className="p-3 space-y-3">
-          <div className="h-4 bg-gray-200 rounded w-1/4"></div>
-          <div className="h-6 bg-gray-200 rounded"></div>
-          <div className="space-y-2">
-            <div className="h-4 bg-gray-200 rounded"></div>
-            <div className="h-4 bg-gray-200 rounded w-5/6"></div>
-          </div>
-        </div>
-      </div>
-    ))}
-  </div>
-);
+// List all your markdown blog posts here
+const blogPosts = [
+  {
+    title: "How to Convert CBSE Percentage to GPA for US Universities (2025 Guide)",
+    slug: "cbse-to-gpa-conversion",
+    date: "January 9, 2025",
+    excerpt: "Complete guide for Indian students to convert CBSE percentage to US 4.0 GPA scale. Includes AACRAO EDGE conversion tables, step-by-step process, and admission tips for Harvard, MIT, Stanford.",
+    image: "/images/Teen-Area-12-23-Hero.jpg",
+    readTime: "12 min read",
+    category: "International Students"
+  },
+  {
+    title: "Canadian Students Guide to US College Applications: Everything You Need to Know",
+    slug: "canadian-students-us-colleges",
+    date: "January 10, 2025",
+    excerpt: "Complete guide for Canadian high school students applying to US universities. Alberta, Ontario, BC grade conversions, SAT requirements, financial aid, and step-by-step application process.",
+    image: "/images/Teen-Area-12-23-Hero.jpg",
+    readTime: "15 min read",
+    category: "International Students"
+  },
+  // Add more blog posts here as you write them
+];
 
 const Blog = () => {
-  const [posts, setPosts] = useState([]);
-  const [newsUpdates, setNewsUpdates] = useState([]);
-  const [loadingBlogs, setLoadingBlogs] = useState(true);
-  const [loadingNews, setLoadingNews] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
-  const [error, setError] = useState(null);
+  const postsPerPage = 6;
 
   useEffect(() => {
-    document.title = 'Educational Blog & News Updates';
-    
-    // Fetch static blog data
-    const fetchBlogData = async () => {
-      try {
-        const response = await fetch('/blog-data.json');
-        if (!response.ok) throw new Error('Failed to load blog posts');
-        const data = await response.json();
-        setPosts(data.posts);
-      } catch (err) {
-        console.error('Error loading blog data:', err);
-        setError('Failed to load blog posts');
-      } finally {
-        setLoadingBlogs(false);
-      }
-    };
+    window.scrollTo(0, 0);
+  }, [currentPage]);
 
-    // Fetch news updates
-    const fetchNewsUpdates = async () => {
-      try {
-        const cachedNews = localStorage.getItem('newsUpdates');
-        const cacheExpiry = localStorage.getItem('newsUpdatesExpiry');
-        
-        // Check if we have valid cached news
-        if (cachedNews && cacheExpiry && Date.now() < Number(cacheExpiry)) {
-          setNewsUpdates(JSON.parse(cachedNews));
-          setLoadingNews(false);
-          return;
-        }
-
-        const response = await fetch(
-          'https://docs.google.com/spreadsheets/d/e/2PACX-1vRD83yCtLxltpsjkqZFjwk_4z1zJ9NSj8N9fAGMPPtgKopCS0lqsSEAdokPTsLbxq00B3yLRX1uKr5C/pub?gid=0&single=true&output=csv'
-        );
-        
-        if (!response.ok) throw new Error('Failed to fetch news updates');
-
-        const text = await response.text();
-        const rows = text.split('\n').slice(1);
-        const news = rows.map((row) => {
-          const [date, title, link] = row.split(',');
-          return {
-            date: new Date(date).toLocaleDateString(),
-            title: title.trim(),
-            link: link?.trim() || '#',
-          };
-        });
-
-        // Cache the news updates for 1 hour
-        localStorage.setItem('newsUpdates', JSON.stringify(news));
-        localStorage.setItem('newsUpdatesExpiry', String(Date.now() + 3600000));
-        
-        setNewsUpdates(news);
-      } catch (err) {
-        console.error('Error loading news:', err);
-        setError('Failed to load news updates');
-      } finally {
-        setLoadingNews(false);
-      }
-    };
-
-    fetchBlogData();
-    fetchNewsUpdates();
-  }, []);
-
-  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
-  const currentPosts = useMemo(() => {
-    const start = (currentPage - 1) * POSTS_PER_PAGE;
-    return posts.slice(start, start + POSTS_PER_PAGE);
-  }, [posts, currentPage]);
+  // Calculate pagination
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = blogPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(blogPosts.length / postsPerPage);
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      {/* Hero Section */}
-      <header className="relative h-[250px] pt-16 mb-8">
-        <img
-          src="/images/Teen-Area-12-23-Hero.jpg"
-          alt="Educational Blog Hero"
-          className="absolute inset-0 w-full h-full object-cover"
-          loading="eager"
-          fetchpriority="high"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 to-blue-700/75" />
-        <div className="relative flex justify-center items-center h-full text-white">
-          <h1 className="text-4xl font-bold">Educational Blog & Updates</h1>
+    <div className="min-h-screen bg-gray-50">
+      {/* Hero Section - Matching Your Site Colors */}
+      <header className="relative bg-gradient-to-r from-blue-600 to-blue-500 text-white py-16 px-4">
+        <div className="container mx-auto text-center">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            College Admissions Blog
+          </h1>
+          <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+            Expert guidance for international students applying to elite US universities
+          </p>
         </div>
       </header>
 
-      {/* Blog Section */}
-      <section className="mb-12">
-        <h2 className="text-2xl font-bold mb-4 text-blue-900">Latest Blog Posts</h2>
-        
-        {error ? (
-          <div className="bg-red-50 border-l-4 border-red-500 p-4 my-4 text-red-700 rounded">
-            {error}
-          </div>
-        ) : loadingBlogs ? (
-          <BlogSkeleton />
-        ) : (
-          <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {currentPosts.map((post, idx) => (
-                <BlogPostCard key={idx} post={post} />
-              ))}
-            </div>
-            
-            <PaginationControls
-              currentPage={currentPage}
-              totalPages={totalPages}
-              handlePageChange={setCurrentPage}
-            />
-          </>
-        )}
-      </section>
+      {/* Blog Posts Grid */}
+      <main className="container mx-auto px-4 py-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+          {currentPosts.map((post, index) => (
+            <Card key={index} className="flex flex-col hover:shadow-xl transition-shadow duration-300">
+              {/* Post Image */}
+              <Link to={`/blog/${post.slug}`}>
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-full h-48 object-cover rounded-t-lg"
+                />
+              </Link>
 
-      {/* News Updates Section */}
-      <section>
-        <h2 className="text-2xl font-bold mb-4 text-blue-900">News Updates</h2>
-        {loadingNews ? (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="animate-pulse border-l-4 border-blue-500 bg-gray-50 p-4 rounded-lg">
-                <div className="h-4 bg-gray-200 rounded w-1/4 mb-2"></div>
-                <div className="h-4 bg-gray-200 rounded"></div>
-              </div>
-            ))}
+              <CardHeader className="flex-grow">
+                {/* Category Badge */}
+                <div className="mb-2">
+                  <span className="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full">
+                    {post.category}
+                  </span>
+                </div>
+
+                {/* Post Title */}
+                <Link to={`/blog/${post.slug}`}>
+                  <CardTitle className="text-xl font-bold text-gray-900 hover:text-blue-600 transition-colors line-clamp-3 mb-3">
+                    {post.title}
+                  </CardTitle>
+                </Link>
+
+                {/* Meta Information */}
+                <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                  <div className="flex items-center">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    <span>{post.date}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Clock className="w-4 h-4 mr-1" />
+                    <span>{post.readTime}</span>
+                  </div>
+                </div>
+
+                {/* Excerpt */}
+                <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
+                  {post.excerpt}
+                </p>
+              </CardHeader>
+
+              <CardContent className="pt-0">
+                <Link to={`/blog/${post.slug}`}>
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold">
+                    Read More <ArrowRight className="ml-2 h-4 w-4" />
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4">
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+              disabled={currentPage === 1}
+              className="px-6 py-2"
+            >
+              Previous
+            </Button>
+            <span className="text-gray-700 font-semibold">
+              Page {currentPage} of {totalPages}
+            </span>
+            <Button
+              variant="outline"
+              onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+              disabled={currentPage === totalPages}
+              className="px-6 py-2"
+            >
+              Next
+            </Button>
           </div>
-        ) : (
-          <ul className="space-y-4">
-            {newsUpdates.map((update, idx) => (
-              <li key={idx} className="border-l-4 border-blue-500 bg-gray-50 p-4 rounded-lg">
-                <span className="block text-gray-600 font-bold">{update.date}</span>
-                <a
-                  href={update.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-600 hover:underline"
-                >
-                  {update.title}
-                </a>
-              </li>
-            ))}
-          </ul>
         )}
-      </section>
+
+        {/* CTA Section - All Calculators with Proper Visibility */}
+        <div className="mt-16 bg-gradient-to-r from-blue-600 to-blue-700 text-white p-8 md:p-12 rounded-xl shadow-2xl">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Calculate Your Admission Chances
+            </h2>
+            <p className="text-lg md:text-xl text-blue-100 max-w-3xl mx-auto">
+              Use our FREE AI-powered calculators to evaluate your profile and find your perfect university match
+            </p>
+          </div>
+
+          {/* Calculator Buttons Grid */}
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
+            {/* Elite ChanceMe Calculator */}
+            <Link to="/elite-chance-me" className="block">
+              <div className="bg-white text-gray-900 p-6 rounded-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 h-full">
+                <div className="flex items-center justify-center w-12 h-12 bg-blue-100 rounded-lg mb-4 mx-auto">
+                  <TrendingUp className="w-6 h-6 text-blue-600" />
+                </div>
+                <h3 className="text-lg font-bold text-center mb-2">Elite ChanceMe</h3>
+                <p className="text-sm text-gray-600 text-center">
+                  Harvard, MIT, Stanford & 300+ elite universities
+                </p>
+              </div>
+            </Link>
+
+            {/* College Admissions Calculator */}
+            <Link to="/college-admissions-calculator" className="block">
+              <div className="bg-white text-gray-900 p-6 rounded-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 h-full">
+                <div className="flex items-center justify-center w-12 h-12 bg-green-100 rounded-lg mb-4 mx-auto">
+                  <GraduationCap className="w-6 h-6 text-green-600" />
+                </div>
+                <h3 className="text-lg font-bold text-center mb-2">College Predictor</h3>
+                <p className="text-sm text-gray-600 text-center">
+                  Find your reach, target, and safety schools
+                </p>
+              </div>
+            </Link>
+
+            {/* Graduate Admissions Calculator */}
+            <Link to="/graduate-admissions-calculator" className="block">
+              <div className="bg-white text-gray-900 p-6 rounded-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 h-full">
+                <div className="flex items-center justify-center w-12 h-12 bg-purple-100 rounded-lg mb-4 mx-auto">
+                  <GraduationCap className="w-6 h-6 text-purple-600" />
+                </div>
+                <h3 className="text-lg font-bold text-center mb-2">Graduate School</h3>
+                <p className="text-sm text-gray-600 text-center">
+                  Masters & PhD admission chances
+                </p>
+              </div>
+            </Link>
+
+            {/* GPA Calculator */}
+            <Link to="/gpa-calculator" className="block">
+              <div className="bg-white text-gray-900 p-6 rounded-lg hover:shadow-2xl transition-all transform hover:-translate-y-1 h-full">
+                <div className="flex items-center justify-center w-12 h-12 bg-orange-100 rounded-lg mb-4 mx-auto">
+                  <Calculator className="w-6 h-6 text-orange-600" />
+                </div>
+                <h3 className="text-lg font-bold text-center mb-2">GPA Calculator</h3>
+                <p className="text-sm text-gray-600 text-center">
+                  Convert international grades to US 4.0 GPA
+                </p>
+              </div>
+            </Link>
+          </div>
+
+          {/* Additional CTA Text */}
+          <div className="text-center mt-8">
+            <p className="text-blue-100 text-sm">
+              🎓 100% Free • No Registration Required • Instant Results
+            </p>
+          </div>
+        </div>
+      </main>
+
+      {/* Footer SEO Section */}
+      <footer className="bg-gray-100 py-8 mt-12 border-t-2 border-gray-200">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-sm font-semibold text-gray-700 mb-2">
+            🎓 Expert College Admissions Guidance | International Students | Calgary Academic Excellence
+          </p>
+          <p className="text-xs text-gray-600 max-w-4xl mx-auto leading-relaxed">
+            Get expert guidance on US college admissions for international students from India, Canada, UK, and worldwide. 
+            Free calculators, comprehensive guides, and personalized counseling for Harvard, MIT, Stanford, and 300+ elite universities.
+          </p>
+        </div>
+      </footer>
     </div>
   );
 };

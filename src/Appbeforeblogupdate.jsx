@@ -15,7 +15,6 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 import ContactUs from './components/ContactUs';
 import EliteChanceMe from './components/EliteChanceMe';
-import BlogPostRenderer from './components/blog/BlogPostRenderer';
 import {
   BookOpen,
   GraduationCap,
@@ -569,7 +568,6 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/resources" element={<Resources />} />
           <Route path="/blog" element={<Blog />} />
-          <Route path="/blog/:slug" element={<BlogPostRenderer />} />
           <Route path="/college-admissions-calculator" element={<CollegePredictor />} />
           <Route path="/graduate-admissions-calculator" element={<GraduateAdmissions />} />
           <Route path="/gpa-calculator" element={<GPACalculator />} />
@@ -577,7 +575,7 @@ const App = () => {
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/contact-us" element={<ContactUs />} />
-		 </Routes>
+        </Routes>
 
         {/* Service Modal */}
         <ServiceModal 

@@ -42,7 +42,6 @@ export default defineConfig({
       targets: ['defaults', 'not IE 11']
     })
   ],
-  publicDir: 'public',  // ← ADD THIS LINE - Explicitly set public directory
   build: {
     copyPublicDir: true
   }

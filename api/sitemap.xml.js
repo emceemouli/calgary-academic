@@ -98,5 +98,19 @@ export default function handler(req, res) {
     <priority>0.7</priority>
   </url>
   
+  <url>
+  <loc>https://calgaryacademicexcellence.com/blog/canadian-students-us-colleges</loc>
+  <lastmod>2025-01-11</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+
+  <url>
+  <loc>https://calgaryacademicexcellence.com/blog/cbse-to-gpa-conversion</loc>
+  <lastmod>2025-01-11</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.85</priority>
+</url>
+  
 </urlset>`);
 }
