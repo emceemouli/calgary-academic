@@ -20,7 +20,7 @@ const blogPosts = [
     slug: "canadian-students-us-colleges",
     date: "January 10, 2025",
     excerpt: "Complete guide for Canadian high school students applying to US universities. Alberta, Ontario, BC grade conversions, SAT requirements, financial aid, and step-by-step application process.",
-    image: "/images/Teen-Area-12-23-Hero.jpg",
+    image: "/images/UScollegeapplications.jpg",
     readTime: "15 min read",
     category: "International Students"
   },
@@ -32,6 +32,26 @@ const blogPosts = [
   image: "/images/stanford.jpg",
   readTime: "22 min read",  // ~4,400 words ÷ 200 = 22 minutes
   category: "Elite Universities"
+},
+
+{
+  title: "Step-by-Step Guide: How to Fill Out FAFSA and CSS Profile for Maximum Financial Aid (2025-26)",
+  slug: "how-to-fill-fafsa-css-profile-guide",  // Must match markdown filename
+  date: "January 12, 2025",
+  excerpt: "Complete guide to filling out FAFSA and CSS Profile applications. Learn what documents you need, common mistakes to avoid, and tips to maximize your financial aid for college.",
+  image: "/images/FafsaCSS.jpg",
+  readTime: "28 min read",  // ~5,600 words ÷ 200 = 28 minutes
+  category: "Financial Aid"
+},
+
+{
+  title: "Complete Guide to Financial Aid & Scholarships for International Students at US Universities",
+  slug: "financial-aid-scholarships-international-students",  // Must match markdown filename
+  date: "January 11, 2026",
+  excerpt: "Everything international students need to know about affording US universities. Need-blind schools, scholarships, financial aid application process, and strategies for students from India, Canada, and worldwide.",
+  image: "/images/financialaid.jpg",
+  readTime: "26 min read",  // ~5,200 words ÷ 200 = 26 minutes
+  category: "Financial Aid"
 },
   // Add more blog posts here as you write them
 ];

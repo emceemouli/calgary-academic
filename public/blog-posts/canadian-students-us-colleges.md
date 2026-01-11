@@ -3,7 +3,7 @@ title: "Canadian Students Guide to US College Applications: Everything You Need 
 description: "Complete guide for Canadian high school students applying to US universities. Alberta, Ontario, BC grade conversions, SAT requirements, financial aid, and step-by-step application process for Harvard, MIT, Stanford."
 date: "January 10, 2025"
 author: "Calgary Academic Excellence"
-image: "/images/Teen-Area-12-23-Hero.jpg"
+image: "/images/UScollegeapplications.jpg"
 keywords: "Canadian students US colleges, Alberta students US universities, Canadian GPA to US GPA, Canadian high school US application, Calgary students US admissions, Alberta curriculum US universities, Ontario students Ivy League, BC students US colleges"
 ---
 

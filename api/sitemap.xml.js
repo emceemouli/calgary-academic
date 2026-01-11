@@ -100,23 +100,37 @@ export default function handler(req, res) {
   
   <url>
   <loc>https://calgaryacademicexcellence.com/blog/canadian-students-us-colleges</loc>
-  <lastmod>2025-01-11</lastmod>
+  <lastmod>2026-01-11</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.85</priority>
 </url>
 
   <url>
   <loc>https://calgaryacademicexcellence.com/blog/cbse-to-gpa-conversion</loc>
-  <lastmod>2025-01-11</lastmod>
+  <lastmod>2026-01-11</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.85</priority>
 </url>
 
 <url>
   <loc>https://calgaryacademicexcellence.com/blog/cracking-ivy-league-admissions</loc>
-  <lastmod>2025-01-10</lastmod>
+  <lastmod>2026-01-10</lastmod>
   <changefreq>monthly</changefreq>
   <priority>0.85</priority>
+</url>
+
+<url>
+  <loc>https://calgaryacademicexcellence.com/blog/how-to-fill-fafsa-css-profile-guide</loc>
+  <lastmod>2026-01-12</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.90</priority>
+</url>
+
+<url>
+  <loc>https://calgaryacademicexcellence.com/blog/financial-aid-scholarships-international-students</loc>
+  <lastmod>2026-01-11</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.90</priority>
 </url>
   
 </urlset>`);

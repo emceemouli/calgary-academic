@@ -3,7 +3,7 @@ title: "Cracking the Code: Understanding Admissions to Ivy League and Top-Tier U
 description: "Complete guide to Ivy League admissions for US, Canadian, and international students. Learn requirements, strategies, and insider tips for Harvard, Yale, Princeton, MIT, and Stanford."
 date: "January 10, 2025"
 author: "Calgary Academic Excellence"
-image: "/images/Teen-Area-12-23-Hero.jpg"
+image: "/images/stanford.jpg"
 keywords: "Ivy League admissions, top university admissions, Harvard admission requirements, Yale admissions, Princeton requirements, MIT admissions, Stanford admissions, international students Ivy League, Canadian students Ivy League, US college admissions"
 ---
 
